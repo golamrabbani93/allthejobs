@@ -1,0 +1,97 @@
+.stats {
+	transition: all 0.3s ease;
+	h5 {
+		font-weight: 600;
+		color: #1967d2;
+	}
+}
+.stats:hover {
+	transform: scale(1.1);
+	transition: all 0.3s ease;
+}
+.consultant-content {
+	width: 70%;
+	@media (min-width: 250px) and (max-width: 1000px) {
+		width: 100%;
+	}
+}
+
+.consult {
+	transition: all 0.3s ease;
+	&:hover {
+		transform: scale(1.1);
+		transition: all 0.3s ease;
+	}
+	h5 {
+		font-weight: 500;
+		font-size: 1.28rem;
+	}
+}
+
+.custom-text {
+	font-weight: 400;
+	font-size: 1.5rem;
+	color: #0b1e44; /* Dark text color */
+	margin-right: 10px;
+}
+
+.btn-custom {
+	font-size: 1rem;
+	border: none;
+	border-radius: 5px;
+	padding: 0.5rem 1rem;
+	color: white;
+	transition: all 0.3s ease;
+	@media (min-width: 250px) and (max-width: 1265px) {
+		width: 100%;
+	}
+}
+
+.btn-job-seeker {
+	background-color: #fbb03b; /* Orange */
+	transition: all 0.3s ease;
+
+	&:hover {
+		background-color: #fbb03b; /* Orange */
+		transform: translateY(-3px);
+		color: #fff;
+	}
+}
+
+.btn-employer {
+	background-color: #007bff; /* Blue */
+	&:hover {
+		background-color: #007bff; /* Orange */
+		transform: translateY(-3px);
+		color: #fff;
+	}
+}
+
+.btn-consultant {
+	background-color: #0b1e44; /* Dark Navy */
+	&:hover {
+		background-color: #0b1e44; /* Orange */
+		transform: translateY(-3px);
+		color: #fff;
+	}
+}
+
+.logo {
+	font-family: 'Orbitron', sans-serif;
+	font-weight: 500;
+	font-size: 1.5rem;
+	color: #0000ff;
+	text-transform: uppercase;
+	//make the logo smaller on smaller screens
+	@media (min-width: 250px) and (max-width: 768px) {
+		font-size: 1rem;
+	}
+}
+
+.logo-sidebar {
+	font-family: 'Orbitron', sans-serif;
+	font-weight: 500;
+	font-size: 1rem;
+	color: #0000ff;
+	text-transform: uppercase;
+}

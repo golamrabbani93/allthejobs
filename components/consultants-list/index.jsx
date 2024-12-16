@@ -47,7 +47,7 @@ const ConsultantsList = () => {
 											<Image width={90} height={90} src={candidate.avatar} alt="candidates" />
 										</span>
 										<h3 className="name">
-											<Link href={`/candidates-single-v3/${candidate.id}`}>{candidate.name}</Link>
+											<Link href={`/consultants/${candidate.id}`}>{candidate.name}</Link>
 										</h3>
 										<span className="cat">HR Professional</span>
 
@@ -71,7 +71,7 @@ const ConsultantsList = () => {
 										{/* End tags */}
 
 										<Link
-											href={`/candidates-single-v3/${candidate.id}`}
+											href={`/consultants/${candidate.id}`}
 											className="theme-btn btn-style-three"
 										>
 											View Profile

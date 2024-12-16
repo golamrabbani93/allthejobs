@@ -2,5 +2,5 @@ export const menuItems = [
 	{id: 1, name: 'Home', path: '/'},
 	{id: 2, name: 'Find Jobs', path: '/jobs'},
 	{id: 3, name: 'Talent Search', path: '/talent'},
-	{id: 4, name: 'Consultants', path: '#'},
+	{id: 4, name: 'Consultants', path: '/consultants'},
 ];

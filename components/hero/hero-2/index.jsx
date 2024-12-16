@@ -11,7 +11,7 @@ const index = () => {
 			<div className="auto-container">
 				<div className="row align-items-center hero">
 					{/* Left Content */}
-					<div className="col-lg-6 left-content">
+					<div className="col-lg-6 left-content" data-aos="fade-up" data-aos-delay="500">
 						<h1 className="mb-1">
 							Discover <br />
 							more than <br />
@@ -70,7 +70,11 @@ const index = () => {
 					</div>
 
 					{/* Right Content with Background Image */}
-					<div className="d-none d-lg-block col-lg-6 text-center right-content">
+					<div
+						className="d-none d-lg-block col-lg-6 text-center right-content"
+						data-aos="fade-in"
+						data-aos-delay="500"
+					>
 						{/* Sub Images */}
 						<img
 							src="https://mamtaz.com/desFour/images/Rectangle1.png"
@@ -100,22 +104,44 @@ const index = () => {
 						{/* <!-- Info BLock One --> */}
 						<div className="image-box">
 							<div className="info_block hr" data-aos="fade-in" data-aos-delay="1000">
-								<span className="icon">
+								<div>
+									<span className="icon">
+										<Image
+											width={40}
+											height={40}
+											src="/images/video-icon.png"
+											alt="mulit people"
+											className="video-icon"
+										/>
+									</span>
+									<p className="text-start">
+										Meet With Our <br />
+										HR Professionals.
+									</p>
+								</div>
+
+								{/* <div className="image"> */}
+								{/* <Image
+									width={206}
+									height={53}
+									src="/images/resource/multi-peoples.png"
+									alt="mulit people"
+								/> */}
+								{/* </div> */}
+							</div>
+							<div className="info_block_two can" data-aos="fade-in" data-aos-delay="2000">
+								<p>10k+ Candidates</p>
+								<div className="image">
 									<Image
-										width={40}
-										height={40}
-										src="/images/video-icon.png"
+										width={206}
+										height={53}
+										src="/images/resource/multi-peoples.png"
 										alt="mulit people"
-										className="video-icon"
 									/>
-								</span>
-								<p>
-									Meet With Our <br />
-									HR Professionals.
-								</p>
+								</div>
 							</div>
 							{/* <!-- Info BLock Four --> */}
-							<div className="info_block_four d-none" data-aos="fade-in" data-aos-delay="2500">
+							<div className="info_block_four cv" data-aos="fade-in" data-aos-delay="2500">
 								<span className="icon flaticon-file"></span>
 								<div className="inner">
 									<p>Upload Your CV</p>

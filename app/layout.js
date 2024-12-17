@@ -5,10 +5,11 @@ import '../styles/index.scss';
 import {useEffect} from 'react';
 import ScrollToTop from '../components/common/ScrollTop';
 import {Provider} from 'react-redux';
-import {store} from '../store/store';
+import {persistor, store} from '../store/store';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {PersistGate} from 'redux-persist/integration/react';
 
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
@@ -45,25 +46,26 @@ export default function RootLayout({children}) {
 			<body>
 				<QueryClientProvider QueryClientProvider client={queryClient}>
 					<Provider store={store}>
-						<div className="page-wrapper">
-							{children}
-
-							{/* Toastify */}
-							<ToastContainer
-								position="bottom-right"
-								autoClose={500}
-								hideProgressBar={false}
-								newestOnTop={false}
-								closeOnClick
-								rtl={false}
-								pauseOnFocusLoss
-								draggable
-								pauseOnHover
-								theme="colored"
-							/>
-							{/* <!-- Scroll To Top --> */}
-							<ScrollToTop />
-						</div>
+						<PersistGate loading={null} persistor={persistor}>
+							<div className="page-wrapper">
+								{children}
+								{/* Toastify */}
+								<ToastContainer
+									position="bottom-right"
+									autoClose={500}
+									hideProgressBar={false}
+									newestOnTop={false}
+									closeOnClick
+									rtl={false}
+									pauseOnFocusLoss
+									draggable
+									pauseOnHover
+									theme="colored"
+								/>
+								{/* <!-- Scroll To Top --> */}
+								<ScrollToTop />
+							</div>
+						</PersistGate>
 					</Provider>
 				</QueryClientProvider>
 			</body>

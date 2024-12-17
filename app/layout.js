@@ -35,10 +35,9 @@ export default function RootLayout({children}) {
 				<meta httpEquiv="x-ua-compatible" content="ie=edge" />
 				<meta
 					name="keywords"
-					content="	candidates, career, employment, indeed, job board, job listing, job portal, job postings, job search, job seeker, jobs, recruiters, recruiting, recruitment, resume"
+					content="	candidates, career, employment, indeed, job board, job listing, job portal, job postings, job search, job seeker, jobs, recruiters, recruiting, recruitment, resume, staffing, work , AllTheJob, AllTheJob - Find Jobs"
 				/>
 				<meta name="description" content="AllTheJob - Find Jobs" />
-				<meta name="ibthemes" content="ATFN" />
 
 				<link rel="icon" href="./favicon.ico" />
 			</head>

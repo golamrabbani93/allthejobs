@@ -30,7 +30,6 @@ import {
 } from '@/features/wishlistJobsSlice/wishlistJobsSlice';
 
 const FilterJobsBox = () => {
-	// console.log('object');
 	const {jobList, jobSort} = useSelector((state) => state.filter);
 	const {keyword, location, destination, category, jobType, datePosted, experience, salary, tag} =
 		jobList || {};
@@ -39,13 +38,8 @@ const FilterJobsBox = () => {
 
 	const dispatch = useDispatch();
 
-	//add job to wishlist
-	const addJobWishlist = (job) => {
-		dispatch(addJobToWishlist(job));
-	};
+	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
 
-	//get all WishList jobs
-	const wishlistJobs = useSelector((state) => state.wishListJobs.wishlist);
 	// keyword filter on title
 	const keywordFilter = (item) =>
 		keyword !== '' ? item.jobTitle.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) : item;
@@ -105,8 +99,8 @@ const FilterJobsBox = () => {
 		?.sort(sortFilter)
 		.slice(perPage.start, perPage.end !== 0 ? perPage.end : 10)
 		?.map((item) => {
-			//check if job is in wishlist
-			const isWishList = wishlistJobs.find((job) => job.id === item.id);
+			// check wish list item
+			const isWishListJob = wishListJobs.find((wishItem) => wishItem.id === item.id);
 			return (
 				<div className="job-block" key={item.id}>
 					<div className="inner-box">
@@ -149,7 +143,7 @@ const FilterJobsBox = () => {
 							</ul>
 							{/* End .job-other-info */}
 
-							{isWishList ? (
+							{isWishListJob ? (
 								<button
 									onClick={() => dispatch(removeJobFromWishlist(item))}
 									className="bookmark-btn"
@@ -178,7 +172,7 @@ const FilterJobsBox = () => {
 									</svg>
 								</button>
 							) : (
-								<button onClick={() => addJobWishlist(item)} className="bookmark-btn">
+								<button onClick={() => dispatch(addJobToWishlist(item))} className="bookmark-btn">
 									<span className="flaticon-bookmark"></span>
 								</button>
 							)}

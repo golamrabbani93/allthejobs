@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^8.1.0",
-    "@reduxjs/toolkit": "^1.9.6",
+    "@reduxjs/toolkit": "^2.5.0",
     "@tanstack/react-query": "^5.62.3",
     "aos": "^2.3.4",
     "axios": "^1.7.9",
@@ -32,7 +32,7 @@
     "react-parallax-tilt": "^1.7.169",
     "react-photoswipe-gallery": "^2.2.7",
     "react-pro-sidebar": "^1.1.0-alpha.1",
-    "react-redux": "^8.1.2",
+    "react-redux": "^9.2.0",
     "react-select": "^5.7.5",
     "react-slick": "^0.29.0",
     "react-tabs": "^6.0.2",

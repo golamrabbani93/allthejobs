@@ -5,7 +5,8 @@ import axiosInstance from '@/lib/AxiosInstance';
 //* Register A Job Seeker
 export const registerJobSeeker = async (userData) => {
 	try {
-		const {data} = await axiosInstance.post('jobseekerProfile/new', userData);
+		console.log(userData);
+		const {data} = await axiosInstance.post('users/create/', userData);
 		return data;
 	} catch (error) {
 		console.log(error);
@@ -14,7 +15,7 @@ export const registerJobSeeker = async (userData) => {
 //* Login A user
 export const login = async () => {
 	try {
-		const {data} = await axiosInstance.get('jobseekerProfile');
+		const {data} = await axiosInstance.get('users/');
 		return data;
 	} catch (error) {
 		console.log(error);

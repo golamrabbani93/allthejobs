@@ -1,21 +1,34 @@
 'use client';
 
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import LoginWithSocial from './LoginWithSocial';
 import FormContent2 from './FormContent2';
 import Link from 'next/link';
-import {useRouter} from 'next/navigation';
+import {redirect, useRouter} from 'next/navigation';
+import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
+import { useSession } from 'next-auth/react';
 
 const Register2 = () => {
 	const [selectedTab, setSelectedTab] = useState(0);
-	const [userType, setUserType] = useState('jobSeeker');
+	const [userType, setUserType] = useState('talent');
 	const router = useRouter();
+	const {data:session,status}=useSession()
+	useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/");
+    }
+  }, [status, session, router]);
+
+  if (status === "loading") {
+		//just keeping like this for the time being
+    return <p>Loading...</p>; 
+  }
 
 	const handleSelect = (index) => {
 		if (index === 0) {
 			setSelectedTab(0);
-			setUserType('jobSeeker');
+			setUserType('talent');
 		} else if (index === 1) {
 			setSelectedTab(1);
 			setUserType('employer');

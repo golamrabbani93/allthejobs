@@ -1,14 +1,14 @@
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
-import {useRegisterJobSeeker} from '@/hooks/auth/auth.hooks';
+import {useRegister} from '@/hooks/auth/auth.hooks';
 
 const FormContent2 = ({userType}) => {
-	const {mutate, isPending, data} = useRegisterJobSeeker();
+	const {mutate, isPending, data} = useRegister();
 	const onSubmit = (data) => {
 		const userData = {
 			...data,
-			usertype: userType,
+			role: userType,
 		};
 		mutate(userData);
 	};

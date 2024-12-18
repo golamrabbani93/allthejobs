@@ -13,7 +13,7 @@ const Register = () => {
 	const handleSelect = (index) => {
 		if (index === 0) {
 			setSelectedTab(0);
-			setUserType('jobSeeker');
+			setUserType('talent');
 		} else if (index === 1) {
 			setSelectedTab(1);
 			setUserType('employer');

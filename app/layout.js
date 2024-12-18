@@ -9,6 +9,7 @@ import {store} from '../store/store';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import PopUpModal from '@/components/PopUpModal/PopUpModal';
 
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
@@ -35,10 +36,9 @@ export default function RootLayout({children}) {
 				<meta httpEquiv="x-ua-compatible" content="ie=edge" />
 				<meta
 					name="keywords"
-					content="	candidates, career, employment, indeed, job board, job listing, job portal, job postings, job search, job seeker, jobs, recruiters, recruiting, recruitment, resume"
+					content="	candidates, career, employment, indeed, job board, job listing, job portal, job postings, job search, job seeker, jobs, recruiters, recruiting, recruitment, resume, staffing, work , AllTheJob, AllTheJob - Find Jobs"
 				/>
 				<meta name="description" content="AllTheJob - Find Jobs" />
-				<meta name="ibthemes" content="ATFN" />
 
 				<link rel="icon" href="./favicon.ico" />
 			</head>
@@ -47,8 +47,8 @@ export default function RootLayout({children}) {
 				<QueryClientProvider QueryClientProvider client={queryClient}>
 					<Provider store={store}>
 						<div className="page-wrapper">
+							<PopUpModal />
 							{children}
-
 							{/* Toastify */}
 							<ToastContainer
 								position="bottom-right"

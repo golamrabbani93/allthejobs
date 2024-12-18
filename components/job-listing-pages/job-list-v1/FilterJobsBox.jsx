@@ -24,6 +24,10 @@ import {
 import Image from 'next/image';
 import ListingShowing from '../components/ListingShowing';
 import Pagination from '../components/Pagination';
+import {
+	addJobToWishlist,
+	removeJobFromWishlist,
+} from '@/features/wishlistJobsSlice/wishlistJobsSlice';
 
 const FilterJobsBox = () => {
 	const {jobList, jobSort} = useSelector((state) => state.filter);
@@ -33,6 +37,8 @@ const FilterJobsBox = () => {
 	const {sort, perPage} = jobSort;
 
 	const dispatch = useDispatch();
+
+	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
 
 	// keyword filter on title
 	const keywordFilter = (item) =>
@@ -92,56 +98,90 @@ const FilterJobsBox = () => {
 		?.filter(tagFilter)
 		?.sort(sortFilter)
 		.slice(perPage.start, perPage.end !== 0 ? perPage.end : 10)
-		?.map((item) => (
-			<div className="job-block" key={item.id}>
-				<div className="inner-box">
-					<div className="content">
-						<span className="company-logo">
-							<Image width={50} height={49} src={item.logo} alt="item brand" />
-						</span>
-						<h4>
-							<Link href={`/jobs/${item.id}`}>{item.jobTitle}</Link>
-						</h4>
+		?.map((item) => {
+			// check wish list item
+			const isWishListJob = wishListJobs.find((wishItem) => wishItem.id === item.id);
+			return (
+				<div className="job-block" key={item.id}>
+					<div className="inner-box">
+						<div className="content">
+							<span className="company-logo">
+								<Image width={50} height={49} src={item.logo} alt="item brand" />
+							</span>
+							<h4>
+								<Link href={`/jobs/${item.id}`}>{item.jobTitle}</Link>
+							</h4>
 
-						<ul className="job-info">
-							<li>
-								<span className="icon flaticon-briefcase"></span>
-								{item.company}
-							</li>
-							{/* compnay info */}
-							<li>
-								<span className="icon flaticon-map-locator"></span>
-								{item.location}
-							</li>
-							{/* location info */}
-							<li>
-								<span className="icon flaticon-clock-3"></span> {item.time}
-							</li>
-							{/* time info */}
-							<li>
-								<span className="icon flaticon-money"></span> {item.salary}
-							</li>
-							{/* salary info */}
-						</ul>
-						{/* End .job-info */}
-
-						<ul className="job-other-info">
-							{item?.jobType?.map((val, i) => (
-								<li key={i} className={`${val.styleClass}`}>
-									{val.type}
+							<ul className="job-info">
+								<li>
+									<span className="icon flaticon-briefcase"></span>
+									{item.company}
 								</li>
-							))}
-						</ul>
-						{/* End .job-other-info */}
+								{/* compnay info */}
+								<li>
+									<span className="icon flaticon-map-locator"></span>
+									{item.location}
+								</li>
+								{/* location info */}
+								<li>
+									<span className="icon flaticon-clock-3"></span> {item.time}
+								</li>
+								{/* time info */}
+								<li>
+									<span className="icon flaticon-money"></span> {item.salary}
+								</li>
+								{/* salary info */}
+							</ul>
+							{/* End .job-info */}
 
-						<button className="bookmark-btn">
-							<span className="flaticon-bookmark"></span>
-						</button>
+							<ul className="job-other-info">
+								{item?.jobType?.map((val, i) => (
+									<li key={i} className={`${val.styleClass}`}>
+										{val.type}
+									</li>
+								))}
+							</ul>
+							{/* End .job-other-info */}
+
+							{isWishListJob ? (
+								<button
+									onClick={() => dispatch(removeJobFromWishlist(item))}
+									className="bookmark-btn"
+								>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										version="1.1"
+										xmlnsXlink="http://www.w3.org/1999/xlink"
+										width="15"
+										height="36"
+										x="0"
+										y="0"
+										viewBox="0 0 212.045 212.045"
+										style={{enableBackground: 'new 0 0 512 512'}}
+										xmlSpace="preserve"
+										className=""
+									>
+										<g>
+											<path
+												d="M167.871 0H44.84C34.82 0 26.022 8.243 26.022 18v182c0 3.266.909 5.988 2.374 8.091a9.204 9.204 0 0 0 7.598 3.954c2.86 0 5.905-1.273 8.717-3.675l55.044-46.735c1.7-1.452 4.142-2.284 6.681-2.284 2.538 0 4.975.832 6.68 2.288l54.86 46.724c2.822 2.409 5.657 3.683 8.512 3.683 4.828 0 9.534-3.724 9.534-12.045V18c0-9.757-8.131-18-18.151-18z"
+												fill="#000000"
+												opacity="1"
+												data-original="#000000"
+											></path>
+										</g>
+									</svg>
+								</button>
+							) : (
+								<button onClick={() => dispatch(addJobToWishlist(item))} className="bookmark-btn">
+									<span className="flaticon-bookmark"></span>
+								</button>
+							)}
+						</div>
 					</div>
 				</div>
-			</div>
-			// End all jobs
-		));
+				// End all jobs
+			);
+		});
 
 	// sort handler
 	const sortHandler = (e) => {

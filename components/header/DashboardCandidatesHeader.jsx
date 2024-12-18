@@ -8,9 +8,11 @@ import HeaderNavContent from './HeaderNavContent';
 import {isActiveLink} from '../../utils/linkActiveChecker';
 
 import {usePathname} from 'next/navigation';
+import {useSelector} from 'react-redux';
 const DashboardCandidatesHeader = () => {
 	const [navbar, setNavbar] = useState(false);
 
+	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
 	const changeBackground = () => {
 		if (window.scrollY >= 0) {
 			setNavbar(true);
@@ -45,7 +47,7 @@ const DashboardCandidatesHeader = () => {
 
 					<div className="outer-box">
 						<button className="menu-btn">
-							<span className="count">1</span>
+							<span className="count">{wishListJobs.length}</span>
 							<span className="icon la la-heart-o"></span>
 						</button>
 						{/* wishlisted menu */}

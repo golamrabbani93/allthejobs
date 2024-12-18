@@ -2,8 +2,6 @@ import LoginPopup from '../common/form/login/LoginPopup';
 import DefaulHeader2 from '../header/DefaulHeader2';
 import MobileMenu from '../header/MobileMenu';
 import FooterDefault from '../footer/common-footer';
-
-import candidatesMenuData from '@/data/candidatesMenuData';
 import Image from 'next/image';
 import Link from 'next/link';
 import candidates from '@/data/candidates';
@@ -35,10 +33,10 @@ const ConsultantsList = () => {
 						<div className="row">
 							{candidates.map((candidate) => (
 								<div
-									className="candidate-block-four col-lg-4 col-md-6 col-sm-12"
+									className="candidate-block-four col-lg-3 col-md-6 col-sm-12 "
 									key={candidate.id}
 								>
-									<div className="inner-box">
+									<div className="inner-box shadow-sm">
 										<ul className="job-other-info">
 											<li className="green">Featured</li>
 										</ul>

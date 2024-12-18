@@ -9,6 +9,7 @@ import {store} from '../store/store';
 import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import PopUpModal from '@/components/PopUpModal/PopUpModal';
 
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
@@ -46,6 +47,7 @@ export default function RootLayout({children}) {
 				<QueryClientProvider QueryClientProvider client={queryClient}>
 					<Provider store={store}>
 						<div className="page-wrapper">
+							<PopUpModal />
 							{children}
 							{/* Toastify */}
 							<ToastContainer

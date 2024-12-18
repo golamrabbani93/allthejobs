@@ -1,15 +1,18 @@
+import { signIn } from "next-auth/react";
+
 const LoginWithSocial = () => {
   return (
     <div className="btn-box row">
       <div className="col-lg-6 col-md-12">
-        <a href="#" className="theme-btn social-btn-two facebook-btn">
+        <button onClick={()=>signIn('facebook')}  className="theme-btn social-btn-two facebook-btn">
           <i className="fab fa-facebook-f"></i> Log In via Facebook
-        </a>
+        </button>
       </div>
       <div className="col-lg-6 col-md-12">
-        <a href="#" className="theme-btn social-btn-two google-btn">
+        
+        <button onClick={()=>signIn('google')}  className="theme-btn social-btn-two google-btn">
           <i className="fab fa-google"></i> Log In via Gmail
-        </a>
+        </button>
       </div>
     </div>
   );

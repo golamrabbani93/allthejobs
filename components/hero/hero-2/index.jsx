@@ -28,40 +28,7 @@ const index = () => {
 							<br />
 							new career heights and passionate about startups.
 						</p>
-						{/* <form className="search-form d-flex flex-column flex-md-row align-items-stretch">
-							<div className="input-group mb-2 mb-md-0 me-md-2  d-flex">
-								<span className="input-group-text bg-light">
-									<img
-										src="https://mamtaz.com/desFour/images/search.svg"
-										alt="Search Icon"
-										style={{width: '16px', height: '16px'}}
-									/>
-								</span>
-								<input
-									type="text"
-									className="form-control"
-									style={{paddingRight: '5px'}}
-									placeholder="Job title or keyword"
-								/>
-							</div>
-							<div className="input-group mb-3 mb-md-0 me-md-2">
-								<span className="input-group-text bg-light">
-									<img
-										src="https://mamtaz.com/desFour/images/map.svg"
-										alt="Location Icon"
-										style={{width: '16px', height: '16px'}}
-									/>
-								</span>
-								<select className="form-select">
-									<option>Florence, Italy</option>
-									<option>New York, USA</option>
-									<option>London, UK</option>
-								</select>
-							</div>
-							<button type="submit" className="btn btn-primary w-100 w-md-auto">
-								Search my jobs
-							</button>
-						</form> */}
+
 						<div className="job-search-form">
 							<SearchForm />
 						</div>
@@ -119,27 +86,8 @@ const index = () => {
 										HR Professionals.
 									</p>
 								</div>
+							</div>
 
-								{/* <div className="image"> */}
-								{/* <Image
-									width={206}
-									height={53}
-									src="/images/resource/multi-peoples.png"
-									alt="mulit people"
-								/> */}
-								{/* </div> */}
-							</div>
-							<div className="info_block_two can" data-aos="fade-in" data-aos-delay="2000">
-								<p>10k+ Candidates</p>
-								<div className="image">
-									<Image
-										width={206}
-										height={53}
-										src="/images/resource/multi-peoples.png"
-										alt="mulit people"
-									/>
-								</div>
-							</div>
 							{/* <!-- Info BLock Four --> */}
 							<div className="info_block_four cv" data-aos="fade-in" data-aos-delay="2500">
 								<span className="icon flaticon-file"></span>

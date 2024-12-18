@@ -5,7 +5,7 @@ const Consultants = () => {
 		{
 			id: 1,
 			icon: 'https://mamtaz.com/desFour/images/appointment.svg', // Replace with your icon path
-			title: 'Book Appointment ',
+			title: 'Book Appointment',
 		},
 		{
 			id: 2,

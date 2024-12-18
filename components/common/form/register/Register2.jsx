@@ -88,7 +88,7 @@ const Register2 = () => {
 						LogIn
 					</Link>
 				</div>
-				{userType === 'jobSeeker' && (
+				{userType === 'talent' && (
 					<div>
 						<div className="divider">
 							<span>or</span>

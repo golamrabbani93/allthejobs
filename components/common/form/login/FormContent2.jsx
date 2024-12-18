@@ -1,16 +1,31 @@
 'use client';
 import Link from 'next/link';
-import LoginWithSocial from './LoginWithSocial';
+import LoginWithSocial from '../register/LoginWithSocial';
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import {useLogin} from '@/hooks/auth/auth.hooks';
 import Spinner from '@/components/Sppiner/Spinner';
+import {redirect, useRouter} from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 const FormContent2 = () => {
 	const {mutate, isPending, data} = useLogin();
 	const onSubmit = (data) => {
 		mutate(data);
 	};
+	const router = useRouter();
+	const {data:session,status}=useSession()
+	useEffect(() => {
+			if (status === "authenticated") {
+				router.push("/");
+			}
+		}, [status, session, router]);
+	
+		if (status === "loading") {
+			//just keeping like this for the time being
+			return <Spinner color="white" /> 
+		}
 	return (
 		<div className="form-inner">
 			<h3>Create a Free Allthejobs Account</h3>

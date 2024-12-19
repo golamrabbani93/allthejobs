@@ -1,9 +1,7 @@
-import Link from 'next/link';
 import LoginPopup from '../common/form/login/LoginPopup';
 import FooterDefault from '../footer/common-footer';
 import DefaulHeader2 from '../header/DefaulHeader2';
 import MobileMenu from '../header/MobileMenu';
-import Hero1 from '../hero/hero-1';
 import Hero2 from '../hero/hero-2';
 import JobFeatured1 from '../job-featured/JobFeatured1';
 import Block8 from '../block/Block8';
@@ -16,14 +14,12 @@ import StatsBanner from '../stats-banner/StatsBanner';
 import Consultants from '../consultants/Consultants';
 import Candidates from '../candidates/Candidates';
 import Candidates2 from '../candidates/Candidates2';
-import Filter from '../job-featured/filter-dropdown/Filter';
 import CallToAction2 from '../call-to-action/CallToAction2';
-import PopUpModal from '../PopUpModal/PopUpModal';
 import './hero.css';
+import Services from '../services/Services';
 const index = () => {
 	return (
 		<>
-			<PopUpModal />
 			<LoginPopup />
 			{/* End Login Popup Modal */}
 
@@ -166,6 +162,19 @@ const index = () => {
 				</div>
 			</section>
 			{/* <!-- End Work Section --> */}
+			<section className="news-section">
+				<div className="auto-container">
+					<div className="sec-title text-center">
+						<h2>Services</h2>
+						<div className="text">We're excited to offer our best to help you become the best</div>
+					</div>
+					{/* End ."sec-title */}
+					<div className="row" data-aos="fade-up">
+						<Services />
+					</div>
+				</div>
+			</section>
+			{/* <!-- End News Section --> */}
 			<section className="clients-section-two alternate layout-pt-60 layout-pb-60">
 				<div className="auto-container">
 					<div className="sponsors-outer wow fadeInUp">
@@ -175,6 +184,7 @@ const index = () => {
 					</div>
 				</div>
 			</section>
+
 			{/* <!-- End Clients Section --> */}
 			<section className="testimonial-section-two">
 				<div className="container-fluid">

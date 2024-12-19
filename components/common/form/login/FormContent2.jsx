@@ -11,11 +11,19 @@ import {useEffect} from 'react';
 import {setUser} from '@/features/user/userSlice';
 import {useDispatch} from 'react-redux';
 
-const FormContent2 = () => {
+export const closeModal = () => {
+	const modalTrigger = document.getElementById('modalClose');
+	if (modalTrigger) {
+		modalTrigger.click();
+	}
+};
+
+const FormContent2 = ({modal = false}) => {
 	const {mutate, isPending, data} = useLogin();
 	const onSubmit = (data) => {
 		mutate(data);
 	};
+
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const {data: session, status} = useSession();
@@ -26,6 +34,7 @@ const FormContent2 = () => {
 				role: 'talent',
 			};
 			dispatch(setUser(userData));
+			closeModal();
 			router.push('/dashboard/talent/dashboard');
 		}
 	}, [status, session, router]);
@@ -77,9 +86,23 @@ const FormContent2 = () => {
 			{/* End form */}
 
 			<div className="bottom-box">
-				<div className="text">
-					Don&apos;t have an account? <Link href="/register">Signup</Link>
-				</div>
+				{modal ? (
+					<div className="text">
+						Don&apos;t have an account?{' '}
+						<Link
+							href="#"
+							className="call-modal signup"
+							data-bs-toggle="modal"
+							data-bs-target="#registerModal"
+						>
+							Signup
+						</Link>
+					</div>
+				) : (
+					<div className="text">
+						Don&apos;t have an account? <Link href="/register">Signup</Link>
+					</div>
+				)}
 
 				<div className="divider">
 					<span>or</span>

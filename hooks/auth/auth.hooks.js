@@ -6,6 +6,7 @@ import {toast} from 'react-toastify';
 import bcrypt from 'bcryptjs';
 import {useDispatch} from 'react-redux';
 import {setUser} from '@/features/user/userSlice';
+import {closeModal} from '@/components/common/form/login/FormContent2';
 
 async function hashPassword(plainPassword) {
 	const saltRounds = 10;
@@ -29,6 +30,7 @@ export const useRegister = () => {
 		onSuccess: (data) => {
 			if (data.user_id) {
 				toast.success('Registration Successful');
+				closeModal();
 				router.push('/login');
 			}
 		},
@@ -59,6 +61,7 @@ export const useLogin = () => {
 				};
 				dispatch(setUser(userData));
 				toast.success('Login Successful');
+				closeModal();
 				router.push(`dashboard/${user.role}/dashboard`);
 				return data;
 			} else {

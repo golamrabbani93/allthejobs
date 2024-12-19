@@ -1,17 +1,17 @@
-import dynamic from "next/dynamic";
-import ShopList from "@/components/shop/shop-list";
+import dynamic from 'next/dynamic';
+import ShopList from '@/components/shop/shop-list';
 
 export const metadata = {
-  title: "Shop List || Superio - Job Borad React NextJS Template",
-  description: "Superio - Job Borad React NextJS Template",
+	title: 'Shop List || AllTheJobs',
+	description: 'AllTheJobs',
 };
 
 const index = () => {
-  return (
-    <>
-      <ShopList />
-    </>
-  );
+	return (
+		<>
+			<ShopList />
+		</>
+	);
 };
 
-export default dynamic(() => Promise.resolve(index), { ssr: false });
+export default dynamic(() => Promise.resolve(index), {ssr: false});

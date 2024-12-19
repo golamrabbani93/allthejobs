@@ -3,17 +3,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import {useEffect, useState} from 'react';
-import candidatesMenuData from '../../data/candidatesMenuData';
 import HeaderNavContent from './HeaderNavContent';
-import {isActiveLink} from '../../utils/linkActiveChecker';
-
-import {usePathname} from 'next/navigation';
 import {useSelector} from 'react-redux';
 import DashboardAvatar from './AvatarMenu/DashboardAvatar';
-const DashboardCandidatesHeader = () => {
+const DashboardEmployersHeader = () => {
 	const [navbar, setNavbar] = useState(false);
-	const user = useSelector((state) => state.user);
-	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
 	const changeBackground = () => {
 		if (window.scrollY >= 0) {
 			setNavbar(true);
@@ -47,7 +41,7 @@ const DashboardCandidatesHeader = () => {
 					{/* End .nav-outer */}
 
 					<div className="outer-box">
-						<div
+						{/* <div
 							className="d-inline-flex align-items-center"
 							style={{
 								background: 'linear-gradient(135deg, #e5f8e7, #d6f2d9)',
@@ -71,13 +65,11 @@ const DashboardCandidatesHeader = () => {
 							<span className="count">{wishListJobs.length}</span>
 							<span className="icon la la-heart-o"></span>
 						</button>
-						{/* wishlisted menu */}
-
+						wishlisted menu */}
 						<button className="menu-btn">
 							<span className="icon la la-bell"></span>
 						</button>
 						{/* End notification-icon */}
-
 						{/* End dropdown */}
 						<DashboardAvatar />
 					</div>
@@ -88,4 +80,4 @@ const DashboardCandidatesHeader = () => {
 	);
 };
 
-export default DashboardCandidatesHeader;
+export default DashboardEmployersHeader;

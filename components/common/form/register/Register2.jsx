@@ -6,24 +6,32 @@ import LoginWithSocial from './LoginWithSocial';
 import FormContent2 from './FormContent2';
 import Link from 'next/link';
 import {redirect, useRouter} from 'next/navigation';
-import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
-import { useSession } from 'next-auth/react';
+import {useSession} from 'next-auth/react';
+import Spinner from '@/components/Sppiner/Spinner';
+import {useDispatch} from 'react-redux';
+import {setUser} from '@/features/user/userSlice';
 
 const Register2 = () => {
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [userType, setUserType] = useState('talent');
 	const router = useRouter();
-	const {data:session,status}=useSession()
+	const dispatch = useDispatch();
+	const {data: session, status} = useSession();
 	useEffect(() => {
-    if (status === "authenticated") {
-      router.push("/");
-    }
-  }, [status, session, router]);
+		if (status === 'authenticated') {
+			const userData = {
+				...session.user,
+				role: 'talent',
+			};
+			dispatch(setUser(userData));
+			router.push('/dashboard/talent/dashboard');
+		}
+	}, [status, session, router]);
 
-  if (status === "loading") {
+	if (status === 'loading') {
 		//just keeping like this for the time being
-    return <p>Loading...</p>; 
-  }
+		return <Spinner />;
+	}
 
 	const handleSelect = (index) => {
 		if (index === 0) {
@@ -88,7 +96,7 @@ const Register2 = () => {
 						LogIn
 					</Link>
 				</div>
-				{userType === 'jobSeeker' && (
+				{userType === 'talent' && (
 					<div>
 						<div className="divider">
 							<span>or</span>

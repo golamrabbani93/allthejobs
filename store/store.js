@@ -19,6 +19,7 @@ import candidateSlice from '../features/candidate/candidateSlice';
 import candidateFilterSlice from '../features/filter/candidateFilterSlice';
 import shopSlice from '../features/shop/shopSlice';
 import wishlistJobsSlice from '../features/wishlistJobsSlice/wishlistJobsSlice';
+import userSlice from '../features/user/userSlice';
 
 const rootReducer = combineReducers({
 	job: jobSlice,
@@ -30,12 +31,13 @@ const rootReducer = combineReducers({
 	candidateFilter: candidateFilterSlice,
 	shop: shopSlice,
 	wishlistJobs: wishlistJobsSlice,
+	user: userSlice,
 });
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	whitelist: ['wishlistJobs'], // Only persist wishlistJobs slice
+	whitelist: ['wishlistJobs', 'user'], // Only persist wishlistJobs slice
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

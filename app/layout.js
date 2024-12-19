@@ -2,21 +2,22 @@
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../styles/index.scss';
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 import ScrollToTop from '../components/common/ScrollTop';
-import { Provider } from 'react-redux';
-import { store } from '../store/store';
+import {Provider} from 'react-redux';
+import {store} from '../store/store';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { ToastContainer } from 'react-toastify';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SessionProvider } from "next-auth/react"
+import {ToastContainer} from 'react-toastify';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {SessionProvider} from 'next-auth/react';
+import PopUpModal from '@/components/PopUpModal/PopUpModal';
 
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
 const queryClient = new QueryClient();
-export default function RootLayout({ children }) {
+export default function RootLayout({children}) {
 	useEffect(() => {
 		Aos.init({
 			duration: 1400,
@@ -24,7 +25,6 @@ export default function RootLayout({ children }) {
 		});
 	}, []);
 	return (
-
 		<html lang="en">
 			<head>
 				<link
@@ -42,13 +42,14 @@ export default function RootLayout({ children }) {
 				/>
 				<meta name="description" content="AllTheJob - Find Jobs" />
 
-         <link rel="icon" href="./favicon.ico" />
-				</head>
-				<body>
-					<SessionProvider>
+				<link rel="icon" href="./favicon.ico" />
+			</head>
+			<body>
+				<SessionProvider>
 					<QueryClientProvider QueryClientProvider client={queryClient}>
 						<Provider store={store}>
 							<div className="page-wrapper">
+								<PopUpModal />
 								{children}
 								{/* Toastify */}
 								<ToastContainer
@@ -68,9 +69,8 @@ export default function RootLayout({ children }) {
 							</div>
 						</Provider>
 					</QueryClientProvider>
-					</SessionProvider>
-				</body>
-			</html>
-
+				</SessionProvider>
+			</body>
+		</html>
 	);
 }

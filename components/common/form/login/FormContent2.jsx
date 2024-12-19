@@ -6,8 +6,10 @@ import ATJInput from '@/components/form/ATJInput';
 import {useLogin} from '@/hooks/auth/auth.hooks';
 import Spinner from '@/components/Sppiner/Spinner';
 import {redirect, useRouter} from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import {useSession} from 'next-auth/react';
+import {useEffect} from 'react';
+import {setUser} from '@/features/user/userSlice';
+import {useDispatch} from 'react-redux';
 
 const FormContent2 = () => {
 	const {mutate, isPending, data} = useLogin();
@@ -15,17 +17,23 @@ const FormContent2 = () => {
 		mutate(data);
 	};
 	const router = useRouter();
-	const {data:session,status}=useSession()
+	const dispatch = useDispatch();
+	const {data: session, status} = useSession();
 	useEffect(() => {
-			if (status === "authenticated") {
-				router.push("/");
-			}
-		}, [status, session, router]);
-	
-		if (status === "loading") {
-			//just keeping like this for the time being
-			return <Spinner color="white" /> 
+		if (status === 'authenticated') {
+			const userData = {
+				...session.user,
+				role: 'talent',
+			};
+			dispatch(setUser(userData));
+			router.push('/dashboard/talent/dashboard');
 		}
+	}, [status, session, router]);
+
+	if (status === 'loading') {
+		//just keeping like this for the time being
+		return <Spinner color="white" />;
+	}
 	return (
 		<div className="form-inner">
 			<h3>Create a Free Allthejobs Account</h3>

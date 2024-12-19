@@ -1,23 +1,26 @@
 'use client';
 
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import LoginPopup from '../common/form/login/LoginPopup';
+import {useSelector} from 'react-redux';
 
 const PopUpModal = () => {
-	const [showModal, setShowModal] = useState(false);
+	const user = useSelector((state) => state.user);
+
 	useEffect(() => {
-		// if (!showModal) {
-		const timer = setTimeout(() => {
-			// Programmatically trigger the modal
-			const modalTrigger = document.getElementById('loginPopupButton');
-			if (modalTrigger) {
-				modalTrigger.click();
-			}
-			// setShowModal(true);
-		}, 10000); // 10 seconds
-		return () => clearTimeout(timer); // Cleanup timer on component unmount
-		// }
-	}, []);
+		const hasVisited = sessionStorage.getItem('hasVisited');
+		if (!hasVisited && user.role === undefined) {
+			const timer = setTimeout(() => {
+				const modalTrigger = document.getElementById('loginPopupButton');
+				if (modalTrigger) {
+					modalTrigger.click();
+				}
+				sessionStorage.setItem('hasVisited', 'true');
+			}, 3000); // 3 seconds
+			return () => clearTimeout(timer); // Cleanup timer on component unmount
+		}
+	}, [user]);
+
 	return (
 		<div>
 			<LoginPopup />

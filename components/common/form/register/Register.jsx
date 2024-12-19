@@ -8,7 +8,7 @@ import {useState} from 'react';
 
 const Register = () => {
 	const [selectedTab, setSelectedTab] = useState(0);
-	const [userType, setUserType] = useState('jobSeeker');
+	const [userType, setUserType] = useState('talent');
 
 	const handleSelect = (index) => {
 		if (index === 0) {
@@ -78,7 +78,7 @@ const Register = () => {
 						LogIn
 					</Link>
 				</div>
-				{userType === 'jobSeeker' && (
+				{userType === 'talent' && (
 					<div>
 						<div className="divider">
 							<span>or</span>

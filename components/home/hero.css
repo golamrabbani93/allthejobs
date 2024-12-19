@@ -127,3 +127,40 @@
 		position: relative;
 	}
 }
+
+.dropdown-menu > li > button {
+	background-color: #f8f9fa;
+	border: none;
+	color: #000;
+	/* font-size: 16px; */
+	font-weight: 400;
+	padding: 10px 30px;
+	width: 100%;
+	text-align: left;
+}
+.dashboard-option .dropdown-menu li .avatarButton i {
+	position: relative;
+	margin-right: 15px;
+	font-size: 22px;
+	color: #696969;
+	text-align: center;
+	transition: all 500ms ease;
+}
+.dashboard-option .dropdown-menu li .avatarButton {
+	position: relative;
+	display: flex;
+	align-items: center;
+	padding: 10px 30px;
+	line-height: 30px;
+	font-weight: 400;
+	font-size: 15px;
+	color: #696969;
+	text-align: left;
+	text-transform: capitalize;
+	border-radius: 8px;
+	transition: all 500ms ease;
+}
+.dashboard-option .dropdown-menu li .avatarButton:hover {
+	background-color: #b94b5655;
+	color: #000;
+}

@@ -1,13 +1,23 @@
 'use client';
-
 import Link from 'next/link';
 import {useEffect, useState} from 'react';
 import HeaderNavContent from './HeaderNavContent';
 import Image from 'next/image';
 import RIghtRegisterButtons from './RIghtRegisterButtons';
+import AvatarMenu from './AvatarMenu/AvatarMenu';
+import {useSelector} from 'react-redux';
 
 const DefaulHeader2 = () => {
 	const [navbar, setNavbar] = useState(false);
+	const user = useSelector((state) => state.user);
+	console.log('🚀🚀: user', user);
+	const [isClient, setIsClient] = useState(false);
+
+	useEffect(() => {
+		setIsClient(true);
+		window.addEventListener('scroll', changeBackground);
+		return () => window.removeEventListener('scroll', changeBackground);
+	}, []);
 
 	const changeBackground = () => {
 		if (window.scrollY >= 10) {
@@ -16,10 +26,6 @@ const DefaulHeader2 = () => {
 			setNavbar(false);
 		}
 	};
-
-	useEffect(() => {
-		window.addEventListener('scroll', changeBackground);
-	}, []);
 
 	return (
 		// <!-- Main Header-->
@@ -39,9 +45,8 @@ const DefaulHeader2 = () => {
 					{/* <!-- Main Menu End--> */}
 				</div>
 				{/* End .nav-outer */}
-
 				<div className="outer-box">
-					<RIghtRegisterButtons />
+					{isClient && (user?.role === undefined ? <RIghtRegisterButtons /> : <AvatarMenu />)}
 				</div>
 			</div>
 		</header>

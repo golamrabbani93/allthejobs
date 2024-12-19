@@ -4,6 +4,7 @@ import Spinner from '@/components/Sppiner/Spinner';
 import {useRegister} from '@/hooks/auth/auth.hooks';
 
 const FormContent2 = ({userType}) => {
+	console.log('🚀🚀: userType', userType);
 	const {mutate, isPending, data} = useRegister();
 	const onSubmit = (data) => {
 		const userData = {
@@ -11,6 +12,7 @@ const FormContent2 = ({userType}) => {
 			role: userType,
 		};
 		mutate(userData);
+		console.log('🚀🚀: onSubmit -> userData', userData);
 	};
 	return (
 		<ATJForm

@@ -16,7 +16,7 @@ const PopUpModal = () => {
 					modalTrigger.click();
 				}
 				sessionStorage.setItem('hasVisited', 'true');
-			}, 3000); // 3 seconds
+			}, 10000); // 3 seconds
 			return () => clearTimeout(timer); // Cleanup timer on component unmount
 		}
 	}, [user]);

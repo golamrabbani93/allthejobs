@@ -41,7 +41,6 @@ const FormContent2 = ({modal = false}) => {
 			};
 			dispatch(setUser(userData));
 			closeModal();
-			router.push('/dashboard/talent/dashboard');
 		}
 	}, [status, session, router]);
 

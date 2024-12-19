@@ -14,9 +14,9 @@ const LogOutButton = () => {
 	};
 
 	return (
-		<li className={`mb-1`}>
+		<li className={`mb-1 loglist`}>
 			<button onClick={() => userLogOut()} className="avatarButton">
-				<i className={`la la-sign-out`}></i> Log Out
+				<i className={`la la-sign-out logicon`}></i> Log Out
 			</button>
 		</li>
 	);

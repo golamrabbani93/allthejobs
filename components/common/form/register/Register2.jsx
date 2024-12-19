@@ -24,7 +24,6 @@ const Register2 = () => {
 				role: 'talent',
 			};
 			dispatch(setUser(userData));
-			router.push('/dashboard/talent/dashboard');
 		}
 	}, [status, session, router]);
 

@@ -66,6 +66,26 @@ const DashboardEmployersHeader = () => {
 							<span className="icon la la-heart-o"></span>
 						</button>
 						wishlisted menu */}
+						<div
+							className="d-inline-flex align-items-center"
+							style={{
+								background: 'linear-gradient(135deg, #e5f8e7, #d6f2d9)',
+								borderRadius: '2rem',
+								padding: '0.4rem 1rem',
+								fontWeight: 'bold',
+								fontSize: '1rem',
+								color: '#2e7d32',
+							}}
+						>
+							<Image
+								src="/images/coin.png"
+								alt="coins"
+								width={300}
+								height={20}
+								style={{width: '30px'}}
+							/>
+							<span>347</span>
+						</div>
 						<button className="menu-btn">
 							<span className="icon la la-bell"></span>
 						</button>

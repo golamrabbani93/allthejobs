@@ -11,6 +11,7 @@ import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
 import {useSelector} from 'react-redux';
+import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
 
 const Index = () => {
 	const user = useSelector((state) => state.user);
@@ -28,7 +29,7 @@ const Index = () => {
 			<MobileMenu />
 			{/* End MobileMenu */}
 
-			<DashboardEmployerSidebar />
+			<DashboardConsultantSidebar />
 			{/* <!-- End User Sidebar Menu --> */}
 
 			{/* <!-- Dashboard --> */}
@@ -41,51 +42,9 @@ const Index = () => {
 					{/* Collapsible sidebar button */}
 
 					<div className="row">
-						<TopCardBlock />
+						<h1>Consultant DashBoard Upcoming</h1>
 					</div>
 					{/* End .row top card block */}
-
-					<div className="row">
-						<div className="col-xl-7 col-lg-12">
-							{/* <!-- Graph widget --> */}
-							<div className="graph-widget ls-widget">
-								<ProfileChart />
-							</div>
-							{/* End profile chart */}
-						</div>
-						{/* End .col */}
-
-						<div className="col-xl-5 col-lg-12">
-							{/* <!-- Notification Widget --> */}
-							<div className="notification-widget ls-widget">
-								<div className="widget-title">
-									<h4>Notifications</h4>
-								</div>
-								<div className="widget-content">
-									<Notification />
-								</div>
-							</div>
-						</div>
-						{/* End .col */}
-
-						<div className="col-lg-12">
-							{/* <!-- applicants Widget --> */}
-							<div className="applicants-widget ls-widget">
-								<div className="widget-title">
-									<h4>Recent Applicants</h4>
-								</div>
-								<div className="widget-content">
-									<div className="row">
-										{/* <!-- Candidate block three --> */}
-
-										<Applicants />
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* End .col */}
-					</div>
-					{/* End .row profile and notificatins */}
 				</div>
 				{/* End dashboard-outer */}
 			</section>

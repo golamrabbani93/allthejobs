@@ -1,17 +1,17 @@
-import dynamic from "next/dynamic";
-import MyProfile from "@/components/dashboard-pages/candidates-dashboard/my-profile";
+import dynamic from 'next/dynamic';
+import MyProfile from '@/components/dashboard-pages/candidates-dashboard/my-profile';
 
 export const metadata = {
-  title: "My Profile || Superio - Job Borad React NextJS Template",
-  description: "Superio - Job Borad React NextJS Template",
+	title: 'My Profile || AllTheJobs',
+	description: 'AllTheJobs',
 };
 
 const index = () => {
-  return (
-    <>
-      <MyProfile />
-    </>
-  );
+	return (
+		<>
+			<MyProfile />
+		</>
+	);
 };
 
-export default dynamic(() => Promise.resolve(index), { ssr: false });
+export default dynamic(() => Promise.resolve(index), {ssr: false});

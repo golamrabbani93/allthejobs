@@ -1,17 +1,17 @@
-import dynamic from "next/dynamic";
-import CvManager from "@/components/dashboard-pages/candidates-dashboard/cv-manager";
+import dynamic from 'next/dynamic';
+import CvManager from '@/components/dashboard-pages/candidates-dashboard/cv-manager';
 
 export const metadata = {
-  title: "CV Manager || Superio - Job Borad React NextJS Template",
-  description: "Superio - Job Borad React NextJS Template",
+	title: 'CV Manager || AllTheJobs',
+	description: 'AllTheJobs',
 };
 
 const index = () => {
-  return (
-    <>
-      <CvManager />
-    </>
-  );
+	return (
+		<>
+			<CvManager />
+		</>
+	);
 };
 
-export default dynamic(() => Promise.resolve(index), { ssr: false });
+export default dynamic(() => Promise.resolve(index), {ssr: false});

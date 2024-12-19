@@ -1,17 +1,17 @@
-import dynamic from "next/dynamic";
-import DashboadHome from "@/components/dashboard-pages/employers-dashboard/dashboard";
+import dynamic from 'next/dynamic';
+import DashboadHome from '@/components/dashboard-pages/employers-dashboard/dashboard';
 
 export const metadata = {
-  title: "Employeers Dashboard || Superio - Job Borad React NextJS Template",
-  description: "Superio - Job Borad React NextJS Template",
+	title: 'Employer Dashboard || AllTheJobs',
+	description: 'AllTheJobs',
 };
 
 const index = () => {
-  return (
-    <>
-      <DashboadHome />
-    </>
-  );
+	return (
+		<>
+			<DashboadHome />
+		</>
+	);
 };
 
-export default dynamic(() => Promise.resolve(index), { ssr: false });
+export default dynamic(() => Promise.resolve(index), {ssr: false});

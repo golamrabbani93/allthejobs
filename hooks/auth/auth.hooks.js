@@ -4,16 +4,17 @@ import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify';
 // import bcrypt from 'bcrypt';  // ES module syntax
 import bcrypt from 'bcryptjs';
-
+import {useDispatch} from 'react-redux';
+import {setUser} from '@/features/user/userSlice';
 
 async function hashPassword(plainPassword) {
-  const saltRounds = 10; 
-  const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
-  return hashedPassword
+	const saltRounds = 10;
+	const hashedPassword = await bcrypt.hash(plainPassword, saltRounds);
+	return hashedPassword;
 }
 async function comparePassword(enteredPassword, storedHash) {
-  const isMatch = await bcrypt.compare(enteredPassword, storedHash);
-	return isMatch
+	const isMatch = await bcrypt.compare(enteredPassword, storedHash);
+	return isMatch;
 }
 export const useRegister = () => {
 	const router = useRouter();
@@ -21,15 +22,14 @@ export const useRegister = () => {
 	return useMutation({
 		mutationKey: ['JOB_SEEKER_REGISTRATION'],
 		mutationFn: async (userData) => {
-			const password_hash= await hashPassword(userData.password)
-			const response = await registerJobSeeker({...userData,password_hash});
+			const password_hash = await hashPassword(userData.password);
+			const response = await registerJobSeeker({...userData, password_hash});
 			return response;
 		},
 		onSuccess: (data) => {
 			if (data.user_id) {
 				toast.success('Registration Successful');
 				router.push('/login');
-			} else {
 			}
 		},
 		onError: (_error) => {
@@ -41,19 +41,25 @@ export const useRegister = () => {
 
 export const useLogin = () => {
 	const router = useRouter();
+	const dispatch = useDispatch();
 	return useMutation({
 		mutationKey: ['LOGIN'],
 		mutationFn: async (userData) => {
 			const data = await login();
-			const user = data.find(
-				(user) => user.email === userData.email
-			);
+			const user = data.find((user) => user.email === userData.email);
 			console.log(user);
 			// return response;
-			const isMatch=await comparePassword(userData.password,user.password_hash)
+			const isMatch = await comparePassword(userData.password, user.password_hash);
 			if (isMatch) {
+				const userData = {
+					name: user.name,
+					email: user.email,
+					image: 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png',
+					role: user.role,
+				};
+				dispatch(setUser(userData));
 				toast.success('Login Successful');
-				router.push('/');
+				router.push('/dashboard/talent/dashboard');
 				return data;
 			} else {
 				toast.error('Login Failed');

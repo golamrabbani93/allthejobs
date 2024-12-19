@@ -10,7 +10,6 @@ import {useSelector} from 'react-redux';
 const DefaulHeader2 = () => {
 	const [navbar, setNavbar] = useState(false);
 	const user = useSelector((state) => state.user);
-	console.log('🚀🚀: user', user);
 	const [isClient, setIsClient] = useState(false);
 
 	useEffect(() => {

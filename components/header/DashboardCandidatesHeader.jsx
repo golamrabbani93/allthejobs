@@ -9,9 +9,10 @@ import {isActiveLink} from '../../utils/linkActiveChecker';
 
 import {usePathname} from 'next/navigation';
 import {useSelector} from 'react-redux';
+import DashboardAvatar from './AvatarMenu/DashboardAvatar';
 const DashboardCandidatesHeader = () => {
 	const [navbar, setNavbar] = useState(false);
-
+	const user = useSelector((state) => state.user);
 	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
 	const changeBackground = () => {
 		if (window.scrollY >= 0) {
@@ -46,6 +47,26 @@ const DashboardCandidatesHeader = () => {
 					{/* End .nav-outer */}
 
 					<div className="outer-box">
+						<div
+							className="d-inline-flex align-items-center"
+							style={{
+								background: 'linear-gradient(135deg, #e5f8e7, #d6f2d9)',
+								borderRadius: '2rem',
+								padding: '0.4rem 1rem',
+								fontWeight: 'bold',
+								fontSize: '1rem',
+								color: '#2e7d32',
+							}}
+						>
+							<Image
+								src="/images/coin.png"
+								alt="coins"
+								width={300}
+								height={20}
+								style={{width: '30px'}}
+							/>
+							<span>347</span>
+						</div>
 						<button className="menu-btn">
 							<span className="count">{wishListJobs.length}</span>
 							<span className="icon la la-heart-o"></span>
@@ -57,40 +78,8 @@ const DashboardCandidatesHeader = () => {
 						</button>
 						{/* End notification-icon */}
 
-						{/* <!-- Dashboard Option --> */}
-						<div className="dropdown dashboard-option">
-							<a
-								className="dropdown-toggle"
-								role="button"
-								data-bs-toggle="dropdown"
-								aria-expanded="false"
-							>
-								<Image
-									alt="avatar"
-									className="thumb"
-									src="/images/resource/candidate-1.png"
-									width={50}
-									height={50}
-								/>
-								<span className="name">My Account</span>
-							</a>
-
-							<ul className="dropdown-menu">
-								{candidatesMenuData.map((item) => (
-									<li
-										className={`${
-											isActiveLink(item.routePath, usePathname()) ? 'active' : ''
-										} mb-1`}
-										key={item.id}
-									>
-										<Link href={item.routePath}>
-											<i className={`la ${item.icon}`}></i> {item.name}
-										</Link>
-									</li>
-								))}
-							</ul>
-						</div>
 						{/* End dropdown */}
+						<DashboardAvatar />
 					</div>
 					{/* End outer-box */}
 				</div>

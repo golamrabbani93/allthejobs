@@ -20,7 +20,7 @@ const userSlice = createSlice({
 		clearUser: (state) => {
 			state.name = '';
 			state.email = '';
-			state.image = 'default';
+			state.image = 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png';
 			state.role = undefined;
 		},
 	},

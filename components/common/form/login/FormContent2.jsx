@@ -17,6 +17,12 @@ export const closeModal = () => {
 		modalTrigger.click();
 	}
 };
+export const closeModalRegister = () => {
+	const modalTrigger = document.getElementById('modalClose2');
+	if (modalTrigger) {
+		modalTrigger.click();
+	}
+};
 
 const FormContent2 = ({modal = false}) => {
 	const {mutate, isPending, data} = useLogin();

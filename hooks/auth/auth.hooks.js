@@ -59,7 +59,7 @@ export const useLogin = () => {
 				};
 				dispatch(setUser(userData));
 				toast.success('Login Successful');
-				router.push('/dashboard/talent/dashboard');
+				router.push(`dashboard/${user.role}/dashboard`);
 				return data;
 			} else {
 				toast.error('Login Failed');

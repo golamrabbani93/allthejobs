@@ -1,19 +1,15 @@
-'use client';
 import MobileMenu from '../../../header/MobileMenu';
+import DashboardHeader from '../../../header/DashboardHeader';
 import LoginPopup from '../../../common/form/login/LoginPopup';
 import DashboardEmployerSidebar from '../../../header/DashboardEmployerSidebar';
 import BreadCrumb from '../../BreadCrumb';
-import TopCardBlock from './components/TopCardBlock';
-import ProfileChart from './components/ProfileChart';
-import Notification from './components/Notification';
-import Applicants from './components/Applicants';
 import CopyrightFooter from '../../CopyrightFooter';
+import WidgetToFilterBox from './components/WidgetToFilterBox';
+import WidgetContentBox from './components/WidgetContentBox';
 import MenuToggler from '../../MenuToggler';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
-import {useSelector} from 'react-redux';
 
-const Index = () => {
-	const user = useSelector((state) => state.user);
+const index = () => {
 	return (
 		<div className="page-wrapper dashboard">
 			<span className="header-span"></span>
@@ -34,36 +30,26 @@ const Index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title={`Welcome ${user?.name}`} />
+					<BreadCrumb title="Matched Talents" />
 					{/* breadCrumb */}
 
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
 					<div className="row">
-						<TopCardBlock />
-					</div>
-					{/* End .row top card block */}
-
-					<div className="row">
 						<div className="col-lg-12">
-							{/* <!-- applicants Widget --> */}
 							<div className="applicants-widget ls-widget">
 								<div className="widget-title">
-									<h4>Recent Applicants</h4>
+									<h4>Matched Talents</h4>
+									<WidgetToFilterBox />
 								</div>
-								<div className="widget-content">
-									<div className="row">
-										{/* <!-- Candidate block three --> */}
-
-										<Applicants />
-									</div>
-								</div>
+								{/* End widget top filter box */}
+								<WidgetContentBox />
 							</div>
+							{/* <!-- applicants Widget --> */}
 						</div>
-						{/* End .col */}
 					</div>
-					{/* End .row profile and notificatins */}
+					{/* End .row */}
 				</div>
 				{/* End dashboard-outer */}
 			</section>
@@ -76,4 +62,4 @@ const Index = () => {
 	);
 };
 
-export default Index;
+export default index;

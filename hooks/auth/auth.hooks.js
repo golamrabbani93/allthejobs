@@ -2,10 +2,10 @@ import {login, registerJobSeeker} from '@/services/AuthService';
 import {useMutation} from '@tanstack/react-query';
 import {useRouter} from 'next/navigation';
 import {toast} from 'react-toastify';
-// import bcrypt from 'bcrypt';  // ES module syntax
 import bcrypt from 'bcryptjs';
 import {useDispatch} from 'react-redux';
 import {setUser} from '@/features/user/userSlice';
+import {closeModal, closeModalRegister} from '@/components/common/form/login/FormContent2';
 
 async function hashPassword(plainPassword) {
 	const saltRounds = 10;
@@ -27,12 +27,15 @@ export const useRegister = () => {
 			return response;
 		},
 		onSuccess: (data) => {
+			console.log('🚀🚀: useRegister -> data', data);
 			if (data.user_id) {
 				toast.success('Registration Successful');
+				closeModalRegister();
 				router.push('/login');
 			}
 		},
 		onError: (_error) => {
+			console.log('🚀🚀: useRegister -> _error', _error);
 			// console.log(_error);
 			console.log('Register Failed.... something went wrong');
 		},
@@ -59,6 +62,7 @@ export const useLogin = () => {
 				};
 				dispatch(setUser(userData));
 				toast.success('Login Successful');
+				closeModal();
 				router.push(`dashboard/${user.role}/dashboard`);
 				return data;
 			} else {

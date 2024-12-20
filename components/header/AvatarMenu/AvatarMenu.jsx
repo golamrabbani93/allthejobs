@@ -5,6 +5,7 @@ import Link from 'next/link';
 import {useDispatch, useSelector} from 'react-redux';
 import {signOut} from 'next-auth/react';
 import {clearUser} from '@/features/user/userSlice';
+import LogOutButton from '@/components/common/LogOutButton/LogOutButton';
 
 const AvatarMenu = () => {
 	const user = useSelector((state) => state.user);
@@ -27,11 +28,7 @@ const AvatarMenu = () => {
 						<i className={`la la-home`}></i> DashBoard
 					</Link>
 				</li>
-				<li className={` mb-1`}>
-					<button onClick={() => userLogOut()} className="avatarButton">
-						<i className={`la la-sign-out`}></i> Log Out
-					</button>
-				</li>
+				<LogOutButton />
 			</ul>
 		</div>
 	);

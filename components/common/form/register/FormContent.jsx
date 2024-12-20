@@ -1,25 +1,50 @@
+import ATJForm from '@/components/form/ATJForm';
+import ATJInput from '@/components/form/ATJInput';
+import Spinner from '@/components/Sppiner/Spinner';
+import {useRegister} from '@/hooks/auth/auth.hooks';
+import {closeModal} from '../login/FormContent2';
+
 const FormContent = ({userType}) => {
+	const {mutate, isPending, data} = useRegister();
+	const onSubmit = (data) => {
+		const userData = {
+			...data,
+			role: userType,
+		};
+		mutate(userData);
+	};
 	return (
-		<form method="post" action="add-parcel.html">
+		<ATJForm
+			// defaultValues={loginData}
+			// resolver={zodResolver(loginValidationSchema)}
+			onSubmit={onSubmit}
+		>
+			{/* Name */}
 			<div className="form-group">
-				<label>Email Address</label>
-				<input type="email" name="username" placeholder="Username" required />
+				<label>Name :</label>
+				<ATJInput label="Name" name="name" type="text" />
 			</div>
-			{/* name */}
-
+			{/* User Name */}
 			<div className="form-group">
-				<label>Password</label>
-				<input id="password-field" type="password" name="password" placeholder="Password" />
+				<label>User Name :</label>
+				<ATJInput label="User Name" name="username" type="text" />
 			</div>
-			{/* password */}
-
+			{/* Email Address */}
+			<div className="form-group">
+				<label>Email Address :</label>
+				<ATJInput label="Email Address" name="email" type="email" />
+			</div>
+			{/* Password */}
+			<div className="form-group">
+				<label>Password :</label>
+				<ATJInput label="Password" name="password" type="password" />
+			</div>
 			<div className="form-group">
 				<button className="theme-btn btn-style-one" type="submit">
-					Register
+					{isPending ? <Spinner color="white" /> : 'Register'}
 				</button>
 			</div>
-			{/* login */}
-		</form>
+		</ATJForm>
 	);
 };
 

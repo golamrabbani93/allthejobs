@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
-import DashboadHome from '@/components/dashboard-pages/employers-dashboard/dashboard';
+import DashboadHome from '@/components/dashboard-pages/consultant-dashboard/dashboard/index';
 
 export const metadata = {
-	title: 'Employeers Dashboard || AllTheJobs',
+	title: 'Consultant  Dashboard || AllTheJobs',
 	description: 'AllTheJobs',
 };
 

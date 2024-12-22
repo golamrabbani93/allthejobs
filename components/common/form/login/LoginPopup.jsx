@@ -1,5 +1,5 @@
 import Register from '../register/Register';
-import FormContent from './FormContent';
+import FormContent2 from './FormContent2';
 
 const LoginPopup = () => {
 	return (
@@ -16,7 +16,12 @@ const LoginPopup = () => {
 			<div className="modal fade" id="loginPopupModal">
 				<div className="modal-dialog modal-lg modal-dialog-centered login-modal modal-dialog-scrollable">
 					<div className="modal-content">
-						<button type="button" className="closed-modal" data-bs-dismiss="modal"></button>
+						<button
+							type="button"
+							className="closed-modal"
+							id="modalClose"
+							data-bs-dismiss="modal"
+						></button>
 						{/* End close modal btn */}
 
 						<div className="modal-body">
@@ -24,7 +29,7 @@ const LoginPopup = () => {
 							<div id="login-modal">
 								{/* <!-- Login Form --> */}
 								<div className="login-form default-form">
-									<FormContent />
+									<FormContent2 modal={true} />
 								</div>
 								{/* <!--End Login Form --> */}
 							</div>
@@ -40,7 +45,12 @@ const LoginPopup = () => {
 			<div className="modal fade" id="registerModal">
 				<div className="modal-dialog modal-lg modal-dialog-centered login-modal modal-dialog-scrollable">
 					<div className="modal-content">
-						<button type="button" className="closed-modal" data-bs-dismiss="modal"></button>
+						<button
+							type="button"
+							className="closed-modal"
+							id="modalClose2"
+							data-bs-dismiss="modal"
+						></button>
 						{/* End close modal btn */}
 
 						<div className="modal-body">

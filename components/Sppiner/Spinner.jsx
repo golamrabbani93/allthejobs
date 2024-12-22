@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Spinner = ({type = 'border', color = 'primary', size, text, className = ''}) => {
+const Spinner = ({type = 'border', color = 'primary', size = 'sm', text, className = ''}) => {
 	return (
 		<div className={`text-center ${className}`}>
 			<div

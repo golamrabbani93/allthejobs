@@ -29,7 +29,7 @@ module.exports = [
 	},
 	{
 		id: 5,
-		name: 'Job Alerts',
+		name: 'Matched Job',
 		icon: 'la la-bell',
 		routePath: '/dashboard/talent/job-alerts',
 		active: '',
@@ -55,32 +55,12 @@ module.exports = [
 		routePath: '/dashboard/talent/packages',
 		active: '',
 	},
-	{
-		id: 9,
-		name: 'Messages',
-		icon: 'la-comment-o',
-		routePath: '/dashboard/talent/messages',
-		active: '',
-	},
+
 	{
 		id: 10,
 		name: 'Change Password',
 		icon: 'la-lock',
 		routePath: '/dashboard/talent/change-password',
-		active: '',
-	},
-	{
-		id: 11,
-		name: 'Logout',
-		icon: 'la-sign-out',
-		routePath: '/login',
-		active: '',
-	},
-	{
-		id: 12,
-		name: 'Delete Profile',
-		icon: 'la-trash',
-		routePath: '/',
 		active: '',
 	},
 ];

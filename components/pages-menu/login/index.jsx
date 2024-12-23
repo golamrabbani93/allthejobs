@@ -1,3 +1,4 @@
+import Login from '@/components/common/form/login/Login';
 import FormContent2 from '../../common/form/login/FormContent2';
 import MobileMenu from '../../header/MobileMenu';
 import Header from './Header';
@@ -19,7 +20,7 @@ const index = () => {
 				<div className="outer-box">
 					{/* <!-- Login Form --> */}
 					<div className="login-form default-form">
-						<FormContent2 />
+						<Login />
 					</div>
 					{/* <!--End Login Form --> */}
 				</div>

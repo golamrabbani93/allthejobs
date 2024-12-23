@@ -1,17 +1,14 @@
 'use client';
-
 import {useEffect, useState} from 'react';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
-import LoginWithSocial from './LoginWithSocial';
 import FormContent2 from './FormContent2';
-import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useDispatch} from 'react-redux';
 import {setUser} from '@/features/user/userSlice';
 
-const Register2 = () => {
+const Login = () => {
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [userType, setUserType] = useState('talent');
 	const router = useRouter();
@@ -47,7 +44,7 @@ const Register2 = () => {
 
 	return (
 		<div className="form-inner">
-			<h3>Create a Free Allthejobs Account</h3>
+			<h3>Login to Allthejobs Account</h3>
 
 			<Tabs selectedIndex={selectedTab} onSelect={handleSelect}>
 				<div className="form-group register-dual">
@@ -88,11 +85,11 @@ const Register2 = () => {
 			</Tabs>
 			{/* End form-group */}
 
-			<div className="bottom-box">
+			{/* <div className="bottom-box">
 				<div className="text">
 					Already have an account?{' '}
-					<Link href="/login" className="call-modal login">
-						LogIn
+					<Link href="/register" className="call-modal login">
+						Signu
 					</Link>
 				</div>
 				{userType === 'talent' && (
@@ -103,10 +100,10 @@ const Register2 = () => {
 						<LoginWithSocial />
 					</div>
 				)}
-			</div>
+			</div> */}
 			{/* End bottom-box LoginWithSocial */}
 		</div>
 	);
 };
 
-export default Register2;
+export default Login;

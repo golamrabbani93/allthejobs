@@ -13,7 +13,9 @@ import {ToastContainer} from 'react-toastify';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {SessionProvider} from 'next-auth/react';
 import PopUpModal from '@/components/PopUpModal/PopUpModal';
-import Chat from '@/components/ai-assistant/Chat';
+import Chat from '@/components/ai-assistant/AIChat';
+import { AIChatContextProvider } from "./context/AIChatContext";
+
 
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
@@ -50,6 +52,7 @@ export default function RootLayout({children}) {
 				<SessionProvider>
 					<QueryClientProvider QueryClientProvider client={queryClient}>
 						<Provider store={store}>
+							<AIChatContextProvider>
 							<div className="page-wrapper">
 								<PopUpModal />
 								<Chat></Chat>
@@ -70,6 +73,7 @@ export default function RootLayout({children}) {
 								{/* <!-- Scroll To Top --> */}
 								<ScrollToTop />
 							</div>
+							</AIChatContextProvider>
 						</Provider>
 					</QueryClientProvider>
 				</SessionProvider>

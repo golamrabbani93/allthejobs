@@ -1,5 +1,5 @@
 import Register from '../register/Register';
-import FormContent2 from './FormContent2';
+import LoginPopUpForm from './LoginPopUpForm';
 
 const LoginPopup = () => {
 	return (
@@ -29,7 +29,8 @@ const LoginPopup = () => {
 							<div id="login-modal">
 								{/* <!-- Login Form --> */}
 								<div className="login-form default-form">
-									<FormContent2 modal={true} />
+									{/* <FormContent2 modal={true} /> */}
+									<LoginPopUpForm />
 								</div>
 								{/* <!--End Login Form --> */}
 							</div>

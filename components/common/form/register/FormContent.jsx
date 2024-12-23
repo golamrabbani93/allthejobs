@@ -2,7 +2,6 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useRegister} from '@/hooks/auth/auth.hooks';
-import {closeModal} from '../login/FormContent2';
 
 const FormContent = ({userType}) => {
 	const {mutate, isPending, data} = useRegister();

@@ -25,9 +25,9 @@ const Chat= () => {
             <AccordionTrigger className='px-6 border-zinc-300 hover:no-underline'>
               <ChatHeader></ChatHeader>
             </AccordionTrigger>
-            <AccordionContent className="border">
+            <AccordionContent className="border-top">
 
-              <div className='flex flex-col h-80 w-80 '>
+              <div className='flex flex-col h-80 '>
                 <ChatMessages className='px-2 py-3 flex-1' />
                 <ChatInput className="mt-8" /> 
               </div>

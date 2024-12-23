@@ -19,16 +19,6 @@ export interface OpenAIStreamPayload{
   stream:boolean,
   n:number,
 }
-// test body
-// {
-//   model: "gpt-4o-mini", // Specify the model
-//   messages: [
-//     { role: "system", content: "You are just a friendly chatbot." },
-//     { role: "user", content: "Hello" }
-//   ],
-//   temperature: 0.7, // Optional: Controls the creativity
-//   max_tokens: 50    // Optional: Limits the response length
-// }
 
 export async function OpenAIStream(payload:OpenAIStreamPayload){
   const encoder=new TextEncoder()

@@ -1,4 +1,5 @@
 'use client';
+import "./globals.css";
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../styles/index.scss';
@@ -12,6 +13,7 @@ import {ToastContainer} from 'react-toastify';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {SessionProvider} from 'next-auth/react';
 import PopUpModal from '@/components/PopUpModal/PopUpModal';
+import Chat from '@/components/ai-assistant/Chat';
 
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
@@ -50,6 +52,7 @@ export default function RootLayout({children}) {
 						<Provider store={store}>
 							<div className="page-wrapper">
 								<PopUpModal />
+								<Chat></Chat>
 								{children}
 								{/* Toastify */}
 								<ToastContainer

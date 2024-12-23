@@ -5,7 +5,7 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import {useLogin} from '@/hooks/auth/auth.hooks';
 import Spinner from '@/components/Sppiner/Spinner';
-import {redirect, useRouter} from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
 import {useEffect} from 'react';
 import {setUser} from '@/features/user/userSlice';
@@ -24,7 +24,7 @@ export const closeModalRegister = () => {
 	}
 };
 
-const FormContent2 = ({modal = false}) => {
+const FormContent2 = ({modal = false, userType}) => {
 	const {mutate, isPending, data} = useLogin();
 	const onSubmit = (data) => {
 		mutate(data);
@@ -50,8 +50,6 @@ const FormContent2 = ({modal = false}) => {
 	}
 	return (
 		<div className="form-inner">
-			<h3>Create a Free Allthejobs Account</h3>
-
 			{/* <!--Login Form--> */}
 			<ATJForm
 				// defaultValues={loginData}
@@ -109,11 +107,14 @@ const FormContent2 = ({modal = false}) => {
 					</div>
 				)}
 
-				<div className="divider">
-					<span>or</span>
-				</div>
-
-				<LoginWithSocial />
+				{userType === 'talent' && (
+					<>
+						<div className="divider">
+							<span>or</span>
+						</div>
+						<LoginWithSocial />
+					</>
+				)}
 			</div>
 			{/* End bottom-box LoginWithSocial */}
 		</div>

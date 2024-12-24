@@ -1,33 +1,59 @@
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
-import envConfig from '@/config/envConfig';
 import {useRegister} from '@/hooks/auth/auth.hooks';
+import {useCreateConsultant} from '@/hooks/consultants/consultants.hook';
+import {useCreateEmployer} from '@/hooks/employers/employers.hook';
 import {useCreateTalent} from '@/hooks/talents/talents.hook';
-import {useSession} from 'next-auth/react';
+import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 
 const FormContent2 = ({userType}) => {
-	const {mutate, isPending, data: newUserData} = useRegister();
+	// create user
+	const {mutate: createUser, isPending, data: newUserData} = useRegister();
+	//create Talent profile
 	const {mutate: createTalent} = useCreateTalent();
-	const {data: session, status} = useSession();
+	//create Employer profile
+	const {mutate: createEmployer} = useCreateEmployer();
+	//create consultant profile
+	const {mutate: createConsultant} = useCreateConsultant();
+	const router = useRouter();
 	//Email sign up and saved data to database
 	const onSubmit = (data) => {
 		const userData = {
 			...data,
 			role: userType,
 		};
-		mutate(userData);
+		createUser(userData);
 	};
 
 	//after registration create role based profile
 	useEffect(() => {
 		//if user is talent then create talent profile
-		if (newUserData?.user_id && newUserData?.role === 'talent') {
-			const talentData = {
-				user_id: newUserData.user_id,
-			};
-			createTalent(talentData);
+		if (newUserData !== undefined) {
+			router.push('/login');
+			if (newUserData?.role === 'talent') {
+				const talentData = {
+					user_id: newUserData.user_id,
+				};
+				createTalent(talentData);
+			}
+			//if user is employer then create employer profile
+			if (newUserData?.role === 'employer') {
+				const employerData = {
+					user_id: newUserData.user_id,
+				};
+				createEmployer(employerData);
+			}
+			//if user is consultant then create consultant profile
+			if (newUserData?.role === 'consultant') {
+				const consultantData = {
+					user_id: newUserData.user_id,
+					headline: 'Consultant',
+				};
+
+				createConsultant(consultantData);
+			}
 		}
 	}, [newUserData]);
 	return (

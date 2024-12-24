@@ -45,7 +45,6 @@ export const useLogin = () => {
 		mutationFn: async (userData) => {
 			const data = await login();
 			const user = data.find((user) => user.email === userData.email);
-			console.log(user);
 			// return response;
 			const isMatch = await comparePassword(userData.password, user.password_hash);
 			if (isMatch) {

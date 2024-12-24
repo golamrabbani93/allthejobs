@@ -2,16 +2,21 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useRegister} from '@/hooks/auth/auth.hooks';
+import {useCreateConsultant} from '@/hooks/consultants/consultants.hook';
 import {useCreateEmployer} from '@/hooks/employers/employers.hook';
 import {useCreateTalent} from '@/hooks/talents/talents.hook';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 
 const FormContent2 = ({userType}) => {
-	const {mutate: ceateUser, isPending, data: newUserData} = useRegister();
+	// create user
+	const {mutate: createUser, isPending, data: newUserData} = useRegister();
+	//create Talent profile
 	const {mutate: createTalent} = useCreateTalent();
 	//create Employer profile
 	const {mutate: createEmployer} = useCreateEmployer();
+	//create consultant profile
+	const {mutate: createConsultant} = useCreateConsultant();
 	const router = useRouter();
 	//Email sign up and saved data to database
 	const onSubmit = (data) => {
@@ -19,7 +24,7 @@ const FormContent2 = ({userType}) => {
 			...data,
 			role: userType,
 		};
-		ceateUser(userData);
+		createUser(userData);
 	};
 
 	//after registration create role based profile
@@ -39,6 +44,15 @@ const FormContent2 = ({userType}) => {
 					user_id: newUserData.user_id,
 				};
 				createEmployer(employerData);
+			}
+			//if user is consultant then create consultant profile
+			if (newUserData?.role === 'consultant') {
+				const consultantData = {
+					user_id: newUserData.user_id,
+					headline: 'Consultant',
+				};
+
+				createConsultant(consultantData);
 			}
 		}
 	}, [newUserData]);

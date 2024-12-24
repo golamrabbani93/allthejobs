@@ -3,10 +3,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import {useEffect, useState} from 'react';
-import employerMenuData from '../../data/employerMenuData';
 import HeaderNavContent from './HeaderNavContent';
 import {isActiveLink} from '../../utils/linkActiveChecker';
 import {usePathname} from 'next/navigation';
+import consultantMenuData from '@/data/consultantMenuData';
 
 const DashboardHeader = () => {
 	const [navbar, setNavbar] = useState(false);
@@ -74,7 +74,7 @@ const DashboardHeader = () => {
 							</a>
 
 							<ul className="dropdown-menu">
-								{employerMenuData.map((item) => (
+								{consultantMenuData.map((item) => (
 									<li
 										className={`${
 											isActiveLink(item.routePath, usePathname()) ? 'active' : ''

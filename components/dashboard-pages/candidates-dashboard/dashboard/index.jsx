@@ -13,11 +13,19 @@ import MenuToggler from '../../MenuToggler';
 import {useSelector} from 'react-redux';
 
 const Index = () => {
+<<<<<<< HEAD
+  return (
+    
+    <div className="page-wrapper dashboard">
+      <span className="header-span"></span>
+      {/* <!-- Header Span for hight --> */}
+=======
 	const user = useSelector((state) => state.user);
 	return (
 		<div className="page-wrapper dashboard">
 			<span className="header-span"></span>
 			{/* <!-- Header Span for hight --> */}
+>>>>>>> 9983a1e036940d2c9574ccb7cadcb6415df10d84
 
 			<LoginPopup />
 			{/* End Login Popup Modal */}

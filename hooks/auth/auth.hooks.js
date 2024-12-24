@@ -17,26 +17,21 @@ async function comparePassword(enteredPassword, storedHash) {
 	return isMatch;
 }
 export const useRegister = () => {
-	const router = useRouter();
-
 	return useMutation({
-		mutationKey: ['JOB_SEEKER_REGISTRATION'],
+		mutationKey: ['USER_REGISTRATION'],
 		mutationFn: async (userData) => {
 			const password_hash = await hashPassword(userData.password);
 			const response = await registerJobSeeker({...userData, password_hash});
 			return response;
 		},
 		onSuccess: (data) => {
-			console.log('🚀🚀: useRegister -> data', data);
-			if (data.user_id) {
+			if (data?.user_id) {
 				toast.success('Registration Successful');
 				closeModalRegister();
-				router.push('/login');
+				return data;
 			}
 		},
 		onError: (_error) => {
-			console.log('🚀🚀: useRegister -> _error', _error);
-			// console.log(_error);
 			console.log('Register Failed.... something went wrong');
 		},
 	});

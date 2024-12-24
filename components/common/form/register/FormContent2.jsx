@@ -1,10 +1,17 @@
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
+import envConfig from '@/config/envConfig';
 import {useRegister} from '@/hooks/auth/auth.hooks';
+import {useCreateTalent} from '@/hooks/talents/talents.hook';
+import {useSession} from 'next-auth/react';
+import {useEffect} from 'react';
 
 const FormContent2 = ({userType}) => {
-	const {mutate, isPending, data} = useRegister();
+	const {mutate, isPending, data: newUserData} = useRegister();
+	const {mutate: createTalent} = useCreateTalent();
+	const {data: session, status} = useSession();
+	//Email sign up and saved data to database
 	const onSubmit = (data) => {
 		const userData = {
 			...data,
@@ -12,6 +19,17 @@ const FormContent2 = ({userType}) => {
 		};
 		mutate(userData);
 	};
+
+	//after registration create role based profile
+	useEffect(() => {
+		//if user is talent then create talent profile
+		if (newUserData?.user_id && newUserData?.role === 'talent') {
+			const talentData = {
+				user_id: newUserData.user_id,
+			};
+			createTalent(talentData);
+		}
+	}, [newUserData]);
 	return (
 		<ATJForm
 			// defaultValues={loginData}

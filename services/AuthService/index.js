@@ -4,8 +4,8 @@ import axiosInstance from '@/lib/AxiosInstance';
 
 //* Register A Job Seeker
 export const registerJobSeeker = async (userData) => {
+	console.log('🚀🚀: registerJobSeeker -> userData', userData);
 	try {
-		console.log(userData);
 		const {data} = await axiosInstance.post('users/create/', userData);
 		return data;
 	} catch (error) {

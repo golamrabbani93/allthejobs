@@ -1,31 +1,17 @@
 'use client';
 
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import LoginWithSocial from './LoginWithSocial';
 import FormContent2 from './FormContent2';
 import Link from 'next/link';
-import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
 import Spinner from '@/components/Sppiner/Spinner';
-import {useDispatch} from 'react-redux';
-import {setUser} from '@/features/user/userSlice';
 
 const Register2 = () => {
 	const [selectedTab, setSelectedTab] = useState(0);
 	const [userType, setUserType] = useState('talent');
-	const router = useRouter();
-	const dispatch = useDispatch();
-	const {data: session, status} = useSession();
-	useEffect(() => {
-		if (status === 'authenticated') {
-			const userData = {
-				...session.user,
-				role: 'talent',
-			};
-			dispatch(setUser(userData));
-		}
-	}, [status, session, router]);
+	const {status} = useSession();
 
 	if (status === 'loading') {
 		//just keeping like this for the time being

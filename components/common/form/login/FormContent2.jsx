@@ -25,24 +25,11 @@ export const closeModalRegister = () => {
 };
 
 const FormContent2 = ({modal = false, userType}) => {
+	const {status} = useSession();
 	const {mutate, isPending, data} = useLogin();
 	const onSubmit = (data) => {
 		mutate(data);
 	};
-
-	const router = useRouter();
-	const dispatch = useDispatch();
-	const {data: session, status} = useSession();
-	useEffect(() => {
-		if (status === 'authenticated') {
-			const userData = {
-				...session.user,
-				role: 'talent',
-			};
-			dispatch(setUser(userData));
-			closeModal();
-		}
-	}, [status, session, router]);
 
 	if (status === 'loading') {
 		//just keeping like this for the time being

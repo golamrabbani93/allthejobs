@@ -2,6 +2,7 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useRegister} from '@/hooks/auth/auth.hooks';
+import {useCreateEmployer} from '@/hooks/employers/employers.hook';
 import {useCreateTalent} from '@/hooks/talents/talents.hook';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
@@ -9,6 +10,8 @@ import {useEffect} from 'react';
 const FormContent2 = ({userType}) => {
 	const {mutate: ceateUser, isPending, data: newUserData} = useRegister();
 	const {mutate: createTalent} = useCreateTalent();
+	//create Employer profile
+	const {mutate: createEmployer} = useCreateEmployer();
 	const router = useRouter();
 	//Email sign up and saved data to database
 	const onSubmit = (data) => {
@@ -29,6 +32,13 @@ const FormContent2 = ({userType}) => {
 					user_id: newUserData.user_id,
 				};
 				createTalent(talentData);
+			}
+			//if user is employer then create employer profile
+			if (newUserData?.role === 'employer') {
+				const employerData = {
+					user_id: newUserData.user_id,
+				};
+				createEmployer(employerData);
 			}
 		}
 	}, [newUserData]);

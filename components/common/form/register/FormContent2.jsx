@@ -1,33 +1,35 @@
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
-import envConfig from '@/config/envConfig';
 import {useRegister} from '@/hooks/auth/auth.hooks';
 import {useCreateTalent} from '@/hooks/talents/talents.hook';
-import {useSession} from 'next-auth/react';
+import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 
 const FormContent2 = ({userType}) => {
-	const {mutate, isPending, data: newUserData} = useRegister();
+	const {mutate: ceateUser, isPending, data: newUserData} = useRegister();
 	const {mutate: createTalent} = useCreateTalent();
-	const {data: session, status} = useSession();
+	const router = useRouter();
 	//Email sign up and saved data to database
 	const onSubmit = (data) => {
 		const userData = {
 			...data,
 			role: userType,
 		};
-		mutate(userData);
+		ceateUser(userData);
 	};
 
 	//after registration create role based profile
 	useEffect(() => {
 		//if user is talent then create talent profile
-		if (newUserData?.user_id && newUserData?.role === 'talent') {
-			const talentData = {
-				user_id: newUserData.user_id,
-			};
-			createTalent(talentData);
+		if (newUserData !== undefined) {
+			router.push('/login');
+			if (newUserData?.role === 'talent') {
+				const talentData = {
+					user_id: newUserData.user_id,
+				};
+				createTalent(talentData);
+			}
 		}
 	}, [newUserData]);
 	return (

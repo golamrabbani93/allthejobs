@@ -2,9 +2,9 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useCreateTalentMutation} from '@/features/candidate/talent.management.api';
+import {useCreateConsultantMutation} from '@/features/consultant/consultant.management.api';
 import {useCreateEmployerMutation} from '@/features/employer/employer.management.api';
 import {useRegister} from '@/hooks/auth/auth.hooks';
-import {useCreateConsultant} from '@/hooks/consultants/consultants.hook';
 import {useRouter} from 'next/navigation';
 import {useEffect} from 'react';
 
@@ -16,7 +16,7 @@ const FormContent2 = ({userType}) => {
 	//create Employer profile
 	const [createEmployer] = useCreateEmployerMutation();
 	//create consultant profile
-	const {mutate: createConsultant} = useCreateConsultant();
+	const [createConsultant] = useCreateConsultantMutation();
 	const router = useRouter();
 	//Email sign up and saved data to database
 	const onSubmit = (data) => {

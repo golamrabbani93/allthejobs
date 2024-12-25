@@ -1,17 +1,17 @@
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
+import {useCreateTalentMutation} from '@/features/candidate/talent.management.api';
 import {useRegister} from '@/hooks/auth/auth.hooks';
 import {useCreateConsultant} from '@/hooks/consultants/consultants.hook';
 import {useCreateEmployer} from '@/hooks/employers/employers.hook';
-import {useCreateTalent} from '@/hooks/talents/talents.hook';
 import {useEffect} from 'react';
 
 const FormContent = ({userType}) => {
 	// create user
 	const {mutate: createUser, isPending, data: newUserData} = useRegister();
 	//create Talent profile
-	const {mutate: createTalent} = useCreateTalent();
+	const [createTalent] = useCreateTalentMutation();
 	//create Employer profile
 	const {mutate: createEmployer} = useCreateEmployer();
 	//create consultant profile

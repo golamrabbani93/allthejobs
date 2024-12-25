@@ -1,8 +1,8 @@
 'use client';
+import {useCreateTalentMutation} from '@/features/candidate/talent.management.api';
 import {useGetMyProfileQuery} from '@/features/user/user.management';
 import {setUser} from '@/features/user/userSlice';
 import {useRegister} from '@/hooks/auth/auth.hooks';
-import {useCreateTalent} from '@/hooks/talents/talents.hook';
 import {signIn, useSession} from 'next-auth/react';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
@@ -10,7 +10,7 @@ import {useDispatch} from 'react-redux';
 const LoginWithSocial = () => {
 	const dispatch = useDispatch();
 	const {mutate: createUser, data: newUserData} = useRegister();
-	const {mutate: createTalent} = useCreateTalent();
+	const [createTalent, {isLoading}] = useCreateTalentMutation();
 	const {data: session, status} = useSession();
 	const {data: myProfile, isFetching} = useGetMyProfileQuery(session?.user?.email);
 	useEffect(() => {

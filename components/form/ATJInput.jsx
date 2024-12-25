@@ -18,7 +18,7 @@ export default function ATJInput({type, label, name, isReadOnly = false, disable
 				placeholder={label}
 				readOnly={isReadOnly}
 				disabled={disabled}
-				className={`${disabled ? '!bg-gray-400 text-white' : ''}`}
+				className={`${disabled ? '!bg-gray-200' : ''}`}
 			/>
 			{errors[name] && <span className="text-red-500 text-sm mt-1">{errors[name].message}</span>}
 		</div>

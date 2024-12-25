@@ -1,8 +1,8 @@
 'use client';
+import {useGetMyProfileQuery} from '@/features/user/user.management';
 import {setUser} from '@/features/user/userSlice';
 import {useRegister} from '@/hooks/auth/auth.hooks';
 import {useCreateTalent} from '@/hooks/talents/talents.hook';
-import {useGetMyProfile} from '@/hooks/users/users.hook';
 import {signIn, useSession} from 'next-auth/react';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
@@ -12,8 +12,7 @@ const LoginWithSocial = () => {
 	const {mutate: createUser, data: newUserData} = useRegister();
 	const {mutate: createTalent} = useCreateTalent();
 	const {data: session, status} = useSession();
-	const {data: myProfile, isPending} = useGetMyProfile(session?.user?.email);
-	//social sign up and saved data to database
+	const {data: myProfile, isFetching} = useGetMyProfileQuery(session?.user?.email);
 	useEffect(() => {
 		if (status === 'authenticated') {
 			const userData = {
@@ -21,11 +20,11 @@ const LoginWithSocial = () => {
 				role: 'talent',
 			};
 			dispatch(setUser(userData));
-			if (myProfile === undefined && !isPending) {
+			if (myProfile === undefined && !isFetching) {
 				createUser({...userData, password: userData.email, username: userData.email});
 			}
 		}
-	}, [status, session, myProfile, isPending]);
+	}, [status, session, myProfile, isFetching]);
 
 	// after registration create role based profile
 	useEffect(() => {

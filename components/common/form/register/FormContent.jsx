@@ -2,9 +2,9 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useCreateTalentMutation} from '@/features/candidate/talent.management.api';
+import {useCreateEmployerMutation} from '@/features/employer/employer.management.api';
 import {useRegister} from '@/hooks/auth/auth.hooks';
 import {useCreateConsultant} from '@/hooks/consultants/consultants.hook';
-import {useCreateEmployer} from '@/hooks/employers/employers.hook';
 import {useEffect} from 'react';
 
 const FormContent = ({userType}) => {
@@ -13,7 +13,7 @@ const FormContent = ({userType}) => {
 	//create Talent profile
 	const [createTalent] = useCreateTalentMutation();
 	//create Employer profile
-	const {mutate: createEmployer} = useCreateEmployer();
+	const [createEmployer] = useCreateEmployerMutation();
 	//create consultant profile
 	const {mutate: createConsultant} = useCreateConsultant();
 	//Email sign up and saved data to database

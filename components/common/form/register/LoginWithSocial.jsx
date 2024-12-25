@@ -1,31 +1,48 @@
 'use client';
+import {useUserRegisterMutation} from '@/features/auth/auth.management.api';
+import {useCreateTalentMutation} from '@/features/candidate/talent.management.api';
+import {useGetMyProfileQuery} from '@/features/user/user.management';
 import {setUser} from '@/features/user/userSlice';
-import {useRegister} from '@/hooks/auth/auth.hooks';
-import {useCreateTalent} from '@/hooks/talents/talents.hook';
-import {useGetMyProfile} from '@/hooks/users/users.hook';
+import hashPassword from '@/hooks/hashPassword/hashPassword.hook';
 import {signIn, useSession} from 'next-auth/react';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
 const LoginWithSocial = () => {
 	const dispatch = useDispatch();
-	const {mutate: createUser, data: newUserData} = useRegister();
-	const {mutate: createTalent} = useCreateTalent();
+	const [createUser, {data: newUserData, isLoading}] = useUserRegisterMutation();
+	const [createTalent] = useCreateTalentMutation();
 	const {data: session, status} = useSession();
-	const {data: myProfile, isPending} = useGetMyProfile(session?.user?.email);
-	//social sign up and saved data to database
+	const {data: myProfile, isFetching} = useGetMyProfileQuery(session?.user?.email);
+	// create user
 	useEffect(() => {
-		if (status === 'authenticated') {
-			const userData = {
-				...session.user,
-				role: 'talent',
-			};
-			dispatch(setUser(userData));
-			if (myProfile === undefined && !isPending) {
-				createUser({...userData, password: userData.email, username: userData.email});
+		const fetchAndCreateUser = async () => {
+			if (status === 'authenticated') {
+				const userData = {
+					...session.user,
+					role: 'talent',
+				};
+				dispatch(setUser(userData)); // Dispatch the user data to Redux
+
+				// Check if myProfile is undefined and avoid fetching when already in progress
+				if (myProfile === undefined && !isFetching) {
+					try {
+						const hashedPassword = await hashPassword(userData.email);
+						// Assuming createUser is a function that takes the user data
+						createUser({
+							...userData,
+							password_hash: hashedPassword,
+							username: userData.email,
+						});
+					} catch (error) {
+						console.error('Error creating user:', error);
+					}
+				}
 			}
-		}
-	}, [status, session, myProfile, isPending]);
+		};
+
+		fetchAndCreateUser();
+	}, [status, session, myProfile, isFetching, dispatch]);
 
 	// after registration create role based profile
 	useEffect(() => {
@@ -38,7 +55,7 @@ const LoginWithSocial = () => {
 				createTalent(talentData);
 			}
 		}
-	}, [newUserData]);
+	}, [newUserData, isLoading]);
 	return (
 		<div className="btn-box row">
 			<div className="col-lg-4 col-md-12">

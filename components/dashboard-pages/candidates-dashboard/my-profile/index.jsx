@@ -1,12 +1,12 @@
 import MobileMenu from '../../../header/MobileMenu';
 import DashboardCandidatesSidebar from '../../../header/DashboardCandidatesSidebar';
 import BreadCrumb from '../../BreadCrumb';
-import MyProfile from './components/my-profile';
 import SocialNetworkBox from './components/SocialNetworkBox';
 import ContactInfoBox from './components/ContactInfoBox';
 import CopyrightFooter from '../../CopyrightFooter';
 import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
+import MyProfile from './components/my-profile/MyProfile';
 
 const index = () => {
 	return (

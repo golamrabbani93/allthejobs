@@ -1,27 +1,33 @@
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
-import {useRegister} from '@/hooks/auth/auth.hooks';
-import {useCreateConsultant} from '@/hooks/consultants/consultants.hook';
-import {useCreateEmployer} from '@/hooks/employers/employers.hook';
-import {useCreateTalent} from '@/hooks/talents/talents.hook';
+import {useUserRegisterMutation} from '@/features/auth/auth.management.api';
+import {useCreateTalentMutation} from '@/features/candidate/talent.management.api';
+import {useCreateConsultantMutation} from '@/features/consultant/consultant.management.api';
+import {useCreateEmployerMutation} from '@/features/employer/employer.management.api';
+import hashPassword from '@/hooks/hashPassword/hashPassword.hook';
 import {useEffect} from 'react';
 
 const FormContent = ({userType}) => {
 	// create user
-	const {mutate: createUser, isPending, data: newUserData} = useRegister();
+	const [createUser, {isLoading, data: newUserData}] = useUserRegisterMutation();
 	//create Talent profile
-	const {mutate: createTalent} = useCreateTalent();
+	const [createTalent] = useCreateTalentMutation();
 	//create Employer profile
-	const {mutate: createEmployer} = useCreateEmployer();
+	const [createEmployer] = useCreateEmployerMutation();
 	//create consultant profile
-	const {mutate: createConsultant} = useCreateConsultant();
+	const [createConsultant] = useCreateConsultantMutation();
 	//Email sign up and saved data to database
-	const onSubmit = (data) => {
+	const onSubmit = async (data) => {
+		const hashedPassword = await hashPassword(data.password);
 		const userData = {
-			...data,
+			name: data.name,
+			username: data.username,
+			email: data.email,
+			password_hash: hashedPassword,
 			role: userType,
 		};
+
 		createUser(userData);
 	};
 
@@ -29,6 +35,7 @@ const FormContent = ({userType}) => {
 	useEffect(() => {
 		//if user is talent then create talent profile
 		if (newUserData !== undefined) {
+			//open login popup after registration
 			const modalTrigger = document.getElementById('loginPopupButton');
 			if (modalTrigger) {
 				modalTrigger.click();
@@ -85,7 +92,7 @@ const FormContent = ({userType}) => {
 			</div>
 			<div className="form-group">
 				<button className="theme-btn btn-style-one" type="submit">
-					{isPending ? <Spinner color="white" /> : 'Register'}
+					{isLoading ? <Spinner color="white" /> : 'Register'}
 				</button>
 			</div>
 		</ATJForm>

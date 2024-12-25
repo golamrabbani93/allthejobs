@@ -15,7 +15,7 @@ export default function ATJForm({children, onSubmit, defaultValues, resolver}) {
 		if (defaultValues) {
 			methods.reset(defaultValues); // Reset with new default values
 		}
-	}, [defaultValues, methods]);
+	}, [defaultValues]);
 
 	return (
 		<FormProvider {...methods}>

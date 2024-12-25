@@ -16,26 +16,26 @@ async function comparePassword(enteredPassword, storedHash) {
 	const isMatch = await bcrypt.compare(enteredPassword, storedHash);
 	return isMatch;
 }
-export const useRegister = () => {
-	return useMutation({
-		mutationKey: ['USER_REGISTRATION'],
-		mutationFn: async (userData) => {
-			const password_hash = await hashPassword(userData.password);
-			const response = await registerJobSeeker({...userData, password_hash});
-			return response;
-		},
-		onSuccess: (data) => {
-			if (data?.user_id) {
-				toast.success('Registration Successful');
-				closeModalRegister();
-				return data;
-			}
-		},
-		onError: (_error) => {
-			console.log('Register Failed.... something went wrong');
-		},
-	});
-};
+// export const useRegister = () => {
+// 	return useMutation({
+// 		mutationKey: ['USER_REGISTRATION'],
+// 		mutationFn: async (userData) => {
+// 			const password_hash = await hashPassword(userData.password);
+// 			const response = await registerJobSeeker({...userData, password_hash});
+// 			return response;
+// 		},
+// 		onSuccess: (data) => {
+// 			if (data?.user_id) {
+// 				toast.success('Registration Successful');
+// 				closeModalRegister();
+// 				return data;
+// 			}
+// 		},
+// 		onError: (_error) => {
+// 			console.log('Register Failed.... something went wrong');
+// 		},
+// 	});
+// };
 
 export const useLogin = () => {
 	const router = useRouter();
@@ -57,7 +57,7 @@ export const useLogin = () => {
 				dispatch(setUser(userData));
 				toast.success('Login Successful');
 				closeModal();
-				router.push(`dashboard/${user.role}/dashboard`);
+				router.push(`dashboard/${user.role}`);
 				return data;
 			} else {
 				toast.error('Login Failed');

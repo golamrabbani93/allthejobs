@@ -57,7 +57,7 @@ export const useLogin = () => {
 				dispatch(setUser(userData));
 				toast.success('Login Successful');
 				closeModal();
-				router.push(`dashboard/${user.role}/dashboard`);
+				router.push(`dashboard/${user.role}`);
 				return data;
 			} else {
 				toast.error('Login Failed');

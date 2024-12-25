@@ -3,13 +3,13 @@ import Link from 'next/link';
 import LoginWithSocial from '../register/LoginWithSocial';
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
-import {useLogin} from '@/hooks/auth/auth.hooks';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
 import {useEffect} from 'react';
 import {setUser} from '@/features/user/userSlice';
 import {useDispatch} from 'react-redux';
+import {useUserLoginMutation} from '@/features/auth/auth.management.api';
 
 export const closeModal = () => {
 	const modalTrigger = document.getElementById('modalClose');
@@ -25,11 +25,28 @@ export const closeModalRegister = () => {
 };
 
 const FormContent2 = ({modal = false, userType}) => {
+	const [makeLogin, {data: userResponseData, isLoading}] = useUserLoginMutation();
+	const dispatch = useDispatch();
+	const router = useRouter();
 	const {status} = useSession();
-	const {mutate, isPending, data} = useLogin();
 	const onSubmit = (data) => {
-		mutate(data);
+		// mutate(data);
+		makeLogin(data);
 	};
+	//save userInfo in local Storage
+	useEffect(() => {
+		if (userResponseData?.user_id) {
+			const userData = {
+				user_id: userResponseData.user_id,
+				name: userResponseData.name,
+				email: userResponseData.email,
+				image: 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png',
+				role: userResponseData.role,
+			};
+			dispatch(setUser(userData));
+			router.push(`dashboard/${userResponseData.role}`);
+		}
+	}, [userResponseData, isLoading]);
 
 	if (status === 'loading') {
 		//just keeping like this for the time being
@@ -69,7 +86,7 @@ const FormContent2 = ({modal = false, userType}) => {
 				{/* forgot password */}
 				<div className="form-group">
 					<button className="theme-btn btn-style-one" type="submit">
-						{isPending ? <Spinner color="white" /> : 'Login'}
+						{isLoading ? <Spinner color="white" /> : 'Login'}
 					</button>
 				</div>
 			</ATJForm>

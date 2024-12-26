@@ -17,7 +17,18 @@ const talentManagementApi = baseApi.injectEndpoints({
 				return response;
 			},
 		}),
+		//get single Talent
+		getTalent: builder.query({
+			query: (id) => {
+				return {
+					url: `talents/user/${id}/`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['talent'],
+			transformResponse: (response) => response,
+		}),
 	}),
 });
 
-export const {useCreateTalentMutation} = talentManagementApi;
+export const {useCreateTalentMutation, useGetTalentQuery} = talentManagementApi;

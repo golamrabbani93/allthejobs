@@ -6,13 +6,13 @@ module.exports = [
 		routePath: '/dashboard/consultant/dashboard',
 		active: 'active',
 	},
-	// {
-	// 	id: 2,
-	// 	name: 'Company Profile',
-	// 	icon: 'la-user-tie',
-	// 	routePath: '/dashboard/employer/company-profile',
-	// 	active: '',
-	// },
+	{
+		id: 2,
+		name: 'My Profile',
+		icon: 'la-user-tie',
+		routePath: '/dashboard/consultant/company-profile',
+		active: '',
+	},
 	// {
 	// 	id: 3,
 	// 	name: 'Post a New Job',

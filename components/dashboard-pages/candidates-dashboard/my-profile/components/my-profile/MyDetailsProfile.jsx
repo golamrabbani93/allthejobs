@@ -2,19 +2,33 @@
 
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
-import {useGetTalentQuery} from '@/features/candidate/talent.management.api';
+import Spinner from '@/components/Sppiner/Spinner';
+import {
+	useGetTalentQuery,
+	useUpdateTalentMutation,
+} from '@/features/candidate/talent.management.api';
 import {useSelector} from 'react-redux';
 
 const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
-	console.log('🚀🚀: MyDetailsProfile -> user', user);
 	//get talent data
 	const {data: talentData, isFetching} = useGetTalentQuery(user.user_id);
-	console.log('🚀🚀: MyDetailsProfile -> talentData', talentData);
+	const [updateTalent, {isLoading, data}] = useUpdateTalentMutation();
 	// const isFetching = false;
-	const isLoading = false;
+
 	const handelProfileData = (data) => {
-		console.log(data);
+		const education = [data.education];
+		const experiences = [data.experiences];
+		const skills = [data.skills];
+
+		const payload = {
+			...data,
+			education,
+			experiences,
+			skills,
+			user_id: user.user_id,
+		};
+		updateTalent({talentId: talentData.talent_id, data: payload});
 	};
 	return (
 		<div className="widget-content">
@@ -50,24 +64,7 @@ const MyDetailsProfile = () => {
 							<label>Portfolio</label>
 							<ATJInput disabled={isFetching} type={'text'} label="website" name="website" />
 						</div>
-						<div className="form-group col-lg-6 col-md-12">
-							<label>LinkedIn Profile</label>
-							<ATJInput
-								disabled={isFetching}
-								type={'text'}
-								label="LinkedIn Profile"
-								name="linkedin"
-							/>
-						</div>
-						<div className="form-group col-lg-6 col-md-12">
-							<label>Facebook Profile</label>
-							<ATJInput
-								disabled={isFetching}
-								type={'text'}
-								label="Facebook Profile"
-								name="facebook"
-							/>
-						</div>
+
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Country</label>
 							<ATJInput disabled={isFetching} type={'text'} label="Canada" name="country" />

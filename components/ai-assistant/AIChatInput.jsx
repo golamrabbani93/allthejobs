@@ -12,13 +12,14 @@ const ChatInput = () => {
 	const textAreaRef = useRef(null);
 	const {mutate: sendMessage, isPending} = useMutation({
 		mutationFn: async (message) => {
-			const response = await fetch('api/AIChat', {
+			const response = await fetch('/api/AIChat', {
 				method: 'POST',
 				headers: {
 					'content-type': 'application/json',
 				},
 				body: JSON.stringify([message]),
 			});
+			// console.log(response);
 			return response.body;
 		},
 		onMutate(message) {

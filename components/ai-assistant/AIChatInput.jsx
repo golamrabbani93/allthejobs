@@ -24,6 +24,7 @@ const ChatInput = () => {
         },
         body: JSON.stringify([message]),
       });
+      // console.log(response);
       return response.body;
     },
     onMutate(message) {

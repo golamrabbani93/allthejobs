@@ -20,6 +20,7 @@ import candidateFilterSlice from '../features/filter/candidateFilterSlice';
 import shopSlice from '../features/shop/shopSlice';
 import wishlistJobsSlice from '../features/wishlistJobsSlice/wishlistJobsSlice';
 import userSlice from '../features/user/userSlice';
+import {baseApi} from '@/lib/redux/api/baseApi';
 
 const rootReducer = combineReducers({
 	job: jobSlice,
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
 	shop: shopSlice,
 	wishlistJobs: wishlistJobsSlice,
 	user: userSlice,
+	[baseApi.reducerPath]: baseApi.reducer,
 });
 
 const persistConfig = {
@@ -49,7 +51,7 @@ export const store = configureStore({
 			serializableCheck: {
 				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
 			},
-		}),
+		}).concat(baseApi.middleware),
 });
 
 export const persistor = persistStore(store);

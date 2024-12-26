@@ -48,7 +48,7 @@ export default function RootLayout({children}) {
 
 				<link rel="icon" href="./favicon.ico" />
 			</head>
-			<body>
+			<body suppressHydrationWarning={true}>
 				<SessionProvider>
 					<QueryClientProvider QueryClientProvider client={queryClient}>
 						<Provider store={store}>

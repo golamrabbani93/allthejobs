@@ -2,6 +2,7 @@
 
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
+import ATJSelect from '@/components/form/ATJSelect';
 import Spinner from '@/components/Sppiner/Spinner';
 import {
 	useGetTalentQuery,
@@ -95,18 +96,24 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Gender</label>
-							<ATJInput disabled={isFetching} type={'text'} label="Male" name="gender" />
+							{/* <ATJInput disabled={isFetching} type={'text'} label="Male" name="gender" /> */}
+							<ATJSelect
+								disabled={isFetching}
+								options={['Male', 'Female', 'Other']}
+								name="gender"
+								label="Select Your Gender"
+							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Date Of Birth</label>
 							<ATJInput disabled={isFetching} type={'text'} label="19-06-1990" name="dob" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Current Salary</label>
+							<label>Current Salary $</label>
 							<ATJInput disabled={isFetching} type={'text'} label="$1000" name="current_salary" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Expected Salary</label>
+							<label>Expected Salary $</label>
 							<ATJInput disabled={isFetching} type={'text'} label="$1000" name="expected_salary" />
 						</div>
 

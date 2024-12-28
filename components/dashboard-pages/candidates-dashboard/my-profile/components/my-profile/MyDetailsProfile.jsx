@@ -9,14 +9,7 @@ import {
 	useUpdateTalentMutation,
 } from '@/features/candidate/talent.management.api';
 import {useSelector} from 'react-redux';
-import {
-	GetCountries,
-	GetState,
-	GetCity,
-	GetLanguages,
-	GetRegions,
-	GetPhonecodes,
-} from 'react-country-state-city';
+import {GetCountries} from 'react-country-state-city';
 import {useEffect, useState} from 'react';
 const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
@@ -37,7 +30,7 @@ const MyDetailsProfile = () => {
 		city: talentData?.city,
 		area: talentData?.area,
 		gender: talentData?.gender,
-		dob: talentData?.date_of_birth,
+		dob: talentData?.dob,
 		current_salary: talentData?.current_salary,
 		expected_salary: talentData?.expected_salary,
 	};
@@ -63,8 +56,10 @@ const MyDetailsProfile = () => {
 			const countries = await GetCountries();
 			setCountries(countries);
 		};
+
 		fetchCountries();
 	}, []);
+
 	const countryOptions = countries.map((country) => country.name);
 	return (
 		<div className="widget-content">

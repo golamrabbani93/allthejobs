@@ -22,7 +22,7 @@ export default function ATJSelect({
 				{...register(name)}
 				readOnly={isReadOnly}
 				disabled={disabled}
-				className={`form-select chosen-single ${disabled ? '!bg-gray-200' : ''}`}
+				className={`form-select chosen-single form-select ${disabled ? '!bg-gray-200' : ''}`}
 			>
 				<option value="" disabled>
 					{label}

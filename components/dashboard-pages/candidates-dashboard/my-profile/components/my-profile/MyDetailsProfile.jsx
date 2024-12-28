@@ -9,9 +9,18 @@ import {
 	useUpdateTalentMutation,
 } from '@/features/candidate/talent.management.api';
 import {useSelector} from 'react-redux';
-
+import {
+	GetCountries,
+	GetState,
+	GetCity,
+	GetLanguages,
+	GetRegions,
+	GetPhonecodes,
+} from 'react-country-state-city';
+import {useEffect, useState} from 'react';
 const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
+	const [countries, setCountries] = useState([]);
 	//get talent data
 	const {data: talentData, isFetching} = useGetTalentQuery(user.user_id);
 	const [updateTalent, {isLoading, data}] = useUpdateTalentMutation();
@@ -47,6 +56,16 @@ const MyDetailsProfile = () => {
 		};
 		updateTalent({talentId: talentData.talent_id, data: payload});
 	};
+
+	//get country list
+	useEffect(() => {
+		const fetchCountries = async () => {
+			const countries = await GetCountries();
+			setCountries(countries);
+		};
+		fetchCountries();
+	}, []);
+	const countryOptions = countries.map((country) => country.name);
 	return (
 		<div className="widget-content">
 			<ATJForm
@@ -84,7 +103,13 @@ const MyDetailsProfile = () => {
 
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Country</label>
-							<ATJInput disabled={isFetching} type={'text'} label="Canada" name="country" />
+
+							<ATJSelect
+								disabled={isFetching || countries.length === 0}
+								options={countryOptions}
+								name="country"
+								label="Select Your Country"
+							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>City</label>
@@ -96,7 +121,6 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Gender</label>
-							{/* <ATJInput disabled={isFetching} type={'text'} label="Male" name="gender" /> */}
 							<ATJSelect
 								disabled={isFetching}
 								options={['Male', 'Female', 'Other']}

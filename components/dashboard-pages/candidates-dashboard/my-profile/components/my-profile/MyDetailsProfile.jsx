@@ -16,6 +16,22 @@ const MyDetailsProfile = () => {
 	const [updateTalent, {isLoading, data}] = useUpdateTalentMutation();
 	// const isFetching = false;
 
+	// default values
+	const defaultValues = {
+		headline: talentData?.headline,
+		education: talentData?.education,
+		experiences: talentData?.experiences,
+		skills: talentData?.skills,
+		website: talentData?.website,
+		country: talentData?.country,
+		city: talentData?.city,
+		area: talentData?.area,
+		gender: talentData?.gender,
+		dob: talentData?.date_of_birth,
+		current_salary: talentData?.current_salary,
+		expected_salary: talentData?.expected_salary,
+	};
+
 	const handelProfileData = (data) => {
 		const education = [data.education];
 		const experiences = [data.experiences];
@@ -33,7 +49,7 @@ const MyDetailsProfile = () => {
 	return (
 		<div className="widget-content">
 			<ATJForm
-				// defaultValues={defaultValues}
+				defaultValues={defaultValues}
 				// resolver={zodResolver(userProfileValidation)}
 				onSubmit={handelProfileData}
 			>
@@ -83,7 +99,7 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Date Of Birth</label>
-							<ATJInput disabled={isFetching} type={'text'} label="19-06-1990" name="city" />
+							<ATJInput disabled={isFetching} type={'text'} label="19-06-1990" name="dob" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Current Salary</label>

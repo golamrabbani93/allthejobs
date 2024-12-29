@@ -9,6 +9,7 @@ export default function ATJSelect({
 	options = [],
 	isReadOnly = false,
 	disabled = false,
+	multiple = false,
 }) {
 	const {
 		register,
@@ -21,8 +22,9 @@ export default function ATJSelect({
 				id={name}
 				{...register(name)}
 				readOnly={isReadOnly}
+				multiple={multiple}
 				disabled={disabled}
-				className={`form-select chosen-single form-select ${disabled ? '!bg-gray-200' : ''}`}
+				className={` chosen-single form-select ${disabled ? '!bg-gray-200' : ''}`}
 			>
 				<option value="" disabled>
 					{label}

@@ -10,7 +10,7 @@ module.exports = [
 		id: 2,
 		name: 'My Profile',
 		icon: 'la-user-tie',
-		routePath: '/dashboard/consultant/company-profile',
+		routePath: '/dashboard/consultant/my-profile',
 		active: '',
 	},
 	// {

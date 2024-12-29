@@ -43,6 +43,7 @@ const FormContent2 = ({modal = false, userType}) => {
 				image: 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png',
 				role: userResponseData.role,
 			};
+			console.log('🚀🚀: userData', userData);
 			dispatch(setUser(userData));
 			router.push(`dashboard/${userResponseData.role}`);
 		}

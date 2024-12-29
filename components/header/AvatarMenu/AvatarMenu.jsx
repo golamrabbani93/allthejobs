@@ -24,7 +24,7 @@ const AvatarMenu = () => {
 
 			<ul className="dropdown-menu">
 				<li className={` mb-1`}>
-					<Link href={`/dashboard/${user?.role}/dashboard`}>
+					<Link href={`/dashboard/${user?.role}`}>
 						<i className={`la la-home`}></i> DashBoard
 					</Link>
 				</li>

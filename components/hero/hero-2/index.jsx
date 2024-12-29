@@ -85,6 +85,14 @@ const index = () => {
 										Meet With Our <br />
 										HR Professionals.
 									</p>
+									<div className="image mt-2">
+										<Image
+											width={206}
+											height={53}
+											src="/images/resource/multi-peoples.png"
+											alt="mulit people"
+										/>
+									</div>
 								</div>
 							</div>
 

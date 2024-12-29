@@ -3,12 +3,14 @@ import DashboardHeader from '../../../header/DashboardHeader';
 import LoginPopup from '../../../common/form/login/LoginPopup';
 import DashboardEmployerSidebar from '../../../header/DashboardEmployerSidebar';
 import BreadCrumb from '../../BreadCrumb';
-import MyProfile from './components/my-profile';
 import SocialNetworkBox from './components/SocialNetworkBox';
 import ContactInfoBox from './components/ContactInfoBox';
 import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
+import MyProfile from './components/my-profile/MyProfile';
+import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
+import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
 
 const index = () => {
 	return (
@@ -25,7 +27,7 @@ const index = () => {
 			<MobileMenu />
 			{/* End MobileMenu */}
 
-			<DashboardEmployerSidebar />
+			<DashboardConsultantSidebar />
 			{/* <!-- End User Sidebar Menu --> */}
 
 			{/* <!-- Dashboard --> */}
@@ -52,11 +54,11 @@ const index = () => {
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>Social Network</h4>
+										<h4>My Additional details</h4>
 									</div>
 									{/* End .widget-title */}
 									<div className="widget-content">
-										<SocialNetworkBox />
+										<MyDetailsProfile />
 									</div>
 								</div>
 							</div>

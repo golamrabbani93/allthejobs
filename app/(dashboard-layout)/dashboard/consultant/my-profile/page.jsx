@@ -1,15 +1,15 @@
 import dynamic from 'next/dynamic';
-import CompanyProfile from '@/components/dashboard-pages/employers-dashboard/company-profile';
+import MyProfile from '@/components/dashboard-pages/consultant-dashboard/company-profile';
 
 export const metadata = {
-	title: 'Company Profile || AllTheJobs',
+	title: 'MY Profile || AllTheJobs',
 	description: 'AllTheJobs',
 };
 
 const index = () => {
 	return (
 		<>
-			<CompanyProfile />
+			<MyProfile />
 		</>
 	);
 };

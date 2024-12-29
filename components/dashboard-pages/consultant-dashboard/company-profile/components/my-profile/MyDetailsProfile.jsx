@@ -14,11 +14,16 @@ import {
 	educationOptions,
 	experienceOptions,
 } from '@/data/formSelectData';
+import {
+	useGetConsultantQuery,
+	useUpdateConsultantMutation,
+} from '@/features/consultant/consultant.management.api';
 const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
+	const {data: consultantData, isFetching} = useGetConsultantQuery(user?.user_id);
+	const [updateConsultant, {isLoading, data}] = useUpdateConsultantMutation();
+	console.log('🚀🚀: MyDetailsProfile -> data', data);
 	const [countries, setCountries] = useState([]);
-	const isFetching = false;
-	const isLoading = false;
 
 	// default values
 	// const defaultValues = {
@@ -46,7 +51,7 @@ const MyDetailsProfile = () => {
 			services,
 			user_id: user.user_id,
 		};
-		console.log(payload);
+		updateConsultant({consultantId: consultantData?.consultant_id, data: payload});
 	};
 
 	//get country list

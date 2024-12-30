@@ -4,7 +4,6 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import ATJSelect from '@/components/form/ATJSelect';
 import Spinner from '@/components/Sppiner/Spinner';
-import Select from 'react-select';
 import {
 	useGetTalentQuery,
 	useUpdateTalentMutation,
@@ -222,7 +221,7 @@ const MyDetailsProfile = () => {
 	return (
 		<div className="widget-content">
 			<ATJForm
-				defaultValues={defaultValues}
+				defaultValues={talentData?.talent_id ? defaultValues : {}}
 				// resolver={zodResolver(userProfileValidation)}
 				onSubmit={handelProfileData}
 			>

@@ -1,5 +1,6 @@
 import {closeModalRegister} from '@/components/common/form/login/FormContent2';
 import {baseApi} from '@/lib/redux/api/baseApi';
+import {toast} from 'react-toastify';
 
 const employerManagementApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
@@ -49,4 +50,5 @@ const employerManagementApi = baseApi.injectEndpoints({
 	}),
 });
 
-export const {useCreateEmployerMutation} = employerManagementApi;
+export const {useCreateEmployerMutation, useGetEmployerQuery, useUpdateEmployerMutation} =
+	employerManagementApi;

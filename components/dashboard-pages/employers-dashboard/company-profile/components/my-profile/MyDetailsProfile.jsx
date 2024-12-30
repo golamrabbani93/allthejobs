@@ -9,31 +9,30 @@ import {GetCountries} from 'react-country-state-city';
 import {useEffect, useState} from 'react';
 import ATJMultiSelect from '@/components/form/ATJMultiSelect';
 import {ageOptions, consultantServices, hiringManagerDesignations} from '@/data/formSelectData';
+import {
+	useGetEmployerQuery,
+	useUpdateEmployerMutation,
+} from '@/features/employer/employer.management.api';
 const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
-
+	const {data: employerData, isFetching} = useGetEmployerQuery(user.user_id);
+	//update employer data
+	const [updateEmployer, {data, isLoading}] = useUpdateEmployerMutation();
 	const [countries, setCountries] = useState([]);
-	const isLoading = false;
-	const isFetching = false;
 	// default values
-	// const defaultValues = {
-	// 	headline: consultantData?.headline,
-
-	// 	education_level: {
-	// 		label: consultantData?.education_level,
-	// 		value: consultantData?.education_level,
-	// 	},
-	// 	experience: {label: consultantData?.experience, value: consultantData?.experience},
-	// 	services: consultantData?.services.map((service) => ({label: service, value: service})),
-	// 	website: consultantData?.website,
-	// 	country: consultantData?.country,
-	// 	city: consultantData?.city,
-	// 	area: consultantData?.area,
-	// 	gender: consultantData?.gender,
-	// 	dob: consultantData?.dob,
-	// 	age: {label: consultantData?.age, value: consultantData?.age},
-	// 	hourly_rate: consultantData?.hourly_rate,
-	// };
+	const defaultValues = {
+		company_name: employerData?.company_name,
+		company_website: employerData?.company_website,
+		designation: {label: employerData?.designation, value: employerData?.designation},
+		department: employerData?.department,
+		website: employerData?.website,
+		country: employerData?.country,
+		city: employerData?.city,
+		area: employerData?.area,
+		gender: employerData?.gender,
+		dob: employerData?.dob,
+		// age: {label: employerData?.age, value: employerData?.age},
+	};
 
 	const handelProfileData = (data) => {
 		const age = data.age?.value;
@@ -46,7 +45,7 @@ const MyDetailsProfile = () => {
 			user_id: user.user_id,
 		};
 		console.log(payload);
-		// updateConsultant({consultantId: consultantData?.consultant_id, data: payload});
+		updateEmployer({employerId: employerData?.employer_id, data: payload});
 	};
 
 	//get country list
@@ -63,7 +62,7 @@ const MyDetailsProfile = () => {
 	return (
 		<div className="widget-content">
 			<ATJForm
-				// defaultValues={consultantData?.consultant_id ? defaultValues : {}}
+				defaultValues={employerData?.employer_id ? defaultValues : {}}
 				// resolver={zodResolver(userProfileValidation)}
 				onSubmit={handelProfileData}
 			>

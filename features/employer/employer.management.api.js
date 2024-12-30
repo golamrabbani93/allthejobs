@@ -17,6 +17,35 @@ const employerManagementApi = baseApi.injectEndpoints({
 				return response;
 			},
 		}),
+		//get a single employer
+		getEmployer: builder.query({
+			query: (id) => {
+				return {
+					url: `employers/user/${id}/`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['employer'],
+			transformResponse: (response) => response,
+		}),
+		//update Employer
+		updateEmployer: builder.mutation({
+			query: ({employerId, data}) => {
+				return {
+					url: `employers/${employerId}/update/`,
+					method: 'PUT',
+					body: data,
+				};
+			},
+			invalidatesTags: ['employer'],
+			transformResponse: (response) => {
+				if (response.employer_id) {
+					toast.success('Profile Updated Successfully');
+					return response;
+				}
+				toast.error('Something went wrong');
+			},
+		}),
 	}),
 });
 

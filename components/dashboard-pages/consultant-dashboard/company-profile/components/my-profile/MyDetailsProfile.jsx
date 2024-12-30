@@ -22,33 +22,40 @@ const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
 	const {data: consultantData, isFetching} = useGetConsultantQuery(user?.user_id);
 	const [updateConsultant, {isLoading, data}] = useUpdateConsultantMutation();
-	console.log('🚀🚀: MyDetailsProfile -> data', data);
 	const [countries, setCountries] = useState([]);
 
 	// default values
-	// const defaultValues = {
-	// 	headline: talentData?.headline,
+	const defaultValues = {
+		headline: consultantData?.headline,
 
-	// 	education: {label: talentData?.education, value: talentData?.education},
-	// 	experiences: {label: talentData?.experiences, value: talentData?.experiences},
-	// 	skills: talentData?.skills.map((skill) => ({label: skill, value: skill})),
-	// 	website: talentData?.website,
-	// 	country: talentData?.country,
-	// 	city: talentData?.city,
-	// 	area: talentData?.area,
-	// 	gender: talentData?.gender,
-	// 	dob: talentData?.dob,
-	// 	current_salary: talentData?.current_salary,
-	// 	expected_salary: talentData?.expected_salary,
-	// };
+		education_level: {
+			label: consultantData?.education_level,
+			value: consultantData?.education_level,
+		},
+		experience: {label: consultantData?.experience, value: consultantData?.experience},
+		services: consultantData?.services.map((service) => ({label: service, value: service})),
+		website: consultantData?.website,
+		country: consultantData?.country,
+		city: consultantData?.city,
+		area: consultantData?.area,
+		gender: consultantData?.gender,
+		dob: consultantData?.dob,
+		age: {label: consultantData?.age, value: consultantData?.age},
+		hourly_rate: consultantData?.hourly_rate,
+	};
 
 	const handelProfileData = (data) => {
 		const age = data.age.value;
 		const services = data?.services.map((services) => services.value);
+		const education_level = data?.education_level.value;
+		const experience = data?.experience.value;
+		// const language = data?.language.value;
 		const payload = {
 			...data,
 			age,
 			services,
+			education_level,
+			experience,
 			user_id: user.user_id,
 		};
 		updateConsultant({consultantId: consultantData?.consultant_id, data: payload});
@@ -68,7 +75,7 @@ const MyDetailsProfile = () => {
 	return (
 		<div className="widget-content">
 			<ATJForm
-				// defaultValues={defaultValues}
+				defaultValues={consultantData?.consultant_id ? defaultValues : {}}
 				// resolver={zodResolver(userProfileValidation)}
 				onSubmit={handelProfileData}
 			>
@@ -91,6 +98,26 @@ const MyDetailsProfile = () => {
 								label="Services"
 								name="services"
 								options={consultantServices}
+							/>
+						</div>
+						<div className="form-group col-lg-6 col-md-12">
+							<label>Education</label>
+							<ATJMultiSelect
+								isDisabled={isFetching}
+								isMulti={false}
+								label="Education"
+								name="education_level"
+								options={educationOptions}
+							/>
+						</div>
+						<div className="form-group col-lg-6 col-md-12">
+							<label>Experience</label>
+							<ATJMultiSelect
+								isDisabled={isFetching}
+								isMulti={false}
+								label="Experience"
+								name="experience"
+								options={experienceOptions}
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">

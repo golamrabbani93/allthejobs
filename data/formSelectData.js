@@ -1,11 +1,11 @@
 export const ageOptions = [
-	{value: 'under_18', label: 'Under 18'},
-	{value: '18_24', label: '18-24'},
-	{value: '25_34', label: '25-34'},
-	{value: '35_44', label: '35-44'},
-	{value: '45_54', label: '45-54'},
-	{value: '55_64', label: '55-64'},
-	{value: '65_plus', label: '65 and Above'},
+	{value: '0-17 Years', label: '0-17 Years'},
+	{value: '18-24 Years', label: '18-24 Years'},
+	{value: '25-34 Years', label: '25-34 Years'},
+	{value: '35-44 Years', label: '35-44 Years'},
+	{value: '45-54 Years', label: '45-54 Years'},
+	{value: '55-64 Years', label: '55-64 Years'},
+	{value: '65+ Years', label: '65+ Years'},
 ];
 
 export const consultantServices = [
@@ -43,24 +43,25 @@ export const consultantServices = [
 ];
 
 export const educationOptions = [
-	{value: 'no_formal_education', label: 'No Formal Education'},
-	{value: 'high_school', label: 'High School'},
-	{value: 'ged', label: 'GED (General Education Development)'},
-	{value: 'vocational_training', label: 'Vocational Training'},
-	{value: 'associate', label: 'Associate Degree'},
-	{value: 'bachelor', label: 'Bachelor’s Degree'},
-	{value: 'graduate_certificate', label: 'Graduate Certificate'},
-	{value: 'postgraduate_diploma', label: 'Postgraduate Diploma'},
-	{value: 'master', label: 'Master’s Degree'},
-	{value: 'professional_degree', label: 'Professional Degree (e.g., MD, JD, MBA)'},
-	{value: 'phd', label: 'PhD (Doctor of Philosophy)'},
-	{value: 'post_doc', label: 'Post-Doctoral Studies'},
-	{value: 'trade_school', label: 'Trade School'},
-	{value: 'certificate_program', label: 'Certificate Program'},
-	{value: 'technical_certification', label: 'Technical Certification (e.g., IT, Cloud)'},
-	{value: 'diploma', label: 'Diploma'},
-	{value: 'other', label: 'Other'},
+	{value: 'No Formal Education', label: 'No Formal Education'},
+	{value: 'High School', label: 'High School'},
+	{value: 'GED', label: 'GED'},
+	{value: 'Vocational Training', label: 'Vocational Training'},
+	{value: 'Associate', label: 'Associate'},
+	{value: 'Bachelor', label: 'Bachelor'},
+	{value: 'Graduate Certificate', label: 'Graduate Certificate'},
+	{value: 'Postgraduate Diploma', label: 'Postgraduate Diploma'},
+	{value: 'Master', label: 'Master'},
+	{value: 'Professional Degree', label: 'Professional Degree'},
+	{value: 'PhD', label: 'PhD'},
+	{value: 'Post-Doc', label: 'Post-Doc'},
+	{value: 'Trade School', label: 'Trade School'},
+	{value: 'Certificate Program', label: 'Certificate Program'},
+	{value: 'Technical Certification', label: 'Technical Certification'},
+	{value: 'Diploma', label: 'Diploma'},
+	{value: 'Other', label: 'Other'},
 ];
+
 export const experienceOptions = [
 	{value: 'No Experience', label: 'No Experience'},
 	{value: 'Less than 1 Year', label: 'Less than 1 Year'},

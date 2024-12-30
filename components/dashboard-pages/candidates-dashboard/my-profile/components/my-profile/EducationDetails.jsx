@@ -9,6 +9,8 @@ import {
 	useUpdateTalentMutation,
 } from '@/features/candidate/talent.management.api';
 import Spinner from '@/components/Sppiner/Spinner';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {educationValidationSchema} from '@/schemas/education.schema';
 
 const EducationDetails = () => {
 	//get user
@@ -73,7 +75,7 @@ const EducationDetails = () => {
 				{showForm && ( // Conditionally render the form
 					<ATJForm
 						// defaultValues={defaultValues}
-						// resolver={zodResolver(userProfileValidation)}
+						resolver={zodResolver(educationValidationSchema)}
 						onSubmit={handelProfileData}
 					>
 						<div className="default-form">

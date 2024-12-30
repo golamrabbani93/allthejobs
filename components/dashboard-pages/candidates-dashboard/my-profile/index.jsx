@@ -9,6 +9,7 @@ import MenuToggler from '../../MenuToggler';
 import MyProfile from './components/my-profile/MyProfile';
 import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
 import EducationDetails from './components/my-profile/EducationDetails';
+import ExperienceDetails from './components/my-profile/ExperienceDetails';
 
 const index = () => {
 	return (
@@ -58,6 +59,14 @@ const index = () => {
 										<h4>Add Education Details</h4>
 									</div>
 									<EducationDetails />
+								</div>
+							</div>
+							<div className="ls-widget">
+								<div className="tabs-box">
+									<div className="widget-title">
+										<h4>Add Work & Experience</h4>
+									</div>
+									<ExperienceDetails />
 								</div>
 							</div>
 

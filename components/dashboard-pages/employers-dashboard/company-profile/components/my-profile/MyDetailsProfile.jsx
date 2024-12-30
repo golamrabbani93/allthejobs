@@ -8,57 +8,44 @@ import {useSelector} from 'react-redux';
 import {GetCountries} from 'react-country-state-city';
 import {useEffect, useState} from 'react';
 import ATJMultiSelect from '@/components/form/ATJMultiSelect';
+import {ageOptions, consultantServices, hiringManagerDesignations} from '@/data/formSelectData';
 import {
-	ageOptions,
-	consultantServices,
-	educationOptions,
-	experienceOptions,
-} from '@/data/formSelectData';
-import {
-	useGetConsultantQuery,
-	useUpdateConsultantMutation,
-} from '@/features/consultant/consultant.management.api';
+	useGetEmployerQuery,
+	useUpdateEmployerMutation,
+} from '@/features/employer/employer.management.api';
 const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
-	const {data: consultantData, isFetching} = useGetConsultantQuery(user?.user_id);
-	const [updateConsultant, {isLoading, data}] = useUpdateConsultantMutation();
+	const {data: employerData, isFetching} = useGetEmployerQuery(user.user_id);
+	//update employer data
+	const [updateEmployer, {data, isLoading}] = useUpdateEmployerMutation();
 	const [countries, setCountries] = useState([]);
-
 	// default values
 	const defaultValues = {
-		headline: consultantData?.headline,
-
-		education_level: {
-			label: consultantData?.education_level,
-			value: consultantData?.education_level,
-		},
-		experience: {label: consultantData?.experience, value: consultantData?.experience},
-		services: consultantData?.services.map((service) => ({label: service, value: service})),
-		website: consultantData?.website,
-		country: consultantData?.country,
-		city: consultantData?.city,
-		area: consultantData?.area,
-		gender: consultantData?.gender,
-		dob: consultantData?.dob,
-		age: {label: consultantData?.age, value: consultantData?.age},
-		hourly_rate: consultantData?.hourly_rate,
+		company_name: employerData?.company_name,
+		company_website: employerData?.company_website,
+		designation: {label: employerData?.designation, value: employerData?.designation},
+		department: employerData?.department,
+		website: employerData?.website,
+		country: employerData?.country,
+		city: employerData?.city,
+		area: employerData?.area,
+		gender: employerData?.gender,
+		dob: employerData?.dob,
+		// age: {label: employerData?.age, value: employerData?.age},
 	};
 
 	const handelProfileData = (data) => {
-		const age = data.age.value;
-		const services = data?.services.map((services) => services.value);
-		const education_level = data?.education_level.value;
-		const experience = data?.experience.value;
+		const age = data.age?.value;
+		const designation = data?.designation?.value;
 		// const language = data?.language.value;
 		const payload = {
 			...data,
 			age,
-			services,
-			education_level,
-			experience,
+			designation,
 			user_id: user.user_id,
 		};
-		updateConsultant({consultantId: consultantData?.consultant_id, data: payload});
+		console.log(payload);
+		updateEmployer({employerId: employerData?.employer_id, data: payload});
 	};
 
 	//get country list
@@ -75,55 +62,46 @@ const MyDetailsProfile = () => {
 	return (
 		<div className="widget-content">
 			<ATJForm
-				defaultValues={consultantData?.consultant_id ? defaultValues : {}}
+				defaultValues={employerData?.employer_id ? defaultValues : {}}
 				// resolver={zodResolver(userProfileValidation)}
 				onSubmit={handelProfileData}
 			>
 				<div className="default-form">
 					<div className="row">
 						<div className="form-group col-lg-6 col-md-12">
-							<label>My Role</label>
+							<label>Company Name</label>
 							<ATJInput
 								disabled={isFetching}
 								type={'text'}
-								label="HR Professional"
-								name="headline"
+								label="SPS Software"
+								name="company_name"
+							/>
+						</div>
+						<div className="form-group col-lg-6 col-md-12">
+							<label>Company Website</label>
+							<ATJInput
+								disabled={isFetching}
+								type={'text'}
+								label="https://spssoftware.com"
+								name="company_website"
 							/>
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Services</label>
-							<ATJMultiSelect
-								isDisabled={isFetching}
-								label="Services"
-								name="services"
-								options={consultantServices}
-							/>
-						</div>
-						<div className="form-group col-lg-6 col-md-12">
-							<label>Education</label>
+							<label>Designation</label>
 							<ATJMultiSelect
 								isDisabled={isFetching}
 								isMulti={false}
-								label="Education"
-								name="education_level"
-								options={educationOptions}
+								label="Executive Recruiter"
+								name="designation"
+								options={hiringManagerDesignations}
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Experience</label>
-							<ATJMultiSelect
-								isDisabled={isFetching}
-								isMulti={false}
-								label="Experience"
-								name="experience"
-								options={experienceOptions}
-							/>
+							<label>Department</label>
+							<ATJInput disabled={isFetching} type={'text'} label="HR" name="department" />
 						</div>
-						<div className="form-group col-lg-6 col-md-12">
-							<label>Hourly Rate</label>
-							<ATJInput disabled={isFetching} type={'text'} label="$100" name="hourly_rate" />
-						</div>
+
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Portfolio</label>
 							<ATJInput
@@ -176,13 +154,12 @@ const MyDetailsProfile = () => {
 							<label>Date Of Birth</label>
 							<ATJInput disabled={isFetching} type={'text'} label="19-06-1990" name="dob" />
 						</div>
-
-						{/* //button */}
-						<div className="form-group col-lg-6 col-md-12">
-							<button disabled={isLoading} type="submit" className="theme-btn btn-style-one">
-								{isLoading ? <Spinner size="sm" color="white" /> : 'Save'}
-							</button>
-						</div>
+					</div>
+					{/* //button */}
+					<div className="form-group col-lg-6 col-md-12">
+						<button disabled={isLoading} type="submit" className="theme-btn btn-style-one">
+							{isLoading ? <Spinner size="sm" color="white" /> : 'Save'}
+						</button>
 					</div>
 				</div>
 			</ATJForm>

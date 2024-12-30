@@ -9,6 +9,7 @@ import ContactInfoBox from './components/ContactInfoBox';
 import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
+import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
 
 const index = () => {
 	return (
@@ -52,28 +53,16 @@ const index = () => {
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>Social Network</h4>
+										<h4>Company Additional Details</h4>
 									</div>
 									{/* End .widget-title */}
 									<div className="widget-content">
-										<SocialNetworkBox />
+										<MyDetailsProfile />
 									</div>
 								</div>
 							</div>
 							{/* <!-- Ls widget --> */}
 
-							<div className="ls-widget">
-								<div className="tabs-box">
-									<div className="widget-title">
-										<h4>Contact Information</h4>
-									</div>
-									{/* End .widget-title */}
-
-									<div className="widget-content">
-										<ContactInfoBox />
-									</div>
-								</div>
-							</div>
 							{/* <!-- Ls widget --> */}
 						</div>
 					</div>

@@ -13,7 +13,6 @@ export default function ATJMultiSelect({
 	isReadOnly = false,
 }) {
 	const {
-		control,
 		formState: {errors},
 	} = useFormContext();
 
@@ -21,19 +20,20 @@ export default function ATJMultiSelect({
 		<div className="mb-4">
 			<Controller
 				name={name}
-				control={control}
-				render={({field}) => (
-					<Select
-						{...field}
-						id={name}
-						options={options}
-						isMulti={isMulti}
-						isDisabled={isDisabled || isReadOnly}
-						className={`${isDisabled || isReadOnly ? '!bg-gray-200' : ''} `}
-						classNamePrefix="select"
-						placeholder={`Select ${label}`}
-					/>
-				)}
+				render={({field}) => {
+					return (
+						<Select
+							{...field}
+							id={name}
+							options={options}
+							isMulti={isMulti}
+							isDisabled={isDisabled || isReadOnly}
+							classNamePrefix="select"
+							placeholder={`Select ${label}`}
+							className={`${isDisabled || isReadOnly ? '!bg-gray-200' : ''} `}
+						/>
+					);
+				}}
 			/>
 			{errors[name] && <span className="text-red-500 text-sm mt-1">{errors[name]?.message}</span>}
 		</div>

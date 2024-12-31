@@ -10,6 +10,7 @@ import DashboardConsultantSidebar from '@/components/header/DashboardConsultantS
 import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
 import ExperienceDetails from './components/my-profile/ExperienceDetails';
 import EducationDetails from './components/my-profile/EducationDetails';
+import AwardDetails from './components/my-profile/AwardDetails';
 
 const index = () => {
 	return (
@@ -81,9 +82,19 @@ const index = () => {
 										<h4>Education Information</h4>
 									</div>
 									{/* End .widget-title */}
-
 									<div className="widget-content">
 										<EducationDetails />
+									</div>
+								</div>
+							</div>
+							<div className="ls-widget">
+								<div className="tabs-box">
+									<div className="widget-title">
+										<h4>Award Information</h4>
+									</div>
+									{/* End .widget-title */}
+									<div className="widget-content">
+										<AwardDetails />
 									</div>
 								</div>
 							</div>

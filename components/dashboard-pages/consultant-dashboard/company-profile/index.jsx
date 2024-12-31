@@ -1,10 +1,7 @@
 import MobileMenu from '../../../header/MobileMenu';
 import DashboardHeader from '../../../header/DashboardHeader';
 import LoginPopup from '../../../common/form/login/LoginPopup';
-import DashboardEmployerSidebar from '../../../header/DashboardEmployerSidebar';
 import BreadCrumb from '../../BreadCrumb';
-import SocialNetworkBox from './components/SocialNetworkBox';
-import ContactInfoBox from './components/ContactInfoBox';
 import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
@@ -12,6 +9,7 @@ import MyProfile from './components/my-profile/MyProfile';
 import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
 import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
 import ExperienceDetails from './components/my-profile/ExperienceDetails';
+import EducationDetails from './components/my-profile/EducationDetails';
 
 const index = () => {
 	return (
@@ -74,6 +72,18 @@ const index = () => {
 
 									<div className="widget-content">
 										<ExperienceDetails />
+									</div>
+								</div>
+							</div>
+							<div className="ls-widget">
+								<div className="tabs-box">
+									<div className="widget-title">
+										<h4>Education Information</h4>
+									</div>
+									{/* End .widget-title */}
+
+									<div className="widget-content">
+										<EducationDetails />
 									</div>
 								</div>
 							</div>

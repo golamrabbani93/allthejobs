@@ -20,6 +20,7 @@ import {
 	useGetConsultantQuery,
 	useUpdateConsultantMutation,
 } from '@/features/consultant/consultant.management.api';
+import ATJTextArea from '@/components/form/ATJTextArea';
 const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
 	const {data: consultantData, isFetching} = useGetConsultantQuery(user?.user_id);
@@ -46,6 +47,7 @@ const MyDetailsProfile = () => {
 		dob: consultantData?.dob,
 		age: {label: consultantData?.age, value: consultantData?.age},
 		hourly_rate: consultantData?.hourly_rate,
+		about: consultantData?.about,
 	};
 
 	const handelProfileData = (data) => {
@@ -198,6 +200,10 @@ const MyDetailsProfile = () => {
 								name="language"
 								options={languageOptions}
 							/>
+						</div>
+						<div className="form-group col-lg-12 col-md-12">
+							<label>Language</label>
+							<ATJTextArea isDisabled={isFetching} name="about" />
 						</div>
 
 						{/* //button */}

@@ -1,6 +1,6 @@
 'use client';
 import {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import ImagePickerEditor from 'react-image-picker-editor';
 import 'react-image-picker-editor/dist/index.css';
 import {base64ToFile} from '@/utils/base64ToFile';
@@ -10,10 +10,11 @@ import {
 	useUpdateMyProfilePhotoMutation,
 } from '@/features/user/user.management';
 import Spinner from '@/components/Sppiner/Spinner';
+import {setUser} from '@/features/user/userSlice';
 
 const LogoUpload = () => {
 	const user = useSelector((state) => state.user);
-
+	const dispatch = useDispatch();
 	//get my profile data
 	const {data: myProfileData, isFetching} = useGetMyProfileQuery(user.email);
 	//update the profile data
@@ -26,6 +27,11 @@ const LogoUpload = () => {
 		if (myProfileData?.photo) {
 			setPreview(myProfileData.photo);
 			setLogoImg(null);
+		}
+	}, [myProfileData]);
+	useEffect(() => {
+		if (data?.photo) {
+			dispatch(setUser({...user, image: myProfileData.photo}));
 		}
 	}, [myProfileData]);
 

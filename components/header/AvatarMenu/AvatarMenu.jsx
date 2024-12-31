@@ -18,7 +18,14 @@ const AvatarMenu = () => {
 	return (
 		<div className="dropdown dashboard-option">
 			<a className="dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-				<Image alt="avatar" className="thumb" src={user.image} width={70} height={70} />
+				<Image
+					alt="avatar"
+					className="thumb"
+					src={user.image}
+					width={70}
+					height={70}
+					style={{borderRadius: '100%', width: '50px', height: '50px', objectFit: 'contain'}}
+				/>
 				<span className="name">{user.name}</span>
 			</a>
 

@@ -11,7 +11,7 @@ const DashboardAvatar = () => {
 				src={user?.image}
 				width={50}
 				height={50}
-				style={{borderRadius: '100%', width: '50px', height: '50px'}}
+				style={{borderRadius: '100%', width: '50px', height: '50px', objectFit: 'contain'}}
 			/>
 			<span className="name">{user?.name}</span>
 		</div>

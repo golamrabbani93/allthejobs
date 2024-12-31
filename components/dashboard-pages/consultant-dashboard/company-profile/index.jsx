@@ -11,6 +11,7 @@ import DashboardEmployersHeader from '@/components/header/DashboardEmployersHead
 import MyProfile from './components/my-profile/MyProfile';
 import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
 import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
+import ExperienceDetails from './components/my-profile/ExperienceDetails';
 
 const index = () => {
 	return (
@@ -67,12 +68,12 @@ const index = () => {
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>Contact Information</h4>
+										<h4>Experience Information</h4>
 									</div>
 									{/* End .widget-title */}
 
 									<div className="widget-content">
-										<ContactInfoBox />
+										<ExperienceDetails />
 									</div>
 								</div>
 							</div>

@@ -30,7 +30,7 @@ const MyDetailsProfile = () => {
 	// default values
 	const defaultValues = {
 		headline: talentData?.headline,
-
+		age: {label: talentData?.age, value: talentData?.age},
 		education_level: {label: talentData?.education_level, value: talentData?.education_level},
 		experience: {label: talentData?.experience, value: talentData?.experience},
 		skills: talentData?.skills.map((skill) => ({label: skill, value: skill})),
@@ -42,11 +42,15 @@ const MyDetailsProfile = () => {
 		dob: talentData?.dob,
 		current_salary: talentData?.current_salary,
 		expected_salary: talentData?.expected_salary,
+		about: talentData?.about,
+		language: talentData?.language.map((lang) => ({label: lang, value: lang})),
+		open_to_work: {label: talentData?.open_to_work ? 'Yes' : 'No', value: talentData?.open_to_work},
 	};
 
 	const handelProfileData = (data) => {
 		const education_level = data.education_level.label;
 		const experience = data.experience.value;
+		const open_to_work = data.open_to_work.value;
 		const skills = data.skills.map((skill) => skill.value);
 		const language = data.language.map((lang) => lang.value);
 		const age = data.age.value;
@@ -58,10 +62,10 @@ const MyDetailsProfile = () => {
 			age,
 			skills,
 			user_id: user.user_id,
+			open_to_work,
 		};
 
-		console.log('🚀🚀: handelProfileData -> payload', payload);
-		// updateTalent({talentId: talentData.talent_id, data: payload});
+		updateTalent({talentId: talentData.talent_id, data: payload});
 	};
 	//get country list
 	useEffect(() => {
@@ -176,6 +180,19 @@ const MyDetailsProfile = () => {
 								options={languageOptions}
 							/>
 						</div>
+						<div className="form-group col-lg-12 col-md-12">
+							<label>Open To Work</label>
+							<ATJMultiSelect
+								isDisabled={isFetching}
+								label="Open To Work"
+								name="open_to_work"
+								isMulti={false}
+								options={[
+									{value: true, label: 'Yes'},
+									{value: false, label: 'No'},
+								]}
+							/>
+						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Current Salary $</label>
 							<ATJInput disabled={isFetching} type={'text'} label="$1000" name="current_salary" />
@@ -184,6 +201,7 @@ const MyDetailsProfile = () => {
 							<label>Expected Salary $</label>
 							<ATJInput disabled={isFetching} type={'text'} label="$1000" name="expected_salary" />
 						</div>
+
 						<div className="form-group col-lg-12 col-md-12">
 							<label>Describe Yourself</label>
 							<ATJTextArea disabled={isFetching} name="about" />

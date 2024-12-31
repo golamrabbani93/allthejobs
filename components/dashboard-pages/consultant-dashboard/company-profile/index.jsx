@@ -1,16 +1,16 @@
 import MobileMenu from '../../../header/MobileMenu';
 import DashboardHeader from '../../../header/DashboardHeader';
 import LoginPopup from '../../../common/form/login/LoginPopup';
-import DashboardEmployerSidebar from '../../../header/DashboardEmployerSidebar';
 import BreadCrumb from '../../BreadCrumb';
-import SocialNetworkBox from './components/SocialNetworkBox';
-import ContactInfoBox from './components/ContactInfoBox';
 import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
 import MyProfile from './components/my-profile/MyProfile';
 import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
 import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
+import ExperienceDetails from './components/my-profile/ExperienceDetails';
+import EducationDetails from './components/my-profile/EducationDetails';
+import AwardDetails from './components/my-profile/AwardDetails';
 
 const index = () => {
 	return (
@@ -33,7 +33,7 @@ const index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="Company Profile!" />
+					<BreadCrumb title="My Profile!" />
 					{/* breadCrumb */}
 
 					<MenuToggler />
@@ -67,12 +67,34 @@ const index = () => {
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>Contact Information</h4>
+										<h4>Experience Information</h4>
 									</div>
 									{/* End .widget-title */}
 
 									<div className="widget-content">
-										<ContactInfoBox />
+										<ExperienceDetails />
+									</div>
+								</div>
+							</div>
+							<div className="ls-widget">
+								<div className="tabs-box">
+									<div className="widget-title">
+										<h4>Education Information</h4>
+									</div>
+									{/* End .widget-title */}
+									<div className="widget-content">
+										<EducationDetails />
+									</div>
+								</div>
+							</div>
+							<div className="ls-widget">
+								<div className="tabs-box">
+									<div className="widget-title">
+										<h4>Award Information</h4>
+									</div>
+									{/* End .widget-title */}
+									<div className="widget-content">
+										<AwardDetails />
 									</div>
 								</div>
 							</div>

@@ -1,4 +1,5 @@
 import {baseApi} from '@/lib/redux/api/baseApi';
+import {toast} from 'react-toastify';
 
 const userManagementApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
@@ -23,7 +24,22 @@ const userManagementApi = baseApi.injectEndpoints({
 			invalidatesTags: ['user'],
 			transformResponse: (response) => response,
 		}),
+		updateMyProfilePhoto: builder.mutation({
+			query: ({email, data}) => {
+				return {
+					url: `users/${email}/update/`,
+					method: 'PUT',
+					body: data,
+				};
+			},
+			invalidatesTags: ['user'],
+			transformResponse: (response) => {
+				toast.success('Profile photo updated successfully');
+				return response;
+			},
+		}),
 	}),
 });
 
-export const {useGetMyProfileQuery, useUpdateMyProfileMutation} = userManagementApi;
+export const {useGetMyProfileQuery, useUpdateMyProfileMutation, useUpdateMyProfilePhotoMutation} =
+	userManagementApi;

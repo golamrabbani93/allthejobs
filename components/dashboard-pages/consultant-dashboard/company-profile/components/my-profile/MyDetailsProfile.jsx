@@ -13,6 +13,8 @@ import {
 	consultantServices,
 	educationOptions,
 	experienceOptions,
+	jobSkillsOptions,
+	languageOptions,
 } from '@/data/formSelectData';
 import {
 	useGetConsultantQuery,
@@ -33,7 +35,9 @@ const MyDetailsProfile = () => {
 			value: consultantData?.education_level,
 		},
 		experience: {label: consultantData?.experience, value: consultantData?.experience},
-		services: consultantData?.services.map((service) => ({label: service, value: service})),
+		services: consultantData?.services?.map((service) => ({label: service, value: service})),
+		skills: consultantData?.skills?.map((skill) => ({label: skill, value: skill})),
+		language: consultantData?.language?.map((lang) => ({label: lang, value: lang})),
 		website: consultantData?.website,
 		country: consultantData?.country,
 		city: consultantData?.city,
@@ -47,13 +51,16 @@ const MyDetailsProfile = () => {
 	const handelProfileData = (data) => {
 		const age = data.age.value;
 		const services = data?.services.map((services) => services.value);
+		const skills = data?.skills.map((skill) => skill.value);
 		const education_level = data?.education_level.value;
 		const experience = data?.experience.value;
-		// const language = data?.language.value;
+		const language = data?.language.map((lang) => lang.value);
 		const payload = {
 			...data,
 			age,
 			services,
+			skills,
+			language,
 			education_level,
 			experience,
 			user_id: user.user_id,
@@ -121,6 +128,15 @@ const MyDetailsProfile = () => {
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
+							<label>Skills</label>
+							<ATJMultiSelect
+								isDisabled={isFetching}
+								label="Skills"
+								name="skills"
+								options={jobSkillsOptions}
+							/>
+						</div>
+						<div className="form-group col-lg-6 col-md-12">
 							<label>Hourly Rate</label>
 							<ATJInput disabled={isFetching} type={'text'} label="$100" name="hourly_rate" />
 						</div>
@@ -136,7 +152,6 @@ const MyDetailsProfile = () => {
 
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Country</label>
-
 							<ATJSelect
 								disabled={isFetching || countries.length === 0}
 								options={countryOptions}
@@ -163,7 +178,6 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Age</label>
-
 							<ATJMultiSelect
 								isMulti={false}
 								isDisabled={isFetching}
@@ -175,6 +189,15 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Date Of Birth</label>
 							<ATJInput disabled={isFetching} type={'text'} label="19-06-1990" name="dob" />
+						</div>
+						<div className="form-group col-lg-6 col-md-12">
+							<label>Language</label>
+							<ATJMultiSelect
+								isDisabled={isFetching}
+								label="Language"
+								name="language"
+								options={languageOptions}
+							/>
 						</div>
 
 						{/* //button */}

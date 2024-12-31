@@ -23,7 +23,7 @@ const userSlice = createSlice({
 			state.user_id = '';
 			state.name = '';
 			state.email = '';
-			state.image = 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png';
+			state.image = 'https://via.placeholder.com/150';
 			state.role = undefined;
 		},
 	},

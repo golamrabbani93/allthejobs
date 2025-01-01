@@ -1,11 +1,12 @@
-import FormInfoBox from './FormInfoBox';
-import LogoCoverUploader from './LogoCoverUploader';
+import LogoUpload from './LogoUpload';
+import LogoCoverUploader from './LogoUpload';
 import MyProfileForm from './MyProfileForm';
 
-const index = () => {
+const MyProfile = () => {
 	return (
 		<div className="widget-content">
-			<LogoCoverUploader />
+			<LogoUpload />
+
 			{/* End logo and cover photo components */}
 
 			<MyProfileForm />
@@ -15,4 +16,4 @@ const index = () => {
 	);
 };
 
-export default index;
+export default MyProfile;

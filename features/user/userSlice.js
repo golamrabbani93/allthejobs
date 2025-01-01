@@ -13,7 +13,7 @@ const userSlice = createSlice({
 	initialState,
 	reducers: {
 		setUser: (state, action) => {
-			state.user_id = action.payload.user;
+			state.user_id = action.payload.user_id;
 			state.name = action.payload.name;
 			state.email = action.payload.email;
 			state.image = action.payload.image;
@@ -23,7 +23,7 @@ const userSlice = createSlice({
 			state.user_id = '';
 			state.name = '';
 			state.email = '';
-			state.image = 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png';
+			state.image = 'https://via.placeholder.com/150';
 			state.role = undefined;
 		},
 	},

@@ -7,6 +7,10 @@ import CopyrightFooter from '../../CopyrightFooter';
 import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
 import MyProfile from './components/my-profile/MyProfile';
+import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
+import EducationDetails from './components/my-profile/EducationDetails';
+import ExperienceDetails from './components/my-profile/ExperienceDetails';
+import AwardDetails from './components/my-profile/AwardDetails';
 
 const index = () => {
 	return (
@@ -42,33 +46,39 @@ const index = () => {
 									<MyProfile />
 								</div>
 							</div>
-							{/* <!-- Ls widget --> */}
-
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>Social Network</h4>
+										<h4>My Additional Details</h4>
 									</div>
-									{/* End widget-title */}
-
-									<div className="widget-content">
-										<SocialNetworkBox />
-									</div>
+									<MyDetailsProfile />
 								</div>
 							</div>
-							{/* <!-- Ls widget --> */}
-
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>Contact Information</h4>
+										<h4>Add Education Details</h4>
 									</div>
-									{/* End widget-title */}
-									<div className="widget-content">
-										<ContactInfoBox />
-									</div>
+									<EducationDetails />
 								</div>
 							</div>
+							<div className="ls-widget">
+								<div className="tabs-box">
+									<div className="widget-title">
+										<h4>Add Work & Experience</h4>
+									</div>
+									<ExperienceDetails />
+								</div>
+							</div>
+							<div className="ls-widget">
+								<div className="tabs-box">
+									<div className="widget-title">
+										<h4>Add Awards</h4>
+									</div>
+									<AwardDetails />
+								</div>
+							</div>
+
 							{/* <!-- Ls widget --> */}
 						</div>
 					</div>

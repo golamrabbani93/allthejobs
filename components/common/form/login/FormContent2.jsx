@@ -40,7 +40,7 @@ const FormContent2 = ({modal = false, userType}) => {
 				user_id: userResponseData.user_id,
 				name: userResponseData.name,
 				email: userResponseData.email,
-				image: 'https://cdn-icons-png.flaticon.com/512/3541/3541871.png',
+				image: userResponseData.photo || 'https://via.placeholder.com/150',
 				role: userResponseData.role,
 			};
 			dispatch(setUser(userData));

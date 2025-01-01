@@ -676,6 +676,11 @@ agent-base@6:
   dependencies:
     debug "4"
 
+agora-rtc-react@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/agora-rtc-react/-/agora-rtc-react-2.3.0.tgz#714239d45d8368d4a7d3cce64d5969d09b49ecf3"
+  integrity sha512-6D0uvXoZFlwQ/DClceJ1PUCpaHv3ebfMKFOnU0DXbiLpeMeYWM2uyuvfrcDjg4fGf033wPEzXVJHS0wx/miyJw==
+
 ansi-regex@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz"

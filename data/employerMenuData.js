@@ -45,7 +45,7 @@ module.exports = [
 		id: 7,
 		name: 'Packages',
 		icon: 'la-box',
-		routePath: '/dashboard/employer/packages',
+		routePath: '/dashboard/employer/#',
 		active: '',
 	},
 	// {

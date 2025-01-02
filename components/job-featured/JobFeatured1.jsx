@@ -17,7 +17,7 @@ const JobFeatured1 = () => {
 			{jobs.slice(0, 6).map((item) => {
 				const time = timeAgoFromPosting(item.created_at);
 				return (
-					<div className="job-block col-lg-6 col-md-12 col-sm-12" key={item.id}>
+					<div className="job-block col-lg-6 col-md-12 col-sm-12" key={item.job_id}>
 						<div className="inner-box">
 							<div className="content">
 								<span className="company-logo">

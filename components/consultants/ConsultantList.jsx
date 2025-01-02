@@ -11,7 +11,6 @@ const ConsultantList = () => {
 	const {data, isLoading} = useGetAllConsultantsQuery();
 	// reverse the order of the array to show the latest consultant first
 	const consultants = data?.map((consultant) => consultant).reverse();
-	console.log('🚀🚀: ConsultantList -> consultants', consultants);
 
 	// Settings
 	const settings = {

@@ -5,6 +5,17 @@ import {toast} from 'react-toastify';
 const talentManagementApi = baseApi.injectEndpoints({
 	overrideExisting: true,
 	endpoints: (builder) => ({
+		//get all candidates
+		getAllTalents: builder.query({
+			query: () => {
+				return {
+					url: `talents/`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['talent'],
+			transformResponse: (response) => response,
+		}),
 		// create talent
 		createTalent: builder.mutation({
 			query: (data) => {
@@ -53,5 +64,5 @@ const talentManagementApi = baseApi.injectEndpoints({
 	}),
 });
 
-export const {useCreateTalentMutation, useGetTalentQuery, useUpdateTalentMutation} =
+export const {useCreateTalentMutation, useGetAllTalentsQuery, useUpdateTalentMutation} =
 	talentManagementApi;

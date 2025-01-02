@@ -1,74 +1,92 @@
+'use client';
+import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import ImagePickerEditor from 'react-image-picker-editor';
+import 'react-image-picker-editor/dist/index.css';
+import {base64ToFile} from '@/utils/base64ToFile';
+import {
+	useGetMyProfileQuery,
+	useUpdateMyProfileMutation,
+	useUpdateMyProfilePhotoMutation,
+} from '@/features/user/user.management';
+import Spinner from '@/components/Sppiner/Spinner';
+import {setUser} from '@/features/user/userSlice';
 
-'use client'
+const LogoUpload = () => {
+	const user = useSelector((state) => state.user);
+	const dispatch = useDispatch();
+	//get my profile data
+	const {data: myProfileData, isFetching} = useGetMyProfileQuery(user.email);
+	//update the profile data
+	const [updateProfile, {data, isLoading}] = useUpdateMyProfilePhotoMutation();
+	const [logImg, setLogoImg] = useState(null);
+	const [preview, setPreview] = useState('');
 
-import { useState } from "react";
+	//handle image show
+	useEffect(() => {
+		if (myProfileData?.photo) {
+			setPreview(myProfileData.photo);
+			setLogoImg(null);
+		}
+	}, [myProfileData]);
+	useEffect(() => {
+		if (data?.photo) {
+			dispatch(setUser({...user, image: myProfileData.photo}));
+		}
+	}, [myProfileData]);
 
-const LogoCoverUploader = () => {
-    const [logoImg, setLogoImg] = useState("");
-    const [converImg, setCoverImg] = useState("");
+	const handleImageChange = (newFile) => {
+		if (newFile) {
+			const file = base64ToFile(newFile, 'logo.png');
+			setLogoImg(file);
+		}
+	};
 
-    // logo image
-    const logoHandler = (file) => {
-        setLogoImg(file);
-    };
-
-    // cover image
-    const coverHandler = (file) => {
-        setCoverImg(file);
-    };
-
-    return (
-        <>
-            <div className="uploading-outer">
-                <div className="uploadButton">
-                    <input
-                        className="uploadButton-input"
-                        type="file"
-                        name="attachments[]"
-                        accept="image/*"
-                        id="upload"
-                        required
-                        onChange={(e) => logoHandler(e.target.files[0])}
-                    />
-                    <label
-                        className="uploadButton-button ripple-effect"
-                        htmlFor="upload"
-                    >
-                        {logoImg !== "" ? logoImg?.name : " Browse Logo"}
-                    </label>
-                    <span className="uploadButton-file-name"></span>
-                </div>
-                <div className="text">
-                    Max file size is 1MB, Minimum dimension: 330x300 And
-                    Suitable files are .jpg & .png
-                </div>
-            </div>
-
-            <div className="uploading-outer">
-                <div className="uploadButton">
-                    <input
-                        className="uploadButton-input"
-                        type="file"
-                        name="attachments[]"
-                        accept="image/*, application/pdf"
-                        id="upload_cover"
-                        onChange={(e) => coverHandler(e.target.files[0])}
-                    />
-                    <label
-                        className="uploadButton-button ripple-effect"
-                        htmlFor="upload_cover"
-                    >
-                        {converImg !== "" ? converImg?.name : "Browse Cover"}
-                    </label>
-                    <span className="uploadButton-file-name"></span>
-                </div>
-                <div className="text">
-                    Max file size is 1MB, Minimum dimension: 330x300 And
-                    Suitable files are .jpg & .png
-                </div>
-            </div>
-        </>
-    );
+	const config2 = {
+		borderRadius: '8px',
+		language: 'en',
+		width: '150px',
+		height: '150px',
+		objectFit: 'contain',
+		compressInitial: null,
+		darkMode: false,
+		rtl: false,
+		hideDownloadBtn: true,
+		hideEditBtn: true,
+	};
+	//handle image upload
+	const handleUpload = async () => {
+		const formData = new FormData();
+		formData.append('photo', logImg);
+		formData.append('name', myProfileData.name);
+		formData.append('username', myProfileData.username);
+		formData.append('email', myProfileData.email);
+		formData.append('role', myProfileData.role);
+		formData.append('password_hash', myProfileData.password_hash);
+		updateProfile({email: myProfileData.email, data: formData});
+	};
+	if (isFetching) return <Spinner />;
+	return (
+		<>
+			<div className="uploading-outer">
+				<ImagePickerEditor
+					config={config2}
+					imageSrcProp={preview}
+					imageChanged={handleImageChange}
+				/>
+				{logImg && (
+					<button
+						disabled={isLoading || !myProfileData?.name}
+						onClick={() => handleUpload()}
+						style={{width: '100px'}}
+						className=" btn btn-primary ms-3 border border-primary"
+					>
+						{isLoading ? <Spinner size="sm" color="white" /> : 'Upload'}
+					</button>
+				)}
+			</div>
+		</>
+	);
 };
 
-export default LogoCoverUploader;
+export default LogoUpload;

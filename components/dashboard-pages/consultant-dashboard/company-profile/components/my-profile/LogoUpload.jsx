@@ -1,70 +1,89 @@
 'use client';
-
+import {useEffect, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import ImagePickerEditor from 'react-image-picker-editor';
+import 'react-image-picker-editor/dist/index.css';
+import {base64ToFile} from '@/utils/base64ToFile';
 import {
-	useGetTalentQuery,
-	useUpdateTalentMutation,
-} from '@/features/candidate/talent.management.api';
-import {useState} from 'react';
-import {useSelector} from 'react-redux';
+	useGetMyProfileQuery,
+	useUpdateMyProfileMutation,
+	useUpdateMyProfilePhotoMutation,
+} from '@/features/user/user.management';
+import Spinner from '@/components/Sppiner/Spinner';
+import {setUser} from '@/features/user/userSlice';
 
 const LogoUpload = () => {
 	const user = useSelector((state) => state.user);
-	const [logImg, setLogoImg] = useState('');
+	const dispatch = useDispatch();
+	//get my profile data
+	const {data: myProfileData, isFetching} = useGetMyProfileQuery(user.email);
+	//update the profile data
+	const [updateProfile, {data, isLoading}] = useUpdateMyProfilePhotoMutation();
+	const [logImg, setLogoImg] = useState(null);
 	const [preview, setPreview] = useState('');
 
-	const {data: talentData, isFetching} = useGetTalentQuery(user?.user_id);
-	const [updateTalent, {isLoading, data}] = useUpdateTalentMutation();
+	//handle image show
+	useEffect(() => {
+		if (myProfileData?.photo) {
+			setPreview(myProfileData.photo);
+			setLogoImg(null);
+		}
+	}, [myProfileData]);
+	useEffect(() => {
+		if (data?.photo) {
+			dispatch(setUser({...user, image: myProfileData.photo}));
+		}
+	}, [myProfileData]);
 
-	const logImgHander = (e) => {
-		const file = e.target.files[0];
-		setLogoImg(file);
-		const formData = new FormData();
-		const photos = formData.append('photo', file);
-		// formData.append('talentId', talentData.talent_id);
-		const payload = {
-			photo: photos,
-			user_id: user.user_id,
-		};
-
-		// updateTalent({talentId: talentData?.talent_id, data: payload});
-		if (file) {
-			const reader = new FileReader();
-			reader.onloadend = () => {
-				setPreview(reader.result);
-			};
-			reader.readAsDataURL(file);
-		} else {
-			setPreview('');
+	const handleImageChange = (newFile) => {
+		if (newFile) {
+			const file = base64ToFile(newFile, 'logo.png');
+			setLogoImg(file);
 		}
 	};
 
+	const config2 = {
+		borderRadius: '8px',
+		language: 'en',
+		width: '150px',
+		height: '150px',
+		objectFit: 'contain',
+		compressInitial: null,
+		darkMode: false,
+		rtl: false,
+		hideDownloadBtn: true,
+		hideEditBtn: true,
+	};
+	//handle image upload
+	const handleUpload = async () => {
+		const formData = new FormData();
+		formData.append('photo', logImg);
+		formData.append('name', myProfileData.name);
+		formData.append('username', myProfileData.username);
+		formData.append('email', myProfileData.email);
+		formData.append('role', myProfileData.role);
+		formData.append('password_hash', myProfileData.password_hash);
+		updateProfile({email: myProfileData.email, data: formData});
+	};
+	if (isFetching) return <Spinner />;
 	return (
 		<>
 			<div className="uploading-outer">
-				<div className="uploadButton">
-					<input
-						className="uploadButton-input"
-						type="file"
-						name="attachments[]"
-						accept="image/*"
-						id="upload"
-						required
-						onChange={logImgHander}
-					/>
-					<label className="uploadButton-button ripple-effect" htmlFor="upload">
-						{logImg !== '' ? logImg.name : 'Upload Your Photo'}
-					</label>
-					<span className="uploadButton-file-name"></span>
-				</div>
-
-				{preview && (
-					<div className="image-preview">
-						<img src={preview} alt="Preview" style={{maxWidth: '200px', height: 'auto'}} />
-					</div>
+				<ImagePickerEditor
+					config={config2}
+					imageSrcProp={preview}
+					imageChanged={handleImageChange}
+				/>
+				{logImg && (
+					<button
+						disabled={isLoading || !myProfileData?.name}
+						onClick={() => handleUpload()}
+						style={{width: '100px'}}
+						className=" btn btn-primary ms-3 border border-primary"
+					>
+						{isLoading ? <Spinner size="sm" color="white" /> : 'Upload'}
+					</button>
 				)}
-				<div className="ms-4 text">
-					Max file size is 1MB, Minimum dimension: 330x300 And Suitable files are .jpg & .png
-				</div>
 			</div>
 		</>
 	);

@@ -5,6 +5,7 @@ import MyProfileForm from './MyProfileForm';
 const index = () => {
 	return (
 		<div className="widget-content">
+			<label className="font-semibold mb-2">Upload Company Logo</label>
 			<LogoCoverUploader />
 			{/* End logo and cover photo components */}
 

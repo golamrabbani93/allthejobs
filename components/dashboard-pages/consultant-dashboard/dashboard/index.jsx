@@ -41,8 +41,10 @@ const Index = () => {
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
-					<div className="row">
-						<h1>Consultant DashBoard Upcoming</h1>
+					<div className="h-screen">
+						<div className="row">
+							<TopCardBlock />
+						</div>
 					</div>
 					{/* End .row top card block */}
 				</div>

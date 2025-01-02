@@ -17,6 +17,7 @@ import Candidates2 from '../candidates/Candidates2';
 import CallToAction2 from '../call-to-action/CallToAction2';
 import './hero.css';
 import Services from '../services/Services';
+import ConsultantList from '../consultants/ConsultantList';
 const index = () => {
 	return (
 		<>
@@ -94,7 +95,7 @@ const index = () => {
 
 					<div className="carousel-outer" data-aos="fade-up">
 						<div className="candidates-carousel default-dots">
-							<Candidates />
+							<ConsultantList />
 						</div>
 					</div>
 				</div>

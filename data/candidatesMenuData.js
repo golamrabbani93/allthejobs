@@ -13,13 +13,13 @@ module.exports = [
 		routePath: '/dashboard/talent/my-profile',
 		active: '',
 	},
-	{
-		id: 3,
-		name: 'My Resume',
-		icon: 'la la-file-invoice',
-		routePath: '/dashboard/talent/my-resume',
-		active: '',
-	},
+	// {
+	// 	id: 3,
+	// 	name: 'My Resume',
+	// 	icon: 'la la-file-invoice',
+	// 	routePath: '/dashboard/talent/my-resume',
+	// 	active: '',
+	// },
 	{
 		id: 4,
 		name: 'Applied Jobs',
@@ -52,7 +52,7 @@ module.exports = [
 		id: 8,
 		name: 'Packages',
 		icon: 'la-box',
-		routePath: '/dashboard/talent/packages',
+		routePath: '/dashboard/talent/#',
 		active: '',
 	},
 

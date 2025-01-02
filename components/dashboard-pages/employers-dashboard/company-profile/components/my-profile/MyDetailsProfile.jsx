@@ -13,11 +13,12 @@ import {
 	useGetEmployerQuery,
 	useUpdateEmployerMutation,
 } from '@/features/employer/employer.management.api';
+import ATJTextArea from '@/components/form/ATJTextArea';
 const MyDetailsProfile = () => {
 	const user = useSelector((state) => state.user);
 	const {data: employerData, isFetching} = useGetEmployerQuery(user.user_id);
 	//update employer data
-	const [updateEmployer, {data, isLoading}] = useUpdateEmployerMutation();
+	const [updateEmployer, {isLoading}] = useUpdateEmployerMutation();
 	const [countries, setCountries] = useState([]);
 	// default values
 	const defaultValues = {
@@ -29,22 +30,16 @@ const MyDetailsProfile = () => {
 		country: employerData?.country,
 		city: employerData?.city,
 		area: employerData?.area,
-		gender: employerData?.gender,
-		dob: employerData?.dob,
-		// age: {label: employerData?.age, value: employerData?.age},
+		about: employerData?.about,
 	};
 
 	const handelProfileData = (data) => {
-		const age = data.age?.value;
 		const designation = data?.designation?.value;
-		// const language = data?.language.value;
 		const payload = {
 			...data,
-			age,
 			designation,
 			user_id: user.user_id,
 		};
-		console.log(payload);
 		updateEmployer({employerId: employerData?.employer_id, data: payload});
 	};
 
@@ -130,29 +125,10 @@ const MyDetailsProfile = () => {
 							<label>Area</label>
 							<ATJInput disabled={isFetching} type={'text'} label="26 Near" name="area" />
 						</div>
-						<div className="form-group col-lg-6 col-md-12">
-							<label>Gender</label>
-							<ATJSelect
-								disabled={isFetching}
-								options={['Male', 'Female', 'Other']}
-								name="gender"
-								label="Select Your Gender"
-							/>
-						</div>
-						<div className="form-group col-lg-6 col-md-12">
-							<label>Age</label>
 
-							<ATJMultiSelect
-								isMulti={false}
-								isDisabled={isFetching}
-								label="Age"
-								name="age"
-								options={ageOptions}
-							/>
-						</div>
-						<div className="form-group col-lg-6 col-md-12">
-							<label>Date Of Birth</label>
-							<ATJInput disabled={isFetching} type={'text'} label="19-06-1990" name="dob" />
+						<div className="form-group col-lg-12 col-md-12">
+							<label>About Your Company</label>
+							<ATJTextArea disabled={isFetching} name="about" />
 						</div>
 					</div>
 					{/* //button */}

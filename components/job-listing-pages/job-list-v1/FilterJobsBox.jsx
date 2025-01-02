@@ -28,8 +28,15 @@ import {
 	addJobToWishlist,
 	removeJobFromWishlist,
 } from '@/features/wishlistJobsSlice/wishlistJobsSlice';
+import {useGetJobsQuery} from '@/features/job/job.management.api';
+import Loader from '@/components/Loader/Loader';
+import {timeCategory} from '@/utils/timeCategory';
 
 const FilterJobsBox = () => {
+	const {data, isLoading} = useGetJobsQuery();
+	//get experience levelbut dont copy the same value
+	const experiencesa = data?.map((item) => item.experience);
+
 	const {jobList, jobSort} = useSelector((state) => state.filter);
 	const {keyword, location, destination, category, jobType, datePosted, experience, salary, tag} =
 		jobList || {};
@@ -42,12 +49,12 @@ const FilterJobsBox = () => {
 
 	// keyword filter on title
 	const keywordFilter = (item) =>
-		keyword !== '' ? item.jobTitle.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) : item;
+		keyword !== '' ? item.title.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()) : item;
 
 	// location filter
 	const locationFilter = (item) =>
 		location !== ''
-			? item?.location?.toLocaleLowerCase().includes(location?.toLocaleLowerCase())
+			? item?.country?.toLocaleLowerCase().includes(location?.toLocaleLowerCase())
 			: item;
 
 	// location filter
@@ -60,75 +67,83 @@ const FilterJobsBox = () => {
 
 	// job-type filter
 	const jobTypeFilter = (item) =>
-		jobType?.length !== 0 && item?.jobType !== undefined
-			? jobType?.includes(item?.jobType[0]?.type.toLocaleLowerCase().split(' ').join('-'))
+		jobType?.length !== 0 && item?.job_type !== undefined
+			? jobType?.includes(item?.job_type.toLocaleLowerCase().split(' ').join('-'))
 			: item;
 
 	// date-posted filter
-	const datePostedFilter = (item) =>
-		datePosted !== 'all' && datePosted !== ''
-			? item?.created_at?.toLocaleLowerCase().split(' ').join('-').includes(datePosted)
-			: item;
+	const datePostedFilter = (item) => {
+		if (datePosted !== 'all' && datePosted !== '') {
+			const times = timeCategory(item.created_at).toLocaleLowerCase().split(' ').join('-');
+			return times.includes(datePosted);
+		}
+		return item;
+	};
 
 	// experience level filter
 	const experienceFilter = (item) =>
 		experience?.length !== 0
-			? experience?.includes(item?.experience?.split(' ').join('-').toLocaleLowerCase())
+			? experience?.includes(item?.experience_level?.split(' ').join('-').toLocaleLowerCase())
 			: item;
 
 	// salary filter
-	const salaryFilter = (item) =>
-		item?.totalSalary?.min >= salary?.min && item?.totalSalary?.max <= salary?.max;
+	// 4500-7000 get first salary
+	const salaryFilter = (item) => {
+		const salaryRange = item.salary_range.split('-');
+		const min = Number(salaryRange[0]);
+		const max = Number(salaryRange[1]);
+		return salary.min <= min && salary && max <= salary.max;
+	};
 
 	// tag filter
 	const tagFilter = (item) => (tag !== '' ? item?.tag === tag : item);
 
 	// sort filter
 	const sortFilter = (a, b) => (sort === 'des' ? a.id > b.id && -1 : a.id < b.id && -1);
-
-	let content = jobs
+	if (isLoading) return <Loader />;
+	let content = data
 		?.filter(keywordFilter)
 		?.filter(locationFilter)
-		?.filter(destinationFilter)
-		?.filter(categoryFilter)
+		// ?.filter(destinationFilter)
+		// ?.filter(categoryFilter)
 		?.filter(jobTypeFilter)
 		?.filter(datePostedFilter)
 		?.filter(experienceFilter)
 		?.filter(salaryFilter)
-		?.filter(tagFilter)
-		?.sort(sortFilter)
-		.slice(perPage.start, perPage.end !== 0 ? perPage.end : 10)
+		// ?.filter(tagFilter)
+		// ?.sort(sortFilter)
+		// .slice(perPage.start, perPage.end !== 0 ? perPage.end : 10)
 		?.map((item) => {
 			// check wish list item
-			const isWishListJob = wishListJobs.find((wishItem) => wishItem.id === item.id);
+			const isWishListJob = wishListJobs.find((wishItem) => wishItem.job_id === item.job_id);
 			return (
-				<div className="job-block" key={item.id}>
+				<div className="job-block" key={item.job_id}>
 					<div className="inner-box">
 						<div className="content">
 							<span className="company-logo">
-								<Image width={50} height={49} src={item.logo} alt="item brand" />
+								<Image width={50} height={49} src={item.employer.user.photo} alt="item brand" />
 							</span>
 							<h4>
-								<Link href={`/jobs/${item.id}`}>{item.jobTitle}</Link>
+								<Link href={`/jobs/${item.id}`}>{item.title}</Link>
 							</h4>
 
 							<ul className="job-info">
 								<li>
 									<span className="icon flaticon-briefcase"></span>
-									{item.company}
+									{item.employer.company_name}
 								</li>
 								{/* compnay info */}
 								<li>
 									<span className="icon flaticon-map-locator"></span>
-									{item.location}
+									{item.country}
 								</li>
 								{/* location info */}
 								<li>
-									<span className="icon flaticon-clock-3"></span> {item.time}
+									<span className="icon flaticon-clock-3"></span> {item.job_type}
 								</li>
 								{/* time info */}
 								<li>
-									<span className="icon flaticon-money"></span> {item.salary}
+									<span className="icon flaticon-money"></span> $ {item.salary_range}
 								</li>
 								{/* salary info */}
 							</ul>
@@ -146,7 +161,7 @@ const FilterJobsBox = () => {
 							{isWishListJob ? (
 								<button
 									onClick={() => dispatch(removeJobFromWishlist(item))}
-									className="bookmark-btn"
+									className="bookmark-btn d-flex align-items-center justify-center"
 								>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -310,7 +325,7 @@ const FilterJobsBox = () => {
 			{content}
 			{/* <!-- List Show More --> */}
 
-			<Pagination />
+			{/* <Pagination /> */}
 		</>
 	);
 };

@@ -68,7 +68,7 @@ const LoginWithSocial = () => {
 			</div>
 			<div className="col-lg-4 col-md-12">
 				<button
-					onClick={() => signIn('google', {callbackUrl: '/dashboard/talent/dashboard'})}
+					onClick={() => signIn('google', {callbackUrl: '/dashboard/talent'})}
 					className="theme-btn social-btn-two google-btn"
 				>
 					<i className="fab fa-google"></i> Gmail

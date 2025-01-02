@@ -2,10 +2,18 @@
 
 import Link from 'next/link';
 import Slider from 'react-slick';
-import candidates from '../../data/candidates';
 import Image from 'next/image';
+import {useGetAllConsultantsQuery} from '@/features/consultant/consultant.management.api';
+import Loader from '../Loader/Loader';
 
 const ConsultantList = () => {
+	// get all Consultants
+	const {data, isLoading} = useGetAllConsultantsQuery();
+	// reverse the order of the array to show the latest consultant first
+	const consultants = data?.map((consultant) => consultant).reverse();
+	console.log('🚀🚀: ConsultantList -> consultants', consultants);
+
+	// Settings
 	const settings = {
 		dots: true,
 		speed: 1400,
@@ -40,22 +48,29 @@ const ConsultantList = () => {
 		],
 	};
 
+	if (isLoading) return <Loader />;
+
 	return (
 		<>
 			<Slider {...settings} arrows={false}>
-				{candidates.slice(0, 12).map((candidate) => (
-					<div className="candidate-block" key={candidate.id}>
+				{consultants?.slice(0, 12).map((consultant) => (
+					<div className="candidate-block" key={consultant.consultant_id}>
 						<div className="inner-box">
 							<figure className="image">
-								<Image width={90} height={90} src={candidate.avatar} alt="avatar" />
+								<Image
+									width={250}
+									height={250}
+									src={consultant.user.photo || '/images/common-avatar.jpeg'}
+									alt="avatar"
+								/>
 							</figure>
-							<h4 className="name">{candidate.name}</h4>
-							<span className="designation">HR Professional</span>
+							<h4 className="name">{consultant.user.name}</h4>
+							<span className="designation">{consultant.headline}</span>
 							<div className="location">
-								<i className="flaticon-map-locator"></i> {candidate.location}
+								<i className="flaticon-map-locator"></i> {consultant.country}
 							</div>
 							<button
-								href={`/candidates-single-v1/${candidate.id}`}
+								href={`/candidates-single-v1/${consultant.id}`}
 								className="theme-btn btn-style-three"
 							>
 								<span className="btn-title">View Profile</span>

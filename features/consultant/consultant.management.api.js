@@ -4,6 +4,18 @@ import {toast} from 'react-toastify';
 
 const consultantManagementApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
+		//get all Consultants
+		getAllConsultants: builder.query({
+			query: () => {
+				return {
+					url: `consultants/`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['consultant'],
+			transformResponse: (response) => response,
+		}),
+		//create Consultant
 		createConsultant: builder.mutation({
 			query: (data) => {
 				return {
@@ -50,5 +62,9 @@ const consultantManagementApi = baseApi.injectEndpoints({
 	}),
 });
 
-export const {useCreateConsultantMutation, useGetConsultantQuery, useUpdateConsultantMutation} =
-	consultantManagementApi;
+export const {
+	useGetAllConsultantsQuery,
+	useCreateConsultantMutation,
+	useGetConsultantQuery,
+	useUpdateConsultantMutation,
+} = consultantManagementApi;

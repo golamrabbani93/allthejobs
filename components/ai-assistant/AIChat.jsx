@@ -8,9 +8,6 @@ import {
 import ChatHeader from "./AIChatHeader";
 import ChatInput from "./AIChatInput";
 import ChatMessages from "./AIChatMessages";
-// import ChatHeader from "./ChatHeader";
-// import ChatInput from "./ChatInput";
-// import ChatMessages from "./ChatMessages";
 
 
 const Chat= () => {

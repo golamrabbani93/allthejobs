@@ -15,8 +15,8 @@ import {SessionProvider} from 'next-auth/react';
 import PopUpModal from '@/components/PopUpModal/PopUpModal';
 import Chat from '@/components/ai-assistant/AIChat';
 import { AIChatContextProvider } from "./context/AIChatContext";
-
-
+import AgoraRTC, { AgoraRTCProvider } from "agora-rtc-react";
+const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
@@ -53,9 +53,11 @@ export default function RootLayout({children}) {
 					<QueryClientProvider QueryClientProvider client={queryClient}>
 						<Provider store={store}>
 							<AIChatContextProvider>
+							<AgoraRTCProvider client={client}>
+
 							<div className="page-wrapper">
 								<PopUpModal />
-								<Chat></Chat>
+								{/* <Chat></Chat> */}
 								{children}
 								{/* Toastify */}
 								<ToastContainer
@@ -73,6 +75,7 @@ export default function RootLayout({children}) {
 								{/* <!-- Scroll To Top --> */}
 								<ScrollToTop />
 							</div>
+							</AgoraRTCProvider>
 							</AIChatContextProvider>
 						</Provider>
 					</QueryClientProvider>

@@ -36,6 +36,13 @@ module.exports = [
 	},
 	{
 		id: 6,
+		name: 'Start Meeting',
+		icon: 'la-video-camera',
+		routePath: '/video-chat',
+		active: '',
+	},
+	{
+		id: 6,
 		name: 'Shortlisted Jobs',
 		icon: 'la-bookmark-o',
 		routePath: '/dashboard/talent/short-listed-jobs',

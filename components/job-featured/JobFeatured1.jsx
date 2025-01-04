@@ -4,8 +4,9 @@ import Link from 'next/link';
 import jobFeatured from '../../data/job-featured';
 import Image from 'next/image';
 import {useGetJobsQuery} from '@/features/job/job.management.api';
-import Loader from '../Loader/Loader';
+
 import {timeAgoFromPosting} from '@/utils/timeAgoFromPosting';
+import Loader from '../Loader/Loader';
 
 const JobFeatured1 = () => {
 	const {data, isLoading} = useGetJobsQuery();

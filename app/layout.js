@@ -1,5 +1,5 @@
 'use client';
-import "./globals.css";
+import './globals.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../styles/index.scss';
@@ -13,10 +13,8 @@ import {ToastContainer} from 'react-toastify';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {SessionProvider} from 'next-auth/react';
 import PopUpModal from '@/components/PopUpModal/PopUpModal';
-import Chat from '@/components/ai-assistant/AIChat';
-import { AIChatContextProvider } from "./context/AIChatContext";
-import AgoraRTC, { AgoraRTCProvider } from "agora-rtc-react";
-const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+import AgoraRTCProvider from './(others)/video-chat/AgoraRTCProvider';
+import {AIChatContextProvider} from './context/AIChatContext';
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
@@ -53,29 +51,28 @@ export default function RootLayout({children}) {
 					<QueryClientProvider QueryClientProvider client={queryClient}>
 						<Provider store={store}>
 							<AIChatContextProvider>
-							<AgoraRTCProvider client={client}>
-
-							<div className="page-wrapper">
-								<PopUpModal />
-								{/* <Chat></Chat> */}
-								{children}
-								{/* Toastify */}
-								<ToastContainer
-									position="bottom-right"
-									autoClose={500}
-									hideProgressBar={false}
-									newestOnTop={false}
-									closeOnClick
-									rtl={false}
-									pauseOnFocusLoss
-									draggable
-									pauseOnHover
-									theme="colored"
-								/>
-								{/* <!-- Scroll To Top --> */}
-								<ScrollToTop />
-							</div>
-							</AgoraRTCProvider>
+								<AgoraRTCProvider>
+									<div className="page-wrapper">
+										<PopUpModal />
+										{/* <Chat></Chat> */}
+										{children}
+										{/* Toastify */}
+										<ToastContainer
+											position="bottom-right"
+											autoClose={500}
+											hideProgressBar={false}
+											newestOnTop={false}
+											closeOnClick
+											rtl={false}
+											pauseOnFocusLoss
+											draggable
+											pauseOnHover
+											theme="colored"
+										/>
+										{/* <!-- Scroll To Top --> */}
+										<ScrollToTop />
+									</div>
+								</AgoraRTCProvider>
 							</AIChatContextProvider>
 						</Provider>
 					</QueryClientProvider>

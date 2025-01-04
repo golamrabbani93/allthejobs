@@ -64,5 +64,9 @@ const talentManagementApi = baseApi.injectEndpoints({
 	}),
 });
 
-export const {useCreateTalentMutation, useGetAllTalentsQuery, useUpdateTalentMutation} =
-	talentManagementApi;
+export const {
+	useCreateTalentMutation,
+	useGetAllTalentsQuery,
+	useUpdateTalentMutation,
+	useGetTalentQuery,
+} = talentManagementApi;

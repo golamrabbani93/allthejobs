@@ -51,12 +51,12 @@ const Basics = () => {
 			<div className="flex-grow overflow-hidden">
 				{isConnected ? (
 					<div className="flex h-full">
-						<div className="w-4/5">
+						<div className="w-full">
 							<VideoPlayer micOn={micOn} cameraOn={cameraOn}></VideoPlayer>
 						</div>
-						<div className="w-1/5 bg-gray-300">
+						{/* <div className="w-1/5 bg-gray-300">
 							<Sidebar />
-						</div>
+						</div> */}
 					</div>
 				) : (
 					<div className="join-room">

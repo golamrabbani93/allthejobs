@@ -14,6 +14,7 @@ import {experienceValidationSchema} from '@/schemas/experience.schema';
 const ExperienceDetails = () => {
 	//get user
 	const user = useSelector((state) => state.user);
+	console.log('🚀🚀: ExperienceDetails -> user', user);
 
 	//get talent profile
 	const {data: talentData, isFetching} = useGetTalentQuery(user.user_id);

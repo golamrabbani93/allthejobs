@@ -37,7 +37,7 @@ module.exports = [
 	{
 		id: 6,
 		name: 'Start Meeting',
-		icon: 'la-video-camera',
+		icon: 'la-video-camera ',
 		routePath: '/video-chat',
 		active: '',
 	},

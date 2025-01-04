@@ -1,5 +1,7 @@
 const Control = () => {
-  return (  );
-}
- 
+
+	return <div> </div>;
+};
+
 export default Control;
+

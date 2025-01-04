@@ -15,6 +15,7 @@ import {SessionProvider} from 'next-auth/react';
 import PopUpModal from '@/components/PopUpModal/PopUpModal';
 import AgoraRTCProvider from './(others)/video-chat/AgoraRTCProvider';
 import {AIChatContextProvider} from './context/AIChatContext';
+import Chat from '@/components/ai-assistant/AIChat';
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
@@ -54,7 +55,7 @@ export default function RootLayout({children}) {
 								<AgoraRTCProvider>
 									<div className="page-wrapper">
 										<PopUpModal />
-										{/* <Chat></Chat> */}
+										<Chat></Chat>
 										{children}
 										{/* Toastify */}
 										<ToastContainer

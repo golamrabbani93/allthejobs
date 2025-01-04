@@ -13,13 +13,13 @@ module.exports = [
 		routePath: '/dashboard/talent/my-profile',
 		active: '',
 	},
-	// {
-	// 	id: 3,
-	// 	name: 'My Resume',
-	// 	icon: 'la la-file-invoice',
-	// 	routePath: '/dashboard/talent/my-resume',
-	// 	active: '',
-	// },
+	{
+		id: 3,
+		name: 'Start Meeting',
+		icon: 'la-video-camera ',
+		routePath: '/video-chat',
+		active: '',
+	},
 	{
 		id: 4,
 		name: 'Applied Jobs',

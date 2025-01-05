@@ -3,7 +3,7 @@ import './globals.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../styles/index.scss';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import ScrollToTop from '../components/common/ScrollTop';
 import {Provider} from 'react-redux';
 import {store} from '../store/store';
@@ -16,24 +16,12 @@ import PopUpModal from '@/components/PopUpModal/PopUpModal';
 import AgoraRTCProvider from './(others)/video-chat/AgoraRTCProvider';
 import {AIChatContextProvider} from './context/AIChatContext';
 import Chat from '@/components/ai-assistant/AIChat';
-import {fetchData} from '@/services/GenerateAllData';
-import {fi} from '@faker-js/faker';
+import DataLoaderWrapper from '@/layout/DataLoaderWrapper';
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
 const queryClient = new QueryClient();
 export default function RootLayout({children}) {
-	const [loading, setLoading] = useState(true);
-	//load all data
-	const fetchAllData = async () => {
-		try {
-			const data = await fetchData();
-		} catch (error) {
-			console.error('Error fetching data:', error);
-		} finally {
-			setLoading(false);
-		}
-	};
 	//get jobs data
 
 	useEffect(() => {
@@ -41,12 +29,6 @@ export default function RootLayout({children}) {
 			duration: 1400,
 			once: true,
 		});
-		// fetch all data and revalidate every 8 minutes
-		fetchAllData();
-		const interval = setInterval(() => {
-			fetchAllData();
-		}, 480000);
-		return () => clearInterval(interval);
 	}, []);
 
 	return (
@@ -73,30 +55,32 @@ export default function RootLayout({children}) {
 				<SessionProvider>
 					<QueryClientProvider client={queryClient}>
 						<Provider store={store}>
-							<AIChatContextProvider>
-								<AgoraRTCProvider>
-									<div className="page-wrapper">
-										<PopUpModal />
-										<Chat />
-										{children}
-										{/* Toastify */}
-										<ToastContainer
-											position="bottom-right"
-											autoClose={500}
-											hideProgressBar={false}
-											newestOnTop={false}
-											closeOnClick
-											rtl={false}
-											pauseOnFocusLoss
-											draggable
-											pauseOnHover
-											theme="colored"
-										/>
-										{/* <!-- Scroll To Top --> */}
-										<ScrollToTop />
-									</div>
-								</AgoraRTCProvider>
-							</AIChatContextProvider>
+							<DataLoaderWrapper>
+								<AIChatContextProvider>
+									<AgoraRTCProvider>
+										<div className="page-wrapper">
+											<PopUpModal />
+											<Chat />
+											{children}
+											{/* Toastify */}
+											<ToastContainer
+												position="bottom-right"
+												autoClose={500}
+												hideProgressBar={false}
+												newestOnTop={false}
+												closeOnClick
+												rtl={false}
+												pauseOnFocusLoss
+												draggable
+												pauseOnHover
+												theme="colored"
+											/>
+											{/* <!-- Scroll To Top --> */}
+											<ScrollToTop />
+										</div>
+									</AgoraRTCProvider>
+								</AIChatContextProvider>
+							</DataLoaderWrapper>
 						</Provider>
 					</QueryClientProvider>
 				</SessionProvider>

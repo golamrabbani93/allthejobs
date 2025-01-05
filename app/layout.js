@@ -3,7 +3,7 @@ import './globals.css';
 import Aos from 'aos';
 import 'aos/dist/aos.css';
 import '../styles/index.scss';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import ScrollToTop from '../components/common/ScrollTop';
 import {Provider} from 'react-redux';
 import {store} from '../store/store';
@@ -16,16 +16,37 @@ import PopUpModal from '@/components/PopUpModal/PopUpModal';
 import AgoraRTCProvider from './(others)/video-chat/AgoraRTCProvider';
 import {AIChatContextProvider} from './context/AIChatContext';
 import Chat from '@/components/ai-assistant/AIChat';
+import {fetchData} from '@/services/GenerateAllData';
+import {fi} from '@faker-js/faker';
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
 const queryClient = new QueryClient();
 export default function RootLayout({children}) {
+	const [loading, setLoading] = useState(true);
+	//load all data
+	const fetchAllData = async () => {
+		try {
+			const data = await fetchData();
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		} finally {
+			setLoading(false);
+		}
+	};
+	//get jobs data
+
 	useEffect(() => {
 		Aos.init({
 			duration: 1400,
 			once: true,
 		});
+		// fetch all data and revalidate every 8 minutes
+		fetchAllData();
+		const interval = setInterval(() => {
+			fetchAllData();
+		}, 480000);
+		return () => clearInterval(interval);
 	}, []);
 
 	return (

@@ -27,6 +27,7 @@ export default function RootLayout({children}) {
 			once: true,
 		});
 	}, []);
+
 	return (
 		<html lang="en">
 			<head>
@@ -49,13 +50,13 @@ export default function RootLayout({children}) {
 			</head>
 			<body suppressHydrationWarning={true}>
 				<SessionProvider>
-					<QueryClientProvider QueryClientProvider client={queryClient}>
+					<QueryClientProvider client={queryClient}>
 						<Provider store={store}>
 							<AIChatContextProvider>
 								<AgoraRTCProvider>
 									<div className="page-wrapper">
 										<PopUpModal />
-										<Chat></Chat>
+										<Chat />
 										{children}
 										{/* Toastify */}
 										<ToastContainer

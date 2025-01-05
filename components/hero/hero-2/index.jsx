@@ -1,5 +1,6 @@
 import SearchForm from '@/components/common/job-search/SearchForm';
 import Image from 'next/image';
+import AvatarGroup from '../AvatarGroup';
 const index = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -85,13 +86,8 @@ const index = () => {
 										Meet With Our <br />
 										HR Professionals.
 									</p>
-									<div className="image mt-2">
-										<Image
-											width={206}
-											height={53}
-											src="/images/resource/multi-peoples.png"
-											alt="mulit people"
-										/>
+									<div className="image my-3">
+										<AvatarGroup />
 									</div>
 								</div>
 							</div>

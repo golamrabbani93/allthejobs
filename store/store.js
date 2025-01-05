@@ -20,6 +20,7 @@ import candidateFilterSlice from '../features/filter/candidateFilterSlice';
 import shopSlice from '../features/shop/shopSlice';
 import wishlistJobsSlice from '../features/wishlistJobsSlice/wishlistJobsSlice';
 import userSlice from '../features/user/userSlice';
+import dataSlice from '../features/data/dataSlice';
 import {baseApi} from '@/lib/redux/api/baseApi';
 
 const rootReducer = combineReducers({
@@ -33,6 +34,7 @@ const rootReducer = combineReducers({
 	shop: shopSlice,
 	wishlistJobs: wishlistJobsSlice,
 	user: userSlice,
+	data: dataSlice,
 	[baseApi.reducerPath]: baseApi.reducer,
 });
 

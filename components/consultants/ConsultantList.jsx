@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import Slider from 'react-slick';
 import Image from 'next/image';
-import {useGetAllConsultantsQuery} from '@/features/consultant/consultant.management.api';
 import Loader from '../Loader/Loader';
+import {useSelector} from 'react-redux';
 
 const ConsultantList = () => {
 	// get all Consultants
-	const {data, isLoading} = useGetAllConsultantsQuery();
+	const {consultants: data, loading} = useSelector((state) => state.data);
 	// reverse the order of the array to show the latest consultant first
 	const consultants = data?.map((consultant) => consultant).reverse();
 
@@ -47,7 +47,7 @@ const ConsultantList = () => {
 		],
 	};
 
-	if (isLoading) return <Loader />;
+	if (loading) return <Loader />;
 
 	return (
 		<>

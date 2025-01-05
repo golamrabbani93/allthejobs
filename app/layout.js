@@ -16,11 +16,14 @@ import PopUpModal from '@/components/PopUpModal/PopUpModal';
 import AgoraRTCProvider from './(others)/video-chat/AgoraRTCProvider';
 import {AIChatContextProvider} from './context/AIChatContext';
 import Chat from '@/components/ai-assistant/AIChat';
+import DataLoaderWrapper from '@/layout/DataLoaderWrapper';
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
 const queryClient = new QueryClient();
 export default function RootLayout({children}) {
+	//get jobs data
+
 	useEffect(() => {
 		Aos.init({
 			duration: 1400,
@@ -52,30 +55,32 @@ export default function RootLayout({children}) {
 				<SessionProvider>
 					<QueryClientProvider client={queryClient}>
 						<Provider store={store}>
-							<AIChatContextProvider>
-								<AgoraRTCProvider>
-									<div className="page-wrapper">
-										<PopUpModal />
-										<Chat />
-										{children}
-										{/* Toastify */}
-										<ToastContainer
-											position="bottom-right"
-											autoClose={500}
-											hideProgressBar={false}
-											newestOnTop={false}
-											closeOnClick
-											rtl={false}
-											pauseOnFocusLoss
-											draggable
-											pauseOnHover
-											theme="colored"
-										/>
-										{/* <!-- Scroll To Top --> */}
-										<ScrollToTop />
-									</div>
-								</AgoraRTCProvider>
-							</AIChatContextProvider>
+							<DataLoaderWrapper>
+								<AIChatContextProvider>
+									<AgoraRTCProvider>
+										<div className="page-wrapper">
+											<PopUpModal />
+											<Chat />
+											{children}
+											{/* Toastify */}
+											<ToastContainer
+												position="bottom-right"
+												autoClose={500}
+												hideProgressBar={false}
+												newestOnTop={false}
+												closeOnClick
+												rtl={false}
+												pauseOnFocusLoss
+												draggable
+												pauseOnHover
+												theme="colored"
+											/>
+											{/* <!-- Scroll To Top --> */}
+											<ScrollToTop />
+										</div>
+									</AgoraRTCProvider>
+								</AIChatContextProvider>
+							</DataLoaderWrapper>
 						</Provider>
 					</QueryClientProvider>
 				</SessionProvider>

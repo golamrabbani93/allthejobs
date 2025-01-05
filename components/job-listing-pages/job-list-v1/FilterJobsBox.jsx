@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import jobs from '../../../data/job-featured';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	addCategory,
@@ -33,9 +32,11 @@ import Loader from '@/components/Loader/Loader';
 import {timeCategory} from '@/utils/timeCategory';
 
 const FilterJobsBox = () => {
-	const {data, isLoading} = useGetJobsQuery();
+	//get jobs data in redux
+	const {jobs, loading} = useSelector((state) => state.data);
+
 	//get experience levelbut dont copy the same value
-	const experiencesa = data?.map((item) => item.experience);
+	const experiencesa = jobs?.map((item) => item.experience);
 
 	const {jobList, jobSort} = useSelector((state) => state.filter);
 	const {keyword, location, destination, category, jobType, datePosted, experience, salary, tag} =
@@ -100,8 +101,8 @@ const FilterJobsBox = () => {
 
 	// sort filter
 	const sortFilter = (a, b) => (sort === 'des' ? a.id > b.id && -1 : a.id < b.id && -1);
-	if (isLoading) return <Loader />;
-	let content = data
+	if (loading) return <Loader />;
+	let content = jobs
 		?.filter(keywordFilter)
 		?.filter(locationFilter)
 		// ?.filter(destinationFilter)

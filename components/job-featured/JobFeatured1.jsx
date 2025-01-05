@@ -3,16 +3,17 @@
 import Link from 'next/link';
 import jobFeatured from '../../data/job-featured';
 import Image from 'next/image';
-import {useGetJobsQuery} from '@/features/job/job.management.api';
 
 import {timeAgoFromPosting} from '@/utils/timeAgoFromPosting';
 import Loader from '../Loader/Loader';
+import {useSelector} from 'react-redux';
 
 const JobFeatured1 = () => {
-	const {data, isLoading} = useGetJobsQuery();
+	//get all jobs from the store
+	const {jobs: data, loading} = useSelector((state) => state.data);
 	//reverse the order of the array to show the latest job first and get featured jobs
 	const jobs = data?.filter((job) => job.featured === true).reverse();
-	if (isLoading) return <Loader />;
+	if (loading) return <Loader />;
 	return (
 		<>
 			{jobs.slice(0, 6).map((item) => {

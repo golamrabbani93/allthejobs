@@ -2,15 +2,16 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import {useGetAllTalentsQuery} from '@/features/candidate/talent.management.api';
 import Loader from '../Loader/Loader';
+import {useSelector} from 'react-redux';
 
 const Candidates2 = () => {
-	const {data, isLoading} = useGetAllTalentsQuery();
+	//get all talents from the store
+	const {talents: data, loading} = useSelector((state) => state.data);
 	//reverse the order of the candidates
 	const talents = data?.map((talent) => talent).reverse();
 
-	if (isLoading) return <Loader />;
+	if (loading) return <Loader />;
 	return (
 		<>
 			{talents?.slice(0, 6).map((talent) => (

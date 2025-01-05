@@ -38,7 +38,7 @@ const JobFavouriteTable = () => {
 									<thead>
 										<tr>
 											<th>Job Title</th>
-											<th>Date Applied</th>
+											<th>Job Type</th>
 											<th>Status</th>
 											<th>Action</th>
 										</tr>
@@ -46,34 +46,44 @@ const JobFavouriteTable = () => {
 
 									<tbody>
 										{wishListJobs.map((item) => (
-											<tr key={item.id}>
+											<tr key={item.employer_id}>
 												<td>
 													{/* <!-- Job Block --> */}
 													<div className="job-block">
 														<div className="inner-box">
 															<div className="content">
 																<span className="company-logo">
-																	<Image width={48} height={48} src={item.logo} alt="logo" />
+																	<Image
+																		width={48}
+																		height={48}
+																		src={
+																			item.employer.user.photo ||
+																			'/images/resource/company-logo/1-1.png'
+																		}
+																		alt="logo"
+																	/>
 																</span>
 																<h4>
-																	<Link href={`/job-single-v3/${item.id}`}>{item.jobTitle}</Link>
+																	<Link href={`/job-single-v3/${item.id}`}>{item.title}</Link>
 																</h4>
 																<ul className="job-info">
 																	<li>
 																		<span className="icon flaticon-briefcase"></span>
-																		Segment
+																		{item.employer.company_name}
 																	</li>
 																	<li>
 																		<span className="icon flaticon-map-locator"></span>
-																		London, UK
+																		{item.country}
 																	</li>
 																</ul>
 															</div>
 														</div>
 													</div>
 												</td>
-												<td>Dec 5, 2020</td>
-												<td className="status">Active</td>
+												<td>{item.job_type}</td>
+												<td className="status">
+													{item.status === 'Published' ? 'Active' : 'Closed'}
+												</td>
 												<td>
 													<div className="option-box">
 														<ul className="option-list">
@@ -103,7 +113,9 @@ const JobFavouriteTable = () => {
 					{/* End table widget content */}
 				</div>
 			) : (
-				'No Favorite Jobs'
+				<div className="alert alert-warning h-96 flex justify-center items-center" role="alert">
+					<span className="text-black"> No Favourite Jobs</span>
+				</div>
 			)}
 		</>
 	);

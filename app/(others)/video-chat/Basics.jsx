@@ -26,6 +26,7 @@ import dynamic from 'next/dynamic';
 
 const VideoPlayer = dynamic(() => import('./VideoPlayer'), {ssr: false});
 const Sidebar = dynamic(() => import('./Sidebar'), {ssr: false});
+
 const Basics = () => {
 	const [calling, setCalling] = useState(false);
 	const isConnected = useIsConnected();

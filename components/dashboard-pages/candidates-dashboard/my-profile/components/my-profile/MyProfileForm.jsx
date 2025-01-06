@@ -4,7 +4,8 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
 import {setUserData} from '@/features/data/dataSlice';
-import {useGetMyProfileQuery, useUpdateMyProfileMutation} from '@/features/user/user.management';
+import {useUpdateMyProfileMutation} from '@/features/user/user.management';
+import {setUser} from '@/features/user/userSlice';
 import {userProfileValidation} from '@/schemas/users/users.schema';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useEffect} from 'react';
@@ -26,6 +27,7 @@ const MyProfileForm = () => {
 	useEffect(() => {
 		if (data?.user_id) {
 			dispatch(setUserData(data));
+			dispatch(setUser({...data, image: data.photo}));
 		}
 	}, [data]);
 

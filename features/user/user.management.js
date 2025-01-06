@@ -39,7 +39,7 @@ const userManagementApi = baseApi.injectEndpoints({
 			},
 			invalidatesTags: ['user'],
 			transformResponse: (response) => {
-				toast.success('Profile photo updated successfully');
+				toast.success('Photo updated successfully');
 				return response;
 			},
 		}),

@@ -69,3 +69,22 @@ export const fetchTalentData = async (id) => {
 		throw error;
 	}
 };
+
+//fetch Consultant data
+export const fetchConsultantData = async (id) => {
+	const {token} = await GetToken();
+	try {
+		const consultantResponse = await axios.get(
+			`https://allthejobsca.pythonanywhere.com/consultants/user/${id}/`,
+			{
+				headers: {
+					Authorization: `Token ${token}`,
+				},
+			},
+		);
+		return consultantResponse.data;
+	} catch (error) {
+		console.error('Error fetching consultant data:', error);
+		throw error;
+	}
+};

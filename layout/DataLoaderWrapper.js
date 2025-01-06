@@ -7,7 +7,12 @@ import {
 	setUserData,
 	setUserRoleBasedData,
 } from '@/features/data/dataSlice';
-import {fetchData, fetchTalentData, fetchUserInformation} from '@/services/GenerateAllData';
+import {
+	fetchConsultantData,
+	fetchData,
+	fetchTalentData,
+	fetchUserInformation,
+} from '@/services/GenerateAllData';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -19,9 +24,13 @@ const DataLoaderWrapper = ({children}) => {
 		try {
 			const data = await fetchData();
 			const userData = await fetchUserInformation(user?.email);
-			if (userData.role === 'talent') {
+			if (userData?.role === 'talent') {
 				const talentData = await fetchTalentData(userData.user_id);
 				dispatch(setUserRoleBasedData(talentData));
+			}
+			if (userData?.role === 'consultant') {
+				const consultantData = await fetchConsultantData(userData.user_id);
+				dispatch(setUserRoleBasedData(consultantData));
 			}
 			if (userData?.user_id === user?.user_id) {
 				dispatch(setUserData(userData));

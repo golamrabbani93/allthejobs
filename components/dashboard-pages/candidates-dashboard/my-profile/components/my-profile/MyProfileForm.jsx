@@ -3,25 +3,41 @@
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
+import {setUserData} from '@/features/data/dataSlice';
 import {useGetMyProfileQuery, useUpdateMyProfileMutation} from '@/features/user/user.management';
 import {userProfileValidation} from '@/schemas/users/users.schema';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 const MyProfileForm = () => {
-	const user = useSelector((state) => state.user);
-
-	const {data: myProfileData, isFetching} = useGetMyProfileQuery(user.email);
-	const [useUpdateMyProfile, {isLoading}] = useUpdateMyProfileMutation();
+	const dispatch = useDispatch();
+	//get user profile data
+	const {userData, loading} = useSelector((state) => state.data);
+	const [useUpdateMyProfile, {data, isLoading}] = useUpdateMyProfileMutation();
 
 	const defaultValues = {
-		name: myProfileData?.name,
-		username: myProfileData?.username,
-		email: myProfileData?.email,
-		phone: myProfileData?.phone,
+		name: userData?.name,
+		username: userData?.username,
+		email: userData?.email,
+		phone: userData?.phone,
 	};
 
+	//set fresh user data after uodating
+	useEffect(() => {
+		if (data?.user_id) {
+			dispatch(setUserData(data));
+		}
+	}, [data]);
+
 	const handelProfileData = (data) => {
-		const updatedData = {...myProfileData, ...data};
+		const updatedData = {
+			name: data?.name,
+			username: data?.username,
+			email: data?.email,
+			phone: data?.phone,
+			password_hash: userData?.password_hash,
+			role: userData?.role,
+		};
 		useUpdateMyProfile(updatedData);
 	};
 	return (
@@ -35,12 +51,12 @@ const MyProfileForm = () => {
 					{/* <!-- Input --> */}
 					<div className="form-group col-lg-6 col-md-12">
 						<label>Full Name</label>
-						<ATJInput disabled={isFetching} type={'text'} label="Jerome Arnold" name="name" />
+						<ATJInput disabled={loading} type={'text'} label="Jerome Arnold" name="name" />
 					</div>
 					{/* <!-- Input --> */}
 					<div className="form-group col-lg-6 col-md-12">
 						<label>User Name</label>
-						<ATJInput disabled={isFetching} type={'text'} label="JeromeArnold" name="username" />
+						<ATJInput disabled={loading} type={'text'} label="JeromeArnold" name="username" />
 					</div>
 					{/* <!-- Input --> */}
 					<div className="form-group col-lg-6 col-md-12">
@@ -51,7 +67,7 @@ const MyProfileForm = () => {
 					{/* <!-- Input --> */}
 					<div className="form-group col-lg-6 col-md-12">
 						<label>Phone</label>
-						<ATJInput disabled={isFetching} type={'text'} label="0 123 456 7890" name="phone" />
+						<ATJInput disabled={loading} type={'text'} label="0 123 456 7890" name="phone" />
 					</div>
 					{/* <!-- Input --> */}
 					<div className="form-group col-lg-6 col-md-12">

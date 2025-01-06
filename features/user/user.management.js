@@ -22,7 +22,12 @@ const userManagementApi = baseApi.injectEndpoints({
 				};
 			},
 			invalidatesTags: ['user'],
-			transformResponse: (response) => response,
+			transformResponse: (response) => {
+				if (response?.user_id) {
+					toast.success('Profile updated successfully');
+					return response;
+				}
+			},
 		}),
 		updateMyProfilePhoto: builder.mutation({
 			query: ({email, data}) => {

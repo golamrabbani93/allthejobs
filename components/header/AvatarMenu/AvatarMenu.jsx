@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {signOut} from 'next-auth/react';
 import {clearUser} from '@/features/user/userSlice';
 import LogOutButton from '@/components/common/LogOutButton/LogOutButton';
+import {setUserData, setUserRoleBasedData} from '@/features/data/dataSlice';
 
 const AvatarMenu = () => {
 	const user = useSelector((state) => state.user);
@@ -13,6 +14,8 @@ const AvatarMenu = () => {
 	const userLogOut = () => {
 		signOut();
 		dispatch(clearUser());
+		dispatch(setUserData({}));
+		dispatch(setUserRoleBasedData({}));
 	};
 
 	return (

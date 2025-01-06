@@ -4,19 +4,15 @@ import {useDispatch, useSelector} from 'react-redux';
 import ImagePickerEditor from 'react-image-picker-editor';
 import 'react-image-picker-editor/dist/index.css';
 import {base64ToFile} from '@/utils/base64ToFile';
-import {
-	useGetMyProfileQuery,
-	useUpdateMyProfileMutation,
-	useUpdateMyProfilePhotoMutation,
-} from '@/features/user/user.management';
+import {useUpdateMyProfilePhotoMutation} from '@/features/user/user.management';
 import Spinner from '@/components/Sppiner/Spinner';
 import {setUser} from '@/features/user/userSlice';
+import {setUserData} from '@/features/data/dataSlice';
 
 const LogoUpload = () => {
-	const user = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	//get my profile data
-	const {data: myProfileData, isFetching} = useGetMyProfileQuery(user.email);
+	const {userData, loading} = useSelector((state) => state.data);
 	//update the profile data
 	const [updateProfile, {data, isLoading}] = useUpdateMyProfilePhotoMutation();
 	const [logImg, setLogoImg] = useState(null);
@@ -24,16 +20,17 @@ const LogoUpload = () => {
 
 	//handle image show
 	useEffect(() => {
-		if (myProfileData?.photo) {
-			setPreview(myProfileData.photo);
+		if (userData?.photo) {
+			setPreview(userData.photo);
 			setLogoImg(null);
 		}
-	}, [myProfileData]);
+	}, [userData]);
 	useEffect(() => {
 		if (data?.photo) {
-			dispatch(setUser({...user, image: myProfileData.photo}));
+			dispatch(setUser({...data, image: data.photo}));
+			dispatch(setUserData(data));
 		}
-	}, [myProfileData]);
+	}, [userData, data]);
 
 	const handleImageChange = (newFile) => {
 		if (newFile) {
@@ -58,14 +55,19 @@ const LogoUpload = () => {
 	const handleUpload = async () => {
 		const formData = new FormData();
 		formData.append('photo', logImg);
-		formData.append('name', myProfileData.name);
-		formData.append('username', myProfileData.username);
-		formData.append('email', myProfileData.email);
-		formData.append('role', myProfileData.role);
-		formData.append('password_hash', myProfileData.password_hash);
-		updateProfile({email: myProfileData.email, data: formData});
+		formData.append('name', userData.name);
+		formData.append('username', userData.username);
+		formData.append('email', userData.email);
+		formData.append('role', userData.role);
+		formData.append('password_hash', userData.password_hash);
+		updateProfile({email: userData.email, data: formData});
 	};
-	if (isFetching) return <Spinner />;
+	if (loading)
+		return (
+			<div className="flex mb-4">
+				<Spinner />
+			</div>
+		);
 	return (
 		<>
 			<div className="uploading-outer">
@@ -76,7 +78,7 @@ const LogoUpload = () => {
 				/>
 				{logImg && (
 					<button
-						disabled={isLoading || !myProfileData?.name}
+						disabled={isLoading || !userData?.name}
 						onClick={() => handleUpload()}
 						style={{width: '100px'}}
 						className=" btn btn-primary ms-3 border border-primary"

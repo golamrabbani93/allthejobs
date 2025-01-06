@@ -8,7 +8,7 @@ import {
 	useGetTalentQuery,
 	useUpdateTalentMutation,
 } from '@/features/candidate/talent.management.api';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {GetCountries} from 'react-country-state-city';
 import {useEffect, useState} from 'react';
 import ATJMultiSelect from '@/components/form/ATJMultiSelect';
@@ -20,31 +20,39 @@ import {
 	languageOptions,
 } from '@/data/formSelectData';
 import ATJTextArea from '@/components/form/ATJTextArea';
+import {setUserRoleBasedData} from '@/features/data/dataSlice';
 const MyDetailsProfile = () => {
+	const dispatch = useDispatch();
+	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const user = useSelector((state) => state.user);
 	const [countries, setCountries] = useState([]);
 	//get talent data
-	const {data: talentData, isFetching} = useGetTalentQuery(user.user_id);
 	const [updateTalent, {isLoading, data}] = useUpdateTalentMutation();
 
 	// default values
 	const defaultValues = {
-		headline: talentData?.headline,
-		age: {label: talentData?.age, value: talentData?.age},
-		education_level: {label: talentData?.education_level, value: talentData?.education_level},
-		experience: {label: talentData?.experience, value: talentData?.experience},
-		skills: talentData?.skills.map((skill) => ({label: skill, value: skill})),
-		website: talentData?.website,
-		country: talentData?.country,
-		city: talentData?.city,
-		area: talentData?.area,
-		gender: talentData?.gender,
-		dob: talentData?.dob,
-		current_salary: talentData?.current_salary,
-		expected_salary: talentData?.expected_salary,
-		about: talentData?.about,
-		language: talentData?.language.map((lang) => ({label: lang, value: lang})),
-		open_to_work: {label: talentData?.open_to_work ? 'Yes' : 'No', value: talentData?.open_to_work},
+		headline: userRoleBasedData?.headline,
+		age: {label: userRoleBasedData?.age, value: userRoleBasedData?.age},
+		education_level: {
+			label: userRoleBasedData?.education_level,
+			value: userRoleBasedData?.education_level,
+		},
+		experience: {label: userRoleBasedData?.experience, value: userRoleBasedData?.experience},
+		skills: userRoleBasedData?.skills?.map((skill) => ({label: skill, value: skill})),
+		website: userRoleBasedData?.website,
+		country: userRoleBasedData?.country,
+		city: userRoleBasedData?.city,
+		area: userRoleBasedData?.area,
+		gender: userRoleBasedData?.gender,
+		dob: userRoleBasedData?.dob,
+		current_salary: userRoleBasedData?.current_salary,
+		expected_salary: userRoleBasedData?.expected_salary,
+		about: userRoleBasedData?.about,
+		language: userRoleBasedData?.language?.map((lang) => ({label: lang, value: lang})),
+		open_to_work: {
+			label: userRoleBasedData?.open_to_work ? 'Yes' : 'No',
+			value: userRoleBasedData?.open_to_work,
+		},
 	};
 
 	const handelProfileData = (data) => {
@@ -65,23 +73,28 @@ const MyDetailsProfile = () => {
 			open_to_work,
 		};
 
-		updateTalent({talentId: talentData.talent_id, data: payload});
+		updateTalent({talentId: userRoleBasedData.talent_id, data: payload});
 	};
-	//get country list
+
 	useEffect(() => {
+		//get country list
 		const fetchCountries = async () => {
 			const countries = await GetCountries();
 			setCountries(countries);
 		};
-
 		fetchCountries();
-	}, []);
+
+		//save fresh user details in store
+		if (data?.talent_id) {
+			dispatch(setUserRoleBasedData(data));
+		}
+	}, [data]);
 	//make country options
 	const countryOptions = countries.map((country) => country.name);
 	return (
 		<div className="widget-content">
 			<ATJForm
-				defaultValues={talentData?.talent_id ? defaultValues : {}}
+				defaultValues={userRoleBasedData?.talent_id ? defaultValues : {}}
 				// resolver={zodResolver(userProfileValidation)}
 				onSubmit={handelProfileData}
 			>
@@ -90,7 +103,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>My Role</label>
 							<ATJInput
-								disabled={isFetching}
+								disabled={loading}
 								type={'text'}
 								label="Front-End Developer"
 								name="headline"
@@ -101,7 +114,7 @@ const MyDetailsProfile = () => {
 							<ATJMultiSelect
 								isMulti={false}
 								label="Education Level"
-								isDisabled={isFetching}
+								isDisabled={loading}
 								name="education_level"
 								options={educationOptions}
 							/>
@@ -111,7 +124,7 @@ const MyDetailsProfile = () => {
 							<ATJMultiSelect
 								isMulti={false}
 								label="Experience Level"
-								isDisabled={isFetching}
+								isDisabled={loading}
 								name="experience"
 								options={experienceOptions}
 							/>
@@ -119,7 +132,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Skills</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								label="Skills"
 								name="skills"
 								options={jobSkillsOptions}
@@ -127,14 +140,14 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Portfolio</label>
-							<ATJInput disabled={isFetching} type={'text'} label="website" name="website" />
+							<ATJInput disabled={loading} type={'text'} label="website" name="website" />
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Country</label>
 
 							<ATJSelect
-								disabled={isFetching || countries.length === 0}
+								disabled={loading || countries.length === 0}
 								options={countryOptions}
 								name="country"
 								label="Select Your Country"
@@ -142,16 +155,16 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>City</label>
-							<ATJInput disabled={isFetching} type={'text'} label="Saint John" name="city" />
+							<ATJInput disabled={loading} type={'text'} label="Saint John" name="city" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Area</label>
-							<ATJInput disabled={isFetching} type={'text'} label="26 Near" name="area" />
+							<ATJInput disabled={loading} type={'text'} label="26 Near" name="area" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Gender</label>
 							<ATJSelect
-								disabled={isFetching}
+								disabled={loading}
 								options={['Male', 'Female', 'Other']}
 								name="gender"
 								label="Select Your Gender"
@@ -160,7 +173,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Age</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								label="Age"
 								name="age"
 								isMulti={false}
@@ -169,12 +182,12 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Date Of Birth</label>
-							<ATJInput disabled={isFetching} type={'text'} label="19-06-1990" name="dob" />
+							<ATJInput disabled={loading} type={'text'} label="19-06-1990" name="dob" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Languages</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								label="Languages"
 								name="language"
 								options={languageOptions}
@@ -183,7 +196,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-12 col-md-12">
 							<label>Open To Work</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								label="Open To Work"
 								name="open_to_work"
 								isMulti={false}
@@ -195,16 +208,16 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Current Salary $</label>
-							<ATJInput disabled={isFetching} type={'text'} label="$1000" name="current_salary" />
+							<ATJInput disabled={loading} type={'text'} label="$1000" name="current_salary" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Expected Salary $</label>
-							<ATJInput disabled={isFetching} type={'text'} label="$1000" name="expected_salary" />
+							<ATJInput disabled={loading} type={'text'} label="$1000" name="expected_salary" />
 						</div>
 
 						<div className="form-group col-lg-12 col-md-12">
 							<label>Describe Yourself</label>
-							<ATJTextArea disabled={isFetching} name="about" />
+							<ATJTextArea disabled={loading} name="about" />
 						</div>
 
 						{/* //button */}

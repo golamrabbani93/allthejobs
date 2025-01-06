@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {GetToken} from '../GenerateToken';
 
+// fetch jobs,talent,consultants data
 export const fetchData = async () => {
 	const {token} = await GetToken();
 	try {
@@ -30,6 +31,22 @@ export const fetchData = async () => {
 		};
 	} catch (error) {
 		console.error('Error fetching data:', error);
+		throw error;
+	}
+};
+
+// fetch user information
+export const fetchUserInformation = async (email) => {
+	const {token} = await GetToken();
+	try {
+		const userResponse = await axios.get(`https://allthejobsca.pythonanywhere.com/users/${email}`, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
+		});
+		return userResponse.data;
+	} catch (error) {
+		console.error('Error fetching user data:', error);
 		throw error;
 	}
 };

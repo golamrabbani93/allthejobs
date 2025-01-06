@@ -7,6 +7,7 @@ const dataSlice = createSlice({
 		talents: [],
 		jobs: [],
 		consultants: [],
+		userData: {},
 		loading: false,
 	},
 	reducers: {
@@ -19,13 +20,16 @@ const dataSlice = createSlice({
 		setConsultantsData: (state, action) => {
 			state.consultants = action.payload;
 		},
+		setUserData: (state, action) => {
+			state.userData = action.payload;
+		},
 		setGlobalDataLoading: (state, action) => {
 			state.loading = action.payload;
 		},
 	},
 });
 
-export const {setTalentsData, setJobsData, setConsultantsData, setGlobalDataLoading} =
+export const {setTalentsData, setJobsData, setConsultantsData, setGlobalDataLoading, setUserData} =
 	dataSlice.actions;
 
 export default dataSlice.reducer;

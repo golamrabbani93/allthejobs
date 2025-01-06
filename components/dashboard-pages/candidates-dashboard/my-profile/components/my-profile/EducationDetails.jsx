@@ -2,29 +2,27 @@
 import React, {use, useEffect, useState} from 'react';
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
-import {useSelector} from 'react-redux';
-import {useGetMyProfileQuery} from '@/features/user/user.management';
-import {
-	useGetTalentQuery,
-	useUpdateTalentMutation,
-} from '@/features/candidate/talent.management.api';
+import {useDispatch, useSelector} from 'react-redux';
+import {useUpdateTalentMutation} from '@/features/candidate/talent.management.api';
 import Spinner from '@/components/Sppiner/Spinner';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {educationValidationSchema} from '@/schemas/education.schema';
+import {setUserRoleBasedData} from '@/features/data/dataSlice';
 
 const EducationDetails = () => {
+	const dispatch = useDispatch();
 	//get user
 	const user = useSelector((state) => state.user);
-
 	//get talent profile
-	const {data: talentData, isFetching} = useGetTalentQuery(user.user_id);
+	const {userRoleBasedData, loading} = useSelector((state) => state.data);
+	// const {data: userRoleBasedData, loading} = useGetTalentQuery(user.user_id);
 	//update education details
 	const [updateTalent, {data, isLoading}] = useUpdateTalentMutation();
 	const [showForm, setShowForm] = useState(false); // State to control form visibility
 
 	const handelProfileData = (data, e) => {
 		const payload = {
-			id: talentData.education_details.length + 1,
+			id: userRoleBasedData.education_details.length + 1,
 			degreeName: data.degreeName,
 			institutionName: data.institutionName,
 			duration: data.duration,
@@ -32,13 +30,13 @@ const EducationDetails = () => {
 		};
 		const newData = {
 			education_details:
-				talentData.education_details.length > 0
-					? [...talentData.education_details, payload]
+				userRoleBasedData.education_details.length > 0
+					? [...userRoleBasedData.education_details, payload]
 					: [payload],
-			user_id: talentData.user_id,
+			user_id: userRoleBasedData.user_id,
 		};
 
-		updateTalent({talentId: talentData.talent_id, data: newData});
+		updateTalent({talentId: userRoleBasedData.talent_id, data: newData});
 
 		e.target.reset(); // Reset the form
 	};
@@ -46,6 +44,7 @@ const EducationDetails = () => {
 	//handle close form
 	useEffect(() => {
 		if (data?.talent_id) {
+			dispatch(setUserRoleBasedData(data));
 			setShowForm(false);
 		}
 	}, [data]);
@@ -65,7 +64,7 @@ const EducationDetails = () => {
 					</button>
 				) : (
 					<button
-						disabled={!talentData?.talent_id || isFetching || isLoading}
+						disabled={!userRoleBasedData?.talent_id || loading || isLoading}
 						className="theme-btn btn-style-one mb-4"
 						onClick={handleAddNewEducation}
 					>
@@ -83,7 +82,7 @@ const EducationDetails = () => {
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Degree Name</label>
 									<ATJInput
-										disabled={isFetching}
+										disabled={loading}
 										type={'text'}
 										label="Bachelors in Fine Arts"
 										name="degreeName"
@@ -92,7 +91,7 @@ const EducationDetails = () => {
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Institute Name</label>
 									<ATJInput
-										disabled={isFetching}
+										disabled={loading}
 										type={'text'}
 										label="Modern College"
 										name="institutionName"
@@ -100,17 +99,12 @@ const EducationDetails = () => {
 								</div>
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Duration</label>
-									<ATJInput
-										disabled={isFetching}
-										type={'text'}
-										label="2012 - 2014"
-										name="duration"
-									/>
+									<ATJInput disabled={loading} type={'text'} label="2012 - 2014" name="duration" />
 								</div>
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Description</label>
 									<ATJInput
-										disabled={isFetching}
+										disabled={loading}
 										type={'text'}
 										label="Tell us about your degree"
 										name="description"
@@ -130,7 +124,7 @@ const EducationDetails = () => {
 				{/* Display saved education details */}
 				<div className={`resume-outer`}>
 					{/* <!-- Start Resume BLock --> */}
-					{talentData?.education_details?.map((item, i) => (
+					{userRoleBasedData?.education_details?.map((item, i) => (
 						<div className="resume-block" key={i}>
 							<div className="inner">
 								<span className="name">{item.institutionName.slice(0, 1)}</span>

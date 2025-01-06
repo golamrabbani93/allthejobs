@@ -2,6 +2,7 @@ import {signOut} from 'next-auth/react';
 import {clearUser} from '@/features/user/userSlice';
 import {useRouter} from 'next/navigation';
 import {useDispatch} from 'react-redux';
+import {setUserData, setUserRoleBasedData} from '@/features/data/dataSlice';
 
 const LogOutButton = () => {
 	const dispatch = useDispatch();
@@ -11,6 +12,8 @@ const LogOutButton = () => {
 		await signOut({redirect: false});
 		router.push('/');
 		dispatch(clearUser());
+		dispatch(setUserData({}));
+		dispatch(setUserRoleBasedData({}));
 	};
 
 	return (

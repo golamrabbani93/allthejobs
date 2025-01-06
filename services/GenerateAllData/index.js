@@ -50,3 +50,22 @@ export const fetchUserInformation = async (email) => {
 		throw error;
 	}
 };
+
+//fetch Talent data
+export const fetchTalentData = async (id) => {
+	const {token} = await GetToken();
+	try {
+		const talentResponse = await axios.get(
+			`https://allthejobsca.pythonanywhere.com/talents/user/${id}/`,
+			{
+				headers: {
+					Authorization: `Token ${token}`,
+				},
+			},
+		);
+		return talentResponse.data;
+	} catch (error) {
+		console.error('Error fetching talent data:', error);
+		throw error;
+	}
+};

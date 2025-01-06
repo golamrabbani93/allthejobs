@@ -1,11 +1,13 @@
+import {useGetTalentQuery} from '@/features/candidate/talent.management.api';
 import {
 	setConsultantsData,
 	setGlobalDataLoading,
 	setJobsData,
 	setTalentsData,
 	setUserData,
+	setUserRoleBasedData,
 } from '@/features/data/dataSlice';
-import {fetchData, fetchUserInformation} from '@/services/GenerateAllData';
+import {fetchData, fetchTalentData, fetchUserInformation} from '@/services/GenerateAllData';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -17,7 +19,13 @@ const DataLoaderWrapper = ({children}) => {
 		try {
 			const data = await fetchData();
 			const userData = await fetchUserInformation(user?.email);
-			dispatch(setUserData(userData));
+			if (userData.role === 'talent') {
+				const talentData = await fetchTalentData(userData.user_id);
+				dispatch(setUserRoleBasedData(talentData));
+			}
+			if (userData?.user_id === user?.user_id) {
+				dispatch(setUserData(userData));
+			}
 			dispatch(setTalentsData(data.talents));
 			dispatch(setJobsData(data.jobs));
 			dispatch(setConsultantsData(data.consultants));

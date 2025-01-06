@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {setUser} from '../user/userSlice';
 
 //store Talents data and loading state
 const dataSlice = createSlice({
@@ -8,6 +9,7 @@ const dataSlice = createSlice({
 		jobs: [],
 		consultants: [],
 		userData: {},
+		userRoleBasedData: {},
 		loading: false,
 	},
 	reducers: {
@@ -23,13 +25,22 @@ const dataSlice = createSlice({
 		setUserData: (state, action) => {
 			state.userData = action.payload;
 		},
+		setUserRoleBasedData: (state, action) => {
+			state.userRoleBasedData = action.payload;
+		},
 		setGlobalDataLoading: (state, action) => {
 			state.loading = action.payload;
 		},
 	},
 });
 
-export const {setTalentsData, setJobsData, setConsultantsData, setGlobalDataLoading, setUserData} =
-	dataSlice.actions;
+export const {
+	setTalentsData,
+	setJobsData,
+	setConsultantsData,
+	setGlobalDataLoading,
+	setUserData,
+	setUserRoleBasedData,
+} = dataSlice.actions;
 
 export default dataSlice.reducer;

@@ -10,6 +10,7 @@ import {
 import {
 	fetchConsultantData,
 	fetchData,
+	fetchEmployerData,
 	fetchTalentData,
 	fetchUserInformation,
 } from '@/services/GenerateAllData';
@@ -32,6 +33,11 @@ const DataLoaderWrapper = ({children}) => {
 				const consultantData = await fetchConsultantData(userData.user_id);
 				dispatch(setUserRoleBasedData(consultantData));
 			}
+			if (userData?.role === 'employer') {
+				const employerData = await fetchEmployerData(userData.user_id);
+				dispatch(setUserRoleBasedData(employerData));
+			}
+
 			if (userData?.user_id === user?.user_id) {
 				dispatch(setUserData(userData));
 			}

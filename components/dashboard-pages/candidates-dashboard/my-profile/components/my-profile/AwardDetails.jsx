@@ -2,39 +2,35 @@
 import React, {useEffect, useState} from 'react';
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
-import {useSelector} from 'react-redux';
-import {
-	useGetTalentQuery,
-	useUpdateTalentMutation,
-} from '@/features/candidate/talent.management.api';
+import {useDispatch, useSelector} from 'react-redux';
+import {useUpdateTalentMutation} from '@/features/candidate/talent.management.api';
 import Spinner from '@/components/Sppiner/Spinner';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {experienceValidationSchema} from '@/schemas/experience.schema';
 import {awardValidationSchema} from '@/schemas/award.schema';
+import {setUserRoleBasedData} from '@/features/data/dataSlice';
 
 const AwardDetails = () => {
-	//get user
-	const user = useSelector((state) => state.user);
-
+	const dispatch = useDispatch();
 	//get talent profile
-	const {data: talentData, isFetching} = useGetTalentQuery(user.user_id);
+	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	//update education details
 	const [updateTalent, {data, isLoading}] = useUpdateTalentMutation();
 	const [showForm, setShowForm] = useState(false); // State to control form visibility
 
 	const handelProfileData = (data, e) => {
 		const payload = {
-			id: talentData.awards.length + 1,
+			id: userRoleBasedData.awards.length + 1,
 			title: data.title,
 			category: data.category,
 			duration: data.duration,
 			description: data.description,
 		};
 		const newData = {
-			awards: talentData.awards.length > 0 ? [...talentData.awards, payload] : [payload],
-			user_id: talentData.user_id,
+			awards:
+				userRoleBasedData.awards.length > 0 ? [...userRoleBasedData.awards, payload] : [payload],
+			user_id: userRoleBasedData.user_id,
 		};
-		updateTalent({talentId: talentData.talent_id, data: newData});
+		updateTalent({talentId: userRoleBasedData.talent_id, data: newData});
 
 		e.target.reset(); // Reset the form
 	};
@@ -42,6 +38,7 @@ const AwardDetails = () => {
 	//handle close form
 	useEffect(() => {
 		if (data?.talent_id) {
+			dispatch(setUserRoleBasedData(data));
 			setShowForm(false);
 		}
 	}, [data]);
@@ -61,7 +58,7 @@ const AwardDetails = () => {
 					</button>
 				) : (
 					<button
-						disabled={!talentData?.talent_id || isFetching || isLoading}
+						disabled={!userRoleBasedData?.talent_id || loading || isLoading}
 						className="theme-btn btn-style-one mb-4"
 						onClick={handleAddNewEducation}
 					>
@@ -79,7 +76,7 @@ const AwardDetails = () => {
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Award Title</label>
 									<ATJInput
-										disabled={isFetching}
+										disabled={loading}
 										type={'text'}
 										label="Perfect Attendance Programs"
 										name="title"
@@ -88,7 +85,7 @@ const AwardDetails = () => {
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Category Name</label>
 									<ATJInput
-										disabled={isFetching}
+										disabled={loading}
 										type={'text'}
 										label="Software Algorithm"
 										name="category"
@@ -96,17 +93,12 @@ const AwardDetails = () => {
 								</div>
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Duration</label>
-									<ATJInput
-										disabled={isFetching}
-										type={'text'}
-										label="2012 - 2014"
-										name="duration"
-									/>
+									<ATJInput disabled={loading} type={'text'} label="2012 - 2014" name="duration" />
 								</div>
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Description</label>
 									<ATJInput
-										disabled={isFetching}
+										disabled={loading}
 										type={'text'}
 										label="Tell us about your role"
 										name="description"
@@ -126,7 +118,7 @@ const AwardDetails = () => {
 				{/* Display saved education details */}
 				<div className={`resume-outer theme-yellow`}>
 					{/* <!-- Start Resume BLock --> */}
-					{talentData?.awards?.map((item, i) => (
+					{userRoleBasedData?.awards?.map((item, i) => (
 						<div className="resume-block" key={i}>
 							<div className="inner">
 								<span className="name">{item.category.slice(0, 1)}</span>

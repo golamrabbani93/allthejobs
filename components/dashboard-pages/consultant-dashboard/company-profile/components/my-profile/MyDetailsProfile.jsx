@@ -4,7 +4,7 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import ATJSelect from '@/components/form/ATJSelect';
 import Spinner from '@/components/Sppiner/Spinner';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {GetCountries} from 'react-country-state-city';
 import {useEffect, useState} from 'react';
 import ATJMultiSelect from '@/components/form/ATJMultiSelect';
@@ -21,33 +21,35 @@ import {
 	useUpdateConsultantMutation,
 } from '@/features/consultant/consultant.management.api';
 import ATJTextArea from '@/components/form/ATJTextArea';
+import {setUserRoleBasedData} from '@/features/data/dataSlice';
 const MyDetailsProfile = () => {
+	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
-	const {data: consultantData, isFetching} = useGetConsultantQuery(user?.user_id);
+	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const [updateConsultant, {isLoading, data}] = useUpdateConsultantMutation();
 	const [countries, setCountries] = useState([]);
 
 	// default values
 	const defaultValues = {
-		headline: consultantData?.headline,
+		headline: userRoleBasedData?.headline,
 
 		education_level: {
-			label: consultantData?.education_level,
-			value: consultantData?.education_level,
+			label: userRoleBasedData?.education_level,
+			value: userRoleBasedData?.education_level,
 		},
-		experience: {label: consultantData?.experience, value: consultantData?.experience},
-		services: consultantData?.services?.map((service) => ({label: service, value: service})),
-		skills: consultantData?.skills?.map((skill) => ({label: skill, value: skill})),
-		language: consultantData?.language?.map((lang) => ({label: lang, value: lang})),
-		website: consultantData?.website,
-		country: consultantData?.country,
-		city: consultantData?.city,
-		area: consultantData?.area,
-		gender: consultantData?.gender,
-		dob: consultantData?.dob,
-		age: {label: consultantData?.age, value: consultantData?.age},
-		hourly_rate: consultantData?.hourly_rate,
-		about: consultantData?.about,
+		experience: {label: userRoleBasedData?.experience, value: userRoleBasedData?.experience},
+		services: userRoleBasedData?.services?.map((service) => ({label: service, value: service})),
+		skills: userRoleBasedData?.skills?.map((skill) => ({label: skill, value: skill})),
+		language: userRoleBasedData?.language?.map((lang) => ({label: lang, value: lang})),
+		website: userRoleBasedData?.website,
+		country: userRoleBasedData?.country,
+		city: userRoleBasedData?.city,
+		area: userRoleBasedData?.area,
+		gender: userRoleBasedData?.gender,
+		dob: userRoleBasedData?.dob,
+		age: {label: userRoleBasedData?.age, value: userRoleBasedData?.age},
+		hourly_rate: userRoleBasedData?.hourly_rate,
+		about: userRoleBasedData?.about,
 	};
 
 	const handelProfileData = (data) => {
@@ -67,7 +69,7 @@ const MyDetailsProfile = () => {
 			experience,
 			user_id: user.user_id,
 		};
-		updateConsultant({consultantId: consultantData?.consultant_id, data: payload});
+		updateConsultant({consultantId: userRoleBasedData?.consultant_id, data: payload});
 	};
 
 	//get country list
@@ -76,15 +78,18 @@ const MyDetailsProfile = () => {
 			const countries = await GetCountries();
 			setCountries(countries);
 		};
-
 		fetchCountries();
-	}, []);
+		//save fresh user details in store
+		if (data?.consultant_id) {
+			dispatch(setUserRoleBasedData(data));
+		}
+	}, [data]);
 
 	const countryOptions = countries.map((country) => country.name);
 	return (
 		<div className="widget-content">
 			<ATJForm
-				defaultValues={consultantData?.consultant_id ? defaultValues : {}}
+				defaultValues={userRoleBasedData?.consultant_id ? defaultValues : {}}
 				// resolver={zodResolver(userProfileValidation)}
 				onSubmit={handelProfileData}
 			>
@@ -92,18 +97,13 @@ const MyDetailsProfile = () => {
 					<div className="row">
 						<div className="form-group col-lg-6 col-md-12">
 							<label>My Role</label>
-							<ATJInput
-								disabled={isFetching}
-								type={'text'}
-								label="HR Professional"
-								name="headline"
-							/>
+							<ATJInput disabled={loading} type={'text'} label="HR Professional" name="headline" />
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Services</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								label="Services"
 								name="services"
 								options={consultantServices}
@@ -112,7 +112,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Education</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								isMulti={false}
 								label="Education"
 								name="education_level"
@@ -122,7 +122,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Experience</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								isMulti={false}
 								label="Experience"
 								name="experience"
@@ -132,7 +132,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Skills</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								label="Skills"
 								name="skills"
 								options={jobSkillsOptions}
@@ -140,12 +140,12 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Hourly Rate</label>
-							<ATJInput disabled={isFetching} type={'text'} label="$100" name="hourly_rate" />
+							<ATJInput disabled={loading} type={'text'} label="$100" name="hourly_rate" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Portfolio</label>
 							<ATJInput
-								disabled={isFetching}
+								disabled={loading}
 								type={'text'}
 								label="https://dev-rabbani.web.app/"
 								name="website"
@@ -155,7 +155,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Country</label>
 							<ATJSelect
-								disabled={isFetching || countries.length === 0}
+								disabled={loading || countries.length === 0}
 								options={countryOptions}
 								name="country"
 								label="Select Your Country"
@@ -163,16 +163,16 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>City</label>
-							<ATJInput disabled={isFetching} type={'text'} label="Saint John" name="city" />
+							<ATJInput disabled={loading} type={'text'} label="Saint John" name="city" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Area</label>
-							<ATJInput disabled={isFetching} type={'text'} label="26 Near" name="area" />
+							<ATJInput disabled={loading} type={'text'} label="26 Near" name="area" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Gender</label>
 							<ATJSelect
-								disabled={isFetching}
+								disabled={loading}
 								options={['Male', 'Female', 'Other']}
 								name="gender"
 								label="Select Your Gender"
@@ -182,7 +182,7 @@ const MyDetailsProfile = () => {
 							<label>Age</label>
 							<ATJMultiSelect
 								isMulti={false}
-								isDisabled={isFetching}
+								isDisabled={loading}
 								label="Age"
 								name="age"
 								options={ageOptions}
@@ -190,12 +190,12 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Date Of Birth</label>
-							<ATJInput disabled={isFetching} type={'text'} label="19-06-1990" name="dob" />
+							<ATJInput disabled={loading} type={'text'} label="19-06-1990" name="dob" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Language</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								label="Language"
 								name="language"
 								options={languageOptions}
@@ -203,7 +203,7 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-12 col-md-12">
 							<label>Language</label>
-							<ATJTextArea isDisabled={isFetching} name="about" />
+							<ATJTextArea isDisabled={loading} name="about" />
 						</div>
 
 						{/* //button */}

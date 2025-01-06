@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
 	useGetTalentQuery,
 	useUpdateTalentMutation,
@@ -10,21 +10,22 @@ import {
 import Spinner from '@/components/Sppiner/Spinner';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {experienceValidationSchema} from '@/schemas/experience.schema';
+import {setUserRoleBasedData} from '@/features/data/dataSlice';
 
 const ExperienceDetails = () => {
+	const dispatch = useDispatch();
 	//get user
 	const user = useSelector((state) => state.user);
-	console.log('🚀🚀: ExperienceDetails -> user', user);
-
 	//get talent profile
-	const {data: talentData, isFetching} = useGetTalentQuery(user.user_id);
+	const {userRoleBasedData, loading} = useSelector((state) => state.data);
+
 	//update education details
 	const [updateTalent, {data, isLoading}] = useUpdateTalentMutation();
 	const [showForm, setShowForm] = useState(false); // State to control form visibility
 
 	const handelProfileData = (data, e) => {
 		const payload = {
-			id: talentData.experience_details.length + 1,
+			id: userRoleBasedData.experience_details.length + 1,
 			role: data.role,
 			companyName: data.companyName,
 			duration: data.duration,
@@ -32,12 +33,12 @@ const ExperienceDetails = () => {
 		};
 		const newData = {
 			experience_details:
-				talentData.experience_details.length > 0
-					? [...talentData.experience_details, payload]
+				userRoleBasedData.experience_details.length > 0
+					? [...userRoleBasedData.experience_details, payload]
 					: [payload],
-			user_id: talentData.user_id,
+			user_id: userRoleBasedData.user_id,
 		};
-		updateTalent({talentId: talentData.talent_id, data: newData});
+		updateTalent({talentId: userRoleBasedData.talent_id, data: newData});
 
 		e.target.reset(); // Reset the form
 	};
@@ -46,6 +47,7 @@ const ExperienceDetails = () => {
 	useEffect(() => {
 		if (data?.talent_id) {
 			setShowForm(false);
+			dispatch(setUserRoleBasedData(data));
 		}
 	}, [data]);
 
@@ -64,7 +66,7 @@ const ExperienceDetails = () => {
 					</button>
 				) : (
 					<button
-						disabled={!talentData?.talent_id || isFetching || isLoading}
+						disabled={!userRoleBasedData?.talent_id || loading || isLoading}
 						className="theme-btn btn-style-one mb-4"
 						onClick={handleAddNewEducation}
 					>
@@ -81,17 +83,12 @@ const ExperienceDetails = () => {
 							<div className="row">
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Role</label>
-									<ATJInput
-										disabled={isFetching}
-										type={'text'}
-										label="Sr UX Engineer"
-										name="role"
-									/>
+									<ATJInput disabled={loading} type={'text'} label="Sr UX Engineer" name="role" />
 								</div>
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Company Name Name</label>
 									<ATJInput
-										disabled={isFetching}
+										disabled={loading}
 										type={'text'}
 										label="Spotify Inc."
 										name="companyName"
@@ -99,17 +96,12 @@ const ExperienceDetails = () => {
 								</div>
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Duration</label>
-									<ATJInput
-										disabled={isFetching}
-										type={'text'}
-										label="2012 - 2014"
-										name="duration"
-									/>
+									<ATJInput disabled={loading} type={'text'} label="2012 - 2014" name="duration" />
 								</div>
 								<div className="form-group col-lg-6 col-md-12">
 									<label>Description</label>
 									<ATJInput
-										disabled={isFetching}
+										disabled={loading}
 										type={'text'}
 										label="Tell us about your role"
 										name="description"
@@ -129,7 +121,7 @@ const ExperienceDetails = () => {
 				{/* Display saved education details */}
 				<div className={`resume-outer theme-blue`}>
 					{/* <!-- Start Resume BLock --> */}
-					{talentData?.experience_details?.map((item, i) => (
+					{userRoleBasedData?.experience_details?.map((item, i) => (
 						<div className="resume-block" key={i}>
 							<div className="inner">
 								<span className="name">{item.companyName.slice(0, 1)}</span>

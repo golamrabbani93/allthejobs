@@ -4,33 +4,31 @@ import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import ATJSelect from '@/components/form/ATJSelect';
 import Spinner from '@/components/Sppiner/Spinner';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {GetCountries} from 'react-country-state-city';
 import {useEffect, useState} from 'react';
 import ATJMultiSelect from '@/components/form/ATJMultiSelect';
-import {ageOptions, consultantServices, hiringManagerDesignations} from '@/data/formSelectData';
-import {
-	useGetEmployerQuery,
-	useUpdateEmployerMutation,
-} from '@/features/employer/employer.management.api';
+import {ageOptions, hiringManagerDesignations} from '@/data/formSelectData';
+import {useUpdateEmployerMutation} from '@/features/employer/employer.management.api';
 import ATJTextArea from '@/components/form/ATJTextArea';
+import {setUserRoleBasedData} from '@/features/data/dataSlice';
 const MyDetailsProfile = () => {
-	const user = useSelector((state) => state.user);
-	const {data: employerData, isFetching} = useGetEmployerQuery(user.user_id);
+	const dispatch = useDispatch();
+	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	//update employer data
-	const [updateEmployer, {isLoading}] = useUpdateEmployerMutation();
+	const [updateEmployer, {data, isLoading}] = useUpdateEmployerMutation();
 	const [countries, setCountries] = useState([]);
 	// default values
 	const defaultValues = {
-		company_name: employerData?.company_name,
-		company_website: employerData?.company_website,
-		designation: {label: employerData?.designation, value: employerData?.designation},
-		department: employerData?.department,
-		website: employerData?.website,
-		country: employerData?.country,
-		city: employerData?.city,
-		area: employerData?.area,
-		about: employerData?.about,
+		company_name: userRoleBasedData?.company_name,
+		company_website: userRoleBasedData?.company_website,
+		designation: {label: userRoleBasedData?.designation, value: userRoleBasedData?.designation},
+		department: userRoleBasedData?.department,
+		website: userRoleBasedData?.website,
+		country: userRoleBasedData?.country,
+		city: userRoleBasedData?.city,
+		area: userRoleBasedData?.area,
+		about: userRoleBasedData?.about,
 	};
 
 	const handelProfileData = (data) => {
@@ -38,9 +36,10 @@ const MyDetailsProfile = () => {
 		const payload = {
 			...data,
 			designation,
-			user_id: user.user_id,
+			user_id: userRoleBasedData?.user_id,
 		};
-		updateEmployer({employerId: employerData?.employer_id, data: payload});
+		console.log(payload);
+		updateEmployer({employerId: userRoleBasedData?.employer_id, data: payload});
 	};
 
 	//get country list
@@ -49,15 +48,17 @@ const MyDetailsProfile = () => {
 			const countries = await GetCountries();
 			setCountries(countries);
 		};
-
 		fetchCountries();
-	}, []);
+
+		// set fresh user data
+		dispatch(setUserRoleBasedData(data));
+	}, [data]);
 
 	const countryOptions = countries.map((country) => country.name);
 	return (
 		<div className="widget-content">
 			<ATJForm
-				defaultValues={employerData?.employer_id ? defaultValues : {}}
+				defaultValues={userRoleBasedData?.employer_id ? defaultValues : {}}
 				// resolver={zodResolver(userProfileValidation)}
 				onSubmit={handelProfileData}
 			>
@@ -65,17 +66,12 @@ const MyDetailsProfile = () => {
 					<div className="row">
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Company Name</label>
-							<ATJInput
-								disabled={isFetching}
-								type={'text'}
-								label="SPS Software"
-								name="company_name"
-							/>
+							<ATJInput disabled={loading} type={'text'} label="SPS Software" name="company_name" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Company Website</label>
 							<ATJInput
-								disabled={isFetching}
+								disabled={loading}
 								type={'text'}
 								label="https://spssoftware.com"
 								name="company_website"
@@ -85,7 +81,7 @@ const MyDetailsProfile = () => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Designation</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isDisabled={loading}
 								isMulti={false}
 								label="Executive Recruiter"
 								name="designation"
@@ -94,13 +90,13 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Department</label>
-							<ATJInput disabled={isFetching} type={'text'} label="HR" name="department" />
+							<ATJInput disabled={loading} type={'text'} label="HR" name="department" />
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Portfolio</label>
 							<ATJInput
-								disabled={isFetching}
+								disabled={loading}
 								type={'text'}
 								label="https://dev-rabbani.web.app/"
 								name="website"
@@ -111,7 +107,7 @@ const MyDetailsProfile = () => {
 							<label>Country</label>
 
 							<ATJSelect
-								disabled={isFetching || countries.length === 0}
+								disabled={loading || countries.length === 0}
 								options={countryOptions}
 								name="country"
 								label="Select Your Country"
@@ -119,16 +115,16 @@ const MyDetailsProfile = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>City</label>
-							<ATJInput disabled={isFetching} type={'text'} label="Saint John" name="city" />
+							<ATJInput disabled={loading} type={'text'} label="Saint John" name="city" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Area</label>
-							<ATJInput disabled={isFetching} type={'text'} label="26 Near" name="area" />
+							<ATJInput disabled={loading} type={'text'} label="26 Near" name="area" />
 						</div>
 
 						<div className="form-group col-lg-12 col-md-12">
 							<label>About Your Company</label>
-							<ATJTextArea disabled={isFetching} name="about" />
+							<ATJTextArea disabled={loading} name="about" />
 						</div>
 					</div>
 					{/* //button */}

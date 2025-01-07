@@ -1,6 +1,7 @@
 import SearchForm from '@/components/common/job-search/SearchForm';
 import Image from 'next/image';
 import AvatarGroup from '../AvatarGroup';
+import SliderImages from './SlideImages';
 const index = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -8,7 +9,7 @@ const index = () => {
 	};
 
 	return (
-		<div className="job-search-section py-5">
+		<div className="job-search-section pt-5">
 			<div className="auto-container">
 				<div className="row align-items-center hero">
 					{/* Left Content */}
@@ -39,9 +40,9 @@ const index = () => {
 
 					{/* Right Content with Background Image */}
 					<div
-						className="d-none d-lg-block col-lg-6 text-center right-content"
+						className="d-none d-lg-block col-lg-6 text-center right-content "
 						data-aos="fade-in"
-						data-aos-delay="500"
+						data-aos-delay="500 "
 					>
 						{/* Sub Images */}
 						<img
@@ -103,11 +104,8 @@ const index = () => {
 						</div>
 
 						{/* Main Image */}
-						<img
-							src="https://mamtaz.com/desFour/images/hero3.png"
-							alt="Person"
-							className="img-fluid hero-image"
-						/>
+						{/* <img src="/images/hero/hero-4.png" alt="Person" className="img-fluid hero-image" /> */}
+						<SliderImages />
 					</div>
 				</div>
 			</div>

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ConsultantSlider from './ConsultantSlider';
 
 const Consultants = () => {
 	const features = [
@@ -81,13 +82,7 @@ const Consultants = () => {
 
 				{/* Image Section */}
 				<div className="col-lg-4 text-center">
-					<Image
-						src="/images/consultants/consultant-5.png" // Replace with your image path
-						alt="Consultants Illustration"
-						width={700}
-						height={400}
-						className="img-fluid"
-					/>
+					<ConsultantSlider />
 				</div>
 			</div>
 		</section>

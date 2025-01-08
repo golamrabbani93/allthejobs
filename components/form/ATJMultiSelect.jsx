@@ -11,6 +11,7 @@ export default function ATJMultiSelect({
 	isMulti = true,
 	isDisabled = false,
 	isReadOnly = false,
+	onChange,
 }) {
 	const {
 		formState: {errors},
@@ -28,9 +29,14 @@ export default function ATJMultiSelect({
 							options={options}
 							isMulti={isMulti}
 							isDisabled={isDisabled || isReadOnly}
-							classNamePrefix="select"
 							placeholder={`Select ${label}`}
 							className={`${isDisabled || isReadOnly ? '!bg-gray-200' : ''} `}
+							onChange={(selectedOption) => {
+								field.onChange(selectedOption);
+								if (onChange) {
+									onChange(selectedOption);
+								}
+							}}
 						/>
 					);
 				}}

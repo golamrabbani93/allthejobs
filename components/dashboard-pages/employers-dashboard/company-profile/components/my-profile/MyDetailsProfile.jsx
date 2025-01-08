@@ -118,8 +118,8 @@ const MyDetailsProfile = () => {
 							<ATJInput disabled={loading} type={'text'} label="Saint John" name="city" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Area</label>
-							<ATJInput disabled={loading} type={'text'} label="26 Near" name="area" />
+							<label>Province</label>
+							<ATJInput disabled={loading} type={'text'} label="Manitoba" name="area" />
 						</div>
 
 						<div className="form-group col-lg-12 col-md-12">

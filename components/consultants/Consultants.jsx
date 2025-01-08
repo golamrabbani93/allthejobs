@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import ConsultantsSlider from './consultantsSlider';
+import ConsultantSlider from './ConsultantSlider';
 
 const Consultants = () => {
 	const features = [
@@ -82,7 +82,7 @@ const Consultants = () => {
 
 				{/* Image Section */}
 				<div className="col-lg-4 text-center">
-					<ConsultantsSlider />
+					<ConsultantSlider />
 				</div>
 			</div>
 		</section>

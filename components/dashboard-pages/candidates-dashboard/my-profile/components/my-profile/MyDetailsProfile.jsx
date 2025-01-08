@@ -46,13 +46,12 @@ const MyDetailsProfile = () => {
 					label: userRoleBasedData?.education_level,
 					value: userRoleBasedData?.education_level,
 				},
-				province: {label: userRoleBasedData?.province, value: userRoleBasedData?.province},
-				city: {label: userRoleBasedData?.city, value: userRoleBasedData?.city},
+				country: {label: userRoleBasedData?.country, value: userRoleBasedData?.country} || '',
+				province: {label: userRoleBasedData?.province, value: userRoleBasedData?.province} || '',
+				city: {label: userRoleBasedData?.city, value: userRoleBasedData?.city} || '',
 				experience: {label: userRoleBasedData?.experience, value: userRoleBasedData?.experience},
 				skills: userRoleBasedData?.skills?.map((skill) => ({label: skill, value: skill})),
 				website: userRoleBasedData?.website,
-				country: {label: userRoleBasedData?.country, value: userRoleBasedData?.country},
-				city: {label: userRoleBasedData?.city, value: userRoleBasedData?.city},
 				area: userRoleBasedData?.area,
 				gender: userRoleBasedData?.gender,
 				dob: userRoleBasedData?.dob,
@@ -182,13 +181,13 @@ const MyDetailsProfile = () => {
 							<ATJInput disabled={loading} type={'text'} label="website" name="website" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Country</label>
+							<label>Select Country</label>
 							<ATJMultiSelect
 								isMulti={false}
 								label="Country"
 								isDisabled={loading || countries.length === 0}
 								name="country"
-								options={countryOptions || []}
+								options={countryOptions || ''}
 								onChange={(e) => {
 									const country = countries.find((c) => c.name === e.value);
 									setCountryData(country);
@@ -198,7 +197,7 @@ const MyDetailsProfile = () => {
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Province</label>
+							<label>Select Province</label>
 							<ATJMultiSelect
 								isMulti={false}
 								label="Province"
@@ -214,7 +213,7 @@ const MyDetailsProfile = () => {
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
-							<label>City</label>
+							<label>Select City</label>
 							<ATJMultiSelect
 								isMulti={false}
 								label="City"

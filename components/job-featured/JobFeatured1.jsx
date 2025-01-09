@@ -43,11 +43,11 @@ const JobFeatured1 = () => {
 									{/* compnay info */}
 									<li>
 										<span className="icon flaticon-map-locator"></span>
-										{item.country === 'United Kingdom'
+										{item.employer.country === 'United Kingdom'
 											? 'UK'
-											: item.country === 'United States'
+											: item.employer.country === 'United States'
 											? 'USA'
-											: item.country}
+											: item.employer.country}
 									</li>
 									{/* location info */}
 									<li>

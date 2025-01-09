@@ -35,6 +35,7 @@ const ConsultantSlider = () => {
 			<Slider {...settings} arrows={false}>
 				{images.map((img, i) => (
 					<Image
+						key={i}
 						src={img.src} // Replace with your image path
 						alt={img.alt}
 						width={700}

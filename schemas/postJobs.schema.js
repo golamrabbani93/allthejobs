@@ -29,7 +29,7 @@ export const postJobsSchema = z.object({
 	experience_level: selectSchema.optional().refine((val) => val !== undefined, {
 		message: 'Experience level is required',
 	}),
-	industries: selectSchema.optional().refine((val) => val !== undefined, {
+	industry: selectSchema.optional().refine((val) => val !== undefined, {
 		message: 'Industry is required',
 	}),
 	job_type: selectSchema.optional().refine((val) => val !== undefined, {
@@ -70,8 +70,16 @@ export const postJobsSchema = z.object({
 		.refine((val) => val !== undefined, {
 			message: 'At least one Tag is required',
 		}),
-	title: z.string().min(1, 'Title is required'),
-	vacancy_count: z.string().min(1, 'Vacancy is required'),
+	title: z
+		.string({
+			message: 'Title is required',
+		})
+		.min(1, 'Title is required'),
+	vacancy_count: z
+		.string({
+			message: 'Vacancy is required',
+		})
+		.min(1, 'Vacancy is required'),
 	featured: z
 		.object({
 			label: z.string().min(1, 'Label is required'),

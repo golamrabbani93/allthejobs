@@ -4,7 +4,7 @@ import ATJInput from '@/components/form/ATJInput';
 import ATJMultiSelect from '@/components/form/ATJMultiSelect';
 import ATJTextArea from '@/components/form/ATJTextArea';
 import Spinner from '@/components/Sppiner/Spinner';
-import {experienceOptions, jobSkillsOptions, languageOptions} from '@/data/formSelectData';
+import {jobSkillsOptions, languageOptions} from '@/data/formSelectData';
 import {
 	benefits,
 	educationRequirements,
@@ -19,12 +19,33 @@ import {
 import {usePostJobsMutation} from '@/features/job/job.management.api';
 import {postJobsSchema} from '@/schemas/postJobs.schema';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useState} from 'react';
 import {useSelector} from 'react-redux';
 
 const PostJobs = () => {
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const [postJobs, {data, isLoading}] = usePostJobsMutation();
-	console.log('🚀🚀: PostJobs -> data', data);
+	const [defaultValues, setDefaultValues] = useState({
+		title: '',
+
+		vacancy_count: '',
+		benefits: [],
+
+		responsibilities: [],
+		education_requirements: '',
+		industry: '',
+		language_requirements: [],
+		skills_required: [],
+		salary_range: '',
+		job_type: '',
+		experience_level: '',
+		location_type: '',
+		tags: [],
+		featured: '',
+		application_instruction: '',
+		description: '',
+	});
+
 	//handle Jobs Post
 	const handleJobPost = (data) => {
 		const payload = {
@@ -32,7 +53,7 @@ const PostJobs = () => {
 			benefits: data.benefits.map((benefit) => benefit.value),
 			responsibilities: data.responsibilities.map((responsibility) => responsibility.value),
 			education_requirements: data.education_requirements.value,
-			industries: data.industries.value,
+			industry: data.industry.value,
 			language_requirements: data.language_requirements.map((language) => language.value),
 			skills_required: data.skills_required.map((skill) => skill.value),
 			salary_range: data.salary_range.value,
@@ -45,7 +66,6 @@ const PostJobs = () => {
 			is_open: true,
 			status: 'Published',
 		};
-		console.log(payload);
 		postJobs(payload);
 	};
 
@@ -70,7 +90,11 @@ const PostJobs = () => {
 	});
 	return (
 		<div className="widget-content">
-			<ATJForm onSubmit={handleJobPost} resolver={zodResolver(postJobsSchema)}>
+			<ATJForm
+				onSubmit={handleJobPost}
+				defaultValues={defaultValues}
+				resolver={zodResolver(postJobsSchema)}
+			>
 				<div className="default-form">
 					<div className="row">
 						<div className="form-group col-lg-6 col-md-12">

@@ -19,7 +19,6 @@ const jobManagementApi = baseApi.injectEndpoints({
 		//create job
 		postJobs: builder.mutation({
 			query: (data) => {
-				console.log('🚀🚀: data', data);
 				return {
 					url: `jobs/create/`,
 					method: 'POST',
@@ -28,7 +27,6 @@ const jobManagementApi = baseApi.injectEndpoints({
 			},
 			invalidatesTags: ['jobs'],
 			transformResponse: (response) => {
-				console.log('🚀🚀: response', response);
 				if (response?.job_id) {
 					toast.success('Job posted successfully');
 					return response;

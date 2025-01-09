@@ -32,16 +32,16 @@ const PostJobs = () => {
 		benefits: [],
 
 		responsibilities: [],
-		education_requirements: '',
-		industry: '',
+		education_requirements: undefined,
+		industry: undefined,
 		language_requirements: [],
 		skills_required: [],
-		salary_range: '',
-		job_type: '',
-		experience_level: '',
-		location_type: '',
+		salary_range: undefined,
+		job_type: undefined,
+		experience_level: undefined,
+		location_type: undefined,
 		tags: [],
-		featured: '',
+		featured: undefined,
 		application_instruction: '',
 		description: '',
 	});
@@ -66,6 +66,7 @@ const PostJobs = () => {
 			is_open: true,
 			status: 'Published',
 		};
+
 		postJobs(payload);
 	};
 

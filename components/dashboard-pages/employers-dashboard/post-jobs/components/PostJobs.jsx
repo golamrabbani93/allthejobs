@@ -10,20 +10,43 @@ import {
 	educationRequirements,
 	industries,
 	jobLocationTypes,
+	JobsExperienceOptions,
 	jobTagsOptions,
 	jobTypes,
 	responsibilities,
 	salaryRanges,
 } from '@/data/jobPosting';
+import {usePostJobsMutation} from '@/features/job/job.management.api';
 import {postJobsSchema} from '@/schemas/postJobs.schema';
 import {zodResolver} from '@hookform/resolvers/zod';
+import {useSelector} from 'react-redux';
 
 const PostJobs = () => {
-	const loading = false;
-	const isLoading = false;
+	const {userRoleBasedData, loading} = useSelector((state) => state.data);
+	const [postJobs, {data, isLoading}] = usePostJobsMutation();
+	console.log('🚀🚀: PostJobs -> data', data);
 	//handle Jobs Post
 	const handleJobPost = (data) => {
-		console.log(data);
+		const payload = {
+			...data,
+			benefits: data.benefits.map((benefit) => benefit.value),
+			responsibilities: data.responsibilities.map((responsibility) => responsibility.value),
+			education_requirements: data.education_requirements.value,
+			industries: data.industries.value,
+			language_requirements: data.language_requirements.map((language) => language.value),
+			skills_required: data.skills_required.map((skill) => skill.value),
+			salary_range: data.salary_range.value,
+			job_type: data.job_type.value,
+			experience_level: data.experience_level.value,
+			location_type: data.location_type.value,
+			tags: data.tags.map((tag) => tag.value),
+			employer_id: userRoleBasedData.employer_id,
+			featured: data.featured.value,
+			is_open: true,
+			status: 'Published',
+		};
+		console.log(payload);
+		postJobs(payload);
 	};
 
 	//convert benefits array to object
@@ -96,11 +119,11 @@ const PostJobs = () => {
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Industries</label>
+							<label>Industry</label>
 							<ATJMultiSelect
-								label={'Industries'}
+								label={'Industry'}
 								isMulti={false}
-								name={'industries'}
+								name={'industry'}
 								disabled={loading}
 								options={industryOptions}
 							/>
@@ -141,7 +164,7 @@ const PostJobs = () => {
 								name={'experience_level'}
 								isMulti={false}
 								disabled={loading}
-								options={experienceOptions}
+								options={JobsExperienceOptions}
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">

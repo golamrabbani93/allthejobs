@@ -6,7 +6,11 @@ const selectSchema = z
 	})
 	.strict();
 export const postJobsSchema = z.object({
-	application_instruction: z.string().min(1, 'Application instruction is required'),
+	application_instruction: z
+		.string({
+			message: 'Application instruction is required',
+		})
+		.min(1, 'Application instruction is required'),
 	benefits: z
 		.array(selectSchema)
 		.min(1, {message: 'At least one benefit is required'})
@@ -14,7 +18,11 @@ export const postJobsSchema = z.object({
 		.refine((val) => val !== undefined, {
 			message: 'At least one benefit is required',
 		}),
-	description: z.string().min(1, 'Description is required'),
+	description: z
+		.string({
+			message: 'Description is required',
+		})
+		.min(1, 'Description is required'),
 	education_requirements: selectSchema.optional().refine((val) => val !== undefined, {
 		message: 'Education Requirements is required',
 	}),
@@ -64,4 +72,13 @@ export const postJobsSchema = z.object({
 		}),
 	title: z.string().min(1, 'Title is required'),
 	vacancy_count: z.string().min(1, 'Vacancy is required'),
+	featured: z
+		.object({
+			label: z.string().min(1, 'Label is required'),
+			value: z.boolean(),
+		})
+		.optional()
+		.refine((val) => val !== undefined, {
+			message: 'Please select a featured Option',
+		}),
 });

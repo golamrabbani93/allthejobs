@@ -83,10 +83,9 @@ export const benefits = [
 	'Sponsorship for professional memberships',
 ];
 export const jobTypes = [
-	{label: 'Full-time', value: 'Full-time'},
-	{label: 'Part-time', value: 'Part-time'},
+	{label: 'Full-time', value: 'Full Time'},
+	{label: 'Part-time', value: 'Part Time'},
 	{label: 'Contract', value: 'Contract'},
-	{label: 'Temporary', value: 'Temporary'},
 	{label: 'Internship', value: 'Internship'},
 	{label: 'Freelance', value: 'Freelance'},
 ];
@@ -294,6 +293,20 @@ export const industries = [
 	'Consulting Services',
 	'Tech Startups',
 ];
+export const JobsExperienceOptions = [
+	{value: 'Fresh', label: 'Fresh'},
+	{value: 'Less than 1 Year', label: 'Less than 1 Year'},
+	{value: '1 Year', label: '1 Year'},
+	{value: '2 Years', label: '2 Years'},
+	{value: '3 Years', label: '3 Years'},
+	{value: '4 Years', label: '4 Years'},
+	{value: '5 Years', label: '5 Years'},
+	{value: '6 Years', label: '6 Years'},
+	{value: '7 Years', label: '7 Years'},
+	{value: '8 Years', label: '8 Years'},
+	{value: '9 Years', label: '9 Years'},
+	{value: '10 Years', label: '10 Years'},
+];
 
 export const salaryRanges = [
 	{label: '$0-1000', value: '0-1000'},
@@ -318,9 +331,9 @@ export const salaryRanges = [
 	{label: '$19000-20000', value: '19000-20000'},
 ];
 export const jobLocationTypes = [
-	{label: 'On-site', value: 'On-site'},
-	{label: 'Remote', value: 'Remote'},
-	{label: 'Hybrid', value: 'Hybrid'},
+	{label: 'On-site', value: 'on-site'},
+	{label: 'Remote', value: 'remote'},
+	{label: 'Hybrid', value: 'hybrid'},
 ];
 
 export const jobTagsOptions = [

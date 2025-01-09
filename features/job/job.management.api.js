@@ -1,4 +1,4 @@
-import {closeModalRegister} from '@/components/common/form/login/FormContent2';
+// Desc: Job Management API
 import {baseApi} from '@/lib/redux/api/baseApi';
 import {toast} from 'react-toastify';
 
@@ -15,7 +15,27 @@ const jobManagementApi = baseApi.injectEndpoints({
 			providesTags: ['jobs'],
 			transformResponse: (response) => response,
 		}),
+
+		//create job
+		postJobs: builder.mutation({
+			query: (data) => {
+				console.log('🚀🚀: data', data);
+				return {
+					url: `jobs/create/`,
+					method: 'POST',
+					body: data,
+				};
+			},
+			invalidatesTags: ['jobs'],
+			transformResponse: (response) => {
+				console.log('🚀🚀: response', response);
+				if (response?.job_id) {
+					toast.success('Job posted successfully');
+					return response;
+				}
+			},
+		}),
 	}),
 });
 
-export const {useGetJobsQuery} = jobManagementApi;
+export const {useGetJobsQuery, usePostJobsMutation} = jobManagementApi;

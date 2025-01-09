@@ -15,6 +15,8 @@ import {
 	responsibilities,
 	salaryRanges,
 } from '@/data/jobPosting';
+import {postJobsSchema} from '@/schemas/postJobs.schema';
+import {zodResolver} from '@hookform/resolvers/zod';
 
 const PostJobs = () => {
 	const loading = false;
@@ -45,7 +47,7 @@ const PostJobs = () => {
 	});
 	return (
 		<div className="widget-content">
-			<ATJForm onSubmit={handleJobPost}>
+			<ATJForm onSubmit={handleJobPost} resolver={zodResolver(postJobsSchema)}>
 				<div className="default-form">
 					<div className="row">
 						<div className="form-group col-lg-6 col-md-12">

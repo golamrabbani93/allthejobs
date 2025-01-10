@@ -138,7 +138,7 @@ const FilterJobsBox = () => {
 								{/* compnay info */}
 								<li>
 									<span className="icon flaticon-map-locator"></span>
-									{item.country}
+									{item.employer.country}
 								</li>
 								{/* location info */}
 								<li>

@@ -17,9 +17,14 @@ export default function ATJForm({children, onSubmit, defaultValues, resolver}) {
 		}
 	}, [defaultValues]);
 
+	const submit = (data) => {
+		onSubmit(data);
+		methods.reset();
+	};
+
 	return (
 		<FormProvider {...methods}>
-			<form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+			<form onSubmit={methods.handleSubmit(submit)}>{children}</form>
 		</FormProvider>
 	);
 }

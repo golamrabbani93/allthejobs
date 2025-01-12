@@ -57,7 +57,7 @@ const JobListingsTable = () => {
 						<tbody>
 							{myJobs?.length > 0 ? (
 								myJobs?.map((item) => {
-									const startDate = format(new Date(item.systemdate), 'dd MMMM yyyy');
+									const startDate = format(new Date(item.created_at), 'dd MMMM yyyy');
 									return (
 										<tr key={item.job_id}>
 											<td>
@@ -91,7 +91,11 @@ const JobListingsTable = () => {
 												</div>
 											</td>
 											<td className="applied">
-												<a href="#">3+ Applied</a>
+												<a href="#">
+													{item.total_applicats > 0
+														? `${item.total_applicats}+ Applied`
+														: `${item.total_applicats} Applied`}
+												</a>
 											</td>
 											<td>
 												{startDate}
@@ -112,6 +116,11 @@ const JobListingsTable = () => {
 																	}
 																	className="la la-pencil"
 																></span>
+															</button>
+														</li>
+														<li>
+															<button data-text="Deactivate Job">
+																<span className="la la-times"></span>
 															</button>
 														</li>
 														<li>

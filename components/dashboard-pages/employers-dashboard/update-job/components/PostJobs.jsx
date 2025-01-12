@@ -17,7 +17,11 @@ import {
 	responsibilities,
 	salaryRanges,
 } from '@/data/jobPosting';
-import {useGetSingleJobQuery, usePostJobsMutation} from '@/features/job/job.management.api';
+import {
+	useGetSingleJobQuery,
+	usePostJobsMutation,
+	useUpdateJobsMutation,
+} from '@/features/job/job.management.api';
 import {postJobsSchema} from '@/schemas/postJobs.schema';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {format, isMatch} from 'date-fns';
@@ -29,6 +33,8 @@ const PostJobs = ({id}) => {
 	const router = useRouter();
 	//get jobs Data from the database
 	const {data: jobData, isFetching} = useGetSingleJobQuery(id);
+	//update jobs
+	const [updateJobs, {data, isLoading}] = useUpdateJobsMutation();
 	const [defaultValues, setDefaultValues] = useState({});
 
 	// set default values
@@ -65,7 +71,10 @@ const PostJobs = ({id}) => {
 				ap_deadline: jobData?.ap_deadline || '',
 			});
 		}
-	}, [jobData]);
+		if (data?.job_id) {
+			router.push('/dashboard/employer/manage-jobs');
+		}
+	}, [jobData, id, data]);
 	//handle Jobs Post
 	const handleJobPost = (data) => {
 		//check date format and convert to the correct format
@@ -92,8 +101,9 @@ const PostJobs = ({id}) => {
 			is_open: true,
 			status: 'Published',
 			ap_deadline: formattedDate,
+			job_id: jobData.job_id,
 		};
-		console.log(payload);
+		updateJobs(payload);
 	};
 
 	//convert benefits array to object
@@ -123,7 +133,7 @@ const PostJobs = ({id}) => {
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Job Title</label>
 							<ATJInput
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								type={'text'}
 								label="Marketing Manager"
 								name="title"
@@ -131,14 +141,19 @@ const PostJobs = ({id}) => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Vacancy</label>
-							<ATJInput disabled={isFetching} type={'text'} label="3" name="vacancy_count" />
+							<ATJInput
+								disabled={isFetching || isLoading}
+								type={'text'}
+								label="3"
+								name="vacancy_count"
+							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Job BeneFits</label>
 							<ATJMultiSelect
 								label={'Benefits'}
 								name={'benefits'}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={benefitsOptions}
 							/>
 						</div>
@@ -147,7 +162,7 @@ const PostJobs = ({id}) => {
 							<ATJMultiSelect
 								label={'Responsibilities'}
 								name={'responsibilities'}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={responsibilitiesOptions}
 							/>
 						</div>
@@ -157,7 +172,7 @@ const PostJobs = ({id}) => {
 								isMulti={false}
 								label={'Education Requirements'}
 								name={'education_requirements'}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={educationRequirementsOptions}
 							/>
 						</div>
@@ -166,7 +181,7 @@ const PostJobs = ({id}) => {
 							<ATJMultiSelect
 								label={'Languages'}
 								name={'language_requirements'}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={languageOptions}
 							/>
 						</div>
@@ -176,13 +191,17 @@ const PostJobs = ({id}) => {
 								label={'Industry'}
 								isMulti={false}
 								name={'industry'}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={industryOptions}
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Select Application Deadline Date</label>
-							<ATJDatePicker disabled={isFetching} name="ap_deadline" format="dd MMMM yyyy" />
+							<ATJDatePicker
+								disabled={isFetching || isLoading}
+								name="ap_deadline"
+								format="dd MMMM yyyy"
+							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Salary Ranges</label>
@@ -190,7 +209,7 @@ const PostJobs = ({id}) => {
 								label={'Salary Ranges'}
 								name={'salary_range'}
 								isMulti={false}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={salaryRanges}
 							/>
 						</div>
@@ -200,7 +219,7 @@ const PostJobs = ({id}) => {
 								label={'Job Type'}
 								name={'job_type'}
 								isMulti={false}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={jobTypes}
 							/>
 						</div>
@@ -210,7 +229,7 @@ const PostJobs = ({id}) => {
 								label={'Experience Level'}
 								name={'experience_level'}
 								isMulti={false}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={JobsExperienceOptions}
 							/>
 						</div>
@@ -220,7 +239,7 @@ const PostJobs = ({id}) => {
 								label={'Location Type'}
 								name={'location_type'}
 								isMulti={false}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={jobLocationTypes}
 							/>
 						</div>
@@ -229,14 +248,14 @@ const PostJobs = ({id}) => {
 							<ATJMultiSelect
 								label={'Top 3 Tagse'}
 								name={'tags'}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={jobTagsOptions}
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Show this jobs on the homepage?</label>
 							<ATJMultiSelect
-								isDisabled={isFetching}
+								isdisabled={isFetching || isLoading}
 								label="Featured"
 								name="featured"
 								isMulti={false}
@@ -251,23 +270,27 @@ const PostJobs = ({id}) => {
 							<ATJMultiSelect
 								label={'Skills'}
 								name={'skills_required'}
-								disabled={isFetching}
+								disabled={isFetching || isLoading}
 								options={jobSkillsOptions}
 							/>
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Application Instruction</label>
-							<ATJTextArea disabled={isFetching} name="application_instruction" />
+							<ATJTextArea disabled={isFetching || isLoading} name="application_instruction" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Job Description</label>
-							<ATJTextArea disabled={isFetching} name="description" />
+							<ATJTextArea disabled={isFetching || isLoading} name="description" />
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
-							<button disabled={isFetching} type="submit" className="theme-btn btn-style-one">
-								{isFetching ? <Spinner size="sm" color="white" /> : 'Post Job'}
+							<button
+								disabled={isFetching || isLoading}
+								type="submit"
+								className="theme-btn btn-style-one"
+							>
+								{isFetching || isLoading ? <Spinner size="sm" color="white" /> : 'Post Job'}
 							</button>
 						</div>
 					</div>

@@ -50,7 +50,19 @@ const jobManagementApi = baseApi.injectEndpoints({
 				}
 			},
 		}),
+		//get single job
+		getSingleJob: builder.query({
+			query: (id) => {
+				return {
+					url: `jobs/${id}/`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['jobs'],
+			transformResponse: (response) => response,
+		}),
 	}),
 });
 
-export const {useGetJobsQuery, usePostJobsMutation, useUpdateJobsMutation} = jobManagementApi;
+export const {useGetJobsQuery, usePostJobsMutation, useUpdateJobsMutation, useGetSingleJobQuery} =
+	jobManagementApi;

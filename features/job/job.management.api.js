@@ -33,7 +33,24 @@ const jobManagementApi = baseApi.injectEndpoints({
 				}
 			},
 		}),
+		//update job
+		updateJobs: builder.mutation({
+			query: (data) => {
+				return {
+					url: `jobs/${data.job_id}/update/`,
+					method: 'PUT',
+					body: data,
+				};
+			},
+			invalidatesTags: ['jobs'],
+			transformResponse: (response) => {
+				if (response?.job_id) {
+					toast.success('Job updated successfully');
+					return response;
+				}
+			},
+		}),
 	}),
 });
 
-export const {useGetJobsQuery, usePostJobsMutation} = jobManagementApi;
+export const {useGetJobsQuery, usePostJobsMutation, useUpdateJobsMutation} = jobManagementApi;

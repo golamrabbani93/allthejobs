@@ -1,10 +1,9 @@
 import Link from 'next/link.js';
 import Image from 'next/image.js';
-import {format} from 'date-fns';
+import {useRouter} from 'next/navigation';
 
 const SingleJob = ({item}) => {
-	console.log('🚀🚀: SingleJob -> item', item);
-	const startDate = format(new Date(item.created_at), 'dd MMMM yyyy');
+	const router = useRouter();
 	return (
 		<tr>
 			<td>
@@ -39,13 +38,13 @@ const SingleJob = ({item}) => {
 				<div className="option-box">
 					<ul className="option-list">
 						<li>
-							<button data-text="View Aplication">
+							<button onClick={() => router.push(`/jobs/${item.job_id}`)} data-text="View Job">
 								<span className="la la-eye"></span>
 							</button>
 						</li>
 						<li>
-							<button data-text="Delete Aplication">
-								<span className="la la-trash"></span>
+							<button data-text="Apply Job">
+								<span className="la la-check"></span>
 							</button>
 						</li>
 					</ul>

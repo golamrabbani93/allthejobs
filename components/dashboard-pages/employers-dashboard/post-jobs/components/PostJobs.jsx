@@ -1,4 +1,5 @@
 'use client';
+import ATJDatePicker from '@/components/form/ATJDatePicker';
 import ATJForm from '@/components/form/ATJForm';
 import ATJInput from '@/components/form/ATJInput';
 import ATJMultiSelect from '@/components/form/ATJMultiSelect';
@@ -19,18 +20,19 @@ import {
 import {usePostJobsMutation} from '@/features/job/job.management.api';
 import {postJobsSchema} from '@/schemas/postJobs.schema';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {useState} from 'react';
+import {format} from 'date-fns';
+import {useRouter} from 'next/navigation';
+import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
 const PostJobs = () => {
+	const router = useRouter();
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const [postJobs, {data, isLoading}] = usePostJobsMutation();
 	const [defaultValues, setDefaultValues] = useState({
 		title: '',
-
 		vacancy_count: '',
 		benefits: [],
-
 		responsibilities: [],
 		education_requirements: undefined,
 		industry: undefined,
@@ -44,27 +46,36 @@ const PostJobs = () => {
 		featured: undefined,
 		application_instruction: '',
 		description: '',
+		ap_deadline: null,
 	});
 
+	//after the job posted successfully, navigate the job management page
+	useEffect(() => {
+		if (data?.job_id) {
+			router.push('/dashboard/employer/manage-jobs');
+		}
+	}, [data]);
 	//handle Jobs Post
 	const handleJobPost = (data) => {
+		const formattedDate = format(new Date(data.ap_deadline), 'dd MMMM yyyy');
 		const payload = {
 			...data,
-			benefits: data.benefits.map((benefit) => benefit.value),
-			responsibilities: data.responsibilities.map((responsibility) => responsibility.value),
-			education_requirements: data.education_requirements.value,
-			industry: data.industry.value,
-			language_requirements: data.language_requirements.map((language) => language.value),
-			skills_required: data.skills_required.map((skill) => skill.value),
-			salary_range: data.salary_range.value,
-			job_type: data.job_type.value,
-			experience_level: data.experience_level.value,
-			location_type: data.location_type.value,
-			tags: data.tags.map((tag) => tag.value),
+			benefits: data.benefits?.map((benefit) => benefit.value),
+			responsibilities: data.responsibilities?.map((responsibility) => responsibility.value),
+			education_requirements: data.education_requirements?.value,
+			industry: data.industry?.value,
+			language_requirements: data.language_requirements?.map((language) => language?.value),
+			skills_required: data.skills_required?.map((skill) => skill?.value),
+			salary_range: data.salary_range?.value,
+			job_type: data.job_type?.value,
+			experience_level: data.experience_level?.value,
+			location_type: data.location_type?.value,
+			tags: data.tags?.map((tag) => tag?.value),
 			employer_id: userRoleBasedData.employer_id,
-			featured: data.featured.value,
+			featured: data.featured?.value,
 			is_open: true,
 			status: 'Published',
+			ap_deadline: formattedDate,
 		};
 
 		postJobs(payload);
@@ -154,13 +165,8 @@ const PostJobs = () => {
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Skills Required</label>
-							<ATJMultiSelect
-								label={'Skills'}
-								name={'skills_required'}
-								disabled={loading}
-								options={jobSkillsOptions}
-							/>
+							<label>Select Application Deadline Date</label>
+							<ATJDatePicker disabled={loading} name="ap_deadline" format="dd MMMM yyyy" />
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Salary Ranges</label>
@@ -222,6 +228,15 @@ const PostJobs = () => {
 									{value: true, label: 'Yes'},
 									{value: false, label: 'No'},
 								]}
+							/>
+						</div>
+						<div className="form-group col-lg-12 col-md-12">
+							<label>Skills Required</label>
+							<ATJMultiSelect
+								label={'Skills'}
+								name={'skills_required'}
+								disabled={loading}
+								options={jobSkillsOptions}
 							/>
 						</div>
 

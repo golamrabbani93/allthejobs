@@ -10,7 +10,7 @@ const StreamVideoProvider=({children})=> {
   //! get currently logged in user from clerk
   const user = useSelector((state) => state.user);
   const userObject={
-    id: user?.user_id ,
+    id: "112233",
     name:user?.name||"test user", 
     image:user?.image
   }
@@ -24,10 +24,9 @@ const StreamVideoProvider=({children})=> {
     const initializeClient = async () => {
       if (!user) return;
       if (!apiKey) throw new Error('Stream API key is missing');
-  
       const fetchedToken = await tokenProvider();
-      // setToken(fetchedToken);
-  
+      console.log('token is',fetchedToken);
+      await new Promise(resolve => setTimeout(resolve, 1000));
       const client = new StreamVideoClient({
         apiKey,
         user: userObject,
@@ -36,12 +35,8 @@ const StreamVideoProvider=({children})=> {
   
       setVideoClient(client);
     };
-  
     initializeClient();
   }, [user]);
-  if(!videoClient){
-    return <div>loading....</div>
-  }
   return (
     <StreamVideo client={videoClient}>
       {children}

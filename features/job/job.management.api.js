@@ -44,6 +44,7 @@ const jobManagementApi = baseApi.injectEndpoints({
 			},
 			invalidatesTags: ['jobs'],
 			transformResponse: (response) => {
+				console.log('🚀🚀: response', response);
 				if (response?.job_id) {
 					toast.success('Job updated successfully');
 					return response;

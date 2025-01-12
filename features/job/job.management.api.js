@@ -44,7 +44,6 @@ const jobManagementApi = baseApi.injectEndpoints({
 			},
 			invalidatesTags: ['jobs'],
 			transformResponse: (response) => {
-				console.log('🚀🚀: response', response);
 				if (response?.job_id) {
 					toast.success('Job updated successfully');
 					return response;
@@ -62,8 +61,28 @@ const jobManagementApi = baseApi.injectEndpoints({
 			providesTags: ['jobs'],
 			transformResponse: (response) => response,
 		}),
+
+		//delete job
+		deleteJob: builder.mutation({
+			query: (id) => {
+				return {
+					url: `jobs/delete/${id}`,
+					method: 'DELETE',
+				};
+			},
+			invalidatesTags: ['jobs'],
+			transformResponse: (response) => {
+				toast.success('Job deleted successfully');
+				return response;
+			},
+		}),
 	}),
 });
 
-export const {useGetJobsQuery, usePostJobsMutation, useUpdateJobsMutation, useGetSingleJobQuery} =
-	jobManagementApi;
+export const {
+	useGetJobsQuery,
+	usePostJobsMutation,
+	useUpdateJobsMutation,
+	useGetSingleJobQuery,
+	useDeleteJobMutation,
+} = jobManagementApi;

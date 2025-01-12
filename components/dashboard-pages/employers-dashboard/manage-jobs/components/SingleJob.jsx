@@ -2,14 +2,16 @@
 
 import Link from 'next/link';
 import Image from 'next/image.js';
-import {useUpdateJobsMutation} from '@/features/job/job.management.api';
+import {useDeleteJobMutation, useUpdateJobsMutation} from '@/features/job/job.management.api';
 import {format} from 'date-fns';
 import {useRouter} from 'next/navigation';
-import Spinner from '@/components/Sppiner/Spinner';
 
 const SingleJob = ({item}) => {
 	const router = useRouter();
+	//use update job mutation
 	const [updateJob, {isLoading}] = useUpdateJobsMutation();
+	//delete job mutation
+	const [deleteJob, {isLoading: deleteLoading}] = useDeleteJobMutation();
 	//handle update job status
 	const handleUpdateJobStatus = (job) => {
 		if (job.is_open) {
@@ -19,6 +21,10 @@ const SingleJob = ({item}) => {
 			const payload = {...job, is_open: true};
 			updateJob(payload);
 		}
+	};
+	// delete job
+	const handleDeleteJob = (id) => {
+		deleteJob(id);
 	};
 	//convert date to human readable format
 	const startDate = format(new Date(item.created_at), 'dd MMMM yyyy');
@@ -92,9 +98,15 @@ const SingleJob = ({item}) => {
 							)}
 						</li>
 						<li>
-							<button data-text="Delete Aplication">
-								<span className="la la-trash"></span>
-							</button>
+							{deleteLoading ? (
+								<button data-text="Loading...">
+									<span className="la la-spinner la-spin"></span>
+								</button>
+							) : (
+								<button onClick={() => handleDeleteJob(item.job_id)} data-text="Delete Job">
+									<span className="la la-trash"></span>
+								</button>
+							)}
 						</li>
 					</ul>
 				</div>

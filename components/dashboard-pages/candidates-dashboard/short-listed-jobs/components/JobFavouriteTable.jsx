@@ -113,8 +113,8 @@ const JobFavouriteTable = () => {
 					{/* End table widget content */}
 				</div>
 			) : (
-				<div className="alert alert-warning h-96 flex justify-center items-center" role="alert">
-					<span className="text-black"> No Favourite Jobs</span>
+				<div className="bg-white rounded-lg h-96 flex justify-center items-center" role="alert">
+					<span className="text-black"> No Favorites Jobs !</span>
 				</div>
 			)}
 		</>

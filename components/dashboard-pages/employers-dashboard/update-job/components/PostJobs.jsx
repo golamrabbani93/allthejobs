@@ -21,12 +21,16 @@ import {usePostJobsMutation} from '@/features/job/job.management.api';
 import {postJobsSchema} from '@/schemas/postJobs.schema';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {format} from 'date-fns';
-import {useRouter} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
-const PostJobs = () => {
+const PostJobs = ({id}) => {
+	//get id from the router
+
 	const router = useRouter();
+	const pathname = usePathname();
+
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const [postJobs, {data, isLoading}] = usePostJobsMutation();
 	const [defaultValues, setDefaultValues] = useState({

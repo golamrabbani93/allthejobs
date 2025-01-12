@@ -7,7 +7,7 @@ import MenuToggler from '../../MenuToggler';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
 import PostJobs from './components/PostJobs';
 
-const index = () => {
+const index = ({id}) => {
 	return (
 		<div className="page-wrapper dashboard">
 			<span className="header-span"></span>
@@ -44,7 +44,7 @@ const index = () => {
 									</div>
 
 									<div className="widget-content">
-										<PostJobs />
+										<PostJobs id={id} />
 										{/* End post box form */}
 									</div>
 								</div>

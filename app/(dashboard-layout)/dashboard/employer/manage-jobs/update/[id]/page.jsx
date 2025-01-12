@@ -1,9 +1,9 @@
 import UpdateJob from '@/components/dashboard-pages/employers-dashboard/update-job';
 
-const page = () => {
+const page = ({params}) => {
 	return (
 		<>
-			<UpdateJob />
+			<UpdateJob id={params.id} />
 		</>
 	);
 };

@@ -35,7 +35,8 @@ const JobAlertsTable = () => {
 									<tr>
 										<th>Job Title</th>
 										<th>Job Type</th>
-										<th>Posted Date</th>
+										<th>Salary</th>
+										<th>Application Deadline</th>
 										<th>Action</th>
 									</tr>
 								</thead>

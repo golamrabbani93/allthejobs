@@ -1,7 +1,10 @@
 import Link from 'next/link.js';
 import Image from 'next/image.js';
+import {format} from 'date-fns';
 
 const SingleJob = ({item}) => {
+	console.log('🚀🚀: SingleJob -> item', item);
+	const startDate = format(new Date(item.created_at), 'dd MMMM yyyy');
 	return (
 		<tr>
 			<td>
@@ -10,27 +13,28 @@ const SingleJob = ({item}) => {
 					<div className="inner-box">
 						<div className="content">
 							<span className="company-logo">
-								<Image width={50} height={49} src={item.logo} alt="logo" />
+								<Image width={50} height={49} src={item.employer.user.photo} alt="logo" />
 							</span>
 							<h4>
-								<Link href={`/job-single-v3/${item.id}`}>{item.jobTitle}</Link>
+								<Link href={`/job-single-v3/${item.id}`}>{item.title}</Link>
 							</h4>
 							<ul className="job-info">
 								<li>
 									<span className="icon flaticon-briefcase"></span>
-									Segment
+									{item.employer.company_name}
 								</li>
 								<li>
 									<span className="icon flaticon-map-locator"></span>
-									London, UK
+									{item.employer.country}
 								</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</td>
-			<td>Human Resources, Junior</td>
-			<td>Nov 12, 2021 </td>
+			<td>{item.job_type}</td>
+			<td>${item.salary_range}</td>
+			<td className="text-center">{item.ap_deadline}</td>
 			<td>
 				<div className="option-box">
 					<ul className="option-list">

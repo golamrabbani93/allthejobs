@@ -31,7 +31,7 @@ const JobOverView = ({job}) => {
 				<li>
 					<i className="icon icon-user-2"></i>
 					<h5>Job Title:</h5>
-					<span>{job.title}</span>
+					<span>{job?.title}</span>
 				</li>
 				{/* <li>
 					<i className="icon icon-clock"></i>

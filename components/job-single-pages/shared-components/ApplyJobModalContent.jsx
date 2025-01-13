@@ -1,70 +1,38 @@
-import Link from "next/link";
+import ATJForm from '@/components/form/ATJForm';
+import ATJTextArea from '@/components/form/ATJTextArea';
+import {applyJobValidationSchema} from '@/schemas/applyJob.schema';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useSelector} from 'react-redux';
 
-const ApplyJobModalContent = () => {
-  return (
-    <form className="default-form job-apply-form">
-      <div className="row">
-        <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-          <div className="uploading-outer apply-cv-outer">
-            <div className="uploadButton">
-              <input
-                className="uploadButton-input"
-                type="file"
-                name="attachments[]"
-                accept="image/*, application/pdf"
-                id="upload"
-                multiple=""
-                required
-              />
-              <label
-                className="uploadButton-button ripple-effect"
-                htmlFor="upload"
-              >
-                Upload CV (doc, docx, pdf)
-              </label>
-            </div>
-          </div>
-        </div>
-        {/* End .col */}
+const ApplyJobModalContent = ({jobId}) => {
+	const {userRoleBasedData, loading} = useSelector((state) => state.data);
+	const handleApplyJob = (data) => {
+		const payload = {
+			job_id: jobId,
+			feedback: data.feedback,
+			status: 'applied',
+			talent_id: userRoleBasedData?.talent_id,
+		};
+		console.log(payload);
+	};
+	return (
+		<div className="default-form ">
+			<ATJForm onSubmit={handleApplyJob} resolver={zodResolver(applyJobValidationSchema)}>
+				<div className="row">
+					<div className="form-group col-md-12">
+						<label>Write A Message</label>
+						<ATJTextArea disabled={loading} name="feedback" />
+					</div>
 
-        <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-          <textarea
-            className="darma"
-            name="message"
-            placeholder="Message"
-            required
-          ></textarea>
-        </div>
-        {/* End .col */}
-
-        <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-          <div className="input-group checkboxes square">
-            <input type="checkbox" name="remember-me" id="rememberMe" />
-            <label htmlFor="rememberMe" className="remember">
-              <span className="custom-checkbox"></span> You accept our{" "}
-              <span data-bs-dismiss="modal">
-                <Link href="/terms">
-                  Terms and Conditions and Privacy Policy
-                </Link>
-              </span>
-            </label>
-          </div>
-        </div>
-        {/* End .col */}
-
-        <div className="col-lg-12 col-md-12 col-sm-12 form-group">
-          <button
-            className="theme-btn btn-style-one w-100"
-            type="submit"
-            name="submit-form"
-          >
-            Apply Job
-          </button>
-        </div>
-        {/* End .col */}
-      </div>
-    </form>
-  );
+					<div className="col-lg-12 col-md-12 col-sm-12 form-group">
+						<button className="theme-btn btn-style-one w-100" type="submit">
+							Apply Job
+						</button>
+					</div>
+				</div>
+			</ATJForm>
+		</div>
+	);
 };
 
 export default ApplyJobModalContent;

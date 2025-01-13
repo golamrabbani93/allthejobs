@@ -144,7 +144,7 @@ const index = ({id}) => {
 											</div>
 											{/* End modal-header */}
 
-											<ApplyJobModalContent />
+											<ApplyJobModalContent jobId={job?.job_id} />
 											{/* End PrivateMessageBox */}
 										</div>
 										{/* End .send-private-message-wrapper */}

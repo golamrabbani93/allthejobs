@@ -138,6 +138,7 @@ const index = ({id}) => {
 												<button
 													type="button"
 													className="closed-modal"
+													id="applyJobModalCloseBtn"
 													data-bs-dismiss="modal"
 													aria-label="Close"
 												></button>

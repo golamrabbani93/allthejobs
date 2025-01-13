@@ -4,6 +4,17 @@ import {toast} from 'react-toastify';
 
 const applicationManagementApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
+		getAllApplications: builder.query({
+			query: () => {
+				return {
+					url: `applications/`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['application'],
+			transformResponse: (response) => response,
+		}),
+
 		applyJob: builder.mutation({
 			query: (data) => {
 				return {
@@ -24,4 +35,4 @@ const applicationManagementApi = baseApi.injectEndpoints({
 	}),
 });
 
-export const {useApplyJobMutation} = applicationManagementApi;
+export const {useGetAllApplicationsQuery, useApplyJobMutation} = applicationManagementApi;

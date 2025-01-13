@@ -13,8 +13,12 @@ import RelatedJobs from './related-jobs/RelatedJobs';
 import JobOverView from './job-overview/JobOverView';
 import JobSkills from './shared-components/JobSkills';
 import CompanyInfo from './shared-components/CompanyInfo';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {timeAgoFromPosting} from '@/utils/timeAgoFromPosting';
+import {
+	addJobToWishlist,
+	removeJobFromWishlist,
+} from '@/features/wishlistJobsSlice/wishlistJobsSlice';
 
 export const metadata = {
 	title: 'Job Detail || AllTheJobs',
@@ -27,6 +31,9 @@ const index = ({id}) => {
 	const {jobs: allJobs, loading} = useSelector((state) => state.data);
 	const job = allJobs.find((job) => job.job_id === Number(id));
 	const time = timeAgoFromPosting(job?.created_at);
+	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
+	const dispatch = useDispatch();
+	const isWishListJob = wishListJobs.find((wishItem) => wishItem.job_id === job?.job_id);
 	if (loading) return <div>Loading...</div>;
 	return (
 		<>
@@ -104,9 +111,21 @@ const index = ({id}) => {
 									>
 										Apply For Job
 									</a>
-									<button className="bookmark-btn">
-										<i className="flaticon-bookmark"></i>
-									</button>
+									{isWishListJob ? (
+										<button
+											onClick={() => dispatch(removeJobFromWishlist(job))}
+											className="bookmark-btn "
+										>
+											<span className="fa fa-bookmark"></span>
+										</button>
+									) : (
+										<button
+											onClick={() => dispatch(addJobToWishlist(job))}
+											className="bookmark-btn"
+										>
+											<span className="flaticon-bookmark"></span>
+										</button>
+									)}
 								</div>
 								{/* End apply for job btn */}
 

@@ -25,7 +25,6 @@ const StreamVideoProvider=({children})=> {
       if (!user) return;
       if (!apiKey) throw new Error('Stream API key is missing');
       const fetchedToken = await tokenProvider();
-      console.log('token is',fetchedToken);
       await new Promise(resolve => setTimeout(resolve, 1000));
       const client = new StreamVideoClient({
         apiKey,

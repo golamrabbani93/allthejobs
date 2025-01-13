@@ -172,20 +172,11 @@ const index = ({id}) => {
 									<div className="sidebar-widget">
 										{/* <!-- Job Overview --> */}
 										<h4 className="widget-title">Job Overview</h4>
-										<JobOverView />
+										<JobOverView job={job} />
 
-										{/* <!-- Map Widget --> */}
-										<h4 className="widget-title mt-5">Job Location</h4>
+										<h4 className="widget-title mt-5">Job Skills</h4>
 										<div className="widget-content">
-											<div className="map-outer">
-												<div style={{height: '300px', width: '100%'}}>{/* <MapJobFinder /> */}</div>
-											</div>
-										</div>
-										{/* <!--  Map Widget --> */}
-
-										<h4 className="widget-title">Job Skills</h4>
-										<div className="widget-content">
-											<JobSkills />
+											<JobSkills job={job} />
 										</div>
 										{/* <!-- Job Skills --> */}
 									</div>
@@ -195,25 +186,30 @@ const index = ({id}) => {
 										<div className="widget-content">
 											<div className="company-title">
 												<div className="company-logo">
-													<Image width={54} height={53} src={company.logo} alt="resource" />
+													<Image
+														width={54}
+														height={53}
+														src={job?.employer.user.photo}
+														alt={job?.employer.user.name}
+													/>
 												</div>
-												<h5 className="company-name">{company.company}</h5>
+												<h5 className="company-name">{job?.employer.company_name}</h5>
 												<a href="#" className="profile-link">
 													View company profile
 												</a>
 											</div>
 											{/* End company title */}
 
-											<CompanyInfo />
+											<CompanyInfo job={job} />
 
 											<div className="btn-box">
 												<a
-													href="#"
+													href={job?.employer.company_website}
 													target="_blank"
 													rel="noopener noreferrer"
 													className="theme-btn btn-style-three"
 												>
-													{company?.link}
+													{job?.employer.company_website}
 												</a>
 											</div>
 											{/* End btn-box */}

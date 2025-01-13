@@ -15,7 +15,7 @@ const JobDetailsDescriptions = ({job}) => {
 			<ul className="d-flex flex-wrap">
 				{job?.skills_required.map((item, index) => (
 					<li className="mx-2 capitalize" key={index}>
-						{item}*
+						*{item}*
 					</li>
 				))}{' '}
 			</ul>
@@ -26,6 +26,8 @@ const JobDetailsDescriptions = ({job}) => {
 					<li key={index}>{item}.</li>
 				))}
 			</ul>
+			<h4>Application Instruction</h4>
+			<p>**{job?.application_instruction}**</p>
 		</div>
 	);
 };

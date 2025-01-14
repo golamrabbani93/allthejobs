@@ -50,9 +50,9 @@ const MeetingTypeList = () => {
         data: {
           starts_at: startsAt,
           members: [
-            { user_id: consultant_id, role: 'admin' },
+            ...(description!=="Instant Meeting" ?[{user_id: consultant_id, role: 'admin' }]:[]),
             { user_id: user.user_id.toString(), role: 'guest' }
-          ], //todo make it dynamic
+          ], 
           custom: {
             description,
             isAccepted:false,

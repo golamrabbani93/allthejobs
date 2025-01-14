@@ -21,21 +21,17 @@ export const useGetCalls=()=>{
         name:user.name,
         image:user.image
       }
-      console.log(userObject);
       try {
         const {calls}=await client.queryCalls({
           sort:[{field:'starts_at',direction:-1}],
           filter_conditions:{
-            starts_at:{$exists:true},
+            // starts_at:{$exists:true},
             $or:[
               {created_by_user_id:userObject.id},
               {members:{$in:[userObject.id]}}
-              // {members:{$in:['126','127']}}
             ],
-            // 'custom.isAccepted': true,
           }
         })
-        console.log(calls);
         setCalls(calls)
         
       } catch (error) { 
@@ -62,9 +58,8 @@ export const useGetCalls=()=>{
   });
   
   const meetingRequest = calls.filter(({ state: { startsAt,custom } }) => {
-    console.log(custom);
     return startsAt && new Date(startsAt) > now && custom?.isAccepted === false;
   });
-  return {previousCalls,upcomingCalls,recordings:calls,isLoading,meetingRequest}
+  return {previousCalls,upcomingCalls,recordings:calls,isLoading,meetingRequest,role:user.role}
 
 }

@@ -3,13 +3,20 @@
 import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 import Link from 'next/link';
 import Image from 'next/image';
-import {useGetAllApplicationsQuery} from '@/features/application/application.management.api';
+import {
+	useGetAllApplicationsQuery,
+	useUpdateApplicationStatusMutation,
+} from '@/features/application/application.management.api';
 import {useGetAllTalentsQuery} from '@/features/candidate/talent.management.api';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useRouter} from 'next/navigation';
 
 const WidgetContentBox = ({selectJob}) => {
 	const router = useRouter();
+	//update applicant status
+	const [updateApplicantStatus, {data, isLoading: updateAppLoading}] =
+		useUpdateApplicationStatusMutation();
+	console.log('🚀🚀: WidgetContentBox -> data', data);
 	//get all talents
 	const {data: talents, isLoading: talentsLoading} = useGetAllTalentsQuery();
 	//get all applicants
@@ -47,6 +54,20 @@ const WidgetContentBox = ({selectJob}) => {
 		talents.find((talent) => talent.talent_id === applicant.talent_id),
 	);
 
+	//handel make shortlist
+	const handleMakeShortList = (candidate) => {
+		const getApplication = applicants.find(
+			(applicant) => applicant.talent_id === candidate.talent_id,
+		);
+		const payload = {
+			job_application_id: getApplication?.job_application_id,
+			job_id: getApplication?.job_id,
+			status: 'short-listed',
+			talent_id: getApplication?.talent_id,
+		};
+
+		updateApplicantStatus(payload);
+	};
 	if (talentsLoading || applicantLoading)
 		return (
 			<div className="flex justify-center items-center h-96">
@@ -139,9 +160,18 @@ const WidgetContentBox = ({selectJob}) => {
 																</button>
 															</li>
 															<li>
-																<button data-text="Make Shortlist">
-																	<span className="la la-check"></span>
-																</button>
+																{updateAppLoading ? (
+																	<button data-text="Loading...">
+																		<span className="la la-spinner la-spin"></span>
+																	</button>
+																) : (
+																	<button
+																		onClick={() => handleMakeShortList(candidate)}
+																		data-text="Make Shortlist"
+																	>
+																		<span className="la la-check"></span>
+																	</button>
+																)}
 															</li>
 															<li>
 																<button data-text="Reject Application">

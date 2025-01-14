@@ -32,7 +32,25 @@ const applicationManagementApi = baseApi.injectEndpoints({
 				}
 			},
 		}),
+		//updateApplicationStatus
+		updateApplicationStatus: builder.mutation({
+			query: (data) => {
+				return {
+					url: `applications/${data.job_application_id}/update/`,
+					method: 'PUT',
+					body: data,
+				};
+			},
+			invalidatesTags: ['application'],
+			transformResponse: (response) => {
+				if (response.job_application_id) {
+					toast.success('Application Status Updated');
+					return response;
+				}
+			},
+		}),
 	}),
 });
 
-export const {useGetAllApplicationsQuery, useApplyJobMutation} = applicationManagementApi;
+export const {useGetAllApplicationsQuery, useApplyJobMutation, useUpdateApplicationStatusMutation} =
+	applicationManagementApi;

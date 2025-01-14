@@ -10,13 +10,18 @@ import ShortListTalents from './talents/ShortListTalents';
 import InterviewingTalents from './talents/InterviewingTalents';
 import HiredTalents from './talents/HiredTalents';
 import RejectedTalents from './talents/RejectedTalents';
+import {useSelector} from 'react-redux';
 
 const WidgetContentBox = ({selectJob}) => {
+	const {jobs, userRoleBasedData, loading} = useSelector((state) => state.data);
 	//get all talents
 	const {data: talents, isLoading: talentsLoading} = useGetAllTalentsQuery();
 	//get all applicants
 	const {data: allApplicants, isLoading: applicantLoading} = useGetAllApplicationsQuery();
 	const applicants = allApplicants?.filter((applicant) => applicant?.job_id === selectJob?.job_id);
+	const appliedTalents = applicants?.map((applicant) =>
+		talents.find((talent) => talent?.talent_id === applicant?.talent_id),
+	);
 	const getShortListed = applicants?.filter((applicant) => applicant?.status === 'short-listed');
 	const getInterviewListed = applicants?.filter(
 		(applicant) => applicant?.status === 'interviewing',
@@ -25,23 +30,38 @@ const WidgetContentBox = ({selectJob}) => {
 	const getRejected = applicants?.filter((applicant) => applicant?.status === 'expired');
 
 	//get all talents
-	const allAppliedTalents = allApplicants?.map((applicant) =>
-		talents.find((talent) => talent.talent_id === applicant.talent_id),
-	);
+	const allAppliedTalents = allApplicants
+		?.map((applicant) => {
+			const job = jobs.find(
+				(job) =>
+					job.job_id === applicant.job_id && job.employer_id === userRoleBasedData.employer_id,
+			);
+
+			if (!job) {
+				return undefined; // Skip if no matching job is found
+			}
+
+			return talents.find((talent) => talent?.talent_id === applicant?.talent_id);
+		})
+		.filter(
+			(talent, index, self) =>
+				talent !== undefined && self.findIndex((t) => t?.talent_id === talent?.talent_id) === index,
+		);
+
 	//find shortlisted talents by applicants id
 	const shortListedTalents = getShortListed?.map((applicant) =>
 		talents.find((talent) => talent.talent_id === applicant.talent_id),
 	);
 
 	//getInterviewListed talents
-	const interviewListedTalents = getInterviewListed?.map((applicant) =>
-		talents.find((talent) => talent.talent_id === applicant.talent_id),
-	);
+	// const interviewListedTalents = getInterviewListed?.map((applicant) =>
+	// 	talents.find((talent) => talent.talent_id === applicant.talent_id),
+	// );
 
 	//get Hired Talents
-	const hiredTalents = getHired?.map((applicant) =>
-		talents.find((talent) => talent.talent_id === applicant.talent_id),
-	);
+	// const hiredTalents = getHired?.map((applicant) =>
+	// 	talents.find((talent) => talent.talent_id === applicant.talent_id),
+	// );
 
 	//get Rejected Talents
 
@@ -49,7 +69,7 @@ const WidgetContentBox = ({selectJob}) => {
 		talents.find((talent) => talent.talent_id === applicant.talent_id),
 	);
 
-	if (talentsLoading || applicantLoading)
+	if (talentsLoading || applicantLoading || loading)
 		return (
 			<div className="flex justify-center items-center h-96">
 				<Spinner />
@@ -71,8 +91,8 @@ const WidgetContentBox = ({selectJob}) => {
 							{selectJob?.job_id && (
 								<>
 									<Tab className="tab-btn approved"> Short Lists: {getShortListed?.length}</Tab>
-									<Tab className="tab-btn approved">Interviewing: {getInterviewListed?.length}</Tab>
-									<Tab className="tab-btn approved"> Hired: {getHired?.length}</Tab>
+									{/* <Tab className="tab-btn approved">Interviewing: {getInterviewListed?.length}</Tab>
+									<Tab className="tab-btn approved"> Hired: {getHired?.length}</Tab> */}
 									<Tab className="tab-btn rejected"> Rejected(s): {getRejected?.length}</Tab>
 								</>
 							)}
@@ -82,10 +102,19 @@ const WidgetContentBox = ({selectJob}) => {
 					<div className="tabs-content">
 						<TabPanel>
 							<div className="row">
-								{allAppliedTalents && allAppliedTalents?.length > 0 ? (
-									allAppliedTalents?.map((candidate) => (
+								{appliedTalents?.length > 0 ? (
+									appliedTalents.map((candidate) => (
 										<AllTalents
-											key={candidate?.talent_id}
+											key={candidate.talent_id}
+											candidate={candidate}
+											applicants={applicants}
+											selectJob={selectJob}
+										/>
+									))
+								) : allAppliedTalents?.length > 0 ? (
+									allAppliedTalents.map((candidate) => (
+										<AllTalents
+											key={candidate.talent_id}
 											candidate={candidate}
 											applicants={applicants}
 											selectJob={selectJob}
@@ -93,7 +122,7 @@ const WidgetContentBox = ({selectJob}) => {
 									))
 								) : (
 									<div className="flex justify-center items-center h-40">
-										<div className="">No Applicants</div>
+										<div>No Applicants</div>
 									</div>
 								)}
 							</div>
@@ -120,7 +149,7 @@ const WidgetContentBox = ({selectJob}) => {
 									</div>
 								</TabPanel>
 								{/* End Shortlisted applicants */}
-								<TabPanel>
+								{/* <TabPanel>
 									<div className="row">
 										{interviewListedTalents?.length > 0 ? (
 											interviewListedTalents?.map((candidate) => (
@@ -137,9 +166,9 @@ const WidgetContentBox = ({selectJob}) => {
 											</div>
 										)}
 									</div>
-								</TabPanel>
+								</TabPanel> */}
 								{/* End InterViewing applicants */}
-								<TabPanel>
+								{/* <TabPanel>
 									<div className="row">
 										{hiredTalents?.length > 0 ? (
 											hiredTalents?.map((candidate) => (
@@ -156,7 +185,7 @@ const WidgetContentBox = ({selectJob}) => {
 											</div>
 										)}
 									</div>
-								</TabPanel>
+								</TabPanel> */}
 								{/* End Hired applicants */}
 								<TabPanel>
 									<div className="row">

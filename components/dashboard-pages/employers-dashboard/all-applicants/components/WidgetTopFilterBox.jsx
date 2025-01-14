@@ -18,7 +18,7 @@ const WidgetTopFilterBox = ({setSelectJob}) => {
 			>
 				<option>Select Jobs</option>
 				{myJobs.map((job) => (
-					<option key={job.employer_id} value={job.job_id}>
+					<option key={job.job_id} value={job.job_id}>
 						{job.title}
 					</option>
 				))}

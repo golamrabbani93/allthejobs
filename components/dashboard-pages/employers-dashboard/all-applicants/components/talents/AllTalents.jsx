@@ -47,7 +47,7 @@ const AllTalents = ({candidate, applicants, selectJob}) => {
 				<div className="content">
 					<figure className="image">
 						{candidate?.user?.photo && (
-							<Image width={90} height={90} src={candidate.user.photo} alt="candidates" />
+							<Image width={200} height={200} src={candidate.user.photo} alt="candidates" />
 						)}
 					</figure>
 					<h4 className="name">

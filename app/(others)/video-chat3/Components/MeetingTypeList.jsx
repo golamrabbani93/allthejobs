@@ -88,7 +88,7 @@ const MeetingTypeList = () => {
         img='icons/recordings.svg'
         title='View Recording'
         description='Checkout your recording'
-        handleClick={() => router.push("/recordings")}
+        handleClick={() => router.push("video-chat3/recordings")}
         background='bg-purple-400'
       ></HomeCard>
       <HomeCard

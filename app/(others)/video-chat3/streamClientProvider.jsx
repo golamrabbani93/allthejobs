@@ -9,6 +9,7 @@ const StreamVideoProvider=({children})=> {
   const [videoClient,setVideoClient]=useState()
   //! get currently logged in user from clerk
   const user = useSelector((state) => state.user);
+  console.log(user);
   const userObject={
     id: "112233",
     name:user?.name||"test user", 

@@ -114,11 +114,11 @@ const MeetingTypeList = () => {
               onChange={(e) => {
                 setValues({ ...values, description: e.target.value });
               }}
-              className='bg-dark-2 border-none border border-blue-1'
+              className='bg-[#161925] border-none border border-blue-1'
             ></Textarea>
           </div>
           <div className='flex w-full flex-col gap-2.5'>
-            <label className='text-base text-normal leading-[22px]' htmlFor=''>
+            <label className='text-base text-normal leading-[22px] ' htmlFor=''>
               Select Date and Time
             </label>
             <DatePicker
@@ -129,7 +129,7 @@ const MeetingTypeList = () => {
               timeIntervals={15}
               timeCaption='time'
               dateFormat='MMMM d, yyyy h:mm aa'
-              className="w-full rounded bg-dark-2 p-2"
+              className="w-full rounded bg-[#161925] p-2"
             />
           </div>
         </MeetingModal>

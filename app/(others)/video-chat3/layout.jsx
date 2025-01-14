@@ -8,7 +8,7 @@ const HomeLayout = ({ children }) => {
     <main className='relative  '>
       <div className='flex '>
       {!isMeetingPath && <Sidebar />}
-        <section className=' min-h-screen flex flex-1 flex-col px-6 pb-6 pt-28 max-md:pb-14 sm:px-14'>
+        <section className={`min-h-screen flex flex-1 flex-col ${!isMeetingPath &&"px-6 pb-6 pt-28 max-md:pb-14 sm:px-14"}`}>
           <div className='w-full'>{children}</div>
         </section>
       </div>

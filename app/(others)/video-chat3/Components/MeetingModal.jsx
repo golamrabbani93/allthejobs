@@ -35,7 +35,7 @@ const MeetingModal = ({
             {title}
           </h1>
           {children}
-          <Button className='bg-blue-1 ' onClick={handleClick}>
+          <Button className=' ' onClick={handleClick}>
             {buttonIcon && (
               <Image
                 src={buttonIcon}

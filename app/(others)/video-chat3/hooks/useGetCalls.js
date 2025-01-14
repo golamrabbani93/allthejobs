@@ -41,14 +41,13 @@ export const useGetCalls=()=>{
 
   },[client,user?.id])
   const now=new Date()
-  const previousCalls=calls.filter(({state:{startsAt,endedAt}}:Call)=>{
+  const previousCalls=calls.filter(({state:{startsAt,endedAt}})=>{
     return (startsAt&& new Date(startsAt)<now || !!endedAt)
   })
 
-  const upcomingCalls=calls.filter(({state:{startsAt}}:Call)=>{
+  const upcomingCalls=calls.filter(({state:{startsAt}})=>{
     return (startsAt&& new Date(startsAt)>now)
   })
-
 
   return {previousCalls,upcomingCalls,recordings:calls,isLoading}
 

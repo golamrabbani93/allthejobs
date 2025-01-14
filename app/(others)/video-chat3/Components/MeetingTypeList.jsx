@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {useStreamVideoClient } from "@stream-io/video-react-sdk";
 import DatePicker from "react-datepicker";
@@ -12,15 +12,19 @@ import HomeCard from "./HomeCard";
 const MeetingTypeList = () => {
   const router = useRouter();
   const [meetingState, setMeetingState] = useState();
-  const user = useSelector((state) => state.user);
+  const user_redux = useSelector((state) => state.user);
+  const [user,setUser]=useState(undefined)
+  useEffect(()=>{
+    setUser(user_redux)
+  },[user_redux])
   const client = useStreamVideoClient();
   const [values, setValues] = useState({
     datetime: new Date(),
     description: "",
     link: "",
+    consultant_id:""
   });
   const [callDetails, setCallDetails] = useState();
-  
   const { toast } =useToast()
   const createMeeting = async () => {
     if (!client || !user) return;
@@ -38,11 +42,20 @@ const MeetingTypeList = () => {
       const startsAt =
         values.datetime.toISOString() || new Date(Date.now()).toISOString();
       const description = values.description || "Instant Meeting";
+      const consultant_id=values.consultant_id.toString()
+      if(description==="Instant Meeting"){
+
+      }
       await call.getOrCreate({
         data: {
           starts_at: startsAt,
+          members: [
+            { user_id: consultant_id, role: 'admin' },
+            { user_id: user.user_id.toString(), role: 'guest' }
+          ], //todo make it dynamic
           custom: {
             description,
+            isAccepted:false,
           },
         },
       });
@@ -65,6 +78,9 @@ const MeetingTypeList = () => {
   };
 
   const meetingLink=`${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${callDetails?.id}`
+  if (!user?.user_id) {
+    return <div className="text-black">Loading...</div>; // Or any placeholder
+  }
 
   return (
     <section className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4'>
@@ -77,13 +93,13 @@ const MeetingTypeList = () => {
         background='bg-orange-400'
       ></HomeCard>
 
-      <HomeCard
+    {user.role==='talent'&& <HomeCard
         img='icons/schedule.svg'
         title='Schedule Meeting'
         description='Plan your meeting'
         handleClick={() => setMeetingState("isScheduledMeeting")}
         background='bg-blue-400'
-      ></HomeCard>
+      ></HomeCard>}
       <HomeCard
         img='icons/recordings.svg'
         title='View Recording'
@@ -106,6 +122,17 @@ const MeetingTypeList = () => {
           title='Create Meeting'
           handleClick={createMeeting}
         >
+          <div className='flex flex-col gap-2 5'>
+            <label className='text-base text-normal leading-[22px]' htmlFor=''>
+              Provide Consultant ID 
+            </label>
+            <Textarea
+              onChange={(e) => {
+                setValues({ ...values, consultant_id: e.target.value });
+              }}
+              className='bg-[#161925] border-none border border-blue-1'
+            ></Textarea>
+          </div>
           <div className='flex flex-col gap-2 5'>
             <label className='text-base text-normal leading-[22px]' htmlFor=''>
               Add a description

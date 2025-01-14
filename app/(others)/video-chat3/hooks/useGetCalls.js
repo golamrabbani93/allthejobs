@@ -21,7 +21,7 @@ export const useGetCalls=()=>{
         name:user.name,
         image:user.image
       }
-      console.log(client);
+      console.log(userObject);
       try {
         const {calls}=await client.queryCalls({
           sort:[{field:'starts_at',direction:-1}],
@@ -29,13 +29,16 @@ export const useGetCalls=()=>{
             starts_at:{$exists:true},
             $or:[
               {created_by_user_id:userObject.id},
-              {member:{$in:[userObject.id]}}
-            ]
+              {members:{$in:[userObject.id]}}
+              // {members:{$in:['126','127']}}
+            ],
+            // 'custom.isAccepted': true,
           }
         })
+        console.log(calls);
         setCalls(calls)
         
-      } catch (error) {
+      } catch (error) { 
         console.log(error);
         
       }finally{
@@ -50,10 +53,18 @@ export const useGetCalls=()=>{
     return (startsAt&& new Date(startsAt)<now || !!endedAt)
   })
 
-  const upcomingCalls=calls.filter(({state:{startsAt}})=>{
-    return (startsAt&& new Date(startsAt)>now)
-  })
-
-  return {previousCalls,upcomingCalls,recordings:calls,isLoading}
+  // const upcomingCalls=calls.filter(({state:{startsAt}})=>{
+  //   return (startsAt&& new Date(startsAt)>now)
+  // })
+  const upcomingCalls = calls.filter(({ state: { startsAt,custom } }) => {
+    console.log(custom);
+    return startsAt && new Date(startsAt) > now && custom?.isAccepted === true;
+  });
+  
+  const meetingRequest = calls.filter(({ state: { startsAt,custom } }) => {
+    console.log(custom);
+    return startsAt && new Date(startsAt) > now && custom?.isAccepted === false;
+  });
+  return {previousCalls,upcomingCalls,recordings:calls,isLoading,meetingRequest}
 
 }

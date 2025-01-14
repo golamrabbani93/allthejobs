@@ -8,7 +8,7 @@ import MeetingCard from "./MeetingCard";
 const CallList = ({
   type
 }) => {
-  const { upcomingCalls, previousCalls, recordings,isLoading } = useGetCalls();
+  const { upcomingCalls, previousCalls, recordings,isLoading,meetingRequest } = useGetCalls();
   const router = useRouter();
   const [recording, setRecording] = useState([]);
   const getCalls = () => {
@@ -19,6 +19,8 @@ const CallList = ({
         return upcomingCalls;
       case "recording":
         return recordings;
+      case "request":
+        return meetingRequest
       default:
         return [];
     }

@@ -1,23 +1,22 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image.js';
 import {useSelector} from 'react-redux';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useGetJobsQuery} from '@/features/job/job.management.api.js';
+import SingleJob from './SingleJob';
 
 const JobListingsTable = () => {
-	const {data: jobs, isLoading} = useGetJobsQuery();
+	const {data: jobs, isFetching} = useGetJobsQuery();
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
-
 	const myJobs = jobs?.filter((job) => job?.employer_id === userRoleBasedData?.employer_id);
-	if (isLoading || loading) {
+	if (isFetching || loading) {
 		return (
 			<div className="flex justify-center items-center h-96">
 				<Spinner />
 			</div>
 		);
 	}
+
 	return (
 		<div className="tabs-box">
 			<div className="widget-title">
@@ -52,69 +51,7 @@ const JobListingsTable = () => {
 
 						<tbody>
 							{myJobs?.length > 0 ? (
-								myJobs?.map((item) => (
-									<tr key={item.job_id}>
-										<td>
-											{/* <!-- Job Block --> */}
-											<div className="job-block">
-												<div className="inner-box">
-													<div className="content">
-														<span className="company-logo">
-															<Image
-																width={50}
-																height={49}
-																src={item.employer.user.photo}
-																alt="logo"
-															/>
-														</span>
-														<h4>
-															<Link href={`/job-single-v3/${item.id}`}>{item.title}</Link>
-														</h4>
-														<ul className="job-info">
-															<li>
-																<span className="icon flaticon-briefcase"></span>
-																{item.employer.company_name}
-															</li>
-															<li>
-																<span className="icon flaticon-map-locator"></span>
-																{item.employer.country}
-															</li>
-														</ul>
-													</div>
-												</div>
-											</div>
-										</td>
-										<td className="applied">
-											<a href="#">3+ Applied</a>
-										</td>
-										<td>
-											October 27, 2017 <br />
-											April 25, 2011
-										</td>
-										<td className="status">Active</td>
-										<td>
-											<div className="option-box">
-												<ul className="option-list">
-													<li>
-														<button data-text="View Aplication">
-															<span className="la la-eye"></span>
-														</button>
-													</li>
-													<li>
-														<button data-text="Reject Aplication">
-															<span className="la la-pencil"></span>
-														</button>
-													</li>
-													<li>
-														<button data-text="Delete Aplication">
-															<span className="la la-trash"></span>
-														</button>
-													</li>
-												</ul>
-											</div>
-										</td>
-									</tr>
-								))
+								myJobs?.map((item) => <SingleJob key={item.job_id} item={item} />)
 							) : (
 								<tr>
 									<td colSpan="5">No job listings found</td>

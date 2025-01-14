@@ -1,18 +1,13 @@
-'use client';
-
 import MobileMenu from '../../../header/MobileMenu';
 import LoginPopup from '../../../common/form/login/LoginPopup';
 import DashboardEmployerSidebar from '../../../header/DashboardEmployerSidebar';
 import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
-import WidgetContentBox from './components/WidgetContentBox';
-import WidgetTopFilterBox from './components/WidgetTopFilterBox';
 import MenuToggler from '../../MenuToggler';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
-import {useState} from 'react';
+import PostJobs from './components/PostJobs';
 
-const index = () => {
-	const [selectJob, setSelectJob] = useState({});
+const index = ({id}) => {
 	return (
 		<div className="page-wrapper dashboard">
 			<span className="header-span"></span>
@@ -33,7 +28,7 @@ const index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="All Applicants!" />
+					<BreadCrumb title="Post a New Job!" />
 					{/* breadCrumb */}
 
 					<MenuToggler />
@@ -45,13 +40,13 @@ const index = () => {
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>All Applicant List</h4>
-										<WidgetTopFilterBox setSelectJob={setSelectJob} />
+										<h4>Post Job</h4>
 									</div>
-									{/* End top widget filter bar */}
 
-									<WidgetContentBox selectJob={selectJob} />
-									{/* End widget-content */}
+									<div className="widget-content">
+										<PostJobs id={id} />
+										{/* End post box form */}
+									</div>
 								</div>
 							</div>
 						</div>

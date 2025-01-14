@@ -10,7 +10,8 @@ export const postJobsSchema = z.object({
 		.string({
 			message: 'Application instruction is required',
 		})
-		.min(1, 'Application instruction is required'),
+		.min(1, 'Application instruction is required')
+		.max(200, 'Description is too long (max 200 characters)'),
 	benefits: z
 		.array(selectSchema)
 		.min(1, {message: 'At least one benefit is required'})
@@ -22,7 +23,9 @@ export const postJobsSchema = z.object({
 		.string({
 			message: 'Description is required',
 		})
-		.min(1, 'Description is required'),
+		.min(1, 'Description is required')
+		.max(200, 'Description is too long (max 200 characters)'),
+
 	education_requirements: selectSchema.optional().refine((val) => val !== undefined, {
 		message: 'Education Requirements is required',
 	}),
@@ -57,7 +60,8 @@ export const postJobsSchema = z.object({
 	}),
 	skills_required: z
 		.array(selectSchema)
-		.min(1, {message: 'At least one skill is required'})
+		.min(5, {message: 'At least 5 Skill is required'})
+		.max(10, {message: 'Maximum of 10 Skills is allowed'})
 		.optional()
 		.refine((val) => val !== undefined, {
 			message: 'At least one skill is required',
@@ -89,4 +93,7 @@ export const postJobsSchema = z.object({
 		.refine((val) => val !== undefined, {
 			message: 'Please select a featured Option',
 		}),
+	ap_deadline: z.date({
+		message: 'Date is required',
+	}),
 });

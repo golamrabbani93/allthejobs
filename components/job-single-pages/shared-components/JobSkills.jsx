@@ -1,21 +1,13 @@
-const JobSkills = () => {
-  const skills = [
-    "app",
-    "administrative",
-    "android",
-    "wordpress",
-    "design",
-    "react",
-  ];
-  return (
-    <ul className="job-skills">
-      {skills.map((skill, i) => (
-        <li key={i}>
-          <a href="#">{skill}</a>
-        </li>
-      ))}
-    </ul>
-  );
+const JobSkills = ({job}) => {
+	return (
+		<ul className="job-skills">
+			{job?.skills_required.map((skill, i) => (
+				<li key={i}>
+					<a href="#">{skill}</a>
+				</li>
+			))}
+		</ul>
+	);
 };
 
 export default JobSkills;

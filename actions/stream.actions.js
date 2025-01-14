@@ -3,23 +3,23 @@ import { StreamClient } from "@stream-io/node-sdk";
 
 const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 const apiSecret = process.env.STREAM_SECRET_KEY
-const user = {
-  id: "112233", 
-  image: 'https://via.placeholder.com/150', 
-  name: 'John Wick',
-  role: 'user',
-  custom: {
-    email: 'jwick@gmail.com',
-  }
-}
+// const user = {
+//   id: "hamim", 
+//   image: 'https://via.placeholder.com/150', 
+//   name: 'John Wick',
+//   role: 'user',
+//   custom: {
+//     email: 'jwick@gmail.com',
+//   }
+// }
 
-export const tokenProvider = async () => {
-  if (!user) throw new Error("User is not logged in")
+export const tokenProvider = async (userObject) => {
+  if (!userObject) throw new Error("User is not logged in")
   if (!apiKey) throw new Error("No apiKey")
   if (!apiSecret) throw new Error("No apiSecret")
   const client = new StreamClient(apiKey, apiSecret)
-  await client.upsertUsers([user]);
+  await client.upsertUsers([userObject]);
   const validity = 60 * 60;
-  const token = client.generateUserToken({ user_id: user.id, validity_in_seconds: validity })
+  const token = client.generateUserToken({ user_id: userObject.id, validity_in_seconds: validity })
   return token
 }

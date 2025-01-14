@@ -9,23 +9,24 @@ const StreamVideoProvider=({children})=> {
   const [videoClient,setVideoClient]=useState()
   //! get currently logged in user from clerk
   const user = useSelector((state) => state.user);
-  console.log(user);
-  const userObject={
-    id: "112233",
-    name:user?.name||"test user", 
-    image:user?.image
-  }
-  // const [token,setToken]=useState("")
-  // const getToken=async()=>{
-  //   const fetchedToken=await tokenProvider()
-  //   setToken(fetchedToken)
+  // const userObject=
+  // {
+  //   id: "hamim",
+  //   name:user?.name||"test user", 
+  //   image:user?.image
   // }
-  // getToken()
   useEffect(() => {
     const initializeClient = async () => {
-      if (!user) return;
+      if (!user?.user_id) return;
       if (!apiKey) throw new Error('Stream API key is missing');
-      const fetchedToken = await tokenProvider();
+      console.log('hello from provider');
+      const userObject={
+        id:user.user_id.toString(),
+        name:user.name,
+        image:user.image
+      }
+      console.log(userObject);
+      const fetchedToken = await tokenProvider(userObject);
       await new Promise(resolve => setTimeout(resolve, 1000));
       const client = new StreamVideoClient({
         apiKey,

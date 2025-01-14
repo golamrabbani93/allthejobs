@@ -2,14 +2,17 @@ import {useUpdateApplicationStatusMutation} from '@/features/application/applica
 import Image from 'next/image';
 import Link from 'next/link';
 import {useRouter} from 'next/navigation';
+import {useState} from 'react';
 
 const RejectedTalents = ({candidate, applicants, selectJob}) => {
+	const [loadingStatus, setLoadingStatus] = useState('');
 	const router = useRouter();
 	//update applicant status
 	const [updateApplicantStatus, {data, isLoading: updateAppLoading}] =
 		useUpdateApplicationStatusMutation();
 	//handel make shortlist
 	const handleMakeShortList = (candidate) => {
+		setLoadingStatus('short-listed');
 		const getApplication = applicants.find(
 			(applicant) => applicant.talent_id === candidate.talent_id,
 		);
@@ -17,6 +20,21 @@ const RejectedTalents = ({candidate, applicants, selectJob}) => {
 			job_application_id: getApplication?.job_application_id,
 			job_id: getApplication?.job_id,
 			status: 'short-listed',
+			talent_id: getApplication?.talent_id,
+		};
+
+		updateApplicantStatus(payload);
+	};
+	//make rejected
+	const handleMakeRejected = (candidate) => {
+		setLoadingStatus('expired');
+		const getApplication = applicants.find(
+			(applicant) => applicant.talent_id === candidate.talent_id,
+		);
+		const payload = {
+			job_application_id: getApplication?.job_application_id,
+			job_id: getApplication?.job_id,
+			status: 'expired',
 			talent_id: getApplication?.talent_id,
 		};
 
@@ -68,7 +86,7 @@ const RejectedTalents = ({candidate, applicants, selectJob}) => {
 								</button>
 							</li>
 							<li>
-								{updateAppLoading ? (
+								{updateAppLoading && loadingStatus === 'short-listed' ? (
 									<button data-text="Loading...">
 										<span className="la la-spinner la-spin"></span>
 									</button>
@@ -79,9 +97,18 @@ const RejectedTalents = ({candidate, applicants, selectJob}) => {
 								)}
 							</li>
 							<li>
-								<button data-text="Reject Application">
-									<span className="la la-times-circle"></span>
-								</button>
+								{updateAppLoading && loadingStatus === 'expired' ? (
+									<button data-text="Loading...">
+										<span className="la la-spinner la-spin"></span>
+									</button>
+								) : (
+									<button
+										onClick={() => handleMakeRejected(candidate)}
+										data-text="Reject Application"
+									>
+										<span className="la la-times-circle"></span>
+									</button>
+								)}
 							</li>
 						</ul>
 					</div>

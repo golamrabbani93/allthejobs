@@ -6,8 +6,10 @@ import Image from 'next/image';
 import {useGetAllApplicationsQuery} from '@/features/application/application.management.api';
 import {useGetAllTalentsQuery} from '@/features/candidate/talent.management.api';
 import Spinner from '@/components/Sppiner/Spinner';
+import {useRouter} from 'next/navigation';
 
 const WidgetContentBox = ({selectJob}) => {
+	const router = useRouter();
 	//get all talents
 	const {data: talents, isLoading: talentsLoading} = useGetAllTalentsQuery();
 	//get all applicants
@@ -125,30 +127,30 @@ const WidgetContentBox = ({selectJob}) => {
 												</div>
 												{/* End content */}
 
-												<div className="option-box">
-													<ul className="option-list">
-														<li>
-															<button data-text="View Aplication">
-																<span className="la la-eye"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Approve Aplication">
-																<span className="la la-check"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Reject Aplication">
-																<span className="la la-times-circle"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Delete Aplication">
-																<span className="la la-trash"></span>
-															</button>
-														</li>
-													</ul>
-												</div>
+												{selectJob?.job_id && (
+													<div className="option-box">
+														<ul className="option-list">
+															<li>
+																<button
+																	onClick={() => router.push(`/talents/${candidate?.talent_id}`)}
+																	data-text="View Talent"
+																>
+																	<span className="la la-eye"></span>
+																</button>
+															</li>
+															<li>
+																<button data-text="Make Shortlist">
+																	<span className="la la-check"></span>
+																</button>
+															</li>
+															<li>
+																<button data-text="Reject Application">
+																	<span className="la la-times-circle"></span>
+																</button>
+															</li>
+														</ul>
+													</div>
+												)}
 												{/* End admin options box */}
 											</div>
 										</div>
@@ -161,346 +163,350 @@ const WidgetContentBox = ({selectJob}) => {
 							</div>
 						</TabPanel>
 						{/* End total applicants */}
-						<TabPanel>
-							<div className="row">
-								{shortListedTalents?.length > 0 ? (
-									shortListedTalents?.map((candidate) => (
-										<div
-											className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-											key={candidate?.talent_id}
-										>
-											<div className="inner-box">
-												<div className="content">
-													<figure className="image">
-														{candidate?.user?.photo && (
-															<Image
-																width={90}
-																height={90}
-																src={candidate.user.photo}
-																alt="candidates"
-															/>
-														)}
-													</figure>
-													<h4 className="name">
-														<Link href={`/candidates-single-v1/${candidate?.talent_id}`}>
-															{candidate?.user?.name}
-														</Link>
-													</h4>
+						{selectJob?.job_id && (
+							<>
+								<TabPanel>
+									<div className="row">
+										{shortListedTalents?.length > 0 ? (
+											shortListedTalents?.map((candidate) => (
+												<div
+													className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
+													key={candidate?.talent_id}
+												>
+													<div className="inner-box">
+														<div className="content">
+															<figure className="image">
+																{candidate?.user?.photo && (
+																	<Image
+																		width={90}
+																		height={90}
+																		src={candidate.user.photo}
+																		alt="candidates"
+																	/>
+																)}
+															</figure>
+															<h4 className="name">
+																<Link href={`/candidates-single-v1/${candidate?.talent_id}`}>
+																	{candidate?.user?.name}
+																</Link>
+															</h4>
 
-													<ul className="candidate-info">
-														<li className="designation">{candidate?.headline}</li>
-														<li>
-															<span className="icon flaticon-map-locator"></span>{' '}
-															{candidate?.country}
-														</li>
-														<li>
-															<span className="icon flaticon-money"></span> $
-															{candidate?.expected_salary}
-														</li>
-													</ul>
-													{/* End candidate?-info */}
+															<ul className="candidate-info">
+																<li className="designation">{candidate?.headline}</li>
+																<li>
+																	<span className="icon flaticon-map-locator"></span>{' '}
+																	{candidate?.country}
+																</li>
+																<li>
+																	<span className="icon flaticon-money"></span> $
+																	{candidate?.expected_salary}
+																</li>
+															</ul>
+															{/* End candidate?-info */}
 
-													<ul className="post-tags">
-														{candidate?.skills?.map((val, i) => (
-															<li key={i}>
-																<a href="#">{val}</a>
-															</li>
-														))}
-													</ul>
+															<ul className="post-tags">
+																{candidate?.skills?.map((val, i) => (
+																	<li key={i}>
+																		<a href="#">{val}</a>
+																	</li>
+																))}
+															</ul>
+														</div>
+														{/* End content */}
+
+														<div className="option-box">
+															<ul className="option-list">
+																<li>
+																	<button data-text="View Aplication">
+																		<span className="la la-eye"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Approve Aplication">
+																		<span className="la la-check"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Reject Aplication">
+																		<span className="la la-times-circle"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Delete Aplication">
+																		<span className="la la-trash"></span>
+																	</button>
+																</li>
+															</ul>
+														</div>
+														{/* End admin options box */}
+													</div>
 												</div>
-												{/* End content */}
-
-												<div className="option-box">
-													<ul className="option-list">
-														<li>
-															<button data-text="View Aplication">
-																<span className="la la-eye"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Approve Aplication">
-																<span className="la la-check"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Reject Aplication">
-																<span className="la la-times-circle"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Delete Aplication">
-																<span className="la la-trash"></span>
-															</button>
-														</li>
-													</ul>
-												</div>
-												{/* End admin options box */}
+											))
+										) : (
+											<div className="flex justify-center items-center h-40">
+												<div className="">No Shortlisted Applicants</div>
 											</div>
-										</div>
-									))
-								) : (
-									<div className="flex justify-center items-center h-40">
-										<div className="">No Shortlisted Applicants</div>
+										)}
 									</div>
-								)}
-							</div>
-						</TabPanel>
-						{/* End Shortlisted applicants */}
-						<TabPanel>
-							<div className="row">
-								{interviewListedTalents?.length > 0 ? (
-									interviewListedTalents?.map((candidate) => (
-										<div
-											className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-											key={candidate?.talent_id}
-										>
-											<div className="inner-box">
-												<div className="content">
-													<figure className="image">
-														{candidate?.user?.photo && (
-															<Image
-																width={90}
-																height={90}
-																src={candidate.user.photo}
-																alt="candidates"
-															/>
-														)}
-													</figure>
-													<h4 className="name">
-														<Link href={`/candidates-single-v1/${candidate?.talent_id}`}>
-															{candidate?.user?.name}
-														</Link>
-													</h4>
+								</TabPanel>
+								{/* End Shortlisted applicants */}
+								<TabPanel>
+									<div className="row">
+										{interviewListedTalents?.length > 0 ? (
+											interviewListedTalents?.map((candidate) => (
+												<div
+													className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
+													key={candidate?.talent_id}
+												>
+													<div className="inner-box">
+														<div className="content">
+															<figure className="image">
+																{candidate?.user?.photo && (
+																	<Image
+																		width={90}
+																		height={90}
+																		src={candidate.user.photo}
+																		alt="candidates"
+																	/>
+																)}
+															</figure>
+															<h4 className="name">
+																<Link href={`/candidates-single-v1/${candidate?.talent_id}`}>
+																	{candidate?.user?.name}
+																</Link>
+															</h4>
 
-													<ul className="candidate-info">
-														<li className="designation">{candidate?.headline}</li>
-														<li>
-															<span className="icon flaticon-map-locator"></span>{' '}
-															{candidate?.country}
-														</li>
-														<li>
-															<span className="icon flaticon-money"></span> $
-															{candidate?.expected_salary}
-														</li>
-													</ul>
-													{/* End candidate?-info */}
+															<ul className="candidate-info">
+																<li className="designation">{candidate?.headline}</li>
+																<li>
+																	<span className="icon flaticon-map-locator"></span>{' '}
+																	{candidate?.country}
+																</li>
+																<li>
+																	<span className="icon flaticon-money"></span> $
+																	{candidate?.expected_salary}
+																</li>
+															</ul>
+															{/* End candidate?-info */}
 
-													<ul className="post-tags">
-														{candidate?.skills?.map((val, i) => (
-															<li key={i}>
-																<a href="#">{val}</a>
-															</li>
-														))}
-													</ul>
+															<ul className="post-tags">
+																{candidate?.skills?.map((val, i) => (
+																	<li key={i}>
+																		<a href="#">{val}</a>
+																	</li>
+																))}
+															</ul>
+														</div>
+														{/* End content */}
+
+														<div className="option-box">
+															<ul className="option-list">
+																<li>
+																	<button data-text="View Aplication">
+																		<span className="la la-eye"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Approve Aplication">
+																		<span className="la la-check"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Reject Aplication">
+																		<span className="la la-times-circle"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Delete Aplication">
+																		<span className="la la-trash"></span>
+																	</button>
+																</li>
+															</ul>
+														</div>
+														{/* End admin options box */}
+													</div>
 												</div>
-												{/* End content */}
-
-												<div className="option-box">
-													<ul className="option-list">
-														<li>
-															<button data-text="View Aplication">
-																<span className="la la-eye"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Approve Aplication">
-																<span className="la la-check"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Reject Aplication">
-																<span className="la la-times-circle"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Delete Aplication">
-																<span className="la la-trash"></span>
-															</button>
-														</li>
-													</ul>
-												</div>
-												{/* End admin options box */}
+											))
+										) : (
+											<div className="flex justify-center items-center h-40">
+												<div className="">No Applicants</div>
 											</div>
-										</div>
-									))
-								) : (
-									<div className="flex justify-center items-center h-40">
-										<div className="">No Applicants</div>
+										)}
 									</div>
-								)}
-							</div>
-						</TabPanel>
-						{/* End InterViewing applicants */}
-						<TabPanel>
-							<div className="row">
-								{hiredTalents?.length > 0 ? (
-									hiredTalents?.map((candidate) => (
-										<div
-											className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-											key={candidate?.talent_id}
-										>
-											<div className="inner-box">
-												<div className="content">
-													<figure className="image">
-														{candidate?.user?.photo && (
-															<Image
-																width={90}
-																height={90}
-																src={candidate.user.photo}
-																alt="candidates"
-															/>
-														)}
-													</figure>
-													<h4 className="name">
-														<Link href={`/candidates-single-v1/${candidate?.talent_id}`}>
-															{candidate?.user?.name}
-														</Link>
-													</h4>
+								</TabPanel>
+								{/* End InterViewing applicants */}
+								<TabPanel>
+									<div className="row">
+										{hiredTalents?.length > 0 ? (
+											hiredTalents?.map((candidate) => (
+												<div
+													className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
+													key={candidate?.talent_id}
+												>
+													<div className="inner-box">
+														<div className="content">
+															<figure className="image">
+																{candidate?.user?.photo && (
+																	<Image
+																		width={90}
+																		height={90}
+																		src={candidate.user.photo}
+																		alt="candidates"
+																	/>
+																)}
+															</figure>
+															<h4 className="name">
+																<Link href={`/candidates-single-v1/${candidate?.talent_id}`}>
+																	{candidate?.user?.name}
+																</Link>
+															</h4>
 
-													<ul className="candidate-info">
-														<li className="designation">{candidate?.headline}</li>
-														<li>
-															<span className="icon flaticon-map-locator"></span>{' '}
-															{candidate?.country}
-														</li>
-														<li>
-															<span className="icon flaticon-money"></span> $
-															{candidate?.expected_salary}
-														</li>
-													</ul>
-													{/* End candidate?-info */}
+															<ul className="candidate-info">
+																<li className="designation">{candidate?.headline}</li>
+																<li>
+																	<span className="icon flaticon-map-locator"></span>{' '}
+																	{candidate?.country}
+																</li>
+																<li>
+																	<span className="icon flaticon-money"></span> $
+																	{candidate?.expected_salary}
+																</li>
+															</ul>
+															{/* End candidate?-info */}
 
-													<ul className="post-tags">
-														{candidate?.skills?.map((val, i) => (
-															<li key={i}>
-																<a href="#">{val}</a>
-															</li>
-														))}
-													</ul>
+															<ul className="post-tags">
+																{candidate?.skills?.map((val, i) => (
+																	<li key={i}>
+																		<a href="#">{val}</a>
+																	</li>
+																))}
+															</ul>
+														</div>
+														{/* End content */}
+
+														<div className="option-box">
+															<ul className="option-list">
+																<li>
+																	<button data-text="View Aplication">
+																		<span className="la la-eye"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Approve Aplication">
+																		<span className="la la-check"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Reject Aplication">
+																		<span className="la la-times-circle"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Delete Aplication">
+																		<span className="la la-trash"></span>
+																	</button>
+																</li>
+															</ul>
+														</div>
+														{/* End admin options box */}
+													</div>
 												</div>
-												{/* End content */}
-
-												<div className="option-box">
-													<ul className="option-list">
-														<li>
-															<button data-text="View Aplication">
-																<span className="la la-eye"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Approve Aplication">
-																<span className="la la-check"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Reject Aplication">
-																<span className="la la-times-circle"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Delete Aplication">
-																<span className="la la-trash"></span>
-															</button>
-														</li>
-													</ul>
-												</div>
-												{/* End admin options box */}
+											))
+										) : (
+											<div className="flex justify-center items-center h-40">
+												<div className="">No Applicants</div>
 											</div>
-										</div>
-									))
-								) : (
-									<div className="flex justify-center items-center h-40">
-										<div className="">No Applicants</div>
+										)}
 									</div>
-								)}
-							</div>
-						</TabPanel>
-						{/* End Hired applicants */}
-						<TabPanel>
-							<div className="row">
-								{rejectedTalents?.length > 0 ? (
-									rejectedTalents?.map((candidate) => (
-										<div
-											className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-											key={candidate?.talent_id}
-										>
-											<div className="inner-box">
-												<div className="content">
-													<figure className="image">
-														{candidate?.user?.photo && (
-															<Image
-																width={90}
-																height={90}
-																src={candidate.user.photo}
-																alt="candidates"
-															/>
-														)}
-													</figure>
-													<h4 className="name">
-														<Link href={`/candidates-single-v1/${candidate?.talent_id}`}>
-															{candidate?.user?.name}
-														</Link>
-													</h4>
+								</TabPanel>
+								{/* End Hired applicants */}
+								<TabPanel>
+									<div className="row">
+										{rejectedTalents?.length > 0 ? (
+											rejectedTalents?.map((candidate) => (
+												<div
+													className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
+													key={candidate?.talent_id}
+												>
+													<div className="inner-box">
+														<div className="content">
+															<figure className="image">
+																{candidate?.user?.photo && (
+																	<Image
+																		width={90}
+																		height={90}
+																		src={candidate.user.photo}
+																		alt="candidates"
+																	/>
+																)}
+															</figure>
+															<h4 className="name">
+																<Link href={`/candidates-single-v1/${candidate?.talent_id}`}>
+																	{candidate?.user?.name}
+																</Link>
+															</h4>
 
-													<ul className="candidate-info">
-														<li className="designation">{candidate?.headline}</li>
-														<li>
-															<span className="icon flaticon-map-locator"></span>{' '}
-															{candidate?.country}
-														</li>
-														<li>
-															<span className="icon flaticon-money"></span> $
-															{candidate?.expected_salary}
-														</li>
-													</ul>
-													{/* End candidate?-info */}
+															<ul className="candidate-info">
+																<li className="designation">{candidate?.headline}</li>
+																<li>
+																	<span className="icon flaticon-map-locator"></span>{' '}
+																	{candidate?.country}
+																</li>
+																<li>
+																	<span className="icon flaticon-money"></span> $
+																	{candidate?.expected_salary}
+																</li>
+															</ul>
+															{/* End candidate?-info */}
 
-													<ul className="post-tags">
-														{candidate?.skills?.map((val, i) => (
-															<li key={i}>
-																<a href="#">{val}</a>
-															</li>
-														))}
-													</ul>
+															<ul className="post-tags">
+																{candidate?.skills?.map((val, i) => (
+																	<li key={i}>
+																		<a href="#">{val}</a>
+																	</li>
+																))}
+															</ul>
+														</div>
+														{/* End content */}
+
+														<div className="option-box">
+															<ul className="option-list">
+																<li>
+																	<button data-text="View Aplication">
+																		<span className="la la-eye"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Approve Aplication">
+																		<span className="la la-check"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Reject Aplication">
+																		<span className="la la-times-circle"></span>
+																	</button>
+																</li>
+																<li>
+																	<button data-text="Delete Aplication">
+																		<span className="la la-trash"></span>
+																	</button>
+																</li>
+															</ul>
+														</div>
+														{/* End admin options box */}
+													</div>
 												</div>
-												{/* End content */}
-
-												<div className="option-box">
-													<ul className="option-list">
-														<li>
-															<button data-text="View Aplication">
-																<span className="la la-eye"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Approve Aplication">
-																<span className="la la-check"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Reject Aplication">
-																<span className="la la-times-circle"></span>
-															</button>
-														</li>
-														<li>
-															<button data-text="Delete Aplication">
-																<span className="la la-trash"></span>
-															</button>
-														</li>
-													</ul>
-												</div>
-												{/* End admin options box */}
+											))
+										) : (
+											<div className="flex justify-center items-center h-40">
+												<div className="">No Rejected Applicants</div>
 											</div>
-										</div>
-									))
-								) : (
-									<div className="flex justify-center items-center h-40">
-										<div className="">No Rejected Applicants</div>
+										)}
 									</div>
-								)}
-							</div>
-						</TabPanel>
-						{/* End rejected applicants */}
+								</TabPanel>
+								{/* End rejected applicants */}
+							</>
+						)}
 					</div>
 				</Tabs>
 			</div>

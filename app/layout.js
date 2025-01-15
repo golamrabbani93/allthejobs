@@ -13,17 +13,18 @@ import {ToastContainer} from 'react-toastify';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {SessionProvider} from 'next-auth/react';
 import PopUpModal from '@/components/PopUpModal/PopUpModal';
-import AgoraRTCProvider from './(others)/video-chat/AgoraRTCProvider';
 import {AIChatContextProvider} from './context/AIChatContext';
 import Chat from '@/components/ai-assistant/AIChat';
 import DataLoaderWrapper from '@/layout/DataLoaderWrapper';
+import StreamVideoProvider from './(others)/video-chat3/streamClientProvider';
+import { usePathname } from 'next/navigation';
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
 const queryClient = new QueryClient();
 export default function RootLayout({children}) {
 	//get jobs data
-
+	const pathname=usePathname()
 	useEffect(() => {
 		Aos.init({
 			duration: 1400,
@@ -57,10 +58,12 @@ export default function RootLayout({children}) {
 						<Provider store={store}>
 							<DataLoaderWrapper>
 								<AIChatContextProvider>
-									<AgoraRTCProvider>
+										<StreamVideoProvider>
 										<div className="page-wrapper">
 											<PopUpModal />
+											{!pathname.includes('video-chat3')&&
 											<Chat />
+											}
 											{children}
 											{/* Toastify */}
 											<ToastContainer
@@ -78,7 +81,7 @@ export default function RootLayout({children}) {
 											{/* <!-- Scroll To Top --> */}
 											<ScrollToTop />
 										</div>
-									</AgoraRTCProvider>
+										</StreamVideoProvider>
 								</AIChatContextProvider>
 							</DataLoaderWrapper>
 						</Provider>

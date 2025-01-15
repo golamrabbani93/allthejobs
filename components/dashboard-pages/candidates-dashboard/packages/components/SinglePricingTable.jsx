@@ -25,7 +25,7 @@ const SinglePricingTable = ({item}) => {
 				</ul>
 
 				<div className={`buy-now ${item?.name === 'Basic' ? 'mt-[114px]' : ''}`}>
-					<Link href="/payment" className="btn round">
+					<Link href={`/payment/${item?.package_id}`} className="btn round">
 						Buy Now
 					</Link>
 				</div>

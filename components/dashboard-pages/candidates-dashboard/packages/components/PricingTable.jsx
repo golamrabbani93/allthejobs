@@ -16,7 +16,7 @@ const PricingTable = () => {
 	return (
 		<div class="wrapper-pricing-table grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 			{talentPackages?.map((item) => (
-				<SinglePricingTable key={item.id} item={item} />
+				<SinglePricingTable key={item.package_id} item={item} />
 			))}
 		</div>
 	);

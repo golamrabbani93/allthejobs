@@ -36,7 +36,7 @@ const Index = () => {
       {/* <!-- Dashboard --> */}
       <section className='user-dashboard'>
         <div className='dashboard-outer'>
-          <BreadCrumb title={`Your Upcoming Meeting`} />
+          <BreadCrumb title={`Incoming Meeting Request`} />
           {/* breadCrumb */}
 
           <MenuToggler />
@@ -44,7 +44,7 @@ const Index = () => {
 
           <div className='h-screen'>
             <section className='flex size-full flex-col'>
-              <CallList type='upcoming'></CallList>
+              <CallList type='request'></CallList>
             </section>
             {/* <div className="row">
 							<TopCardBlock />

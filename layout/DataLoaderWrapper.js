@@ -1,8 +1,9 @@
-import {useGetTalentQuery} from '@/features/candidate/talent.management.api';
+// Desc: Wrapper component to load all data from the server
 import {
 	setConsultantsData,
 	setGlobalDataLoading,
 	setJobsData,
+	setTalentPackages,
 	setTalentsData,
 	setUserData,
 	setUserRoleBasedData,
@@ -11,6 +12,7 @@ import {
 	fetchConsultantData,
 	fetchData,
 	fetchEmployerData,
+	fetchPackages,
 	fetchTalentData,
 	fetchUserInformation,
 } from '@/services/GenerateAllData';
@@ -25,6 +27,7 @@ const DataLoaderWrapper = ({children}) => {
 		try {
 			const data = await fetchData();
 			const userData = await fetchUserInformation(user?.email);
+			const packages = await fetchPackages();
 			if (userData?.role === 'talent') {
 				const talentData = await fetchTalentData(userData.user_id);
 				dispatch(setUserRoleBasedData(talentData));
@@ -37,7 +40,10 @@ const DataLoaderWrapper = ({children}) => {
 				const employerData = await fetchEmployerData(userData.user_id);
 				dispatch(setUserRoleBasedData(employerData));
 			}
-
+			if (packages?.length > 0) {
+				const talentPackages = packages?.filter((item) => item.target_role === 'talent');
+				dispatch(setTalentPackages(talentPackages));
+			}
 			if (userData?.user_id === user?.user_id) {
 				dispatch(setUserData(userData));
 			}

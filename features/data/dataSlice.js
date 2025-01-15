@@ -1,5 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit';
 import {setUser} from '../user/userSlice';
+import {set} from 'date-fns';
 
 //store Talents data and loading state
 const dataSlice = createSlice({
@@ -10,6 +11,7 @@ const dataSlice = createSlice({
 		consultants: [],
 		userData: {},
 		userRoleBasedData: {},
+		talentPackages: [],
 		loading: false,
 	},
 	reducers: {
@@ -28,6 +30,9 @@ const dataSlice = createSlice({
 		setUserRoleBasedData: (state, action) => {
 			state.userRoleBasedData = action.payload;
 		},
+		setTalentPackages: (state, action) => {
+			state.talentPackages = action.payload;
+		},
 		setGlobalDataLoading: (state, action) => {
 			state.loading = action.payload;
 		},
@@ -41,6 +46,7 @@ export const {
 	setGlobalDataLoading,
 	setUserData,
 	setUserRoleBasedData,
+	setTalentPackages,
 } = dataSlice.actions;
 
 export default dataSlice.reducer;

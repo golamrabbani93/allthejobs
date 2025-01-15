@@ -1,270 +1,218 @@
-"use client";
+'use client';
 
-import candidatesData from "../../../../../data/candidates";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import Link from "next/link";
-import Image from "next/image";
+import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
 
-const WidgetContentBox = () => {
-  return (
-    <div className="widget-content">
-      <div className="tabs-box">
-        <Tabs>
-          <div className="aplicants-upper-bar">
-            <h6>Senior Product Designer</h6>
+import {useGetAllApplicationsQuery} from '@/features/application/application.management.api';
+import {useGetAllTalentsQuery} from '@/features/candidate/talent.management.api';
+import Spinner from '@/components/Sppiner/Spinner';
+import AllTalents from './talents/AllTalents';
+import ShortListTalents from './talents/ShortListTalents';
+import InterviewingTalents from './talents/InterviewingTalents';
+import HiredTalents from './talents/HiredTalents';
+import RejectedTalents from './talents/RejectedTalents';
+import {useSelector} from 'react-redux';
 
-            <TabList className="aplicantion-status tab-buttons clearfix">
-              <Tab className="tab-btn totals"> Total(s): 6</Tab>
-              <Tab className="tab-btn approved"> Approved: 2</Tab>
-              <Tab className="tab-btn rejected"> Rejected(s): 4</Tab>
-            </TabList>
-          </div>
+const WidgetContentBox = ({selectJob}) => {
+	const {jobs, userRoleBasedData, loading} = useSelector((state) => state.data);
+	//get all talents
+	const {data: talents, isLoading: talentsLoading} = useGetAllTalentsQuery();
+	//get all applicants
+	const {data: allApplicants, isLoading: applicantLoading} = useGetAllApplicationsQuery();
+	const applicants = allApplicants?.filter((applicant) => applicant?.job_id === selectJob?.job_id);
+	const appliedTalents = applicants?.map((applicant) =>
+		talents.find((talent) => talent?.talent_id === applicant?.talent_id),
+	);
+	const getShortListed = applicants?.filter((applicant) => applicant?.status === 'short-listed');
+	const getInterviewListed = applicants?.filter(
+		(applicant) => applicant?.status === 'interviewing',
+	);
+	const getHired = applicants?.filter((applicant) => applicant?.status === 'hired');
+	const getRejected = applicants?.filter((applicant) => applicant?.status === 'expired');
 
-          <div className="tabs-content">
-            <TabPanel>
-              <div className="row">
-                {candidatesData.slice(17, 23).map((candidate) => (
-                  <div
-                    className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-                    key={candidate.id}
-                  >
-                    <div className="inner-box">
-                      <div className="content">
-                        <figure className="image">
-                          <Image
-                            width={90}
-                            height={90}
-                            src={candidate.avatar}
-                            alt="candidates"
-                          />
-                        </figure>
-                        <h4 className="name">
-                          <Link href={`/candidates-single-v1/${candidate.id}`}>
-                            {candidate.name}
-                          </Link>
-                        </h4>
+	//get all talents
+	const allAppliedTalents = allApplicants
+		?.map((applicant) => {
+			const job = jobs.find(
+				(job) =>
+					job.job_id === applicant.job_id && job.employer_id === userRoleBasedData.employer_id,
+			);
 
-                        <ul className="candidate-info">
-                          <li className="designation">
-                            {candidate.designation}
-                          </li>
-                          <li>
-                            <span className="icon flaticon-map-locator"></span>{" "}
-                            {candidate.location}
-                          </li>
-                          <li>
-                            <span className="icon flaticon-money"></span> $
-                            {candidate.hourlyRate} / hour
-                          </li>
-                        </ul>
-                        {/* End candidate-info */}
+			if (!job) {
+				return undefined; // Skip if no matching job is found
+			}
 
-                        <ul className="post-tags">
-                          {candidate.tags.map((val, i) => (
-                            <li key={i}>
-                              <a href="#">{val}</a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      {/* End content */}
+			return talents.find((talent) => talent?.talent_id === applicant?.talent_id);
+		})
+		.filter(
+			(talent, index, self) =>
+				talent !== undefined && self.findIndex((t) => t?.talent_id === talent?.talent_id) === index,
+		);
 
-                      <div className="option-box">
-                        <ul className="option-list">
-                          <li>
-                            <button data-text="View Aplication">
-                              <span className="la la-eye"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Approve Aplication">
-                              <span className="la la-check"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Reject Aplication">
-                              <span className="la la-times-circle"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Delete Aplication">
-                              <span className="la la-trash"></span>
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* End admin options box */}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </TabPanel>
-            {/* End total applicants */}
+	//find shortlisted talents by applicants id
+	const shortListedTalents = getShortListed?.map((applicant) =>
+		talents.find((talent) => talent.talent_id === applicant.talent_id),
+	);
 
-            <TabPanel>
-              <div className="row">
-                {candidatesData.slice(17, 19).map((candidate) => (
-                  <div
-                    className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-                    key={candidate.id}
-                  >
-                    <div className="inner-box">
-                      <div className="content">
-                        <figure className="image">
-                          <Image
-                            width={90}
-                            height={90}
-                            src={candidate.avatar}
-                            alt="candidates"
-                          />
-                        </figure>
-                        <h4 className="name">
-                          <Link href={`/candidates-single-v1/${candidate.id}`}>
-                            {candidate.name}
-                          </Link>
-                        </h4>
+	//getInterviewListed talents
+	// const interviewListedTalents = getInterviewListed?.map((applicant) =>
+	// 	talents.find((talent) => talent.talent_id === applicant.talent_id),
+	// );
 
-                        <ul className="candidate-info">
-                          <li className="designation">
-                            {candidate.designation}
-                          </li>
-                          <li>
-                            <span className="icon flaticon-map-locator"></span>{" "}
-                            {candidate.location}
-                          </li>
-                          <li>
-                            <span className="icon flaticon-money"></span> $
-                            {candidate.hourlyRate} / hour
-                          </li>
-                        </ul>
-                        {/* End candidate-info */}
+	//get Hired Talents
+	// const hiredTalents = getHired?.map((applicant) =>
+	// 	talents.find((talent) => talent.talent_id === applicant.talent_id),
+	// );
 
-                        <ul className="post-tags">
-                          {candidate.tags.map((val, i) => (
-                            <li key={i}>
-                              <a href="#">{val}</a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      {/* End content */}
+	//get Rejected Talents
 
-                      <div className="option-box">
-                        <ul className="option-list">
-                          <li>
-                            <button data-text="View Aplication">
-                              <span className="la la-eye"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Approve Aplication">
-                              <span className="la la-check"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Reject Aplication">
-                              <span className="la la-times-circle"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Delete Aplication">
-                              <span className="la la-trash"></span>
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* End admin options box */}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </TabPanel>
-            {/* End approved applicants */}
+	const rejectedTalents = getRejected?.map((applicant) =>
+		talents.find((talent) => talent.talent_id === applicant.talent_id),
+	);
 
-            <TabPanel>
-              <div className="row">
-                {candidatesData.slice(17, 21).map((candidate) => (
-                  <div
-                    className="candidate-block-three col-lg-6 col-md-12 col-sm-12"
-                    key={candidate.id}
-                  >
-                    <div className="inner-box">
-                      <div className="content">
-                        <figure className="image">
-                          <Image
-                            width={90}
-                            height={90}
-                            src={candidate.avatar}
-                            alt="candidates"
-                          />
-                        </figure>
-                        <h4 className="name">
-                          <Link href={`/candidates-single-v1/${candidate.id}`}>
-                            {candidate.name}
-                          </Link>
-                        </h4>
+	if (talentsLoading || applicantLoading || loading)
+		return (
+			<div className="flex justify-center items-center h-96">
+				<Spinner />
+			</div>
+		);
+	return (
+		<div className="widget-content">
+			<div className="tabs-box">
+				<Tabs>
+					<div className="aplicants-upper-bar d-block">
+						<h6 className="mb-5 text-center ">
+							{selectJob?.title || 'Please select a job to view detailed applicant information.'}
+						</h6>
 
-                        <ul className="candidate-info">
-                          <li className="designation">
-                            {candidate.designation}
-                          </li>
-                          <li>
-                            <span className="icon flaticon-map-locator"></span>{" "}
-                            {candidate.location}
-                          </li>
-                          <li>
-                            <span className="icon flaticon-money"></span> $
-                            {candidate.hourlyRate} / hour
-                          </li>
-                        </ul>
-                        {/* End candidate-info */}
+						<TabList className="aplicantion-status tab-buttons clearfix">
+							<Tab className="tab-btn totals">
+								Total(s): {applicants?.length > 0 ? applicants?.length : allAppliedTalents?.length}
+							</Tab>
+							{selectJob?.job_id && (
+								<>
+									<Tab className="tab-btn approved"> Short Lists: {getShortListed?.length}</Tab>
+									{/* <Tab className="tab-btn approved">Interviewing: {getInterviewListed?.length}</Tab>
+									<Tab className="tab-btn approved"> Hired: {getHired?.length}</Tab> */}
+									<Tab className="tab-btn rejected"> Rejected(s): {getRejected?.length}</Tab>
+								</>
+							)}
+						</TabList>
+					</div>
 
-                        <ul className="post-tags">
-                          {candidate.tags.map((val, i) => (
-                            <li key={i}>
-                              <a href="#">{val}</a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      {/* End content */}
-
-                      <div className="option-box">
-                        <ul className="option-list">
-                          <li>
-                            <button data-text="View Aplication">
-                              <span className="la la-eye"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Approve Aplication">
-                              <span className="la la-check"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Reject Aplication">
-                              <span className="la la-times-circle"></span>
-                            </button>
-                          </li>
-                          <li>
-                            <button data-text="Delete Aplication">
-                              <span className="la la-trash"></span>
-                            </button>
-                          </li>
-                        </ul>
-                      </div>
-                      {/* End admin options box */}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </TabPanel>
-            {/* End rejected applicants */}
-          </div>
-        </Tabs>
-      </div>
-    </div>
-  );
+					<div className="tabs-content">
+						<TabPanel>
+							<div className="row">
+								{appliedTalents?.length > 0 ? (
+									appliedTalents.map((candidate) => (
+										<AllTalents
+											key={candidate.talent_id}
+											candidate={candidate}
+											applicants={applicants}
+											selectJob={selectJob}
+										/>
+									))
+								) : allAppliedTalents?.length > 0 ? (
+									allAppliedTalents.map((candidate) => (
+										<AllTalents
+											key={candidate.talent_id}
+											candidate={candidate}
+											applicants={applicants}
+											selectJob={selectJob}
+										/>
+									))
+								) : (
+									<div className="flex justify-center items-center h-40">
+										<div>No Applicants</div>
+									</div>
+								)}
+							</div>
+						</TabPanel>
+						{/* End total applicants */}
+						{selectJob?.job_id && (
+							<>
+								<TabPanel>
+									<div className="row">
+										{shortListedTalents?.length > 0 ? (
+											shortListedTalents?.map((candidate) => (
+												<ShortListTalents
+													key={candidate?.talent_id}
+													candidate={candidate}
+													applicants={applicants}
+													selectJob={selectJob}
+												/>
+											))
+										) : (
+											<div className="flex justify-center items-center h-40">
+												<div className="">No Shortlisted Applicants</div>
+											</div>
+										)}
+									</div>
+								</TabPanel>
+								{/* End Shortlisted applicants */}
+								{/* <TabPanel>
+									<div className="row">
+										{interviewListedTalents?.length > 0 ? (
+											interviewListedTalents?.map((candidate) => (
+												<InterviewingTalents
+													key={candidate?.talent_id}
+													candidate={candidate}
+													applicants={applicants}
+													selectJob={selectJob}
+												/>
+											))
+										) : (
+											<div className="flex justify-center items-center h-40">
+												<div className="">No Applicants</div>
+											</div>
+										)}
+									</div>
+								</TabPanel> */}
+								{/* End InterViewing applicants */}
+								{/* <TabPanel>
+									<div className="row">
+										{hiredTalents?.length > 0 ? (
+											hiredTalents?.map((candidate) => (
+												<HiredTalents
+													key={candidate?.talent_id}
+													candidate={candidate}
+													applicants={applicants}
+													selectJob={selectJob}
+												/>
+											))
+										) : (
+											<div className="flex justify-center items-center h-40">
+												<div className="">No Applicants</div>
+											</div>
+										)}
+									</div>
+								</TabPanel> */}
+								{/* End Hired applicants */}
+								<TabPanel>
+									<div className="row">
+										{rejectedTalents?.length > 0 ? (
+											rejectedTalents?.map((candidate) => (
+												<RejectedTalents
+													key={candidate?.talent_id}
+													candidate={candidate}
+													applicants={applicants}
+													selectJob={selectJob}
+												/>
+											))
+										) : (
+											<div className="flex justify-center items-center h-40">
+												<div className="">No Rejected Applicants</div>
+											</div>
+										)}
+									</div>
+								</TabPanel>
+								{/* End rejected applicants */}
+							</>
+						)}
+					</div>
+				</Tabs>
+			</div>
+		</div>
+	);
 };
 
 export default WidgetContentBox;

@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ConsultantSlider from './ConsultantSlider';
 
 const Consultants = () => {
 	const features = [
@@ -41,7 +42,7 @@ const Consultants = () => {
 								guide you to your first job.
 							</span>
 						</h3>
-						<p className="text-muted mt-3 text-center text-lg-start text-justify">
+						<p className="text-muted mt-3 text-lg-start text-justify">
 							By just clicking a button, you can connect with thousands of job opportunities
 							tailored to your skills and preferences. Our expert consultants will provide you with
 							the training you need to secure your ideal job.
@@ -81,13 +82,7 @@ const Consultants = () => {
 
 				{/* Image Section */}
 				<div className="col-lg-4 text-center">
-					<Image
-						src="/images/resource/consultant-meeting.png" // Replace with your image path
-						alt="Consultants Illustration"
-						width={400}
-						height={300}
-						className="img-fluid"
-					/>
+					<ConsultantSlider />
 				</div>
 			</div>
 		</section>

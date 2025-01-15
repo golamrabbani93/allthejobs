@@ -1,20 +1,20 @@
 .wrapper-pricing-table {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
 	grid-gap: 15px;
-	margin: 50px;
-	padding: 0px 20px;
-	background-color: rgb(241, 245, 248);
+	margin: 50px 50px 0px 50px;
+	padding: 0px 10px;
+	/* background-color: rgb(241, 245, 248); */
 }
 
 .pricing-table {
-	-webkit-box-shadow: 1px 2px 20px 11px rgba(126, 151, 161, 1);
+	/* -webkit-box-shadow: 1px 2px 20px 11px rgba(126, 151, 161, 1);
 	-moz-box-shadow: 1px 2px 20px 11px rgba(126, 151, 161, 1);
-	box-shadow: 1px 2px 20px 11px rgba(126, 151, 161, 1);
+	box-shadow: 1px 2px 20px 11px rgba(126, 151, 161, 1); */
 	text-align: center;
 	padding: 30px 0px;
 	border-radius: 5px;
 	position: relative;
+	/* margin: 0 10px; */
+	border: 1px solid #0000ff;
 }
 
 .pricing-table > .head {
@@ -58,11 +58,12 @@
 	top: -20px;
 	left: 50%;
 	transform: translateX(-50%);
-	background: #0000ff;
+	background: red;
 	color: #fff;
-	padding: 7px 40px;
-	font-size: 20px;
+	padding: 5px 30px;
+	font-size: 16px;
 	border-radius: 10px;
+	text-transform: uppercase;
 }
 
 .pricing-table .content ul {
@@ -72,7 +73,7 @@
 }
 
 .pricing-table .content ul li {
-	margin: 20px 0px;
+	margin: 10px 0px;
 	font-size: 15px;
 }
 
@@ -140,16 +141,4 @@
 
 .fa-circle-xmark {
 	color: #e23c3c;
-}
-
-@media screen and (max-width: 768px) {
-	.wrapper-pricing-table {
-		grid-template-columns: repeat(2, 1fr);
-	}
-}
-
-@media screen and (max-width: 600px) {
-	.wrapper-pricing-table {
-		grid-template-columns: 1fr;
-	}
 }

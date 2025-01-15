@@ -5,7 +5,6 @@ import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
 import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
-import Pricing from '@/components/pricing/Pricing';
 import PricingTable from './components/PricingTable';
 
 const index = () => {
@@ -39,9 +38,6 @@ const index = () => {
 						<div className="col-lg-12">
 							<div className="ls-widget">
 								<div className="tabs-box">
-									<div className="widget-title">
-										<h4>My Packages</h4>
-									</div>
 									{/* End widget-title */}
 
 									<div className="widget-content">

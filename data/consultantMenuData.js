@@ -22,7 +22,14 @@ module.exports = [
 	},
 	{
 		id: 4,
-		name: 'Schedule Meetings',
+		name: 'Upcoming Meeting',
+		icon: 'la-briefcase',
+		routePath: '/dashboard/consultant/upcoming-meeting',
+		active: '',
+	},
+	{
+		id: 5,
+		name: 'Meeting Request',
 		icon: 'la-briefcase',
 		routePath: '/dashboard/consultant/#',
 		active: '',
@@ -38,7 +45,7 @@ module.exports = [
 		id: 6,
 		name: 'Start Meeting',
 		icon: 'la-video-camera ',
-		routePath: '/video-chat',
+		routePath: '/video-chat3',
 		active: '',
 	},
 	{

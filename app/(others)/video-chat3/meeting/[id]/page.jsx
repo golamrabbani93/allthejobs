@@ -14,11 +14,10 @@ const Meeting =  ({ params }) => {
   // todo 
   const {call,isCallLoading}=useGetCallByID(params.id)
   if(isCallLoading) return <div>loading...</div>
-  console.log(call);
   return <main className="h-screen w-full">
     <StreamCall call={call}>
       <StreamTheme>
-        {!isSetupComplete?(<MeetingSetup setIsSetupComplete={setIsSetupComplete}/>):(<MeetingRoom></MeetingRoom>)}
+        {!isSetupComplete?(<MeetingSetup setIsSetupComplete={setIsSetupComplete}/>):(<MeetingRoom meeting_id={params.id}></MeetingRoom>)}
       </StreamTheme>
     </StreamCall>
     </main>

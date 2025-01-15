@@ -43,13 +43,13 @@ const sidebarLinks={
       imgUrl:'/icons/Home.svg',
     },
     {
-      label:"Requested Meeting",
-      route:'/video-chat3/meeting-request',
+      label:"Upcoming Meetings",
+      route:'/video-chat3/upcoming',
       imgUrl:'/icons/upcoming.svg',
     },
     {
-      label:"Upcoming Meetings",
-      route:'/video-chat3/upcoming',
+      label:"Requested Meeting",
+      route:'/video-chat3/meeting-request',
       imgUrl:'/icons/upcoming.svg',
     },
     {

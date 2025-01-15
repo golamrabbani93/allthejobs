@@ -31,7 +31,7 @@ import {
 } from "stream-chat-react";
 import "./layout.css";
 import "stream-chat-react/dist/css/v2/index.css";
-const MeetingRoom = () => {
+const MeetingRoom = ({meeting_id}) => {
   const [layout, setlayout] = useState("speaker-left");
   const [showParticipants, setShowParticipants] = useState(false);
   const CallLayout = () => {
@@ -60,9 +60,9 @@ const MeetingRoom = () => {
   useEffect(() => {
     const initChannel = async () => {
       if (chatClient.userID && !chatChannel) {
-        const channel = chatClient.channel("livestream", "video-chat", {
+        const channel = chatClient.channel("livestream", meeting_id, {
           name: "Video Chat",
-          members: ["124"],
+          members: ["127"],
         });
         await channel.watch();
         setChatChannel(channel);

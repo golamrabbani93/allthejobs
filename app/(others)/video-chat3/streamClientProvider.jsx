@@ -7,6 +7,7 @@ const apiKey = process.env.NEXT_PUBLIC_STREAM_API_KEY;
 
 const StreamVideoProvider=({children})=> {
   const [videoClient,setVideoClient]=useState()
+  // const [chatClient,setChatClient]=useState()
   //! get currently logged in user from clerk
   const user = useSelector((state) => state.user);
   // const userObject=

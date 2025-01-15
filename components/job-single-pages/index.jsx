@@ -13,8 +13,12 @@ import RelatedJobs from './related-jobs/RelatedJobs';
 import JobOverView from './job-overview/JobOverView';
 import JobSkills from './shared-components/JobSkills';
 import CompanyInfo from './shared-components/CompanyInfo';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {timeAgoFromPosting} from '@/utils/timeAgoFromPosting';
+import {
+	addJobToWishlist,
+	removeJobFromWishlist,
+} from '@/features/wishlistJobsSlice/wishlistJobsSlice';
 
 export const metadata = {
 	title: 'Job Detail || AllTheJobs',
@@ -27,6 +31,9 @@ const index = ({id}) => {
 	const {jobs: allJobs, loading} = useSelector((state) => state.data);
 	const job = allJobs.find((job) => job.job_id === Number(id));
 	const time = timeAgoFromPosting(job?.created_at);
+	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
+	const dispatch = useDispatch();
+	const isWishListJob = wishListJobs.find((wishItem) => wishItem.job_id === job?.job_id);
 	if (loading) return <div>Loading...</div>;
 	return (
 		<>
@@ -104,9 +111,21 @@ const index = ({id}) => {
 									>
 										Apply For Job
 									</a>
-									<button className="bookmark-btn">
-										<i className="flaticon-bookmark"></i>
-									</button>
+									{isWishListJob ? (
+										<button
+											onClick={() => dispatch(removeJobFromWishlist(job))}
+											className="bookmark-btn "
+										>
+											<span className="fa fa-bookmark"></span>
+										</button>
+									) : (
+										<button
+											onClick={() => dispatch(addJobToWishlist(job))}
+											className="bookmark-btn"
+										>
+											<span className="flaticon-bookmark"></span>
+										</button>
+									)}
 								</div>
 								{/* End apply for job btn */}
 
@@ -119,13 +138,14 @@ const index = ({id}) => {
 												<button
 													type="button"
 													className="closed-modal"
+													id="applyJobModalCloseBtn"
 													data-bs-dismiss="modal"
 													aria-label="Close"
 												></button>
 											</div>
 											{/* End modal-header */}
 
-											<ApplyJobModalContent />
+											<ApplyJobModalContent jobId={job?.job_id} />
 											{/* End PrivateMessageBox */}
 										</div>
 										{/* End .send-private-message-wrapper */}
@@ -172,20 +192,11 @@ const index = ({id}) => {
 									<div className="sidebar-widget">
 										{/* <!-- Job Overview --> */}
 										<h4 className="widget-title">Job Overview</h4>
-										<JobOverView />
+										<JobOverView job={job} />
 
-										{/* <!-- Map Widget --> */}
-										<h4 className="widget-title mt-5">Job Location</h4>
+										<h4 className="widget-title mt-5">Job Skills</h4>
 										<div className="widget-content">
-											<div className="map-outer">
-												<div style={{height: '300px', width: '100%'}}>{/* <MapJobFinder /> */}</div>
-											</div>
-										</div>
-										{/* <!--  Map Widget --> */}
-
-										<h4 className="widget-title">Job Skills</h4>
-										<div className="widget-content">
-											<JobSkills />
+											<JobSkills job={job} />
 										</div>
 										{/* <!-- Job Skills --> */}
 									</div>
@@ -195,25 +206,30 @@ const index = ({id}) => {
 										<div className="widget-content">
 											<div className="company-title">
 												<div className="company-logo">
-													<Image width={54} height={53} src={company.logo} alt="resource" />
+													<Image
+														width={54}
+														height={53}
+														src={job?.employer.user.photo}
+														alt={job?.employer.user.name}
+													/>
 												</div>
-												<h5 className="company-name">{company.company}</h5>
+												<h5 className="company-name">{job?.employer.company_name}</h5>
 												<a href="#" className="profile-link">
 													View company profile
 												</a>
 											</div>
 											{/* End company title */}
 
-											<CompanyInfo />
+											<CompanyInfo job={job} />
 
 											<div className="btn-box">
 												<a
-													href="#"
+													href={job?.employer.company_website}
 													target="_blank"
 													rel="noopener noreferrer"
 													className="theme-btn btn-style-three"
 												>
-													{company?.link}
+													{job?.employer.company_website}
 												</a>
 											</div>
 											{/* End btn-box */}

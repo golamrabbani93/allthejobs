@@ -127,7 +127,7 @@ const FilterJobsBox = () => {
 								<Image width={50} height={49} src={item.employer.user.photo} alt="item brand" />
 							</span>
 							<h4>
-								<Link href={`/jobs/${item.id}`}>{item.title}</Link>
+								<Link href={`/jobs/${item.job_id}`}>{item.title}</Link>
 							</h4>
 
 							<ul className="job-info">

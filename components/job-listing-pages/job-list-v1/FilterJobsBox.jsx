@@ -90,10 +90,12 @@ const FilterJobsBox = () => {
 	// salary filter
 	// 4500-7000 get first salary
 	const salaryFilter = (item) => {
-		const salaryRange = item.salary_range.split('-');
-		const min = Number(salaryRange[0]);
-		const max = Number(salaryRange[1]);
-		return salary.min <= min && salary && max <= salary.max;
+		const salaryRange = item?.salary_range?.split('-');
+		if (salaryRange?.length > 1) {
+			const min = Number(salaryRange[0]);
+			const max = Number(salaryRange[1]);
+			return salary.min <= min && salary && max <= salary.max;
+		}
 	};
 
 	// tag filter
@@ -125,7 +127,7 @@ const FilterJobsBox = () => {
 								<Image width={50} height={49} src={item.employer.user.photo} alt="item brand" />
 							</span>
 							<h4>
-								<Link href={`/jobs/${item.id}`}>{item.title}</Link>
+								<Link href={`/jobs/${item.job_id}`}>{item.title}</Link>
 							</h4>
 
 							<ul className="job-info">
@@ -136,7 +138,7 @@ const FilterJobsBox = () => {
 								{/* compnay info */}
 								<li>
 									<span className="icon flaticon-map-locator"></span>
-									{item.country}
+									{item.employer.country}
 								</li>
 								{/* location info */}
 								<li>

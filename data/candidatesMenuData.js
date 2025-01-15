@@ -52,7 +52,7 @@ module.exports = [
 		id: 8,
 		name: 'Packages',
 		icon: 'la-box',
-		routePath: '/dashboard/talent/#',
+		routePath: '/dashboard/talent/packages',
 		active: '',
 	},
 

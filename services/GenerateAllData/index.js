@@ -107,3 +107,19 @@ export const fetchEmployerData = async (id) => {
 		throw error;
 	}
 };
+
+//fetch all packages
+export const fetchPackages = async () => {
+	const {token} = await GetToken();
+	try {
+		const packagesResponse = await axios.get(`https://allthejobsca.pythonanywhere.com/packages/`, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
+		});
+		return packagesResponse.data;
+	} catch (error) {
+		console.error('Error fetching packages:', error);
+		throw error;
+	}
+};

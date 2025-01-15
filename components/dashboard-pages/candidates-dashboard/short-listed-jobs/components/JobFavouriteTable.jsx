@@ -5,8 +5,10 @@ import jobs from '../../../../../data/job-featured.js';
 import Image from 'next/image.js';
 import {useDispatch, useSelector} from 'react-redux';
 import {removeJobFromWishlist} from '@/features/wishlistJobsSlice/wishlistJobsSlice.js';
+import {useRouter} from 'next/navigation.js';
 
 const JobFavouriteTable = () => {
+	const router = useRouter();
 	const dispatch = useDispatch();
 	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
 
@@ -39,14 +41,15 @@ const JobFavouriteTable = () => {
 										<tr>
 											<th>Job Title</th>
 											<th>Job Type</th>
-											<th>Status</th>
+											<th>Salary</th>
+											<th>Application Deadline</th>
 											<th>Action</th>
 										</tr>
 									</thead>
 
 									<tbody>
 										{wishListJobs.map((item) => (
-											<tr key={item.employer_id}>
+											<tr>
 												<td>
 													{/* <!-- Job Block --> */}
 													<div className="job-block">
@@ -54,17 +57,14 @@ const JobFavouriteTable = () => {
 															<div className="content">
 																<span className="company-logo">
 																	<Image
-																		width={48}
-																		height={48}
-																		src={
-																			item.employer.user.photo ||
-																			'/images/resource/company-logo/1-1.png'
-																		}
+																		width={50}
+																		height={49}
+																		src={item.employer.user.photo}
 																		alt="logo"
 																	/>
 																</span>
 																<h4>
-																	<Link href={`/job-single-v3/${item.id}`}>{item.title}</Link>
+																	<Link href={`/jobs/${item.job_id}`}>{item.title}</Link>
 																</h4>
 																<ul className="job-info">
 																	<li>
@@ -73,7 +73,7 @@ const JobFavouriteTable = () => {
 																	</li>
 																	<li>
 																		<span className="icon flaticon-map-locator"></span>
-																		{item.country}
+																		{item.employer.country}
 																	</li>
 																</ul>
 															</div>
@@ -81,14 +81,16 @@ const JobFavouriteTable = () => {
 													</div>
 												</td>
 												<td>{item.job_type}</td>
-												<td className="status">
-													{item.status === 'Published' ? 'Active' : 'Closed'}
-												</td>
+												<td>${item.salary_range}</td>
+												<td className="text-center">{item.ap_deadline}</td>
 												<td>
 													<div className="option-box">
 														<ul className="option-list">
 															<li>
-																<button data-text="View Aplication">
+																<button
+																	onClick={() => router.push(`/jobs/${item.job_id}`)}
+																	data-text="View Job"
+																>
 																	<span className="la la-eye"></span>
 																</button>
 															</li>
@@ -113,8 +115,8 @@ const JobFavouriteTable = () => {
 					{/* End table widget content */}
 				</div>
 			) : (
-				<div className="alert alert-warning h-96 flex justify-center items-center" role="alert">
-					<span className="text-black"> No Favourite Jobs</span>
+				<div className="bg-white rounded-lg h-96 flex justify-center items-center" role="alert">
+					<span className="text-black"> No Shortlisted Jobs !</span>
 				</div>
 			)}
 		</>

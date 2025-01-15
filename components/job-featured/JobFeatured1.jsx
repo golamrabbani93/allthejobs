@@ -6,9 +6,15 @@ import Image from 'next/image';
 
 import {timeAgoFromPosting} from '@/utils/timeAgoFromPosting';
 import Loader from '../Loader/Loader';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+	addJobToWishlist,
+	removeJobFromWishlist,
+} from '@/features/wishlistJobsSlice/wishlistJobsSlice';
 
 const JobFeatured1 = () => {
+	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
+	const dispatch = useDispatch();
 	//get all jobs from the store
 	const {jobs: data, loading} = useSelector((state) => state.data);
 	//reverse the order of the array to show the latest job first and get featured jobs
@@ -18,6 +24,7 @@ const JobFeatured1 = () => {
 		<>
 			{jobs.slice(0, 6).map((item) => {
 				const time = timeAgoFromPosting(item.created_at);
+				const isWishListJob = wishListJobs.find((wishItem) => wishItem.job_id === item.job_id);
 				return (
 					<div className="job-block col-lg-6 col-md-12 col-sm-12" key={item.job_id}>
 						<div className="inner-box">
@@ -32,7 +39,7 @@ const JobFeatured1 = () => {
 									/>
 								</span>
 								<h4>
-									<a href="#">{item.title}</a>
+									<Link href={`/jobs/${item.job_id}`}>{item.title}</Link>
 								</h4>
 
 								<ul className="job-info">
@@ -43,11 +50,11 @@ const JobFeatured1 = () => {
 									{/* compnay info */}
 									<li>
 										<span className="icon flaticon-map-locator"></span>
-										{item.country === 'United Kingdom'
+										{item.employer.country === 'United Kingdom'
 											? 'UK'
-											: item.country === 'United States'
+											: item.employer.country === 'United States'
 											? 'USA'
-											: item.country}
+											: item.employer.country}
 									</li>
 									{/* location info */}
 									<li>
@@ -71,9 +78,18 @@ const JobFeatured1 = () => {
 								</ul>
 								{/* End .job-other-info */}
 
-								<button className="bookmark-btn">
-									<span className="flaticon-bookmark"></span>
-								</button>
+								{isWishListJob ? (
+									<button
+										onClick={() => dispatch(removeJobFromWishlist(item))}
+										className="bookmark-btn "
+									>
+										<span className="fa fa-bookmark"></span>
+									</button>
+								) : (
+									<button onClick={() => dispatch(addJobToWishlist(item))} className="bookmark-btn">
+										<span className="flaticon-bookmark"></span>
+									</button>
+								)}
 							</div>
 						</div>
 					</div>

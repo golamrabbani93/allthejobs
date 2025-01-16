@@ -79,7 +79,7 @@ const MeetingRoom = ({meeting_id}) => {
           <CallLayout></CallLayout>
         </div>
         <div
-          className={cn("h-[calc(100vh-86px)] ml-4", {
+          className={cn("h-[calc(100vh-86px)] w-96 px-4", {
             hidden: !showParticipants,
             block: showParticipants,
           })}

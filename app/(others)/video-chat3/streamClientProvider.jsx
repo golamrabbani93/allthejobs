@@ -13,13 +13,13 @@ const StreamVideoProvider=({children})=> {
   const user = useSelector((state) => state.user);
   useEffect(() => {
     const initializeClient = async () => {
-      if (!user?.user_id) return;
+      // if (!user?.user_id) return;
       if (!apiKey) throw new Error('Stream API key is missing');
-      const userObject={
+      const userObject=user?.user_id?{
         id:user.user_id.toString(),
         name:user.name,
         image:user.image
-      }
+      }:{id:"anonymous",name:"anonymous"}
       const fetchedToken = await tokenProvider(userObject);
       await new Promise(resolve => setTimeout(resolve, 1000));
       const videoClient = new StreamVideoClient({
@@ -31,10 +31,10 @@ const StreamVideoProvider=({children})=> {
       await chatClient.connectUser(userObject, fetchedToken);
       setChatClient(chatClient)
       setVideoClient(videoClient);
-      console.log(chatClient);
+ 
     };
     initializeClient();
-  }, [user]);
+  }, [user?.user_id]);
   if (!videoClient || !chatClient) {
     return <div>Loading...</div>;
   }

@@ -1,9 +1,5 @@
-import ATJForm from '@/components/form/ATJForm';
-import ATJTextArea from '@/components/form/ATJTextArea';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useApplyJobMutation} from '@/features/application/application.management.api';
-import {applyJobValidationSchema} from '@/schemas/applyJob.schema';
-import {zodResolver} from '@hookform/resolvers/zod';
 import {useSelector} from 'react-redux';
 export const closeApplyJobModal = () => {
 	const modalTrigger = document.getElementById('applyJobModalCloseBtn');
@@ -12,34 +8,39 @@ export const closeApplyJobModal = () => {
 	}
 };
 const ApplyJobModalContent = ({jobId}) => {
-	const {userRoleBasedData, loading} = useSelector((state) => state.data);
+	const {userRoleBasedData} = useSelector((state) => state.data);
 	//apply job mutation
-	const [applyJob, {data: applyJobData, isLoading}] = useApplyJobMutation();
-	const handleApplyJob = (data) => {
+	const [applyJob, {isLoading}] = useApplyJobMutation();
+	const handleApplyJob = () => {
 		const payload = {
 			job_id: jobId,
-			feedback: data.feedback,
 			status: 'applied',
 			talent_id: userRoleBasedData?.talent_id,
 		};
 		applyJob(payload);
 	};
 	return (
-		<div className="default-form ">
-			<ATJForm onSubmit={handleApplyJob} resolver={zodResolver(applyJobValidationSchema)}>
-				<div className="row">
-					<div className="form-group col-md-12">
-						<label>Write A Message</label>
-						<ATJTextArea disabled={loading} name="feedback" />
-					</div>
-
-					<div className="col-lg-12 col-md-12 col-sm-12 form-group">
-						<button className="theme-btn btn-style-one w-100" type="submit">
-							{isLoading ? <Spinner size="sm " color="white" /> : 'Apply Job'}
-						</button>
-					</div>
+		<div className="default-form mt-10">
+			<div className="row">
+				<div className="col-6 form-group">
+					<button
+						onClick={() => handleApplyJob()}
+						className="btn btn-primary w-10 h-10"
+						type="submit"
+					>
+						{isLoading ? <Spinner size="sm " color="white" /> : 'Apply Job'}
+					</button>
 				</div>
-			</ATJForm>
+				<div className="col-6 form-group">
+					<button
+						onClick={() => closeApplyJobModal()}
+						className="btn w-10 btn-danger  h-10"
+						type="submit"
+					>
+						Cancel
+					</button>
+				</div>
+			</div>
 		</div>
 	);
 };

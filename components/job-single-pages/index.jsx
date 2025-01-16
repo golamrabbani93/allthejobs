@@ -19,6 +19,8 @@ import {
 	addJobToWishlist,
 	removeJobFromWishlist,
 } from '@/features/wishlistJobsSlice/wishlistJobsSlice';
+import {useGetAllApplicationsQuery} from '@/features/application/application.management.api';
+import Spinner from '../Sppiner/Spinner';
 
 export const metadata = {
 	title: 'Job Detail || AllTheJobs',
@@ -26,14 +28,20 @@ export const metadata = {
 };
 
 const index = ({id}) => {
-	const company = jobs.find((item) => item.id == id) || jobs[0];
 	//get all jobs from store and find the job by id
-	const {jobs: allJobs, loading} = useSelector((state) => state.data);
+	const {jobs: allJobs, userRoleBasedData, loading} = useSelector((state) => state.data);
 	const job = allJobs.find((job) => job.job_id === Number(id));
 	const time = timeAgoFromPosting(job?.created_at);
 	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
 	const dispatch = useDispatch();
 	const isWishListJob = wishListJobs.find((wishItem) => wishItem.job_id === job?.job_id);
+
+	//check this job already applied or not
+	const {data: allApplications, isLoading} = useGetAllApplicationsQuery();
+	const appliedJob = allApplications?.find(
+		(application) =>
+			application.job_id === job?.job_id && application.talent_id === userRoleBasedData?.talent_id,
+	);
 	if (loading) return <div>Loading...</div>;
 	return (
 		<>
@@ -103,14 +111,20 @@ const index = ({id}) => {
 								{/* End .content */}
 
 								<div className="btn-box">
-									<a
-										href="#"
+									<button
 										className="theme-btn btn-style-one"
 										data-bs-toggle="modal"
 										data-bs-target="#applyJobModal"
+										disabled={isLoading || appliedJob}
 									>
-										Apply For Job
-									</a>
+										{isLoading ? (
+											<Spinner size={'sm'} color="white" />
+										) : appliedJob ? (
+											'Applied'
+										) : (
+											'Apply Now'
+										)}
+									</button>
 									{isWishListJob ? (
 										<button
 											onClick={() => dispatch(removeJobFromWishlist(job))}
@@ -134,7 +148,7 @@ const index = ({id}) => {
 									<div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 										<div className="apply-modal-content modal-content">
 											<div className="text-center">
-												<h3 className="title">Apply for this job</h3>
+												<h3 className="title">Are you sure, you want to apply for this job?</h3>
 												<button
 													type="button"
 													className="closed-modal"

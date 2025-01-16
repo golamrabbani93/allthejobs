@@ -4,11 +4,6 @@ import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
 import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
-import MyProfile from './components/my-profile/MyProfile';
-import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
-import EducationDetails from './components/my-profile/EducationDetails';
-import ExperienceDetails from './components/my-profile/ExperienceDetails';
-import AwardDetails from './components/my-profile/AwardDetails';
 import CallList from '@/app/(others)/video-chat3/Components/CallList';
 
 const index = () => {
@@ -36,7 +31,7 @@ const index = () => {
 					{/* Collapsible sidebar button */}
 
 					<div className="row">
-						<CallList type={"upcoming"}></CallList>
+						<CallList type={'upcoming'}></CallList>
 					</div>
 					{/* End .row */}
 				</div>

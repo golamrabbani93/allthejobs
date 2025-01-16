@@ -16,21 +16,21 @@ module.exports = [
 	{
 		id: 3,
 		name: 'Meeting management',
-		icon: 'la-paper-plane',
+		icon: 'la-digital-tachograph',
 		routePath: '/dashboard/consultant/#',
 		active: '',
 	},
 	{
 		id: 4,
 		name: 'Upcoming Meeting',
-		icon: 'la-briefcase',
+		icon: 'la-business-time',
 		routePath: '/dashboard/consultant/upcoming-meeting',
 		active: '',
 	},
 	{
 		id: 5,
 		name: 'Meeting Request',
-		icon: 'la-briefcase',
+		icon: 'la-video-camera',
 		routePath: '/dashboard/consultant/meeting-request',
 		active: '',
 	},
@@ -44,7 +44,7 @@ module.exports = [
 	{
 		id: 7,
 		name: 'Recording',
-		icon: 'la-video-camera ',
+		icon: 'la-file-video',
 		routePath: '/dashboard/consultant/meeting-recording',
 		active: '',
 	},

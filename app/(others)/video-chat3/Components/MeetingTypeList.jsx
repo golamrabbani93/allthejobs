@@ -63,11 +63,10 @@ const MeetingTypeList = () => {
       if (!call.id) {
         throw new Error('Failed to create meeting ID');
       }
+
       if(description!=="Instant Meeting"){
         console.log('scheduling meeting');
         await handleUpdateSlots(values.datetime,"requested")
-        
-
       }
       setCallDetails(call);
       if (!values.description) {

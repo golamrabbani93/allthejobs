@@ -55,13 +55,15 @@ const timeSlots = [
 ];
 
 export default function page() {
+  //todo fetch it from redux
+  const consultant_id="1"
   const [loading,setLoading]=useState(false)
   const [requestedSlots,setRequestedSlots]=useState([])
   const handleRetrieveSlots = async () => {
     setLoading(true)
     const formattedDate = selectedDate.toISOString().split('T')[0];
     console.log(formattedDate);
-    const url = `http://127.0.0.1:8000/availability-slots/${formattedDate}/`;
+    const url = `http://127.0.0.1:8000/availability-slots/${consultant_id}/${formattedDate}/`;
     try {
       const response = await axios.get(url);
       setRequestedSlots(response.data)

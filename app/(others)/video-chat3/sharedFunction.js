@@ -1,5 +1,6 @@
 import axios from "axios";
-
+// todo update with actual consultant id
+const consultant_id="1"
 export const handleRetrieveSlots = async (selectedDate) => {
   console.log('seleccted date is',selectedDate);
   const year = selectedDate.getFullYear();
@@ -7,7 +8,7 @@ export const handleRetrieveSlots = async (selectedDate) => {
   const day = String(selectedDate.getDate()).padStart(2, '0');
   const formattedDate = `${year}-${month}-${day}`;
   console.log('formated date is',formattedDate);
-  const url = `http://127.0.0.1:8000/availability-slots/${formattedDate}/?status=available`;
+  const url = `http://127.0.0.1:8000/availability-slots/${consultant_id}/${formattedDate}/?status=available`;
   try {
     const response = await axios.get(url);
     return response.data
@@ -27,6 +28,7 @@ export const handleUpdateSlots=async(selectedDate,status)=>{
   const minutes = String(selectedDate.getMinutes()).padStart(2, '0');
   const url=` http://127.0.0.1:8000/availability-slots/update/${formattedDate}/`
   const body={
+    "consultant_id":consultant_id,
     "time": `${hours}:${minutes}`,
     "status": status
   }

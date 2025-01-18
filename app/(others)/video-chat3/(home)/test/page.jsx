@@ -111,14 +111,14 @@ export default function page() {
       slotsData.push({
         consultant,
         start_time: selectedDateCopy,
-        status:"requested"
+        status:"available"
       })
     }
 
     console.log(slotsData);
 
     try {
-      const response = await axios.post(" http://127.0.0.1:8000/availability-slots/", { //Todo actual api route
+      const response = await axios.post(" http://127.0.0.1:8000/availability-slots/", { 
         slots: slotsData,
       });
       setSelectedSlots([])

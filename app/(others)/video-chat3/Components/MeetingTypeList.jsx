@@ -9,6 +9,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSelector } from "react-redux";
 import MeetingModal from "./MeetingModal";
 import HomeCard from "./HomeCard";
+import { timeSlots } from "../constant";
+import { handleRetrieveSlots, handleUpdateSlots } from "../sharedFunction";
 const MeetingTypeList = () => {
   const router = useRouter();
   const [meetingState, setMeetingState] = useState();
@@ -43,9 +45,7 @@ const MeetingTypeList = () => {
         values.datetime.toISOString() || new Date(Date.now()).toISOString();
       const description = values.description || "Instant Meeting";
       const consultant_id=values.consultant_id.toString()
-      if(description==="Instant Meeting"){
 
-      }
       await call.getOrCreate({
         data: {
           starts_at: startsAt,
@@ -59,8 +59,15 @@ const MeetingTypeList = () => {
           },
         },
       });
+
       if (!call.id) {
         throw new Error('Failed to create meeting ID');
+      }
+      if(description!=="Instant Meeting"){
+        console.log('scheduling meeting');
+        await handleUpdateSlots(values.datetime,"requested")
+        
+
       }
       setCallDetails(call);
       if (!values.description) {
@@ -76,6 +83,38 @@ const MeetingTypeList = () => {
       });
     }
   };
+  // handling time slots
+  const convertToTime = (timeString) => {
+    const [time, modifier] = timeString.split(/(AM|PM)/i);
+    let [hours, minutes] = time.split(':');
+    if (modifier.toLowerCase() === 'pm' && hours !== '12') {
+      hours = parseInt(hours, 10) + 12;
+    }
+    if (modifier.toLowerCase() === 'am' && hours === '12') {
+      hours = 0;
+    }
+    return { hours: parseInt(hours, 10), minutes: parseInt(minutes, 10) };
+  };
+  
+  const convertTimeSlotsToDates = (date, timeSlots) => {
+    return timeSlots.map(slot => {
+      const { hours, minutes } = convertToTime(slot.split('-')[0]);
+      const newDate = new Date(date);
+      newDate.setHours(hours, minutes, 0, 0);
+      return newDate;
+    });
+  };
+  const [timeSlots, setTimeSlots] = useState([]);
+  useEffect(() => {
+    const fetchTimeSlots = async () => {
+      const slots = await handleRetrieveSlots(values.datetime);
+      setTimeSlots(slots);
+    };
+
+    fetchTimeSlots();
+  }, [values.datetime]);
+  const includeTimes = convertTimeSlotsToDates(values.datetime, timeSlots);
+
 
   const meetingLink=`${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${callDetails?.id}`
   if (!user?.user_id) {
@@ -152,11 +191,13 @@ const MeetingTypeList = () => {
               selected={values.datetime}
               onChange={(date) => setValues({...values,datetime:date})}
               showTimeSelect
+              includeTimes={includeTimes}
               timeFormat='HH:mm'
               timeIntervals={30}
               timeCaption='time'
               dateFormat='MMMM d, yyyy h:mm aa'
               className="w-full rounded bg-[#161925] p-2"
+              minDate={new Date()}
             />
           </div>
         </MeetingModal>

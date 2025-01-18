@@ -53,7 +53,6 @@ export const useGetCalls=()=>{
   //   return (startsAt&& new Date(startsAt)>now)
   // })
   const upcomingCalls = calls.filter(({ state: { startsAt,custom } }) => {
-    console.log(custom);
     return startsAt && new Date(startsAt) > now && custom?.isAccepted === true;
   });
   

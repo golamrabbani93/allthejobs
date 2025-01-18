@@ -74,6 +74,7 @@ const CallList = ({
   if(isLoading){
     return <div>loading</div>
   }
+  console.log(calls.length);
   return (
     <div className='grid grid-cols-1 gap-5 xl:grid-cols-2'>
       {calls && calls.length > 0 && type!=="recording" ? 

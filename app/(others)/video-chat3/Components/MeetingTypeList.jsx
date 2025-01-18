@@ -153,7 +153,7 @@ const MeetingTypeList = () => {
               onChange={(date) => setValues({...values,datetime:date})}
               showTimeSelect
               timeFormat='HH:mm'
-              timeIntervals={15}
+              timeIntervals={30}
               timeCaption='time'
               dateFormat='MMMM d, yyyy h:mm aa'
               className="w-full rounded bg-[#161925] p-2"

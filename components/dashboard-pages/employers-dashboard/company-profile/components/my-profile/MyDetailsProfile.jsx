@@ -134,7 +134,7 @@ const MyDetailsProfile = () => {
 						</div>
 
 						<div className="form-group col-lg-6 col-md-12">
-							<label>Portfolio</label>
+							<label>Portfolio (optional)</label>
 							<ATJInput
 								disabled={loading}
 								type={'text'}

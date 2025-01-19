@@ -51,7 +51,6 @@ const MyDetailsProfile = () => {
 				city: {label: userRoleBasedData?.city, value: userRoleBasedData?.city} || '',
 				experience: {label: userRoleBasedData?.experience, value: userRoleBasedData?.experience},
 				skills: userRoleBasedData?.skills?.map((skill) => ({label: skill, value: skill})),
-				website: userRoleBasedData?.website,
 				area: userRoleBasedData?.area,
 				gender: userRoleBasedData?.gender,
 				dob: userRoleBasedData?.dob,
@@ -139,15 +138,6 @@ const MyDetailsProfile = () => {
 				<div className="default-form">
 					<div className="row">
 						<div className="form-group col-lg-6 col-md-12">
-							<label>My Role</label>
-							<ATJInput
-								disabled={loading}
-								type={'text'}
-								label="Front-End Developer"
-								name="headline"
-							/>
-						</div>
-						<div className="form-group col-lg-6 col-md-12">
 							<label>Education</label>
 							<ATJMultiSelect
 								isMulti={false}
@@ -176,10 +166,7 @@ const MyDetailsProfile = () => {
 								options={jobSkillsOptions}
 							/>
 						</div>
-						<div className="form-group col-lg-6 col-md-12">
-							<label>Portfolio</label>
-							<ATJInput disabled={loading} type={'text'} label="website" name="website" />
-						</div>
+
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Select Country</label>
 							<ATJMultiSelect
@@ -259,7 +246,7 @@ const MyDetailsProfile = () => {
 								options={languageOptions}
 							/>
 						</div>
-						<div className="form-group col-lg-12 col-md-12">
+						<div className="form-group col-lg-6 col-md-12">
 							<label>Open To Work</label>
 							<ATJMultiSelect
 								isDisabled={loading}
@@ -270,6 +257,15 @@ const MyDetailsProfile = () => {
 									{value: true, label: 'Yes'},
 									{value: false, label: 'No'},
 								]}
+							/>
+						</div>
+						<div className="form-group col-lg-6 col-md-12">
+							<label>My Role</label>
+							<ATJInput
+								disabled={loading}
+								type={'text'}
+								label="Front-End Developer"
+								name="headline"
 							/>
 						</div>
 						<div className="form-group col-lg-6 col-md-12">

@@ -20,9 +20,9 @@ const EducationDetails = () => {
 	const [updateTalent, {data, isLoading}] = useUpdateTalentMutation();
 	const [showForm, setShowForm] = useState(false); // State to control form visibility
 
-	const handelProfileData = (data, e) => {
+	const handelProfileData = (data) => {
 		const payload = {
-			id: userRoleBasedData.education_details.length + 1,
+			id: userRoleBasedData?.education_details?.length + 1 || 1,
 			degreeName: data.degreeName,
 			institutionName: data.institutionName,
 			duration: data.duration,
@@ -30,7 +30,7 @@ const EducationDetails = () => {
 		};
 		const newData = {
 			education_details:
-				userRoleBasedData.education_details.length > 0
+				userRoleBasedData.education_details?.length > 0
 					? [...userRoleBasedData.education_details, payload]
 					: [payload],
 			user_id: userRoleBasedData.user_id,
@@ -38,7 +38,7 @@ const EducationDetails = () => {
 
 		updateTalent({talentId: userRoleBasedData.talent_id, data: newData});
 
-		e.target.reset(); // Reset the form
+		// e.target.reset(); // Reset the form
 	};
 
 	//handle close form

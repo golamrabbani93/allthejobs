@@ -23,9 +23,9 @@ const ExperienceDetails = () => {
 	const [updateTalent, {data, isLoading}] = useUpdateTalentMutation();
 	const [showForm, setShowForm] = useState(false); // State to control form visibility
 
-	const handelProfileData = (data, e) => {
+	const handelProfileData = (data) => {
 		const payload = {
-			id: userRoleBasedData.experience_details.length + 1,
+			id: userRoleBasedData.experience_details?.length + 1 || 1,
 			role: data.role,
 			companyName: data.companyName,
 			duration: data.duration,
@@ -33,14 +33,12 @@ const ExperienceDetails = () => {
 		};
 		const newData = {
 			experience_details:
-				userRoleBasedData.experience_details.length > 0
+				userRoleBasedData.experience_details?.length > 0
 					? [...userRoleBasedData.experience_details, payload]
 					: [payload],
 			user_id: userRoleBasedData.user_id,
 		};
 		updateTalent({talentId: userRoleBasedData.talent_id, data: newData});
-
-		e.target.reset(); // Reset the form
 	};
 
 	//handle close form

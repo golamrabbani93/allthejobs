@@ -23,7 +23,7 @@ const ExperienceDetails = () => {
 
 	const handelProfileData = (data, e) => {
 		const payload = {
-			id: userRoleBasedData.experience_details.length + 1,
+			id: userRoleBasedData.experience_details?.length + 1 || 1,
 			role: data.role,
 			companyName: data.companyName,
 			duration: data.duration,
@@ -31,7 +31,7 @@ const ExperienceDetails = () => {
 		};
 		const newData = {
 			experience_details:
-				userRoleBasedData.experience_details.length > 0
+				userRoleBasedData.experience_details?.length > 0
 					? [...userRoleBasedData.experience_details, payload]
 					: [payload],
 			user_id: userRoleBasedData.user_id,

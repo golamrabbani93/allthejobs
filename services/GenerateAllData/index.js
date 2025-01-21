@@ -123,3 +123,38 @@ export const fetchPackages = async () => {
 		throw error;
 	}
 };
+
+// fetch slots
+export const fetchAvailableSlots = async (consultant_id,formattedDate) => {
+	console.log(formattedDate);
+	const {token} = await GetToken();
+	try {
+		const availableSlots = await axios.get(`https://allthejobsca.pythonanywhere.com/availability-slots/${consultant_id}/${formattedDate}/`, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
+		});
+		return availableSlots.data;
+	} catch (error) {
+		console.error('Error fetching Available Slots:', error);
+		throw error;
+	}
+};
+
+// create slots
+export const createAvailableSlots = async (slotsData) => {
+	console.log('this is slots data',slotsData);
+	const {token} = await GetToken();
+	try {
+		const createSlotResponse = await axios.post(`https://allthejobsca.pythonanywhere.com/availability-slots/`,{slots:slotsData}, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
+		});
+		console.log(createSlotResponse);
+		return createSlotResponse.data;
+	} catch (error) {
+		console.error('Error Creating Available Slots:', error);
+		throw error;
+	}
+};

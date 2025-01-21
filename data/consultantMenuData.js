@@ -17,7 +17,7 @@ module.exports = [
 		id: 3,
 		name: 'Meeting management',
 		icon: 'la-paper-plane',
-		routePath: '/dashboard/consultant/#',
+		routePath: '/dashboard/consultant/meeting-management',
 		active: '',
 	},
 	{

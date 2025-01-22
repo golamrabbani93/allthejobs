@@ -128,7 +128,7 @@ export default function SlotManagement() {
             setSelectedDate(date);
           }}
           timeFormat='HH:mm'
-          timeIntervals={30}
+          timeIntervals={60}
           timeCaption='time'
           dateFormat='MMMM d, yyyy'
           className='rounded p-2  bg-slate-300 mb-4'

@@ -15,23 +15,22 @@ module.exports = [
 	},
 	{
 		id: 3,
-		name: 'Meeting DashBoard',
-		icon: 'la-video-camera ',
-		routePath: '/video-chat3',
-		active: '',
-	},
-	{
-		id: 4,
 		name: 'Booked Meetings',
 		icon: 'la-briefcase',
 		routePath: '/dashboard/talent/booked-meeting',
 		active: '',
 	},
 	{
-		id: 5,
+		id: 4,
 		name: 'Requested Meetings',
 		icon: 'la-video-camera ',
 		routePath: '/dashboard/talent/requested-meeting',
+		active: '',
+	},	{
+		id: 5,
+		name: 'Previous Meetings',
+		icon: 'la-video-camera ',
+		routePath: '/dashboard/talent/previous-meeting',
 		active: '',
 	},
 	{

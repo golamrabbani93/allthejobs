@@ -125,11 +125,10 @@ export const fetchPackages = async () => {
 };
 
 // fetch slots
-export const fetchAvailableSlots = async (consultant_id,formattedDate) => {
-	console.log(formattedDate);
+export const fetchAvailableSlots = async (consultant_id,formattedDate,status="all") => {
 	const {token} = await GetToken();
 	try {
-		const availableSlots = await axios.get(`https://allthejobsca.pythonanywhere.com/availability-slots/${consultant_id}/${formattedDate}/`, {
+		const availableSlots = await axios.get(`https://allthejobsca.pythonanywhere.com/availability-slots/${consultant_id}/${formattedDate}/?status=${status}`, {
 			headers: {
 				Authorization: `Token ${token}`,
 			},
@@ -143,7 +142,6 @@ export const fetchAvailableSlots = async (consultant_id,formattedDate) => {
 
 // create slots
 export const createAvailableSlots = async (slotsData) => {
-	console.log('this is slots data',slotsData);
 	const {token} = await GetToken();
 	try {
 		const createSlotResponse = await axios.post(`https://allthejobsca.pythonanywhere.com/availability-slots/`,{slots:slotsData}, {
@@ -155,6 +153,28 @@ export const createAvailableSlots = async (slotsData) => {
 		return createSlotResponse.data;
 	} catch (error) {
 		console.error('Error Creating Available Slots:', error);
+		throw error;
+	}
+};
+// update slot info 
+export const updateAvailableSlots = async (consultant_id,formattedDate,selectedDate,status) => {
+	const hours = String(selectedDate.getHours()).padStart(2, '0');
+  const minutes = String(selectedDate.getMinutes()).padStart(2, '0');
+  const body={
+    "consultant_id":consultant_id,
+    "time": `${hours}:${minutes}`,
+    "status": status
+  }
+	const {token} = await GetToken();
+	try {
+		const updateSlotResponse = await axios.patch(`https://allthejobsca.pythonanywhere.com/availability-slots/update/${consultant_id}/${formattedDate}/`,body, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
+		});
+		return updateSlotResponse.data;
+	} catch (error) {
+		console.error('Error Updating Available Slots:', error);
 		throw error;
 	}
 };

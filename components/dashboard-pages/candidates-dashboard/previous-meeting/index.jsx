@@ -10,7 +10,6 @@ import EducationDetails from './components/my-profile/EducationDetails';
 import ExperienceDetails from './components/my-profile/ExperienceDetails';
 import AwardDetails from './components/my-profile/AwardDetails';
 import CallList from '@/app/(others)/video-chat3/Components/CallList';
-import ScheduleMeeting from '@/app/(others)/video-chat3/Components/ScheduleMeeting';
 
 const index = () => {
 	return (
@@ -30,15 +29,14 @@ const index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="Your Booked Meetings!" />
-					<ScheduleMeeting></ScheduleMeeting>
+					<BreadCrumb title="Your Completed Meetings" />
 					{/* breadCrumb */}
 
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
 					<div className="row">
-						<CallList type={"upcoming"}></CallList>
+						<CallList type={"previous"}></CallList>
 					</div>
 					{/* End .row */}
 				</div>

@@ -8,6 +8,7 @@ import {
   fetchAvailableSlots,
 } from "@/services/GenerateAllData";
 import { useSelector } from "react-redux";
+import Spinner from "@/components/Sppiner/Spinner";
 const timeSlots = [
   "12:00AM-01:00AM",
   "01:00AM-02:00AM",
@@ -43,11 +44,14 @@ export default function SlotManagement() {
   }, [user_redux]);
   const consultant_id = user?.role === "consultant" ? user.user_id : undefined;
   const [loading, setLoading] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [requestedSlots, setRequestedSlots] = useState([]);
   const [selectedSlots, setSelectedSlots] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  console.log("this is selected date", selectedDate);
   const handleRetrieveSlots = async () => {
+    if (!consultant_id) {
+      return;
+    }
     setLoading(true);
     const year = selectedDate.getFullYear();
     const month = String(selectedDate.getMonth() + 1).padStart(2, "0"); // Months are zero-based
@@ -62,7 +66,6 @@ export default function SlotManagement() {
       setLoading(false);
     }
   };
-  // useEffect(async()=> await handleRetrieveSlots(),[])
 
   const hour_minute_converter = (timeslot) => {
     let firstTime = timeslot.split("-")[0];
@@ -88,8 +91,15 @@ export default function SlotManagement() {
     );
   };
   const handleButtonClick = async () => {
+    if(!selectedSlots.length){
+      return
+    }
+    setIsSubmitting(true)
     const slotsData = [];
-    const consultant = "126"; //todo Replace with actual consultant ID
+    if (!consultant_id) {
+      return;
+    }
+    const consultant = consultant_id;
     for (let slot of selectedSlots) {
       const hour_minute = hour_minute_converter(slot);
       let selectedDateCopy = new Date(selectedDate);
@@ -110,13 +120,16 @@ export default function SlotManagement() {
     } catch (error) {
       console.error(error);
     }
+    setIsSubmitting(false)
   };
   useEffect(() => {
     handleRetrieveSlots();
   }, [selectedDate, consultant_id]);
   if (loading) {
-    return <div>loading...</div>;
+    return <Spinner />;
   }
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 7);
 
   return (
     <div className='container mx-auto p-4'>
@@ -133,6 +146,9 @@ export default function SlotManagement() {
           dateFormat='MMMM d, yyyy'
           className='rounded p-2  bg-slate-300 mb-4'
           minDate={new Date()}
+          maxDate={maxDate}
+          popperPlacement="bottom-start"
+        popperClassName="custom-datepicker-popper"
         />
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-4'>
@@ -153,18 +169,17 @@ export default function SlotManagement() {
           </button>
         ))}
       </div>
-      <button
-        className='mt-4 bg-blue-500 text-white p-2 rounded'
+      <button disabled={isSubmitting}
+        className={`mt-4 text-white p-2 rounded ${isSubmitting?"bg-gray-400 cursor-not-allowed":"bg-blue-500"}`}
         onClick={handleButtonClick}
-      >
-        Submit
+      >{isSubmitting?"Submitting...":"Submit"}
       </button>
-      <button
+      {/* <button
         className='mt-4 bg-green-500 text-white p-2 rounded'
         onClick={handleRetrieveSlots}
       >
         Retrieve Slots
-      </button>
+      </button> */}
     </div>
   );
 }

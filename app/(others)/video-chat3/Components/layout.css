@@ -5,7 +5,6 @@ body,
 }
 body {
   margin: 0;
-  background-color: #004d40;
 }
 #root {
   display: flex;
@@ -20,21 +19,8 @@ body {
 .str-chat__thread {
   width: 45%;
 }
-.str-chat__theme-dark {
-  --str-chat__primary-color: #26a69a;
-  --str-chat__active-primary-color: #00796b;
-  --str-chat__surface-color: #424242;
-  --str-chat__secondary-surface-color: #212121;
-  --str-chat__primary-surface-color: #00695c;
-  --str-chat__primary-surface-color-low-emphasis: #004d40;
-  --str-chat__avatar-background-color: #ff7043;
-}
 
-.str-chat__message-text{
-  color: red;
-  
 
-}
 .str-chat__channel-header-title{
   color: white;
 }

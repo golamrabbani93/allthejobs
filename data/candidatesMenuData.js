@@ -41,6 +41,13 @@ module.exports = [
 		routePath: '/dashboard/talent/meeting-recording',
 		active: '',
 	},
+	{
+		id: 16,
+		name: 'Resume Builder',
+		icon: 'la-rocket',
+		routePath: '/dashboard/talent/resume-builder',
+		active: '',
+	},
 
 	{
 		id: 7,

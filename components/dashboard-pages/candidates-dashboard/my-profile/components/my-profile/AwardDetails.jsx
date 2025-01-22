@@ -19,7 +19,7 @@ const AwardDetails = () => {
 
 	const handelProfileData = (data, e) => {
 		const payload = {
-			id: userRoleBasedData.awards.length + 1,
+			id: userRoleBasedData.awards?.length + 1 || 1,
 			title: data.title,
 			category: data.category,
 			duration: data.duration,
@@ -27,7 +27,7 @@ const AwardDetails = () => {
 		};
 		const newData = {
 			awards:
-				userRoleBasedData.awards.length > 0 ? [...userRoleBasedData.awards, payload] : [payload],
+				userRoleBasedData.awards?.length > 0 ? [...userRoleBasedData.awards, payload] : [payload],
 			user_id: userRoleBasedData.user_id,
 		};
 		updateTalent({talentId: userRoleBasedData.talent_id, data: newData});

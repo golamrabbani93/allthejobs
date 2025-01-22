@@ -3,9 +3,10 @@ import {useSelector} from 'react-redux';
 
 const ShowResumeTwo = ({aiGeneratedData}) => {
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
+	console.log('🚀🚀: ShowResumeTwo -> userRoleBasedData', userRoleBasedData);
 	return (
 		<div className="flex justify-center items-center min-h-screen bg-gray-200">
-			<div className="bg-white shadow-md border p-8 w-[210mm] h-[297mm] overflow-hidden">
+			<div className="bg-white shadow-md border p-8 w-[210mm] h-[280mm] overflow-hidden">
 				{/* Full Name & Contact */}
 				<div className="text-center border-b pb-1">
 					<h1 className="text-2xl font-bold">{userRoleBasedData?.user?.name}</h1>
@@ -58,11 +59,18 @@ const ShowResumeTwo = ({aiGeneratedData}) => {
 				{/* Skills */}
 				<div className="mt-2 border-b pb-1">
 					<h2 className="text-2xl font-semibold text-gray-800">Skills</h2>
-					<div className="grid grid-cols-2 gap-2 mt-2">
+					{/* <div className="grid grid-cols-2 gap-2 mt-2">
 						<p>✔️ Effective written and verbal communication</p>
 						<p>✔️ Teamwork</p>
 						<p>✔️ Analytical thinking</p>
 						<p>✔️ Microsoft Office Suite</p>
+					</div> */}
+					<div className="flex justify-start items-center mt-2 ">
+						{userRoleBasedData?.skills?.map((skill, i) => (
+							<span key={i} className="text-gray-700 uppercase mx-1 font-medium">
+								{skill} {i !== userRoleBasedData?.skills?.length - 1 && ' |'}
+							</span>
+						))}
 					</div>
 				</div>
 				{/* Education */}
@@ -87,6 +95,15 @@ const ShowResumeTwo = ({aiGeneratedData}) => {
 								{edu?.title},<i>{edu?.category}</i>
 							</p>
 							<p className="text-gray-600 italic">{edu?.duration}</p>
+						</div>
+					</div>
+				))}
+				{/* languages */}
+				<h2 className="mt-2 text-2xl font-semibold text-gray-800">Languages</h2>
+				{userRoleBasedData?.language?.map((ln, i) => (
+					<div className="mt-[2px] border-b pb-1 " key={i}>
+						<div className="flex justify-between ">
+							<p className="text-gray-700">✔️{ln}</p>
 						</div>
 					</div>
 				))}

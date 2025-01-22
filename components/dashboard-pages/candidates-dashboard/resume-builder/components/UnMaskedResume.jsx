@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useReactToPrint} from 'react-to-print';
 
-const ShowResumeTwo = ({aiGeneratedData}) => {
+const UnMaskedResume = ({aiGeneratedData}) => {
 	const pdfRef = useRef(null);
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const [canPrint, setCanPrint] = useState(false);
@@ -13,11 +13,6 @@ const ShowResumeTwo = ({aiGeneratedData}) => {
 		contentRef: pdfRef,
 		documentTitle: 'Resume',
 	});
-
-	// Check if the reference is assigned correctly
-	useEffect(() => {
-		console.log('pdfRef.current:', pdfRef.current);
-	}, []);
 
 	// Check if user data is available before allowing printing
 	useEffect(() => {
@@ -171,4 +166,4 @@ const ShowResumeTwo = ({aiGeneratedData}) => {
 	);
 };
 
-export default ShowResumeTwo;
+export default UnMaskedResume;

@@ -5,6 +5,8 @@ import {useState} from 'react';
 import ShowResume from './ShowResume';
 import {useSelector} from 'react-redux';
 import ShowResumeTwo from './ShowResumeTwo';
+import MaskedResume from './MaskedResume';
+import UnMaskedResume from './UnMaskedResume';
 
 const ResumeBuilder = () => {
 	const [aiData, setAiData] = useState([]);
@@ -71,9 +73,8 @@ const ResumeBuilder = () => {
 					{isPending || loading ? <span className="ml-2">Loading...</span> : 'Make Resume'}
 				</button>
 				<div className="my-8">
-					{/* <ShowResume aiGeneratedData={aiGeneratedData || {}} />
-					 */}
-					<ShowResumeTwo aiGeneratedData={aiGeneratedData || {}} />
+					<MaskedResume aiGeneratedData={aiGeneratedData || {}} />
+					<UnMaskedResume aiGeneratedData={aiGeneratedData || {}} />
 				</div>
 			</div>
 		</div>

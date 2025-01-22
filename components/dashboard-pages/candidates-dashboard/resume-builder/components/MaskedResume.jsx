@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {useReactToPrint} from 'react-to-print';
 
-const ShowResumeTwo = ({aiGeneratedData}) => {
+const MaskedResume = ({aiGeneratedData}) => {
 	const pdfRef = useRef(null);
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const [canPrint, setCanPrint] = useState(false);
@@ -13,11 +13,6 @@ const ShowResumeTwo = ({aiGeneratedData}) => {
 		contentRef: pdfRef,
 		documentTitle: 'Resume',
 	});
-
-	// Check if the reference is assigned correctly
-	useEffect(() => {
-		console.log('pdfRef.current:', pdfRef.current);
-	}, []);
 
 	// Check if user data is available before allowing printing
 	useEffect(() => {
@@ -50,7 +45,7 @@ const ShowResumeTwo = ({aiGeneratedData}) => {
 					{/* Full Name & Contact */}
 					<div className="text-center border-b pb-1">
 						<h1 className="text-2xl font-bold">{userRoleBasedData?.user?.name || 'No Name'}</h1>
-						<div className="flex justify-center items-center text-gray-600">
+						{/* <div className="flex justify-center items-center text-gray-600">
 							{userRoleBasedData?.user?.email && (
 								<div className="flex items-center justify-center mx-2">
 									<span className="la la-envelope mr-[2px]"></span>
@@ -72,7 +67,7 @@ const ShowResumeTwo = ({aiGeneratedData}) => {
 									</span>
 								</div>
 							)}
-						</div>
+						</div> */}
 					</div>
 
 					{/* Professional Summary */}
@@ -171,4 +166,4 @@ const ShowResumeTwo = ({aiGeneratedData}) => {
 	);
 };
 
-export default ShowResumeTwo;
+export default MaskedResume;

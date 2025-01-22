@@ -1,11 +1,11 @@
 'use client';
 import {useSelector} from 'react-redux';
 
-const ShowResume = ({summery}) => {
+const ShowResume = ({aiGeneratedData}) => {
+	console.log('🚀🚀: ShowResume -> aiGeneratedData', aiGeneratedData);
 	const {userRoleBasedData} = useSelector((state) => state.data);
-	console.log('🚀🚀: ShowResume -> userRoleBasedData', userRoleBasedData);
 	return (
-		<div className="flex justify-center items-center min-h-screen">
+		<div className="flex justify-center items-center min-h-screen text-justify">
 			<div className="bg-white shadow-2xl rounded-lg flex w-[210mm] overflow-hidden">
 				{/* Left Sidebar */}
 				<div className="w-1/3 bg-gradient-to-b from-gray-900 to-gray-700 text-white p-6">
@@ -70,7 +70,9 @@ const ShowResume = ({summery}) => {
 						<h2 className="text-2xl font-semibold text-gray-800 border-b-2 border-gray-300 pb-2">
 							Professional Summary
 						</h2>
-						<p className="text-gray-600 text-sm mt-2">{summery}</p>
+						<p className="text-gray-600 text-sm mt-2 text-justify">
+							{aiGeneratedData?.professional_summary}
+						</p>
 					</div>
 
 					{/* Work Experience */}
@@ -79,8 +81,8 @@ const ShowResume = ({summery}) => {
 							Work Experience
 						</h2>
 
-						{userRoleBasedData?.experience_details?.map((exp) => (
-							<div className="mt-2">
+						{aiGeneratedData?.experience_details?.map((exp, i) => (
+							<div className="mt-2" key={i}>
 								<h3 className="text-lg font-medium text-gray-900">{exp.role}</h3>
 								<p className="text-sm text-gray-500 italic">
 									{exp.companyName} - {exp.duration}

@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 const ScheduleMeeting = () => {
   const [meetingState, setMeetingState] = useState();
   const user_redux = useSelector((state) => state.user);
+  const [loadingSlots,setLoadingSlots]=useState(false)
   const [user,setUser]=useState(undefined)
   useEffect(()=>{
     setUser(user_redux)
@@ -104,9 +105,11 @@ const ScheduleMeeting = () => {
   const [timeSlots, setTimeSlots] = useState([]);
   useEffect(() => {
   const consultant_id="126"
-    const fetchTimeSlots = async () => {
+  const fetchTimeSlots = async () => {
+      // setLoadingSlots(true)
       const formattedDate=getRawDate(values.datetime)
       const slots = await fetchAvailableSlots(consultant_id,formattedDate,'available');
+      setLoadingSlots(false)
       console.log(slots);
       setTimeSlots(slots);
     };
@@ -120,6 +123,15 @@ const ScheduleMeeting = () => {
   if (!user?.user_id) {
     return <div className="text-black">Loading...</div>; // Or any placeholder
   }
+  const CustomDatePickerInput = React.forwardRef(({ value, onClick }, ref) => (
+    <input
+      className="w-full rounded bg-[#161925] p-2"
+      onClick={onClick}
+      value={value}
+      ref={ref}
+      readOnly // Disable manual typing
+    />
+  ));
 
   return (
     <section className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4'>
@@ -169,6 +181,8 @@ const ScheduleMeeting = () => {
               dateFormat='MMMM d, yyyy h:mm aa'
               className="w-full rounded bg-[#161925] p-2"
               minDate={new Date()}
+              customInput={<CustomDatePickerInput />}
+              disabled={loadingSlots}
             />
           </div>
         </MeetingModal>

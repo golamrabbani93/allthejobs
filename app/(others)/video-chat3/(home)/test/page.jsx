@@ -2,13 +2,15 @@
 import "react-datepicker/dist/react-datepicker.css";
 import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
-import axios from "axios";
+import './style.css'
 import {
   createAvailableSlots,
   fetchAvailableSlots,
 } from "@/services/GenerateAllData";
 import { useSelector } from "react-redux";
 import Spinner from "@/components/Sppiner/Spinner";
+import { Button } from "@/components/ui/button";
+import { Sun, Moon } from "lucide-react"
 const timeSlots = [
   "12:00AM-01:00AM",
   "01:00AM-02:00AM",
@@ -91,7 +93,7 @@ export default function SlotManagement() {
     );
   };
   const handleButtonClick = async () => {
-    if(!selectedSlots.length){
+    if (!selectedSlots.length) {
       return
     }
     setIsSubmitting(true)
@@ -122,6 +124,8 @@ export default function SlotManagement() {
     }
     setIsSubmitting(false)
   };
+
+  const [isDaySelected, setIsDaySelected] = useState(true)
   useEffect(() => {
     handleRetrieveSlots();
   }, [selectedDate, consultant_id]);
@@ -131,9 +135,10 @@ export default function SlotManagement() {
   const maxDate = new Date();
   maxDate.setDate(maxDate.getDate() + 7);
 
+
   return (
     <div className='container mx-auto p-4'>
-      <div>
+      <div className="flex">
         <DatePicker
           selected={selectedDate}
           onChange={(date) => {
@@ -148,20 +153,42 @@ export default function SlotManagement() {
           minDate={new Date()}
           maxDate={maxDate}
           popperPlacement="bottom-start"
-        popperClassName="custom-datepicker-popper"
+          popperClassName="custom-datepicker-popper"
         />
+        <div className="">
+          <button
+            className="relative mx-4 mt-1 w-20 h-10 bg-gradient-to-r from-blue-400 to-indigo-600 rounded p-1 transition-colors duration-500 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            onClick={() => setIsDaySelected(!isDaySelected)}
+          >
+            <span
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ease-in-out ${isDaySelected ? "opacity-0" : "opacity-100"
+                }`}
+            >
+              <Sun className="w-6 h-6 text-yellow-300" />
+            </span>
+            <span
+              className={`absolute inset-0 flex items-center justify-center transition-opacity duration-500 ease-in-out ${isDaySelected ? "opacity-100" : "opacity-0"
+                }`}
+            >
+              <Moon className="w-6 h-6 text-gray-200" />
+            </span>
+            <span
+              className={`bg-white w-8 h-8 rounded-full shadow-md transform transition-transform duration-500 ease-in-out ${isDaySelected ? "translate-x-10" : ""
+                }`}
+            />
+          </button>
+        </div>
       </div>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-4'>
-        {timeSlots.map((slot, index) => (
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4'>
+        {timeSlots.slice(isDaySelected ? 0 : 12, isDaySelected ? 12 : timeSlots.length + 1).map((slot, index) => (
           <button
             key={index}
-            className={`cursor-pointer border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow duration-200  ${
-              requestedSlots.includes(slot)
+            className={`cursor-pointer border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow duration-200  ${requestedSlots.includes(slot)
                 ? "disabled:bg-gray-400 disabled:cursor-not-allowed"
                 : selectedSlots.includes(slot)
-                ? "bg-blue-400"
-                : "bg-white"
-            }`}
+                  ? "bg-blue-400"
+                  : "bg-white"
+              }`}
             disabled={requestedSlots.includes(slot)}
             onClick={() => handleSlotClick(slot)}
           >
@@ -170,9 +197,9 @@ export default function SlotManagement() {
         ))}
       </div>
       <button disabled={isSubmitting}
-        className={`mt-4 text-white p-2 rounded ${isSubmitting?"bg-gray-400 cursor-not-allowed":"bg-blue-500"}`}
+        className={`mt-4 text-white p-2 rounded ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500"}`}
         onClick={handleButtonClick}
-      >{isSubmitting?"Submitting...":"Submit"}
+      >{isSubmitting ? "Submitting..." : "Submit"}
       </button>
       {/* <button
         className='mt-4 bg-green-500 text-white p-2 rounded'

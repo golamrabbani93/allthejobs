@@ -11,6 +11,7 @@ import {useSelector} from 'react-redux';
 import Loader from '../Loader/Loader';
 const ConsultantsList = () => {
 	const {consultants: data, loading} = useSelector((state) => state.data);
+
 	//reverse the data to show the latest consultants first
 	const consultants = data.map((consultant) => consultant).reverse();
 	return (

@@ -56,7 +56,7 @@ const ScheduleMeeting = () => {
           ], 
           custom: {
             description,
-            isAccepted:false,
+            isAccepted:true,
           },
         },
       });

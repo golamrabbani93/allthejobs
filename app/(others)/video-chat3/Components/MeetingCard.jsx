@@ -24,17 +24,17 @@ const MeetingCard = ({
   const { toast } = useToast();
 
   return (
-    <section className="flex min-h-[258px] w-full flex-col justify-between rounded-[14px]  px-5 py-8 xl:max-w-[568px] border drop-shadow-lg bg-white">
-      <article className="flex flex-col gap-5">
+    <section className="flex min-h-[200px] w-full flex-col gap-3 justify-between rounded-[14px]  px-5 py-8 xl:max-w-[568px] border drop-shadow-lg bg-white">
+      <article className="flex flex-col gap-2">
         <Image src={icon} alt="upcoming" width={28} height={28} />
-        <div className="flex justify-between">
+        <div className="flex ">
           <div className="flex flex-col gap-2">
             <h1 className="text-2xl font-bold">{title}</h1>
             <p className="text-base font-normal">{date}</p>
           </div>
         </div>
       </article>
-      <article className={cn("flex justify-center relative", {})}>
+      <article className={cn("flex relative", {})}>
         {!isPreviousMeeting && (
           <div className="flex gap-2">
             <Button onClick={handleClick} className="rounded bg-blue-1 px-6">
@@ -43,7 +43,7 @@ const MeetingCard = ({
               )}
               &nbsp; {buttonText}
             </Button>
-            <Button
+            {/* <Button
               onClick={() => {
                 navigator.clipboard.writeText(link);
                 toast({
@@ -59,7 +59,7 @@ const MeetingCard = ({
                 height={20}
               />
               &nbsp; Copy Link
-            </Button>
+            </Button> */}
           </div>
         )}
       </article>

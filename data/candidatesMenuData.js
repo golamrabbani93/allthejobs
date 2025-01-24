@@ -20,13 +20,14 @@ module.exports = [
 		routePath: '/dashboard/talent/booked-meeting',
 		active: '',
 	},
+	// {
+	// 	id: 4,
+	// 	name: 'Requested Meetings',
+	// 	icon: 'la-video-camera ',
+	// 	routePath: '/dashboard/talent/requested-meeting',
+	// 	active: '',
+	// },	
 	{
-		id: 4,
-		name: 'Requested Meetings',
-		icon: 'la-video-camera ',
-		routePath: '/dashboard/talent/requested-meeting',
-		active: '',
-	},	{
 		id: 5,
 		name: 'Previous Meetings',
 		icon: 'la-video-camera ',

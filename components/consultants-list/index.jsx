@@ -91,8 +91,7 @@ const ConsultantsList = () => {
 											{/* End tags */}
 
 											<Link
-												// href={`/consultants/${consultant.consultant_id}`}
-												href={`#`}
+												href={`/consultants/${consultant.consultant_id}`}
 												className="theme-btn btn-style-three"
 											>
 												View Profile

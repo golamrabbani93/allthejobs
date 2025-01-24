@@ -4,7 +4,6 @@ import {useSelector} from 'react-redux';
 import {useReactToPrint} from 'react-to-print';
 
 const MaskedResume = ({aiGeneratedData}) => {
-	console.log('aiGeneratedData:', aiGeneratedData);
 	const pdfRef = useRef(null);
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const [canPrint, setCanPrint] = useState(false);

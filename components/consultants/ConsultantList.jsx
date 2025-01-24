@@ -68,12 +68,13 @@ const ConsultantList = () => {
 							<div className="location">
 								<i className="flaticon-map-locator"></i> {consultant.country}
 							</div>
-							<button
-								href={`/candidates-single-v1/${consultant.id}`}
+
+							<Link
+								href={`/consultants/${consultant.consultant_id}`}
 								className="theme-btn btn-style-three"
 							>
-								<span className="btn-title">View Profile</span>
-							</button>
+								View Profile
+							</Link>
 						</div>
 					</div>
 				))}

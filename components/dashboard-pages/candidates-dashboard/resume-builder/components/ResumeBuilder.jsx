@@ -1,12 +1,13 @@
 'use client';
 import {useMutation} from '@tanstack/react-query';
 import {nanoid} from 'nanoid';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import ShowResume from './ShowResume';
 import {useSelector} from 'react-redux';
 import ShowResumeTwo from './ShowResumeTwo';
 import MaskedResume from './MaskedResume';
 import UnMaskedResume from './UnMaskedResume';
+import InstructionModal from './instruction-modal/InstructionModal';
 
 const ResumeBuilder = () => {
 	const [aiData, setAiData] = useState([]);
@@ -65,8 +66,17 @@ const ResumeBuilder = () => {
 		};
 		sendMessage(aiData);
 	};
+
+	//show modal instruction
+	useEffect(() => {
+		const modalTrigger = document.getElementById('instructionModalButton');
+		if (modalTrigger) {
+			modalTrigger.click();
+		}
+	}, []);
 	return (
 		<div>
+			<InstructionModal />
 			{/* <!-- Resume Builder --> */}
 			<div className="resume-builder flex flex-col justify-center items-center py-5">
 				<button onClick={() => handleSendMessage()} className="btn btn-primary">

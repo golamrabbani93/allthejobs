@@ -72,77 +72,43 @@ const CallList = ({type}) => {
 		</div>;
 	}
 	return (
-		<div className={`${calls.length > 2 ? '' : 'h-[60vh]'}`}>
-			{calls && calls.length > 0 && type !== 'recording' ? (
-				<div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
-					{calls.map((meeting) => {
-						//find the requested meeting user information
+		<div className='grid grid-cols-1 md:grid-cols-2 gap-5 xl:grid-cols-3'>
+		{calls && calls.length > 0 && type!=="recording" ? 
+			calls.map((meeting) => (
+				<MeetingCard
+					key={(meeting)?.id}
+					icon={type==='previous'?'/icons/previous.svg':type==="upcoming"?'/icons/upcoming.svg':'/icons/recordings.svg'}
+					title={(meeting).state.custom.description.substring(0,20)||"No Description"}
+					date={(meeting).state.startsAt?.toLocaleString()}
+					isPreviousMeeting={type==='previous'||(type==='request'&&role==="talent")}
+					buttonIcon1={type==='recording'?'/icons/play.svg':undefined}
+					handleClick={type==='recording'?()=>router.push(`${(meeting ).url}`):type==='request'?()=>updateMeetingRequest(meeting,'accept'):()=>router.push(`/video-chat3/meeting/${(meeting ).id}`)}
+					link={type==='recording'?(meeting).url:`${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${(meeting ).id}`}
+					buttonText={type==='recording'?'Play':type==='request'?'Accept':'Start'}
+				/>
+			
 
-						return (
-							<MeetingCard
-								key={meeting?.id}
-								icon={
-									type === 'previous'
-										? '/icons/previous.svg'
-										: type === 'upcoming'
-										? '/icons/upcoming.svg'
-										: '/icons/recordings.svg'
-								}
-								title={meeting.state.custom.description.substring(0, 20) || 'No Description'}
-								date={meeting.state.startsAt?.toLocaleString()}
-								isPreviousMeeting={type === 'previous' || (type === 'request' && role === 'talent')}
-								buttonIcon1={type === 'recording' ? '/icons/play.svg' : undefined}
-								handleClick={
-									type === 'recording'
-										? () => router.push(`${meeting.url}`)
-										: type === 'request'
-										? () => updateMeetingRequest(meeting, 'accept')
-										: () => router.push(`/video-chat3/meeting/${meeting.id}`)
-								}
-								link={
-									type === 'recording'
-										? meeting.url
-										: `${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${meeting.id}`
-								}
-								buttonText={type === 'recording' ? 'Play' : type === 'request' ? 'Accept' : 'Start'}
-							/>
-						);
-					})}
-				</div>
-			) : (
-				// <h1 className={``}>{noCallsMessage}</h1>
-				<div
-					className={`bg-white rounded-lg h-96 w-full flex justify-center items-center  
-					}`}
-				>
-					<span className="text-black"> {noCallsMessage}</span>
-				</div>
-			)}
-			{calls &&
-				calls.length > 0 &&
-				type === 'recording' &&
-				recording.map((meeting) => (
-					<MeetingCard
-						key={meeting?.url}
-						icon={'/icons/recordings.svg'}
-						title={meeting.filename.substring(0, 20) || 'No Name'}
-						date={meeting.start_time?.toLocaleString()}
-						isPreviousMeeting={false}
-						buttonIcon1={type === 'recording' ? '/icons/play.svg' : undefined}
-						handleClick={
-							type === 'recording'
-								? () => router.push(`${meeting.url}`)
-								: () => router.push(`meeting/${meeting.id}`)
-						}
-						link={
-							type === 'recording'
-								? meeting.url
-								: `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${meeting.id}`
-						}
-						buttonText={type === 'recording' ? 'Play' : 'Start'}
-					/>
-				))}
-		</div>
+				
+			)
+		) : (
+			<h1 className={`${type==='recording'&&"hidden" }`}>{noCallsMessage}</h1>
+		)}
+		{calls && calls.length > 0 && type==="recording" &&
+			recording.map((meeting) => (
+				<MeetingCard
+					key={(meeting )?.url}
+					icon={'/icons/recordings.svg'}
+					title={(meeting ).filename.substring(0,20)||"No Name"}
+					date={(meeting ).start_time?.toLocaleString()}
+					isPreviousMeeting={false}
+					buttonIcon1={type==='recording'?'/icons/play.svg':undefined}
+					handleClick={type==='recording'?()=>router.push(`${(meeting).url}`):()=>router.push(`meeting/${(meeting).id}`)}
+					link={type==='recording'?(meeting ).url:`${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${(meeting).id}`}
+					buttonText={type==='recording'?'Play':'Start'}
+				/>
+			)
+		)}
+	</div>
 	);
 };
 

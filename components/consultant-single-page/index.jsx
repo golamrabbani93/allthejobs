@@ -8,6 +8,7 @@ import Social from './social/Social';
 import JobSkills from './shared-components/JobSkills';
 import Contact from './shared-components/Contact';
 import FooterDefault from '@/components/footer/common-footer';
+import ScheduleMeeting from '@/app/(others)/video-chat3/Components/ScheduleMeeting';
 
 const index = ({id}) => {
 	const {consultants, loading} = useSelector((state) => state.data);
@@ -64,9 +65,12 @@ const index = ({id}) => {
 								</div>
 
 								<div className="btn-box">
-									<a className="theme-btn btn-style-one" href="/images/sample.pdf" download>
+									<button>
+										<ScheduleMeeting consultant_id={consultant?.user_id}></ScheduleMeeting>
+									</button>
+									{/* <a className="theme-btn btn-style-one" href="/images/sample.pdf" download>
 										Get Consultant
-									</a>
+									</a> */}
 								</div>
 							</div>
 						</div>

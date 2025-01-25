@@ -73,7 +73,7 @@ const MeetingRoom = ({meeting_id}) => {
   }, [chatClient, chatChannel]);
 
   return (
-    <section className='relative h-screen w-full overflow-hidden pt-4 text-white bg-[#161925]'>
+    <section className='custom-video relative h-screen w-full overflow-hidden p-4 pb-0 text-white bg-[#161925]'>
       <div className='relative flex size-full items-center justify-center '>
         <div className='flex size-full  items-center'>
           <CallLayout></CallLayout>
@@ -87,14 +87,15 @@ const MeetingRoom = ({meeting_id}) => {
           <CallParticipantsList onClose={() => setShowParticipants(false)} />
         </div>
 
-      {isChatVisible&&(<div className={cn("h-full ml-4 z-50 w-96", {
+      {isChatVisible&&(<div className={cn("h-full  ml-4 z-50 w-96", {
             hidden: !isChatVisible,
             block: isChatVisible,
           })}>
-          <Chat client={chatClient} theme='str-chat__theme-dark'>
+          <Chat client={chatClient} theme='str-chat__theme-dark'
+          >
             <Channel channel={chatChannel}>
               <Window>
-                <ChannelHeader live />
+                <ChannelHeader live title="Chat" />
                 <VirtualizedMessageList />
                 <MessageInput focus />
               </Window>
@@ -122,12 +123,12 @@ const MeetingRoom = ({meeting_id}) => {
                 >
                   {item}
                 </DropdownMenuItem>
+              
               </div>
             ))}
-            <DropdownMenuSeparator />
           </DropdownMenuContent>
         </DropdownMenu>
-        <CallStatsButton></CallStatsButton>
+        {/* <CallStatsButton></CallStatsButton> */}
         <button onClick={() => {
           setIsChatVisible(false)
           setShowParticipants((prev) => !prev)}}>

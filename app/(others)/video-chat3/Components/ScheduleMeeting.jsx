@@ -9,13 +9,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { useSelector } from "react-redux";
 import MeetingModal from "./MeetingModal";
 import HomeCard from "./HomeCard";
-import { timeSlots } from "../constant";
 import { getRawDate, handleRetrieveSlots, handleUpdateSlots } from "../sharedFunction";
-import { fetchAvailableSlots } from "@/services/GenerateAllData";
-const MeetingTypeList = () => {
-  const router = useRouter();
+import { fetchAvailableSlots, updateAvailableSlots } from "@/services/GenerateAllData";
+import { Button } from "@/components/ui/button";
+const ScheduleMeeting = ({consultant_id}) => {
+  console.log(consultant_id);
   const [meetingState, setMeetingState] = useState();
   const user_redux = useSelector((state) => state.user);
+  const [loadingSlots,setLoadingSlots]=useState(false)
   const [user,setUser]=useState(undefined)
   useEffect(()=>{
     setUser(user_redux)
@@ -25,7 +26,7 @@ const MeetingTypeList = () => {
     datetime: new Date(),
     description: "",
     link: "",
-    consultant_id:""
+    consultant_id:consultant_id
   });
   const [callDetails, setCallDetails] = useState();
   const { toast } =useToast()
@@ -43,8 +44,8 @@ const MeetingTypeList = () => {
       if (!call) throw new Error("Failed to crate call");
 
       const startsAt =
-        values.datetime.toISOString() || new Date(Date.now()).toISOString();
-      const description = values.description || "Instant Meeting";
+        values.datetime.toISOString();
+      const description = values.description;
       const consultant_id=values.consultant_id.toString()
 
       await call.getOrCreate({
@@ -56,7 +57,7 @@ const MeetingTypeList = () => {
           ], 
           custom: {
             description,
-            isAccepted:false,
+            isAccepted:true,
           },
         },
       });
@@ -65,14 +66,12 @@ const MeetingTypeList = () => {
         throw new Error('Failed to create meeting ID');
       }
 
-      if(description!=="Instant Meeting"){
-        console.log('scheduling meeting');
-        await handleUpdateSlots(values.datetime,"requested")
-      }
+      // updating availability slot of the consultant
+      await updateAvailableSlots(values.consultant_id,getRawDate(values.datetime),values.datetime,"requested")
       setCallDetails(call);
-      if (!values.description) {
-        router.push(`/video-chat3/meeting/${call.id}`);
-      }
+      // if (!values.description) {
+      //   router.push(`/video-chat3/meeting/${call.id}`);
+      // }
       toast({
         title: "Meeting Created",
       });
@@ -106,8 +105,12 @@ const MeetingTypeList = () => {
   };
   const [timeSlots, setTimeSlots] = useState([]);
   useEffect(() => {
-    const fetchTimeSlots = async () => {
-      const slots = await fetchAvailableSlots("126",getRawDate(values.datetime));
+  const fetchTimeSlots = async () => {
+      // setLoadingSlots(true)
+      const formattedDate=getRawDate(values.datetime)
+      const slots = await fetchAvailableSlots(consultant_id,formattedDate,'available');
+      setLoadingSlots(false)
+      console.log(slots);
       setTimeSlots(slots);
     };
 
@@ -120,39 +123,19 @@ const MeetingTypeList = () => {
   if (!user?.user_id) {
     return <div className="text-black">Loading...</div>; // Or any placeholder
   }
+  const CustomDatePickerInput = React.forwardRef(({ value, onClick }, ref) => (
+    <input
+      className="w-full rounded bg-[#161925] p-2"
+      onClick={onClick}
+      value={value}
+      ref={ref}
+      readOnly // Disable manual typing
+    />
+  ));
 
   return (
-    <section className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4'>
-
-      <HomeCard
-        img='icons/add-meeting.svg'
-        title='New Meeting'
-        description='Start an instant meeting'
-        handleClick={() => setMeetingState("isInstantMeeting")}
-        background='bg-orange-400'
-      ></HomeCard>
-
-    {user.role==='talent'&& <HomeCard
-        img='icons/schedule.svg'
-        title='Schedule Meeting'
-        description='Plan your meeting'
-        handleClick={() => setMeetingState("isScheduledMeeting")}
-        background='bg-blue-400'
-      ></HomeCard>}
-      <HomeCard
-        img='icons/recordings.svg'
-        title='View Recording'
-        description='Checkout your recording'
-        handleClick={() => router.push("video-chat3/recordings")}
-        background='bg-purple-400'
-      ></HomeCard>
-      <HomeCard
-        img='icons/join-meeting.svg'
-        title='Join Meeting'
-        description='Via invitation Link'
-        handleClick={() => setMeetingState("isJoiningMeeting")}
-        background='bg-yellow-400'
-      ></HomeCard>
+    <section className=''>
+      <Button onClick={() => setMeetingState("isScheduledMeeting")}>Schedule Meeting</Button>
 
       {!callDetails ? (
         <MeetingModal
@@ -161,7 +144,7 @@ const MeetingTypeList = () => {
           title='Create Meeting'
           handleClick={createMeeting}
         >
-          <div className='flex flex-col gap-2 5'>
+          {/* <div className='flex flex-col gap-2 5'>
             <label className='text-base text-normal leading-[22px]' htmlFor=''>
               Provide Consultant ID 
             </label>
@@ -171,7 +154,7 @@ const MeetingTypeList = () => {
               }}
               className='bg-[#161925] border-none border border-blue-1'
             ></Textarea>
-          </div>
+          </div> */}
           <div className='flex flex-col gap-2 5'>
             <label className='text-base text-normal leading-[22px]' htmlFor=''>
               Add a description
@@ -193,11 +176,13 @@ const MeetingTypeList = () => {
               showTimeSelect
               includeTimes={includeTimes}
               timeFormat='HH:mm'
-              timeIntervals={30}
+              timeIntervals={60}
               timeCaption='time'
               dateFormat='MMMM d, yyyy h:mm aa'
               className="w-full rounded bg-[#161925] p-2"
               minDate={new Date()}
+              customInput={<CustomDatePickerInput />}
+              disabled={loadingSlots}
             />
           </div>
         </MeetingModal>
@@ -216,16 +201,8 @@ const MeetingTypeList = () => {
           buttonText='Copy Meeting Link'
         ></MeetingModal>
       )}
-      <MeetingModal
-        isOpen={meetingState === "isInstantMeeting"}
-        onClose={() => setMeetingState(undefined)}
-        title='Start an Instant Meeting'
-        className='text-center'
-        buttonText='Start Meeting'
-        handleClick={createMeeting}
-      ></MeetingModal>
     </section>
   );
 };
 
-export default MeetingTypeList;
+export default ScheduleMeeting;

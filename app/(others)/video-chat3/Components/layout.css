@@ -19,3 +19,18 @@ body {
 .str-chat__thread {
   width: 45%;
 }
+
+
+.str-chat__channel-header-title{
+  color: white;
+}
+.str-chat__message-bubble{
+  background-color: #4c46ff!important;
+}
+.str-chat__message-text-inner.str-chat__message-simple-text-inner > div > p{
+  color: white!important;
+}
+.str-chat__virtual-list{
+  /* background-color: ; */
+  padding-top:6px ;
+}

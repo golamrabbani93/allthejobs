@@ -4,8 +4,12 @@ import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
 import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
+import MyProfile from './components/my-profile/MyProfile';
+import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
+import EducationDetails from './components/my-profile/EducationDetails';
+import ExperienceDetails from './components/my-profile/ExperienceDetails';
+import AwardDetails from './components/my-profile/AwardDetails';
 import CallList from '@/app/(others)/video-chat3/Components/CallList';
-import ScheduleMeeting from '@/app/(others)/video-chat3/Components/ScheduleMeeting';
 
 const index = () => {
 	return (
@@ -25,14 +29,14 @@ const index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="Your Booked Meetings!" />
+					<BreadCrumb title="Your Completed Meetings" />
 					{/* breadCrumb */}
 
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
 					<div className="row">
-						<CallList type={'upcoming'}></CallList>
+						<CallList type={"previous"}></CallList>
 					</div>
 					{/* End .row */}
 				</div>

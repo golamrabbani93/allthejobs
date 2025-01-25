@@ -17,7 +17,7 @@ module.exports = [
 		id: 3,
 		name: 'Meeting management',
 		icon: 'la-digital-tachograph',
-		routePath: '/dashboard/consultant/#',
+		routePath: '/dashboard/consultant/meeting-management',
 		active: '',
 	},
 	{
@@ -27,13 +27,13 @@ module.exports = [
 		routePath: '/dashboard/consultant/upcoming-meeting',
 		active: '',
 	},
-	{
-		id: 5,
-		name: 'Meeting Request',
-		icon: 'la-video-camera',
-		routePath: '/dashboard/consultant/meeting-request',
-		active: '',
-	},
+	// {
+	// 	id: 5,
+	// 	name: 'Meeting Request',
+	// 	icon: 'la-video-camera',
+	// 	routePath: '/dashboard/consultant/meeting-request',
+	// 	active: '',
+	// },
 	{
 		id: 6,
 		name: 'Previous Meetings',
@@ -41,13 +41,13 @@ module.exports = [
 		routePath: '/dashboard/consultant/previous-meeting',
 		active: '',
 	},
-	{
-		id: 7,
-		name: 'Recording',
-		icon: 'la-file-video',
-		routePath: '/dashboard/consultant/meeting-recording',
-		active: '',
-	},
+	// {
+	// 	id: 7,
+	// 	name: 'Recording',
+	// 	icon: 'la-file-video',
+	// 	routePath: '/dashboard/consultant/meeting-recording',
+	// 	active: '',
+	// },
 	{
 		id: 8,
 		name: 'Packages',

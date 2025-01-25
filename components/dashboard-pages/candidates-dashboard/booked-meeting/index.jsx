@@ -26,7 +26,6 @@ const index = () => {
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
 					<BreadCrumb title="Your Booked Meetings!" />
-					<ScheduleMeeting></ScheduleMeeting>
 					{/* breadCrumb */}
 
 					<MenuToggler />

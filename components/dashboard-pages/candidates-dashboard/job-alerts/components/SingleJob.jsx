@@ -42,11 +42,11 @@ const SingleJob = ({item}) => {
 								<span className="la la-eye"></span>
 							</button>
 						</li>
-						<li>
+						{/* <li>
 							<button data-text="Apply Job">
 								<span className="la la-check"></span>
 							</button>
-						</li>
+						</li> */}
 					</ul>
 				</div>
 			</td>

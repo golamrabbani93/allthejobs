@@ -9,8 +9,8 @@ const LogOutButton = () => {
 	const router = useRouter();
 
 	const userLogOut = async () => {
-		await signOut({redirect: false});
 		router.push('/');
+		await signOut({redirect: false});
 		dispatch(clearUser());
 		dispatch(setUserData({}));
 		dispatch(setUserRoleBasedData({}));

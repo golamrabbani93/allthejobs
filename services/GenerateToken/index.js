@@ -4,7 +4,7 @@ import envConfig from '@/config/envConfig';
 import axios from 'axios';
 export const GetToken = async () => {
 	try {
-		const response = await axios.post(`${envConfig.serverURL}/api-token-auth/`, {
+		const response = await axios.post(`https://allthejobsca.pythonanywhere.com/api-token-auth/`, {
 			username: envConfig.tokenUser,
 			password: envConfig.tokenPassword,
 		});

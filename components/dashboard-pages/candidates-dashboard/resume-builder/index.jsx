@@ -1,17 +1,20 @@
 import MobileMenu from '../../../header/MobileMenu';
+import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
+import LoginPopup from '../../../common/form/login/LoginPopup';
 import DashboardCandidatesSidebar from '../../../header/DashboardCandidatesSidebar';
 import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
-import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
-import CallList from '@/app/(others)/video-chat3/Components/CallList';
-import ScheduleMeeting from '@/app/(others)/video-chat3/Components/ScheduleMeeting';
+import ResumeBuilder from './components/ResumeBuilder';
 
 const index = () => {
 	return (
 		<div className="page-wrapper dashboard">
 			<span className="header-span"></span>
 			{/* <!-- Header Span for hight --> */}
+
+			<LoginPopup />
+			{/* End Login Popup Modal */}
 
 			<DashboardCandidatesHeader />
 			{/* End Header */}
@@ -25,15 +28,19 @@ const index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="Your Booked Meetings!" />
-					<ScheduleMeeting></ScheduleMeeting>
+					<BreadCrumb title="AI Resume Builder" />
 					{/* breadCrumb */}
 
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
 					<div className="row">
-						<CallList type={'upcoming'}></CallList>
+						<div className="col-lg-12">
+							{/* <!-- Ls widget --> */}
+							<div className="ls-widget">
+								<ResumeBuilder />
+							</div>
+						</div>
 					</div>
 					{/* End .row */}
 				</div>

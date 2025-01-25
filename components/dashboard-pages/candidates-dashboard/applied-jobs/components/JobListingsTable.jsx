@@ -114,7 +114,15 @@ const JobListingsTable = () => {
 												</td>
 												<td>{apply_date}</td>
 												<td className="text-center">{item.ap_deadline}</td>
-												<td className="status capitalize text-center">{item.application_status}</td>
+												<td
+													className={`capitalize text-center ${
+														item.application_status === 'expired' ? '!text-red-500' : 'status'
+													}`}
+												>
+													{item.application_status === 'expired'
+														? 'Rejected'
+														: item.application_status}
+												</td>
 												<td>$ {item.salary_range}</td>
 											</tr>
 										);

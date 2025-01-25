@@ -64,7 +64,12 @@ const MyProfileForm = () => {
 					<div className="form-group col-lg-6 col-md-12">
 						<label>Email address</label>
 
-						<ATJInput disabled={true} type={'email'} label="jeromearnold@gmail.com" name="email" />
+						<ATJInput
+							disabled={loading}
+							type={'email'}
+							label="jeromearnold@gmail.com"
+							name="email"
+						/>
 					</div>
 					{/* <!-- Input --> */}
 					<div className="form-group col-lg-6 col-md-12">

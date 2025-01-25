@@ -21,7 +21,7 @@ const EducationDetails = () => {
 
 	const handelProfileData = (data, e) => {
 		const payload = {
-			id: userRoleBasedData.education_details.length + 1,
+			id: userRoleBasedData.education_details?.length + 1 || 1,
 			degreeName: data.degreeName,
 			institutionName: data.institutionName,
 			duration: data.duration,
@@ -29,7 +29,7 @@ const EducationDetails = () => {
 		};
 		const newData = {
 			education_details:
-				userRoleBasedData.education_details.length > 0
+				userRoleBasedData.education_details?.length > 0
 					? [...userRoleBasedData.education_details, payload]
 					: [payload],
 			user_id: userRoleBasedData.user_id,

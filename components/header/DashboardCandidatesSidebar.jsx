@@ -32,10 +32,10 @@ const DashboardCandidatesSidebar = () => {
 
 			<div className="sidebar-inner">
 				<ul className="navigation">
-					{candidatesuData.map((item) => (
+					{candidatesuData.map((item, i) => (
 						<li
 							className={`${isActiveLink(item.routePath, usePathname()) ? 'active' : ''} mb-1`}
-							key={item.id}
+							key={i}
 							onClick={menuToggleHandler}
 						>
 							<Link href={item.routePath}>

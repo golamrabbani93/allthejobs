@@ -13,13 +13,13 @@ module.exports = [
 		routePath: '/dashboard/talent/my-profile',
 		active: '',
 	},
-	{
-		id: 3,
-		name: 'Meeting DashBoard',
-		icon: 'la-digital-tachograph',
-		routePath: '/video-chat3',
-		active: '',
-	},
+	// {
+	// 	id: 3,
+	// 	name: 'Meeting DashBoard',
+	// 	icon: 'la-digital-tachograph',
+	// 	routePath: '/video-chat3',
+	// 	active: '',
+	// },
 	{
 		id: 4,
 		name: 'Booked Meetings',

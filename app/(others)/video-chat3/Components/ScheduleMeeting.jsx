@@ -12,7 +12,8 @@ import HomeCard from "./HomeCard";
 import { getRawDate, handleRetrieveSlots, handleUpdateSlots } from "../sharedFunction";
 import { fetchAvailableSlots, updateAvailableSlots } from "@/services/GenerateAllData";
 import { Button } from "@/components/ui/button";
-const ScheduleMeeting = () => {
+const ScheduleMeeting = ({consultant_id}) => {
+  console.log(consultant_id);
   const [meetingState, setMeetingState] = useState();
   const user_redux = useSelector((state) => state.user);
   const [loadingSlots,setLoadingSlots]=useState(false)
@@ -25,7 +26,7 @@ const ScheduleMeeting = () => {
     datetime: new Date(),
     description: "",
     link: "",
-    consultant_id:""
+    consultant_id:consultant_id
   });
   const [callDetails, setCallDetails] = useState();
   const { toast } =useToast()
@@ -104,7 +105,6 @@ const ScheduleMeeting = () => {
   };
   const [timeSlots, setTimeSlots] = useState([]);
   useEffect(() => {
-  const consultant_id="126"
   const fetchTimeSlots = async () => {
       // setLoadingSlots(true)
       const formattedDate=getRawDate(values.datetime)
@@ -134,7 +134,7 @@ const ScheduleMeeting = () => {
   ));
 
   return (
-    <section className='grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4'>
+    <section className=''>
       <Button onClick={() => setMeetingState("isScheduledMeeting")}>Schedule Meeting</Button>
 
       {!callDetails ? (
@@ -144,7 +144,7 @@ const ScheduleMeeting = () => {
           title='Create Meeting'
           handleClick={createMeeting}
         >
-          <div className='flex flex-col gap-2 5'>
+          {/* <div className='flex flex-col gap-2 5'>
             <label className='text-base text-normal leading-[22px]' htmlFor=''>
               Provide Consultant ID 
             </label>
@@ -154,7 +154,7 @@ const ScheduleMeeting = () => {
               }}
               className='bg-[#161925] border-none border border-blue-1'
             ></Textarea>
-          </div>
+          </div> */}
           <div className='flex flex-col gap-2 5'>
             <label className='text-base text-normal leading-[22px]' htmlFor=''>
               Add a description

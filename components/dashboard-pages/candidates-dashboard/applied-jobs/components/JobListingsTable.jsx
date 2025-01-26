@@ -120,7 +120,7 @@ const JobListingsTable = () => {
 													}`}
 												>
 													{item.application_status === 'expired'
-														? 'Rejected'
+														? 'Cancelled'
 														: item.application_status}
 												</td>
 												<td>$ {item.salary_range}</td>

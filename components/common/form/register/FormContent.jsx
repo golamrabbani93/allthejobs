@@ -6,9 +6,13 @@ import {useCreateTalentMutation} from '@/features/candidate/talent.management.ap
 import {useCreateConsultantMutation} from '@/features/consultant/consultant.management.api';
 import {useCreateEmployerMutation} from '@/features/employer/employer.management.api';
 import hashPassword from '@/hooks/hashPassword/hashPassword.hook';
-import {useEffect} from 'react';
+import {registerUserSchema} from '@/schemas/register/register.schema';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {useEffect, useState} from 'react';
 
 const FormContent = ({userType}) => {
+	// show password
+	const [showPassword, setShowPassword] = useState(false);
 	// create user
 	const [createUser, {isLoading, data: newUserData}] = useUserRegisterMutation();
 	//create Talent profile
@@ -27,7 +31,6 @@ const FormContent = ({userType}) => {
 			password_hash: hashedPassword,
 			role: userType,
 		};
-
 		createUser(userData);
 	};
 
@@ -67,7 +70,7 @@ const FormContent = ({userType}) => {
 	return (
 		<ATJForm
 			// defaultValues={loginData}
-			// resolver={zodResolver(loginValidationSchema)}
+			resolver={zodResolver(registerUserSchema)}
 			onSubmit={onSubmit}
 		>
 			{/* Name */}
@@ -88,8 +91,34 @@ const FormContent = ({userType}) => {
 			{/* Password */}
 			<div className="form-group">
 				<label>Password :</label>
-				<ATJInput label="Password" name="password" type="password" />
+				<ATJInput label="Password" name="password" type={showPassword ? 'text' : 'password'} />
 			</div>
+			<div className="form-group">
+				<label>Confirm Password :</label>
+				<ATJInput
+					label="Confirm Password"
+					name="confirm_password"
+					type={showPassword ? 'text' : 'password'}
+				/>
+			</div>
+			<div className="form-group">
+				<div className="field-outer">
+					<div onClick={() => setShowPassword(!showPassword)} className="flex items-center gap-2">
+						<input
+							type="checkbox"
+							name="remember-me"
+							id="remember"
+							className=" peer"
+							checked={showPassword}
+							onChange={() => setShowPassword(!showPassword)}
+						/>
+						<label htmlFor="remember" className="flex items-center cursor-pointer text-gray-700">
+							<span className="ml-2">Show Password</span>
+						</label>
+					</div>
+				</div>
+			</div>
+
 			<div className="form-group">
 				<button className="theme-btn btn-style-one" type="submit">
 					{isLoading ? <Spinner color="white" /> : 'Register'}

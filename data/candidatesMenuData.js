@@ -1,3 +1,5 @@
+const {Children} = require('react');
+
 module.exports = [
 	{
 		id: 1,
@@ -6,48 +8,52 @@ module.exports = [
 		routePath: '/dashboard/talent',
 		active: 'active',
 	},
+
 	{
 		id: 2,
 		name: 'My Profile',
-		icon: 'la-user-tie',
-		routePath: '/dashboard/talent/my-profile',
+		icon: 'la-user',
 		active: '',
-	},
-	// {
-	// 	id: 3,
-	// 	name: 'Meeting DashBoard',
-	// 	icon: 'la-digital-tachograph',
-	// 	routePath: '/video-chat3',
-	// 	active: '',
-	// },
-	{
-		id: 4,
-		name: 'Booked Meetings',
-		icon: 'la-business-time',
-		routePath: '/dashboard/talent/booked-meeting',
-		active: '',
-	},
-	// {
-	// 	id: 4,
-	// 	name: 'Requested Meetings',
-	// 	icon: 'la-video-camera ',
-	// 	routePath: '/dashboard/talent/requested-meeting',
-	// 	active: '',
-	// },	
-	{
-		id: 5,
-		name: 'Previous Meetings',
-		icon: 'la-video-camera ',
-		routePath: '/dashboard/talent/previous-meeting',
-		active: '',
+		Children: [
+			{
+				id: 2,
+				name: 'Edit Profile',
+				icon: 'la-user-edit',
+				routePath: '/dashboard/talent/my-profile',
+				active: '',
+			},
+		],
 	},
 	{
-		id: 6,
-		name: 'Recordings',
-		icon: 'la-file-video',
-		routePath: '/dashboard/talent/meeting-recording',
+		id: 133,
+		name: 'Meeting DashBoard',
+		icon: 'la-digital-tachograph',
 		active: '',
+		Children: [
+			{
+				id: 4,
+				name: 'Booked Meetings',
+				icon: 'la-business-time',
+				routePath: '/dashboard/talent/booked-meeting',
+				active: '',
+			},
+			{
+				id: 5,
+				name: 'Previous Meetings',
+				icon: 'la-video-camera ',
+				routePath: '/dashboard/talent/previous-meeting',
+				active: '',
+			},
+			{
+				id: 6,
+				name: 'Recordings',
+				icon: 'la-file-video',
+				routePath: '/dashboard/talent/meeting-recording',
+				active: '',
+			},
+		],
 	},
+
 	{
 		id: 16,
 		name: 'Resume Builder',

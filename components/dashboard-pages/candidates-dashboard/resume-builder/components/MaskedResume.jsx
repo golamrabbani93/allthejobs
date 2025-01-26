@@ -1,47 +1,84 @@
 'use client';
-import {useEffect, useRef, useState} from 'react';
-import {useSelector} from 'react-redux';
+import Spinner from '@/components/Sppiner/Spinner';
+import {useUpdateTalentMutation} from '@/features/candidate/talent.management.api';
+import {setUserRoleBasedData} from '@/features/data/dataSlice';
+import {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {useReactToPrint} from 'react-to-print';
 
-const MaskedResume = ({aiGeneratedData}) => {
-	const pdfRef = useRef(null);
+const MaskedResume = ({aiGeneratedData, setAiData}) => {
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
-	const [canPrint, setCanPrint] = useState(false);
+	const dispatch = useDispatch();
+	//update talent resume
+	const [updateTalentResume, {data, isLoading}] = useUpdateTalentMutation();
+	//saved resume
+	const handleSaveResume = () => {
+		const resumeData = {
+			user_id: userRoleBasedData.user_id,
+			talent_id: userRoleBasedData.talent_id,
+			unmasked_resume: aiGeneratedData,
+			masked_resume: aiGeneratedData,
+		};
+		const payload = {
+			talentId: userRoleBasedData.talent_id,
+			data: resumeData,
+		};
+		updateTalentResume(payload);
+	};
 
-	// Ensure ref is valid before printing
-	const handleDownloadPDF = useReactToPrint({
-		contentRef: pdfRef,
-		documentTitle: 'Resume',
-	});
+	//delete resume
+	const handleDeleteResume = () => {
+		const resumeData = {
+			user_id: userRoleBasedData.user_id,
+			talent_id: userRoleBasedData.talent_id,
+			unmasked_resume: {},
+			masked_resume: {},
+		};
+		const payload = {
+			talentId: userRoleBasedData.talent_id,
+			data: resumeData,
+		};
+		updateTalentResume(payload);
+	};
 
-	// Check if user data is available before allowing printing
 	useEffect(() => {
-		if (userRoleBasedData && aiGeneratedData?.professional_summary) {
-			setCanPrint(true);
+		if (data?.talent_id) {
+			dispatch(setUserRoleBasedData(data));
+			setAiData([]);
 		}
-	}, [userRoleBasedData, aiGeneratedData]);
-
+	}, [data]);
 	if (loading) {
-		return <p className="text-center text-gray-600">Loading resume data...</p>;
+		return (
+			<div className="flex justify-center items-center h-96">
+				<Spinner />
+			</div>
+		);
 	}
 
 	return (
 		<>
-			<button
-				onClick={handleDownloadPDF}
+			{/* <button
+				// onClick={handleDownloadPDF}
 				disabled={!canPrint}
 				className={`mb-4 px-4 py-2 ${
 					canPrint ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'
 				} text-white font-semibold rounded shadow`}
 			>
 				{canPrint ? 'Download PDF' : 'Loading...'}
-			</button>
+			</button> */}
+
+			{userRoleBasedData?.masked_resume?.experience_details ? (
+				<button onClick={() => handleDeleteResume()} className="btn btn-style-one mb-5">
+					{isLoading ? <Spinner color="white" /> : 'Delete Resume'}
+				</button>
+			) : (
+				<button onClick={() => handleSaveResume()} className="btn btn-style-one mb-5">
+					{isLoading ? <Spinner color="white" /> : 'Save Resume'}
+				</button>
+			)}
 
 			<div className="flex justify-center items-center min-h-screen bg-gray-200">
-				<div
-					ref={pdfRef}
-					className="bg-white shadow-md border p-8 w-[210mm] h-[297mm] overflow-hidden"
-				>
+				<div className="bg-white shadow-md border p-8 w-[210mm] h-[297mm] overflow-hidden">
 					{/* Full Name & Contact */}
 					<div className="text-center border-b pb-1">
 						<h1 className="text-2xl font-bold">{userRoleBasedData?.user?.name || 'No Name'}</h1>

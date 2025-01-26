@@ -102,6 +102,13 @@ module.exports = [
 				routePath: '/dashboard/talent/short-listed-jobs',
 				active: '',
 			},
+			{
+				id: 9,
+				name: 'Auto Job Apply',
+				icon: 'la-tachometer-alt',
+				routePath: '/dashboard/talent/short-listed-jobs',
+				active: '',
+			},
 		],
 	},
 

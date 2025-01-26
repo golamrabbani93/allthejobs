@@ -27,7 +27,12 @@ const DashboardCandidatesSidebar = () => {
 	//handle sub menu toggle
 	const handleSubMenuToggle = (name) => {
 		setMenuItem(name);
-		setShowMeetingMenu(!showMeetingMenu);
+		if (showMeetingMenu && menuItem !== name) {
+			setShowMeetingMenu(false);
+			setShowMeetingMenu(true);
+		} else {
+			setShowMeetingMenu(!showMeetingMenu);
+		}
 	};
 
 	return (

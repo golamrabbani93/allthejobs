@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {menuToggle} from '../../features/toggle/toggleSlice';
 import {usePathname} from 'next/navigation';
 import LogOutButton from '../common/LogOutButton/LogOutButton';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 const DashboardCandidatesSidebar = () => {
 	//get current path name
 	const pathname = usePathname();
@@ -56,8 +56,11 @@ const DashboardCandidatesSidebar = () => {
 									>
 										<i className={`la ${item.icon}`}></i>
 										{item.name}
-
-										<span className={`la la-angle-down size-1 ml-1 mb-[10px] font-bold`}></span>
+										<span
+											className={`la ${
+												showMeetingMenu && item.name === menuItem ? 'la-angle-up' : 'la-angle-down'
+											} size-1 ml-auto mb-[10px] font-bold`}
+										></span>
 									</button>
 
 									<ul

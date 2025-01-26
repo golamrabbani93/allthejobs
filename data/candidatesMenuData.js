@@ -22,12 +22,26 @@ module.exports = [
 				routePath: '/dashboard/talent/my-profile',
 				active: '',
 			},
+			{
+				id: 2,
+				name: 'Upgrade To Verified',
+				icon: 'la-check-circle',
+				routePath: '/dashboard/#',
+				active: '',
+			},
+			{
+				id: 10,
+				name: 'CV manager',
+				icon: 'la la-file-invoice',
+				routePath: '/dashboard/talent/cv-manager',
+				active: '',
+			},
 		],
 	},
 	{
 		id: 133,
 		name: 'Meeting DashBoard',
-		icon: 'la-digital-tachograph',
+		icon: 'la-video-camera',
 		active: '',
 		Children: [
 			{
@@ -40,7 +54,7 @@ module.exports = [
 			{
 				id: 5,
 				name: 'Previous Meetings',
-				icon: 'la-video-camera ',
+				icon: 'la-digital-tachograph',
 				routePath: '/dashboard/talent/previous-meeting',
 				active: '',
 			},
@@ -61,35 +75,36 @@ module.exports = [
 		routePath: '/dashboard/talent/resume-builder',
 		active: '',
 	},
+	{
+		id: 169,
+		name: 'Jobs',
+		icon: 'la-list',
+		active: '',
+		Children: [
+			{
+				id: 7,
+				name: 'Applied Jobs',
+				icon: 'la-briefcase',
+				routePath: '/dashboard/talent/applied-jobs',
+				active: '',
+			},
+			{
+				id: 8,
+				name: 'Matched Job',
+				icon: 'la la-bell',
+				routePath: '/dashboard/talent/job-alerts',
+				active: '',
+			},
+			{
+				id: 9,
+				name: 'Shortlisted Jobs',
+				icon: 'la-bookmark-o',
+				routePath: '/dashboard/talent/short-listed-jobs',
+				active: '',
+			},
+		],
+	},
 
-	{
-		id: 7,
-		name: 'Applied Jobs',
-		icon: 'la-briefcase',
-		routePath: '/dashboard/talent/applied-jobs',
-		active: '',
-	},
-	{
-		id: 8,
-		name: 'Matched Job',
-		icon: 'la la-bell',
-		routePath: '/dashboard/talent/job-alerts',
-		active: '',
-	},
-	{
-		id: 9,
-		name: 'Shortlisted Jobs',
-		icon: 'la-bookmark-o',
-		routePath: '/dashboard/talent/short-listed-jobs',
-		active: '',
-	},
-	{
-		id: 10,
-		name: 'CV manager',
-		icon: 'la la-file-invoice',
-		routePath: '/dashboard/talent/cv-manager',
-		active: '',
-	},
 	{
 		id: 11,
 		name: 'Packages',

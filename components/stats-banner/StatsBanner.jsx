@@ -4,26 +4,26 @@ const StatsBanner = () => {
 	const statsContent = [
 		{
 			id: 1,
-			icon: 'https://mamtaz.com/desFour/images/liveJob.svg', // Replace with your icon path
+			icon: '/images/icons/liveJob.svg',
 			value: '1,75,324',
 			label: 'Live Jobs',
 			bannerClass: '',
 		},
 		{
 			id: 2,
-			icon: 'https://mamtaz.com/desFour/images/companies.svg', // Replace with your icon path
+			icon: '/images/icons/companies.svg',
 			value: '97,354',
 			label: 'Companies',
 		},
 		{
 			id: 3,
-			icon: 'https://mamtaz.com/desFour/images/candidates.svg', // Replace with your icon path
+			icon: '/images/icons/candidates.svg',
 			value: '38,47,154',
 			label: 'Candidates',
 		},
 		{
 			id: 4,
-			icon: '	https://mamtaz.com/desFour/images/companies.svg', // Replace with your icon path
+			icon: '	/images/icons/companies.svg',
 			value: '7,532',
 			label: 'New Jobs',
 		},

@@ -5,17 +5,17 @@ const Consultants = () => {
 	const features = [
 		{
 			id: 1,
-			icon: 'https://mamtaz.com/desFour/images/appointment.svg', // Replace with your icon path
+			icon: '/images/consultants/appointment.svg', // Replace with your icon path
 			title: 'Book Appointment',
 		},
 		{
 			id: 2,
-			icon: 'https://mamtaz.com/desFour/images/development.svg', // Replace with your icon path
+			icon: '/images/consultants/development.svg', // Replace with your icon path
 			title: 'Skill Development',
 		},
 		{
 			id: 3,
-			icon: 'https://mamtaz.com/desFour/images/assistance.svg', // Replace with your icon path
+			icon: '/images/consultants/assistance.svg', // Replace with your icon path
 			title: 'Hiring Assistance',
 		},
 	];
@@ -34,7 +34,7 @@ const Consultants = () => {
 							Let our
 							<br />
 							<img
-								src="https://mamtaz.com/desFour/images/pic2.svg"
+								src="/images/consultants/pic2.svg"
 								alt="Consultants"
 								style={{marginTop: '10px', verticalAlign: 'middle'}}
 							/>

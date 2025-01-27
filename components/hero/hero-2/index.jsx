@@ -2,6 +2,7 @@ import SearchForm from '@/components/common/job-search/SearchForm';
 import Image from 'next/image';
 import AvatarGroup from '../AvatarGroup';
 import SliderImages from './SlideImages';
+// import heroSVG from '../../public/images/hero/hero-svg.svg';
 const index = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -20,7 +21,7 @@ const index = () => {
 							<span className="text-primary">5000+ Jobs</span>
 						</h1>
 						<img
-							src="https://mamtaz.com/desFour/images/hero-svg.svg"
+							src={'/images/hero/hero-svg.svg'}
 							alt=""
 							style={{height: '25px'}}
 							className="hero-svg"
@@ -45,31 +46,11 @@ const index = () => {
 						data-aos-delay="500 "
 					>
 						{/* Sub Images */}
-						<img
-							src="https://mamtaz.com/desFour/images/Rectangle1.png"
-							alt="Sub Image 1"
-							className="sub-image one"
-						/>
-						<img
-							src="https://mamtaz.com/desFour/images/Rectangle2.png"
-							alt="Sub Image 2"
-							className="sub-image two"
-						/>
-						<img
-							src="https://mamtaz.com/desFour/images/Rectangle3.png"
-							alt="Sub Image 3"
-							className="sub-image three"
-						/>
-						<img
-							src="https://mamtaz.com/desFour/images/Rectangle4.png"
-							alt="Sub Image 4"
-							className="sub-image four"
-						/>
-						<img
-							src="https://mamtaz.com/desFour/images/frame5.png"
-							alt="Sub Image 5"
-							className="sub-image five"
-						/>
+						<img src="/images/hero/Rectangle1.png" alt="Sub Image 1" className="sub-image one" />
+						<img src="/images/hero/Rectangle2.png" alt="Sub Image 2" className="sub-image two" />
+						<img src="/images/hero/Rectangle3.png" alt="Sub Image 3" className="sub-image three" />
+						<img src="/images/hero/Rectangle4.png" alt="Sub Image 4" className="sub-image four" />
+						<img src="/images/hero/frame5.png" alt="Sub Image 5" className="sub-image five" />
 						{/* <!-- Info BLock One --> */}
 						<div className="image-box">
 							<div className="info_block hr" data-aos="fade-in" data-aos-delay="1000">

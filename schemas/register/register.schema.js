@@ -18,6 +18,6 @@ export const registerUserSchema = z
 		confirm_password: z.string().min(6, 'Please confirm your password'),
 	})
 	.refine((data) => data.password === data.confirm_password, {
-		message: 'Passwords do not match',
+		message: "The password doesn't match.",
 		path: ['confirm_password'],
 	});

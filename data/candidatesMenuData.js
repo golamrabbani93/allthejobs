@@ -26,7 +26,7 @@ module.exports = [
 				id: 2,
 				name: 'Upgrade To Verified',
 				icon: 'la-check-circle',
-				routePath: '/dashboard/#',
+				routePath: '/dashboard//talent/#',
 				active: '',
 			},
 			{
@@ -106,7 +106,7 @@ module.exports = [
 				id: 9,
 				name: 'Auto Job Apply',
 				icon: 'la-tachometer-alt',
-				routePath: '/dashboard/talent/short-listed-jobs',
+				routePath: '/dashboard/talent/#',
 				active: '',
 			},
 		],

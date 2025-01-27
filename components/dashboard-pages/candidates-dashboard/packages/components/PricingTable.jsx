@@ -15,9 +15,9 @@ const PricingTable = () => {
 				idVerification: false,
 				profileReview: false,
 				resumeCoverLetter: false,
-				jobApplyAutopilot: '❌',
-				featuredProfile: '❌',
-				askAI: '❌',
+				jobApplyAutopilot: false,
+				featuredProfile: false,
+				askAI: false,
 				earlyAccessJobListings: false,
 				interviewPreparation: false,
 				skillImprovementResources: false,
@@ -120,7 +120,7 @@ const PricingTable = () => {
 										Buy Now
 									</Link>
 								) : (
-									<span className="text-gray-500">N/A</span>
+									<span className="text-gray-500">Free</span>
 								)}
 							</td>
 						))}

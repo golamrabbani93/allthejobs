@@ -970,12 +970,14 @@ User Sidebar
 	margin: 0px;
 }
 
-.user-sidebar .navigation li {
+.user-sidebar .navigation li,
+.user-sidebar .navigation li > button {
 	position: relative;
 	width: 100%;
 }
 
-.user-sidebar .navigation li a {
+.user-sidebar .navigation li a,
+.user-sidebar .navigation li button {
 	position: relative;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -996,7 +998,9 @@ User Sidebar
 	transition: all 500ms ease;
 }
 
-.user-sidebar .navigation li a i {
+.user-sidebar .navigation li a i,
+.user-sidebar .navigation li ul li a i,
+.user-sidebar .navigation li button i {
 	position: relative;
 	margin-right: 15px;
 	font-size: 22px;
@@ -1008,13 +1012,19 @@ User Sidebar
 }
 
 .user-sidebar .navigation > li.active > a,
-.user-sidebar .navigation > li:hover > a {
+.user-sidebar .navigation > li:hover > a,
+.user-sidebar .navigation > li ul li.active > a,
+.user-sidebar .navigation > li ul li:hover > a,
+.user-sidebar .navigation > li > button:hover {
 	color: var(--primary-color);
 	background: rgba(25, 103, 210, 0.1);
 }
 
 .user-sidebar .navigation li.active a i,
-.user-sidebar .navigation li:hover a i {
+.user-sidebar .navigation li:hover > a > i,
+.user-sidebar .navigation li ul li.active a i,
+.user-sidebar .navigation li ul li:hover a i,
+.user-sidebar .navigation li button:hover i {
 	color: var(--primary-color);
 }
 

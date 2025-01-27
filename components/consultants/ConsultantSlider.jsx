@@ -40,7 +40,7 @@ const ConsultantSlider = () => {
 						alt={img.alt}
 						width={700}
 						height={400}
-						className="img-fluid"
+						className="img-fluid consultant-image-slider"
 					/>
 				))}
 			</Slider>

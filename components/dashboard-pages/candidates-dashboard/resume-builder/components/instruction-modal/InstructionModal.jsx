@@ -11,7 +11,12 @@ const InstructionModal = () => {
 			>
 				open
 			</button>
-			<div className="modal fade" id="resumeInstructionModal" tabIndex="-1" aria-hidden="true">
+			<div
+				className="modal fade"
+				id="resumeInstructionModal"
+				style={{display: 'none'}}
+				aria-hidden="true"
+			>
 				<div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
 					<div className="apply-modal-content modal-content">
 						<div className="text-center">

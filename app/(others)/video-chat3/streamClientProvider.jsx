@@ -36,7 +36,6 @@ const StreamVideoProvider = ({children}) => {
 
 			try {
 				const fetchedToken = await tokenProvider(userObject);
-				console.log('Fetched token:', fetchedToken);
 
 				// Initialize video client
 				const videoClient = new StreamVideoClient({

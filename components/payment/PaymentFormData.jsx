@@ -6,7 +6,6 @@ import masterCard from '../../public/images/mastercard.png';
 import visaCard from '../../public/images/visacard.png';
 import amex from '../../public/images/amex.png';
 import Image from 'next/image';
-import DashboardCandidatesHeader from '../header/DashboardCandidatesHeader';
 import DefaulHeader2 from '../header/DefaulHeader2';
 import Spinner from '../Sppiner/Spinner';
 import {useSelector} from 'react-redux';
@@ -31,7 +30,7 @@ const PaymentFormData = ({packageId}) => {
 		if (getPackage || userRoleBasedData) {
 			setFormData({
 				...formData,
-				amount: getPackage.price,
+				amount: getPackage?.price,
 				paymentOptions: 'single',
 				donationType: getPackage?.name,
 				firstName: userRoleBasedData?.user?.name,

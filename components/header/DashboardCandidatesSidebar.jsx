@@ -10,7 +10,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import {menuToggle} from '../../features/toggle/toggleSlice';
 import {usePathname} from 'next/navigation';
 import LogOutButton from '../common/LogOutButton/LogOutButton';
+import {useState} from 'react';
 const DashboardCandidatesSidebar = () => {
+	//get current path name
+	const pathname = usePathname();
+	const [showMeetingMenu, setShowMeetingMenu] = useState(false);
+	const [menuItem, setMenuItem] = useState('');
 	const {menu} = useSelector((state) => state.toggle);
 	const percentage = 30;
 	const dispatch = useDispatch();
@@ -18,6 +23,16 @@ const DashboardCandidatesSidebar = () => {
 	// menu togggle handler
 	const menuToggleHandler = () => {
 		dispatch(menuToggle());
+	};
+	//handle sub menu toggle
+	const handleSubMenuToggle = (name) => {
+		setMenuItem(name);
+		if (showMeetingMenu && menuItem !== name) {
+			setShowMeetingMenu(false);
+			setShowMeetingMenu(true);
+		} else {
+			setShowMeetingMenu(!showMeetingMenu);
+		}
 	};
 
 	return (
@@ -38,9 +53,48 @@ const DashboardCandidatesSidebar = () => {
 							key={i}
 							onClick={menuToggleHandler}
 						>
-							<Link href={item.routePath}>
-								<i className={`la ${item.icon}`}></i> {item.name}
-							</Link>
+							{item.Children ? (
+								<>
+									<button
+										onClick={() => handleSubMenuToggle(item.name)}
+										className=" mb-1 transition-all duration-500 "
+									>
+										<i className={`la ${item.icon}`}></i>
+										{item.name}
+										<span
+											className={`la ${
+												showMeetingMenu && item.name === menuItem ? 'la-angle-up' : 'la-angle-down'
+											} size-1 ml-auto mb-[10px] font-bold`}
+										></span>
+									</button>
+
+									<ul
+										className={`submenu transition-all duration-500 ease-in-out overflow-hidden ${
+											showMeetingMenu && item.name === menuItem
+												? 'opacity-100 max-h-[500px]'
+												: 'opacity-0 max-h-0'
+										}`}
+									>
+										{item.Children.map((subItem, i) => (
+											<li
+												key={i}
+												className={`${
+													isActiveLink(subItem.routePath, usePathname()) ? 'active' : ''
+												} mb-1`}
+											>
+												<Link href={subItem.routePath}>
+													<i className={`la ${subItem.icon}`}></i>
+													{subItem.name}
+												</Link>
+											</li>
+										))}
+									</ul>
+								</>
+							) : (
+								<Link href={item.routePath}>
+									<i className={`la ${item.icon}`}></i> {item.name}
+								</Link>
+							)}
 						</li>
 					))}
 					<LogOutButton />

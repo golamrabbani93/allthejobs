@@ -41,40 +41,14 @@ const DashboardEmployersHeader = () => {
 					{/* End .nav-outer */}
 
 					<div className="outer-box">
-						{/* <div
-							className="d-inline-flex align-items-center"
-							style={{
-								background: 'linear-gradient(135deg, #e5f8e7, #d6f2d9)',
-								borderRadius: '2rem',
-								padding: '0.4rem 1rem',
-								fontWeight: 'bold',
-								fontSize: '1rem',
-								color: '#2e7d32',
-							}}
-						>
-							<Image
-								src="/images/coin.png"
-								alt="coins"
-								width={300}
-								height={20}
-								style={{width: '30px'}}
-							/>
-							<span>347</span>
-						</div>
-						<button className="menu-btn">
-							<span className="count">{wishListJobs.length}</span>
-							<span className="icon la la-heart-o"></span>
-						</button>
-						wishlisted menu */}
 						<div
-							className="d-inline-flex align-items-center"
+							className="d-inline-flex align-items-center text-primary"
 							style={{
-								background: 'linear-gradient(135deg, #e5f8e7, #d6f2d9)',
+								background: '#e2eaf8',
 								borderRadius: '2rem',
 								padding: '0.4rem 1rem',
 								fontWeight: 'bold',
 								fontSize: '1rem',
-								color: '#2e7d32',
 							}}
 						>
 							<Image
@@ -86,10 +60,15 @@ const DashboardEmployersHeader = () => {
 							/>
 							<span>347</span>
 						</div>
+						<button className="menu-btn theme-btn btn-style-three h-10">Buy Credits</button>
+						{/* wishlisted menu */}
+
 						<button className="menu-btn">
+							<span className="count">3</span>
 							<span className="icon la la-bell"></span>
 						</button>
 						{/* End notification-icon */}
+
 						{/* End dropdown */}
 						<DashboardAvatar />
 					</div>

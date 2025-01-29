@@ -21,6 +21,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
   const [user, setUser] = useState(undefined)
   const [selectedSlot, setSelectedSlot] = useState(null)
   const [slotLoading,setSlotLoading]=useState(false)
+  const [scheduling,setScheduling]=useState(false)
   useEffect(() => {
     setUser(user_redux)
   }, [user_redux])
@@ -42,6 +43,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
         });
         return;
       }
+      setScheduling(true)
       const id = crypto.randomUUID();
       const call = client.call("default", id);
       if (!call) throw new Error("Failed to crate call");
@@ -71,13 +73,9 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
       if (!call.id) {
         throw new Error('Failed to create meeting ID');
       }
-
-      // updating availability slot of the consultant
       await updateAvailableSlots(values.consultant_id, getRawDate(values.datetime), values.datetime, "requested")
       setCallDetails(call);
-      // if (!values.description) {
-      //   router.push(`/video-chat3/meeting/${call.id}`);
-      // }
+      setScheduling(false)
       toast({
         title: "Meeting Created",
       });
@@ -89,7 +87,6 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
     }
   };
 
-  // handling time slots i won't need it anymore
   const convertToTime = (timeString) => {
     const [time, modifier] = timeString.split(/(AM|PM)/i);
     let [hours, minutes] = time.split(':');
@@ -102,14 +99,6 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
     return { hours: parseInt(hours, 10), minutes: parseInt(minutes, 10) };
   };
 
-const convertTimeSlotsToDates = (date, timeSlots) => {
-    return timeSlots.map(slot => {
-      const { hours, minutes } = convertToTime(slot.split('-')[0]);
-      const newDate = new Date(date);
-      newDate.setHours(hours, minutes, 0, 0);
-      return newDate;
-    });
-  };
   const [timeSlots, setTimeSlots] = useState([]);
   useEffect(() => {
     const fetchTimeSlots = async () => {
@@ -123,22 +112,12 @@ const convertTimeSlotsToDates = (date, timeSlots) => {
     };
     fetchTimeSlots();
   }, [values.datetime]);
-  const includeTimes = convertTimeSlotsToDates(values.datetime, timeSlots);
-
 
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${callDetails?.id}`
   if (!user?.user_id) {
     return <div className="text-black">Loading...</div>; // Or any placeholder
   }
-  const CustomDatePickerInput = React.forwardRef(({ value, onClick }, ref) => (
-    <input
-      className="w-full rounded  p-2"
-      onClick={onClick}
-      value={value}
-      ref={ref}
-      readOnly // Disable manual typing
-    />
-  ));
+
   const handleSlotSelection=(slot)=>{
     setSelectedSlot(slot)
     const {hours,minutes}=convertToTime(slot.split('-')[0])
@@ -160,6 +139,7 @@ const convertTimeSlotsToDates = (date, timeSlots) => {
           title='Create Meeting'
           handleClick={createMeeting}
           selectedSlot={selectedSlot}
+          scheduling={scheduling}
         >
 
           <div className='flex flex-col gap-2 5'>
@@ -177,20 +157,6 @@ const convertTimeSlotsToDates = (date, timeSlots) => {
             <label className='text-base text-normal leading-[22px] ' htmlFor=''>
               Select Date and Time
             </label>
-            {/* <DatePicker
-              selected={values.datetime}
-              onChange={(date) => setValues({...values,datetime:date})}
-              showTimeSelect
-              includeTimes={includeTimes}
-              timeFormat='HH:mm'
-              timeIntervals={60}
-              timeCaption='time'
-              dateFormat='MMMM d, yyyy h:mm aa'
-              className="w-full rounded p-2"
-              minDate={new Date()}
-              customInput={<CustomDatePickerInput />}
-              disabled={loadingSlots}
-            /> */}
             <div className="flex-grow mx-auto">
               <Calendar
                 mode="single"

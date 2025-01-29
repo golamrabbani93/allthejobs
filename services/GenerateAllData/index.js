@@ -194,3 +194,26 @@ export const fetchAllUsers = async () => {
 		throw error;
 	}
 };
+
+export	const talentCVDownloaderByUserId = async (userId) => {
+		const {token} = await GetToken();
+		try {
+			const response = await axios.get(`https://allthejobsca.pythonanywhere.com/talents/downloadCV/${userId}/`, {
+				responseType: 'blob',
+				headers: {
+					Authorization: `Token ${token}`,
+				},
+			});
+			const url = window.URL.createObjectURL(new Blob([response.data]));
+			const link = document.createElement('a');
+			link.href = url;
+			link.setAttribute('download', 'cv.pdf'); 
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			return { success: true, message: 'Download completed' };
+		} catch (error) {
+			console.error('Error downloading CV:', error);
+			return { success: false, message: 'Download failed', error };
+		}
+	};

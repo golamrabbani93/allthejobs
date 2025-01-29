@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {useStreamVideoClient } from "@stream-io/video-react-sdk";
+import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useToast } from "@/hooks/use-toast";
@@ -12,23 +12,26 @@ import HomeCard from "./HomeCard";
 import { getRawDate, handleRetrieveSlots, handleUpdateSlots } from "../sharedFunction";
 import { fetchAvailableSlots, updateAvailableSlots } from "@/services/GenerateAllData";
 import { Button } from "@/components/ui/button";
-const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_real_id=0}) => {
+import { Calendar } from "@/components/ui/calendar"
+import { cn } from "@/lib/utils";
+const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultant_real_id = 0 }) => {
   const [meetingState, setMeetingState] = useState();
   const user_redux = useSelector((state) => state.user);
-  const [loadingSlots,setLoadingSlots]=useState(false)
-  const [user,setUser]=useState(undefined)
-  useEffect(()=>{
+  const [loadingSlots, setLoadingSlots] = useState(false)
+  const [user, setUser] = useState(undefined)
+  const [selectedSlot, setSelectedSlot] = useState()
+  useEffect(() => {
     setUser(user_redux)
-  },[user_redux])
+  }, [user_redux])
   const client = useStreamVideoClient();
   const [values, setValues] = useState({
     datetime: new Date(),
     description: "",
     link: "",
-    consultant_id:consultant_id
+    consultant_id: consultant_id
   });
   const [callDetails, setCallDetails] = useState();
-  const { toast } =useToast()
+  const { toast } = useToast()
   const createMeeting = async () => {
     if (!client || !user) return;
     try {
@@ -39,26 +42,26 @@ const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_rea
         return;
       }
       const id = crypto.randomUUID();
-      const call =client.call("default", id);
+      const call = client.call("default", id);
       if (!call) throw new Error("Failed to crate call");
 
       const startsAt =
         values.datetime.toISOString();
       const description = values.description;
-      const consultant_id=values.consultant_id.toString()
+      const consultant_id = values.consultant_id.toString()
 
       await call.getOrCreate({
         data: {
           starts_at: startsAt,
           members: [
-            ...(description!=="Instant Meeting" ?[{user_id: consultant_id, role: 'admin' }]:[]),
+            ...(description !== "Instant Meeting" ? [{ user_id: consultant_id, role: 'admin' }] : []),
             { user_id: user.user_id.toString(), role: 'guest' }
-          ], 
+          ],
           custom: {
             description,
-            isAccepted:true,
+            isAccepted: true,
             consultant_name,
-            talent_name:user.name,
+            talent_name: user.name,
             consultant_real_id
           },
         },
@@ -69,7 +72,7 @@ const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_rea
       }
 
       // updating availability slot of the consultant
-      await updateAvailableSlots(values.consultant_id,getRawDate(values.datetime),values.datetime,"requested")
+      await updateAvailableSlots(values.consultant_id, getRawDate(values.datetime), values.datetime, "requested")
       setCallDetails(call);
       // if (!values.description) {
       //   router.push(`/video-chat3/meeting/${call.id}`);
@@ -96,7 +99,7 @@ const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_rea
     }
     return { hours: parseInt(hours, 10), minutes: parseInt(minutes, 10) };
   };
-  
+
   const convertTimeSlotsToDates = (date, timeSlots) => {
     return timeSlots.map(slot => {
       const { hours, minutes } = convertToTime(slot.split('-')[0]);
@@ -107,10 +110,10 @@ const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_rea
   };
   const [timeSlots, setTimeSlots] = useState([]);
   useEffect(() => {
-  const fetchTimeSlots = async () => {
+    const fetchTimeSlots = async () => {
       // setLoadingSlots(true)
-      const formattedDate=getRawDate(values.datetime)
-      const slots = await fetchAvailableSlots(consultant_id,formattedDate,'available');
+      const formattedDate = getRawDate(values.datetime)
+      const slots = await fetchAvailableSlots(consultant_id, formattedDate, 'available');
       setLoadingSlots(false)
       console.log(slots);
       setTimeSlots(slots);
@@ -119,15 +122,16 @@ const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_rea
     fetchTimeSlots();
   }, [values.datetime]);
   const includeTimes = convertTimeSlotsToDates(values.datetime, timeSlots);
+  console.log(timeSlots);
 
 
-  const meetingLink=`${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${callDetails?.id}`
+  const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${callDetails?.id}`
   if (!user?.user_id) {
     return <div className="text-black">Loading...</div>; // Or any placeholder
   }
   const CustomDatePickerInput = React.forwardRef(({ value, onClick }, ref) => (
     <input
-      className="w-full rounded bg-[#161925] p-2"
+      className="w-full rounded  p-2"
       onClick={onClick}
       value={value}
       ref={ref}
@@ -146,17 +150,7 @@ const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_rea
           title='Create Meeting'
           handleClick={createMeeting}
         >
-          {/* <div className='flex flex-col gap-2 5'>
-            <label className='text-base text-normal leading-[22px]' htmlFor=''>
-              Provide Consultant ID 
-            </label>
-            <Textarea
-              onChange={(e) => {
-                setValues({ ...values, consultant_id: e.target.value });
-              }}
-              className='bg-[#161925] border-none border border-blue-1'
-            ></Textarea>
-          </div> */}
+
           <div className='flex flex-col gap-2 5'>
             <label className='text-base text-normal leading-[22px]' htmlFor=''>
               Add a description
@@ -165,14 +159,14 @@ const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_rea
               onChange={(e) => {
                 setValues({ ...values, description: e.target.value });
               }}
-              className='bg-[#161925] border-none border border-blue-1'
+              className=' border-none border border-blue-1'
             ></Textarea>
           </div>
           <div className='flex w-full flex-col gap-2.5'>
             <label className='text-base text-normal leading-[22px] ' htmlFor=''>
               Select Date and Time
             </label>
-            <DatePicker
+            {/* <DatePicker
               selected={values.datetime}
               onChange={(date) => setValues({...values,datetime:date})}
               showTimeSelect
@@ -181,11 +175,37 @@ const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_rea
               timeIntervals={60}
               timeCaption='time'
               dateFormat='MMMM d, yyyy h:mm aa'
-              className="w-full rounded bg-[#161925] p-2"
+              className="w-full rounded p-2"
               minDate={new Date()}
               customInput={<CustomDatePickerInput />}
               disabled={loadingSlots}
-            />
+            /> */}
+            <div className="flex-grow mx-auto">
+              <Calendar
+                mode="single"
+                selected={values.datetime}
+                onSelect={(date) => setValues({ ...values, datetime: date })}
+                className="rounded-md border w-full"
+              />
+            </div>
+
+            <div className="mt-6">
+              <h2 className="text-sm font-semibold mb-3">Available Slots</h2>
+              <div className="grid grid-cols-3 gap-2">
+                {timeSlots.map((slot, index) => (
+                  <span
+                    key={index}
+                    className={cn(
+                      "p-2 text-xs text-center rounded-md bg-green-50 hover:bg-green-100 transition-colors",
+                      selectedSlot === `${slot}` && "ring-2 ring-primary"
+                    )}
+                  >
+                    {slot}
+                  </span>
+                ))}
+              </div>
+            </div>
+
           </div>
         </MeetingModal>
       ) : (

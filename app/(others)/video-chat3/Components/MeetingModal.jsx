@@ -19,6 +19,7 @@ const MeetingModal = ({
   buttonText,
   image,
   buttonIcon,
+  selectedSlot
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose} >
@@ -35,7 +36,7 @@ const MeetingModal = ({
             {title}
           </h1>
           {children}
-          <Button className=' ' onClick={handleClick}>
+          {title==='Create Meeting'&&<Button className={!selectedSlot?"bg-gray-400 hover:bg-gray-400 !cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"} onClick={handleClick}>
             {buttonIcon && (
               <Image
                 src={buttonIcon}
@@ -44,8 +45,8 @@ const MeetingModal = ({
                 height={13}
               ></Image>
             )}
-            {buttonText || "Schedule Meeting"}
-          </Button>
+            {selectedSlot?"Schedule Meeting":"No Slot Selected"}
+          </Button>}
         </div>
       </DialogContent>
     </Dialog>

@@ -31,7 +31,7 @@ const MeetingCard = ({
 }) => {
 
   const { toast } = useToast();
-  const talent_user_id=meetingMembers[1].user_id
+  const talent_user_id=meetingMembers[1]?.user_id
   const [downloading,setDownloading]=useState(false)
   const handleDownload=async(user_id)=>{
     setDownloading(true)

@@ -14,12 +14,13 @@ import { fetchAvailableSlots, updateAvailableSlots } from "@/services/GenerateAl
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils";
+import Spinner from "@/components/Sppiner/Spinner";
 const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultant_real_id = 0 }) => {
   const [meetingState, setMeetingState] = useState();
   const user_redux = useSelector((state) => state.user);
-  const [loadingSlots, setLoadingSlots] = useState(false)
   const [user, setUser] = useState(undefined)
-  const [selectedSlot, setSelectedSlot] = useState()
+  const [selectedSlot, setSelectedSlot] = useState(null)
+  const [slotLoading,setSlotLoading]=useState(false)
   useEffect(() => {
     setUser(user_redux)
   }, [user_redux])
@@ -33,7 +34,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
   const [callDetails, setCallDetails] = useState();
   const { toast } = useToast()
   const createMeeting = async () => {
-    if (!client || !user) return;
+    if (!client || !user||!selectedSlot) return;
     try {
       if (!values.datetime) {
         toast({
@@ -87,7 +88,8 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
       });
     }
   };
-  // handling time slots
+
+  // handling time slots i won't need it anymore
   const convertToTime = (timeString) => {
     const [time, modifier] = timeString.split(/(AM|PM)/i);
     let [hours, minutes] = time.split(':');
@@ -100,7 +102,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
     return { hours: parseInt(hours, 10), minutes: parseInt(minutes, 10) };
   };
 
-  const convertTimeSlotsToDates = (date, timeSlots) => {
+const convertTimeSlotsToDates = (date, timeSlots) => {
     return timeSlots.map(slot => {
       const { hours, minutes } = convertToTime(slot.split('-')[0]);
       const newDate = new Date(date);
@@ -111,18 +113,17 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
   const [timeSlots, setTimeSlots] = useState([]);
   useEffect(() => {
     const fetchTimeSlots = async () => {
-      // setLoadingSlots(true)
+      setSlotLoading(true)
+      setTimeSlots([])
+      setSelectedSlot(null)
       const formattedDate = getRawDate(values.datetime)
       const slots = await fetchAvailableSlots(consultant_id, formattedDate, 'available');
-      setLoadingSlots(false)
-      console.log(slots);
+      setSlotLoading(false)
       setTimeSlots(slots);
     };
-
     fetchTimeSlots();
   }, [values.datetime]);
   const includeTimes = convertTimeSlotsToDates(values.datetime, timeSlots);
-  console.log(timeSlots);
 
 
   const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${callDetails?.id}`
@@ -138,10 +139,19 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
       readOnly // Disable manual typing
     />
   ));
+  const handleSlotSelection=(slot)=>{
+    setSelectedSlot(slot)
+    const {hours,minutes}=convertToTime(slot.split('-')[0])
+    const date=values.datetime
+    date.setHours(hours)
+    date.setMinutes(minutes)
+    date.setSeconds(0)
+    setValues({ ...values, datetime: date })
 
+  }
   return (
     <section className=''>
-      <Button onClick={() => setMeetingState("isScheduledMeeting")}>Schedule Meeting</Button>
+      <Button  onClick={() => setMeetingState("isScheduledMeeting")}>Schedule Meeting</Button>
 
       {!callDetails ? (
         <MeetingModal
@@ -149,6 +159,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
           onClose={() => setMeetingState(undefined)}
           title='Create Meeting'
           handleClick={createMeeting}
+          selectedSlot={selectedSlot}
         >
 
           <div className='flex flex-col gap-2 5'>
@@ -191,13 +202,18 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
 
             <div className="mt-6">
               <h2 className="text-sm font-semibold mb-3">Available Slots</h2>
+              {slotLoading?
+              <Spinner></Spinner>:timeSlots.length?"":
+              <span className="text-sm text-red-800">No Available Slot!</span>
+              }
               <div className="grid grid-cols-3 gap-2">
                 {timeSlots.map((slot, index) => (
                   <span
                     key={index}
+                    onClick={()=>handleSlotSelection(slot)}
                     className={cn(
-                      "p-2 text-xs text-center rounded-md bg-green-50 hover:bg-green-100 transition-colors",
-                      selectedSlot === `${slot}` && "ring-2 ring-primary"
+                      "p-2 text-xs text-center rounded-md bg-green-50 hover:bg-green-100 transition-colors cursor-pointer",
+                      selectedSlot === `${slot}` && "ring-2 ring-primary bg-green-300"
                     )}
                   >
                     {slot}
@@ -220,7 +236,6 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
           }}
           image='/icons/checked.svg'
           buttonIcon='/icons/copy.svg'
-          buttonText='Copy Meeting Link'
         ></MeetingModal>
       )}
     </section>

@@ -178,3 +178,19 @@ export const updateAvailableSlots = async (consultant_id,formattedDate,selectedD
 		throw error;
 	}
 };
+
+// fetch all users
+export const fetchAllUsers = async () => {
+	const {token} = await GetToken();
+	try {
+		const availableSlots = await axios.get(`https://allthejobsca.pythonanywhere.com/users`, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
+		});
+		return availableSlots.data;
+	} catch (error) {
+		console.error('Error fetching User:', error);
+		throw error;
+	}
+};

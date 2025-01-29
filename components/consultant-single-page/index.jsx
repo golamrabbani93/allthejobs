@@ -66,7 +66,8 @@ const index = ({id}) => {
 
 								<div className="btn-box">
 									<button>
-										<ScheduleMeeting consultant_id={consultant?.user_id}></ScheduleMeeting>
+										<ScheduleMeeting consultant_id={consultant?.user_id}
+										consultant_name={consultant?.user.name} consultant_real_id={consultant.consultant_id}></ScheduleMeeting>
 									</button>
 									{/* <a className="theme-btn btn-style-one" href="/images/sample.pdf" download>
 										Get Consultant

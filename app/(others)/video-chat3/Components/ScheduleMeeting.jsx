@@ -12,8 +12,7 @@ import HomeCard from "./HomeCard";
 import { getRawDate, handleRetrieveSlots, handleUpdateSlots } from "../sharedFunction";
 import { fetchAvailableSlots, updateAvailableSlots } from "@/services/GenerateAllData";
 import { Button } from "@/components/ui/button";
-const ScheduleMeeting = ({consultant_id}) => {
-  console.log(consultant_id);
+const ScheduleMeeting = ({consultant_id,consultant_name="default",consultant_real_id=0}) => {
   const [meetingState, setMeetingState] = useState();
   const user_redux = useSelector((state) => state.user);
   const [loadingSlots,setLoadingSlots]=useState(false)
@@ -58,6 +57,9 @@ const ScheduleMeeting = ({consultant_id}) => {
           custom: {
             description,
             isAccepted:true,
+            consultant_name,
+            talent_name:user.name,
+            consultant_real_id
           },
         },
       });

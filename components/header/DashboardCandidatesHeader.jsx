@@ -3,17 +3,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import {useEffect, useState} from 'react';
-import candidatesMenuData from '../../data/candidatesMenuData';
 import HeaderNavContent from './HeaderNavContent';
-import {isActiveLink} from '../../utils/linkActiveChecker';
-
-import {usePathname} from 'next/navigation';
 import {useSelector} from 'react-redux';
 import DashboardAvatar from './AvatarMenu/DashboardAvatar';
 const DashboardCandidatesHeader = () => {
 	const [navbar, setNavbar] = useState(false);
-	const user = useSelector((state) => state.user);
-	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
+	const {userRoleBasedData} = useSelector((state) => state.data);
 	const changeBackground = () => {
 		if (window.scrollY >= 0) {
 			setNavbar(true);
@@ -64,9 +59,14 @@ const DashboardCandidatesHeader = () => {
 								height={20}
 								style={{width: '30px'}}
 							/>
-							<span>347</span>
+							<span>{userRoleBasedData?.credit}</span>
 						</div>
-						<button className="menu-btn theme-btn btn-style-three h-10">Buy Credits</button>
+						<Link
+							href={'/dashboard/talent/packages'}
+							className="menu-btn theme-btn btn-style-three h-10"
+						>
+							Buy Credits
+						</Link>
 						{/* wishlisted menu */}
 
 						<button className="menu-btn">

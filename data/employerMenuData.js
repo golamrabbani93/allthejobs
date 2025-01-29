@@ -34,13 +34,13 @@ module.exports = [
 		routePath: '/dashboard/employer/all-applicants',
 		active: '',
 	},
-	// {
-	// 	id: 6,
-	// 	name: 'Matched Talents',
-	// 	icon: 'la-bookmark-o',
-	// 	routePath: '/dashboard/employer/shortlisted-resumes',
-	// 	active: '',
-	// },
+	{
+		id: 6,
+		name: 'Matched Talents',
+		icon: 'la-bookmark-o',
+		routePath: '/dashboard/employer/matched-talents',
+		active: '',
+	},
 	{
 		id: 7,
 		name: 'Packages',

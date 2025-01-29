@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react';
 import HeaderNavContent from './HeaderNavContent';
 import {useSelector} from 'react-redux';
 import DashboardAvatar from './AvatarMenu/DashboardAvatar';
-const DashboardEmployersHeader = () => {
+const DashboardConsultantHeader = () => {
 	const {userRoleBasedData} = useSelector((state) => state.data);
 	const [navbar, setNavbar] = useState(false);
 	const changeBackground = () => {
@@ -61,7 +61,10 @@ const DashboardEmployersHeader = () => {
 							/>
 							<span>{userRoleBasedData?.credit}</span>
 						</div>
-						<Link href={'/dashboard/employer'} className="menu-btn theme-btn btn-style-three h-10">
+						<Link
+							href={'/dashboard/consultant'}
+							className="menu-btn theme-btn btn-style-three h-10"
+						>
 							Buy Credits
 						</Link>
 						{/* wishlisted menu */}
@@ -82,4 +85,4 @@ const DashboardEmployersHeader = () => {
 	);
 };
 
-export default DashboardEmployersHeader;
+export default DashboardConsultantHeader;

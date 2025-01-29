@@ -1,5 +1,3 @@
-const {Children} = require('react');
-
 module.exports = [
 	{
 		id: 1,

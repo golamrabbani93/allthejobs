@@ -69,7 +69,7 @@ const DashboardCandidatesSidebar = () => {
 									</button>
 
 									<ul
-										className={`submenu transition-all duration-500 ease-in-out overflow-hidden ${
+										className={`submenu transition-all duration-500 ease-in-out overflow-hidden bg-[#f5f6f7] rounded-lg w-full ${
 											showMeetingMenu && item.name === menuItem
 												? 'opacity-100 max-h-[500px]'
 												: 'opacity-0 max-h-0'

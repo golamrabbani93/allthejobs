@@ -7,6 +7,7 @@ import HeaderNavContent from './HeaderNavContent';
 import {useSelector} from 'react-redux';
 import DashboardAvatar from './AvatarMenu/DashboardAvatar';
 const DashboardEmployersHeader = () => {
+	const {userRoleBasedData} = useSelector((state) => state.data);
 	const [navbar, setNavbar] = useState(false);
 	const changeBackground = () => {
 		if (window.scrollY >= 0) {
@@ -58,9 +59,11 @@ const DashboardEmployersHeader = () => {
 								height={20}
 								style={{width: '30px'}}
 							/>
-							<span>347</span>
+							<span>{userRoleBasedData?.credit}</span>
 						</div>
-						<button className="menu-btn theme-btn btn-style-three h-10">Buy Credits</button>
+						<Link href={'/dashboard/employer'} className="menu-btn theme-btn btn-style-three h-10">
+							Buy Credits
+						</Link>
 						{/* wishlisted menu */}
 
 						<button className="menu-btn">

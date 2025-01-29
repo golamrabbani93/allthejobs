@@ -16,7 +16,7 @@ const WidgetTopFilterBox = ({setSelectJob}) => {
 				onClick={(e) => handleSelectJob(e)}
 				className="chosen-single form-select chosen-container"
 			>
-				<option>Select Jobs</option>
+				<option>{loading ? 'Loading Jobs...' : 'Select Jobs'}</option>
 				{myJobs.map((job) => (
 					<option key={job.job_id} value={job.job_id}>
 						{job.title}

@@ -45,7 +45,7 @@ const index = () => {
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>All Applicant List</h4>
+										<h4>All Matched Talent List</h4>
 										<WidgetTopFilterBox setSelectJob={setSelectJob} />
 									</div>
 									{/* End top widget filter bar */}

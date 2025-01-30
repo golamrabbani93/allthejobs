@@ -5,7 +5,6 @@ import CopyrightFooter from '../../CopyrightFooter';
 import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
 import CallList from '@/app/(others)/video-chat3/Components/CallList';
-import ScheduleMeeting from '@/app/(others)/video-chat3/Components/ScheduleMeeting';
 
 const index = () => {
 	return (

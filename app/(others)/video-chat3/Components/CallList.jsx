@@ -65,7 +65,6 @@ const CallList = ({type}) => {
 			console.log(err);
 		}
 	};
-
 	if (isLoading) {
 		<div className="flex justify-center items-center h-96">
 			<Spinner />
@@ -85,10 +84,11 @@ const CallList = ({type}) => {
 					handleClick={type==='recording'?()=>router.push(`${(meeting ).url}`):type==='request'?()=>updateMeetingRequest(meeting,'accept'):()=>router.push(`/video-chat3/meeting/${(meeting ).id}`)}
 					link={type==='recording'?(meeting).url:`${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${(meeting ).id}`}
 					buttonText={type==='recording'?'Play':type==='request'?'Accept':'Start'}
+					meetingMembers={meeting.state.members}
+					customData={meeting.state.custom}
+					role={role}
+					type={type}
 				/>
-			
-
-				
 			)
 		) : (
 			<h1 className={`${type==='recording'&&"hidden" }`}>{noCallsMessage}</h1>

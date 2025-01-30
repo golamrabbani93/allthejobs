@@ -19,13 +19,15 @@ const MeetingModal = ({
   buttonText,
   image,
   buttonIcon,
+  selectedSlot,
+  scheduling
 }) => {
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose} >
       <DialogTrigger></DialogTrigger>
       <DialogTitle></DialogTitle>
-      <DialogContent className='flex w-full max-w-[520px] flex-col gap-6 border-none  bg-dark-1 px-5 py-9 text-white '>
-        <div className='flex flex-col gap-6'>
+      <DialogContent className='flex w-full  flex-col gap-6 border-none bg-white'>
+        <div className='flex flex-col gap-6 '>
           {image && (
             <div className='flex justify-center'>
               <Image src={image} alt='image' width={72} height={72}></Image>
@@ -35,7 +37,7 @@ const MeetingModal = ({
             {title}
           </h1>
           {children}
-          <Button className=' ' onClick={handleClick}>
+          {title==='Create Meeting'&&<Button className={!selectedSlot||scheduling?"bg-gray-400 hover:bg-gray-400 !cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"} onClick={handleClick}>
             {buttonIcon && (
               <Image
                 src={buttonIcon}
@@ -44,8 +46,11 @@ const MeetingModal = ({
                 height={13}
               ></Image>
             )}
-            {buttonText || "Schedule Meeting"}
-          </Button>
+
+            {scheduling?<span>
+              Scheduling...
+            </span>:selectedSlot?"Schedule Meeting":"No Slot Selected"}
+          </Button>}
         </div>
       </DialogContent>
     </Dialog>

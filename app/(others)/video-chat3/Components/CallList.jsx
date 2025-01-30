@@ -87,6 +87,7 @@ const CallList = ({type}) => {
 					meetingMembers={meeting.state.members}
 					customData={meeting.state.custom}
 					role={role}
+					type={type}
 				/>
 			)
 		) : (

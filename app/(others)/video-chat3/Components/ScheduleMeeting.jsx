@@ -34,6 +34,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
   });
   const [callDetails, setCallDetails] = useState();
   const { toast } = useToast()
+  const today = new Date();
   const createMeeting = async () => {
     if (!client || !user||!selectedSlot) return;
     try {
@@ -155,7 +156,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
           </div>
           <div className='flex w-full flex-col gap-2.5'>
             <label className='text-base text-normal leading-[22px] ' htmlFor=''>
-              Select Date and Time
+              Select Date 
             </label>
             <div className="flex-grow mx-auto">
               <Calendar
@@ -163,6 +164,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
                 selected={values.datetime}
                 onSelect={(date) => setValues({ ...values, datetime: date })}
                 className="rounded-md border w-full"
+                disabled={{before:today}}
               />
             </div>
 
@@ -178,7 +180,7 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
                     key={index}
                     onClick={()=>handleSlotSelection(slot)}
                     className={cn(
-                      "p-2 text-xs text-center rounded-md bg-green-50 hover:bg-green-100 transition-colors cursor-pointer",
+                      "p-2 text-xs text-center rounded-md bg-green-100 hover:bg-green-200 transition-colors cursor-pointer",
                       selectedSlot === `${slot}` && "ring-2 ring-primary bg-green-300"
                     )}
                   >

@@ -6,12 +6,10 @@ import SidebarHeader from './SidebarHeader';
 import {usePathname, useRouter} from 'next/navigation';
 import {menuItems} from '@/data/menuItems';
 import AvatarMenu from '../AvatarMenu/AvatarMenu';
-import {useSelector} from 'react-redux';
 
 const Index = () => {
 	const router = useRouter();
 	const pathname = usePathname();
-	const user = useSelector((state) => state.user);
 	return (
 		<div
 			className="offcanvas offcanvas-start mobile_menu-contnet"
@@ -35,7 +33,6 @@ const Index = () => {
 					))}
 				</Menu>
 			</Sidebar>
-			{/* {user?.role && <AvatarMenu />} */}
 			<SidebarFooter />
 		</div>
 	);

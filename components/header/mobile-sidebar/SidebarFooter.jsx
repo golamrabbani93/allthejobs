@@ -1,6 +1,7 @@
 'use client';
 import {useSelector} from 'react-redux';
 import RIghtRegisterButtons from '../RIghtRegisterButtons';
+import AvatarMenu from '../AvatarMenu/AvatarMenu';
 
 const SidebarFooter = () => {
 	const user = useSelector((state) => state.user);
@@ -13,6 +14,7 @@ const SidebarFooter = () => {
 
 	return (
 		<>
+			{user?.role && <AvatarMenu />}
 			{!user?.user_id && (
 				<div className="mm-add-listing mm-listitem pro-footer">
 					<RIghtRegisterButtons />

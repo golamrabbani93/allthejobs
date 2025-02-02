@@ -54,10 +54,14 @@ const DashboardCandidatesSidebar = () => {
 							onClick={menuToggleHandler}
 						>
 							{item.Children ? (
-								<>
+								<div
+									className={`transition-all duration-500 ${
+										showMeetingMenu && menuItem === item.name ? 'bg-[#c1d7edc7] rounded-xl' : ''
+									}`}
+								>
 									<button
 										onClick={() => handleSubMenuToggle(item.name)}
-										className=" mb-1 transition-all duration-500 "
+										className=" mb-1 transition-all duration-500 w-full"
 									>
 										<i className={`la ${item.icon}`}></i>
 										{item.name}
@@ -69,7 +73,7 @@ const DashboardCandidatesSidebar = () => {
 									</button>
 
 									<ul
-										className={`submenu transition-all duration-500 ease-in-out overflow-hidden bg-[#f5f6f7] rounded-lg w-full ${
+										className={`submenu transition-all duration-500 ease-in-out overflow-hidden rounded-lg w-full ${
 											showMeetingMenu && item.name === menuItem
 												? 'opacity-100 max-h-[500px]'
 												: 'opacity-0 max-h-0'
@@ -89,7 +93,7 @@ const DashboardCandidatesSidebar = () => {
 											</li>
 										))}
 									</ul>
-								</>
+								</div>
 							) : (
 								<Link href={item.routePath}>
 									<i className={`la ${item.icon}`}></i> {item.name}

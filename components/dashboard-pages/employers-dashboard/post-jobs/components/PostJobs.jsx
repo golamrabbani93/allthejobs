@@ -31,7 +31,6 @@ const PostJobs = () => {
 	const [postJobs, {data, isLoading}] = usePostJobsMutation();
 
 	const credits = Number(userRoleBasedData?.credit);
-	console.log('🚀🚀 ~ PostJobs ~ credits:', credits);
 	const [defaultValues, setDefaultValues] = useState({
 		title: '',
 		vacancy_count: '',

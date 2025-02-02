@@ -91,7 +91,10 @@ const ResumeBuilder = () => {
 			{/* <!-- Resume Builder --> */}
 			<div className="resume-builder flex flex-col justify-center items-center py-5">
 				{!userRoleBasedData?.masked_resume?.experience_details && (
-					<div className="flex justify-center items-center h-80">
+					<div className="flex flex-col justify-center items-center h-80">
+						<div className="mb-2">
+							<p>Note: Resume Information take form your Profile</p>
+						</div>
 						<button onClick={() => handleSendMessage()} className="btn btn-primary">
 							{isPending ? <span className="ml-2">Loading...</span> : 'Make Resume'}
 						</button>

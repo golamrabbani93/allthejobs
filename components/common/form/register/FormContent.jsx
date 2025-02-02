@@ -91,31 +91,42 @@ const FormContent = ({userType}) => {
 			{/* Password */}
 			<div className="form-group">
 				<label>Password :</label>
-				<ATJInput label="Password" name="password" type={showPassword ? 'text' : 'password'} />
+				<div className="relative">
+					<ATJInput label="Password" name="password" type={showPassword ? 'text' : 'password'} />
+					{showPassword ? (
+						<i
+							onClick={() => setShowPassword(!showPassword)}
+							className="la la-eye-slash absolute top-[25px] right-[25px] cursor-pointer"
+						></i>
+					) : (
+						<i
+							onClick={() => setShowPassword(!showPassword)}
+							className="la la-eye absolute top-[25px] right-[25px] cursor-pointer"
+						></i>
+					)}
+				</div>
 			</div>
+
 			<div className="form-group">
 				<label>Confirm Password :</label>
-				<ATJInput
-					label="Confirm Password"
-					name="confirm_password"
-					type={showPassword ? 'text' : 'password'}
-				/>
-			</div>
-			<div className="form-group">
-				<div className="field-outer">
-					<div onClick={() => setShowPassword(!showPassword)} className="flex items-center gap-2">
-						<input
-							type="checkbox"
-							name="remember-me"
-							id="remember"
-							className=" peer"
-							checked={showPassword}
-							onChange={() => setShowPassword(!showPassword)}
-						/>
-						<label htmlFor="remember" className="flex items-center cursor-pointer text-gray-700">
-							<span className="ml-2">Show Password</span>
-						</label>
-					</div>
+				<div className="relative">
+					<ATJInput
+						label="Confirm Password"
+						name="confirm_password"
+						type={showPassword ? 'text' : 'password'}
+					/>
+
+					{showPassword ? (
+						<i
+							onClick={() => setShowPassword(!showPassword)}
+							className="la la-eye-slash absolute top-[25px] right-[25px] cursor-pointer"
+						></i>
+					) : (
+						<i
+							onClick={() => setShowPassword(!showPassword)}
+							className="la la-eye absolute top-[25px] right-[25px] cursor-pointer"
+						></i>
+					)}
 				</div>
 			</div>
 

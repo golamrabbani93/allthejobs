@@ -34,6 +34,13 @@ module.exports = [
 				routePath: '/dashboard/talent/cv-manager',
 				active: '',
 			},
+			{
+				id: 12,
+				name: 'Change Password',
+				icon: 'la-lock',
+				routePath: '/dashboard/talent/change-password',
+				active: '',
+			},
 		],
 	},
 	{
@@ -117,12 +124,11 @@ module.exports = [
 		routePath: '/dashboard/talent/packages',
 		active: '',
 	},
-
 	{
 		id: 12,
-		name: 'Change Password',
-		icon: 'la-lock',
-		routePath: '/dashboard/talent/change-password',
+		name: 'Feedback & Reviews',
+		icon: 'la-bell',
+		routePath: '/dashboard/talent/feedback',
 		active: '',
 	},
 ];

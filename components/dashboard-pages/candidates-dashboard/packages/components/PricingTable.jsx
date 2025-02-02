@@ -4,7 +4,8 @@ import Link from 'next/link';
 const PricingTable = () => {
 	const pricingPlans = [
 		{
-			name: 'Free',
+			name: 'Basic',
+			previousPrice: '$25',
 			price: '$0',
 			package_id: 1,
 			features: {
@@ -26,6 +27,7 @@ const PricingTable = () => {
 		},
 		{
 			name: 'Standard',
+			previousPrice: '$70',
 			price: '$55',
 			package_id: 2,
 			features: {
@@ -47,6 +49,7 @@ const PricingTable = () => {
 		},
 		{
 			name: 'Premium',
+			previousPrice: '$100',
 			price: '$85',
 			package_id: 3,
 			features: {
@@ -77,11 +80,14 @@ const PricingTable = () => {
 			<table className="min-w-full border border-blue-600 text-center bg-white rounded-lg shadow-md">
 				<thead className="bg-blue-600 text-white">
 					<tr>
-						<th className="px-4 py-3 border text-left">Feature</th>
+						<th className="px-4 py-3 border text-left">Features</th>
 						{pricingPlans.map((plan, index) => (
 							<th key={index} className="px-6 py-3 border text-lg font-semibold">
 								{plan.name} <br />
-								<span className="text-white text-3xl">{plan.price}</span>
+								<span className="text-white ">
+									<span className="text-lg line-through mr-1">{plan.previousPrice}</span>
+									<span className="text-3xl">{plan.price}</span>
+								</span>
 							</th>
 						))}
 					</tr>
@@ -89,7 +95,7 @@ const PricingTable = () => {
 				<tbody>
 					{Object.keys(pricingPlans[0].features).map((feature, index) => (
 						<tr key={index} className="border">
-							<td className="px-4 py-2 font-medium text-left bg-blue-100 text-blue-900">
+							<td className="px-2 py-2 font-medium text-left bg-blue-100 text-blue-900 w-[250px]">
 								{feature.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
 							</td>
 							{pricingPlans.map((plan, idx) => (
@@ -109,7 +115,9 @@ const PricingTable = () => {
 					))}
 					{/* Buy Now Button Row */}
 					<tr className="bg-blue-100">
-						<td className="px-4 py-3 font-medium text-left">Action</td>
+						<td className="px-4 py-3 font-medium text-left">
+							<span className="hidden">h</span>
+						</td>
 						{pricingPlans.map((plan, index) => (
 							<td key={index} className="px-6 py-3">
 								{plan.name !== 'Free' ? (

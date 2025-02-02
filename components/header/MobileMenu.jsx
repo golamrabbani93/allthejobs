@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import MobileSidebar from './mobile-sidebar';
-import Image from 'next/image';
+import AvatarMenu from './AvatarMenu/AvatarMenu';
 
 const MobileMenu = () => {
 	return (
@@ -18,6 +18,7 @@ const MobileMenu = () => {
 						{/* End .logo-box */}
 
 						<MobileSidebar />
+
 						{/* <!-- Main Menu End--> */}
 					</div>
 					{/* End .nav-outer */}

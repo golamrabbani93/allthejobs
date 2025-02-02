@@ -17,14 +17,14 @@ import {AIChatContextProvider} from './context/AIChatContext';
 import Chat from '@/components/ai-assistant/AIChat';
 import DataLoaderWrapper from '@/layout/DataLoaderWrapper';
 import StreamVideoProvider from './(others)/video-chat3/streamClientProvider';
-import { usePathname } from 'next/navigation';
+import {usePathname} from 'next/navigation';
 if (typeof window !== 'undefined') {
 	require('bootstrap/dist/js/bootstrap');
 }
 const queryClient = new QueryClient();
 export default function RootLayout({children}) {
 	//get jobs data
-	const pathname=usePathname()
+	const pathname = usePathname();
 	useEffect(() => {
 		Aos.init({
 			duration: 1400,
@@ -58,12 +58,10 @@ export default function RootLayout({children}) {
 						<Provider store={store}>
 							<DataLoaderWrapper>
 								<AIChatContextProvider>
-										<StreamVideoProvider>
+									<StreamVideoProvider>
 										<div className="page-wrapper">
 											<PopUpModal />
-											{!pathname.includes('video-chat3')&&
-											<Chat />
-											}
+											{!pathname.includes('video-chat3') && <Chat />}
 											{children}
 											{/* Toastify */}
 											<ToastContainer
@@ -81,7 +79,7 @@ export default function RootLayout({children}) {
 											{/* <!-- Scroll To Top --> */}
 											<ScrollToTop />
 										</div>
-										</StreamVideoProvider>
+									</StreamVideoProvider>
 								</AIChatContextProvider>
 							</DataLoaderWrapper>
 						</Provider>

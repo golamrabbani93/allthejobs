@@ -5,11 +5,11 @@ import SidebarFooter from './SidebarFooter';
 import SidebarHeader from './SidebarHeader';
 import {usePathname, useRouter} from 'next/navigation';
 import {menuItems} from '@/data/menuItems';
+import AvatarMenu from '../AvatarMenu/AvatarMenu';
 
 const Index = () => {
 	const router = useRouter();
 	const pathname = usePathname();
-
 	return (
 		<div
 			className="offcanvas offcanvas-start mobile_menu-contnet"
@@ -33,7 +33,6 @@ const Index = () => {
 					))}
 				</Menu>
 			</Sidebar>
-
 			<SidebarFooter />
 		</div>
 	);

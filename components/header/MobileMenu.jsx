@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import MobileSidebar from './mobile-sidebar';
-import Image from 'next/image';
 
 const MobileMenu = () => {
 	return (

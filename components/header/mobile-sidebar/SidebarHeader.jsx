@@ -4,9 +4,11 @@ import Link from 'next/link';
 const SidebarHeader = () => {
 	return (
 		<div className="pro-header">
-			<Link href="/">
-				<div className="logo-sidebar">allthejobs.ca</div>
-			</Link>
+			<div className="logo-box">
+				<Link href="/">
+					<div className="logo uppercase">allthejobs.ca</div>
+				</Link>
+			</div>
 			{/* End logo */}
 
 			<div className="fix-icon" data-bs-dismiss="offcanvas" aria-label="Close">

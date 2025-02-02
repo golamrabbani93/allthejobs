@@ -1,5 +1,10 @@
 'use client';
-import {Accordion, AccordionItem, AccordionTrigger, AccordionContent} from '../ui/accordion';
+import {
+	Accordion,
+	AccordionItem,
+	AccordionTrigger,
+	AccordionContent,
+} from '../../data/ui/accordion';
 import ChatHeader from './AIChatHeader';
 import ChatInput from './AIChatInput';
 import ChatMessages from './AIChatMessages';

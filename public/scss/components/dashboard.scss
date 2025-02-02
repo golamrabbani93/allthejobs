@@ -1015,7 +1015,7 @@ User Sidebar
 .user-sidebar .navigation > li:hover > a,
 .user-sidebar .navigation > li ul li.active > a,
 .user-sidebar .navigation > li ul li:hover > a,
-.user-sidebar .navigation > li button:hover {
+.user-sidebar .navigation > li > div > button:hover {
 	color: var(--primary-color) !important;
 	background: rgba(25, 103, 210, 0.1) !important;
 }

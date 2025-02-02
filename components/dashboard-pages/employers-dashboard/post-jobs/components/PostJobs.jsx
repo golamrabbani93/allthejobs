@@ -29,6 +29,9 @@ const PostJobs = () => {
 	const router = useRouter();
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const [postJobs, {data, isLoading}] = usePostJobsMutation();
+
+	const credits = Number(userRoleBasedData?.credit);
+	console.log('🚀🚀 ~ PostJobs ~ credits:', credits);
 	const [defaultValues, setDefaultValues] = useState({
 		title: '',
 		vacancy_count: '',
@@ -219,16 +222,22 @@ const PostJobs = () => {
 						</div>
 						<div className="form-group col-lg-6 col-md-12">
 							<label>Show this jobs on the homepage?</label>
-							<ATJMultiSelect
-								isDisabled={loading}
-								label="Featured"
-								name="featured"
-								isMulti={false}
-								options={[
-									{value: true, label: 'Yes'},
-									{value: false, label: 'No'},
-								]}
-							/>
+							{credits > 0 ? (
+								<ATJMultiSelect
+									isDisabled={loading}
+									label="Featured"
+									name="featured"
+									isMulti={false}
+									options={[
+										{value: true, label: 'Yes'},
+										{value: false, label: 'No'},
+									]}
+								/>
+							) : (
+								<div className="alert alert-danger h-[60px] d-flex align-items-center justify-content-center">
+									<span>You have 0 credits left to post jobs on the homepage</span>
+								</div>
+							)}
 						</div>
 						<div className="form-group col-lg-12 col-md-12">
 							<label>Skills Required</label>

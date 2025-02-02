@@ -55,6 +55,13 @@ module.exports = [
 		routePath: '/dashboard/consultant/#',
 		active: '',
 	},
+	{
+		id: 9,
+		name: 'Feedback & Reviews',
+		icon: 'la-bell',
+		routePath: '/dashboard/consultant/feedback',
+		active: '',
+	},
 	// {
 	// 	id: 8,
 	// 	name: 'Messages',

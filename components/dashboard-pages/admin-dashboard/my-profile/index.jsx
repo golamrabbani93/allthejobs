@@ -1,14 +1,14 @@
 import MobileMenu from '../../../header/MobileMenu';
-import DashboardCandidatesSidebar from '../../../header/DashboardCandidatesSidebar';
 import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
-import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
 import MyProfile from './components/my-profile/MyProfile';
 import MyDetailsProfile from './components/my-profile/MyDetailsProfile';
 import EducationDetails from './components/my-profile/EducationDetails';
 import ExperienceDetails from './components/my-profile/ExperienceDetails';
 import AwardDetails from './components/my-profile/AwardDetails';
+import DashboardAdminHeader from '@/components/header/DashboardAdminHeader';
+import DashboardAdminSidebar from '@/components/header/DashboardAdminSidebar';
 
 const index = () => {
 	return (
@@ -16,13 +16,13 @@ const index = () => {
 			<span className="header-span"></span>
 			{/* <!-- Header Span for hight --> */}
 
-			<DashboardCandidatesHeader />
+			<DashboardAdminHeader />
 			{/* End Header */}
 
 			<MobileMenu />
 			{/* End MobileMenu */}
 
-			<DashboardCandidatesSidebar />
+			<DashboardAdminSidebar />
 			{/* <!-- End Candidates Sidebar Menu --> */}
 
 			{/* <!-- Dashboard --> */}

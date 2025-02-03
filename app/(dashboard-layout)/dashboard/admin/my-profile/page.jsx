@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import MyProfile from '@/components/dashboard-pages/candidates-dashboard/my-profile';
+import MyProfile from '@/components/dashboard-pages/admin-dashboard/my-profile';
 
 export const metadata = {
 	title: 'My Profile || AllTheJobs',

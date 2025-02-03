@@ -40,7 +40,7 @@ const FormContent2 = ({modal = false, userType}) => {
 				user_id: userResponseData.user_id,
 				name: userResponseData.name,
 				email: userResponseData.email,
-				image: userResponseData.photo || 'https://via.placeholder.com/150',
+				image: userResponseData.photo || 'https://randomuser.me/api/portraits/men/1.jpg',
 				role: userResponseData.role,
 			};
 			dispatch(setUser(userData));

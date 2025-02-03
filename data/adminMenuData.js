@@ -14,7 +14,7 @@ module.exports = [
 		active: '',
 		Children: [
 			{
-				id: 2,
+				id: 1,
 				name: 'Edit Profile',
 				icon: 'la-user-edit',
 				routePath: '/dashboard/admin/my-profile',
@@ -22,7 +22,7 @@ module.exports = [
 			},
 
 			{
-				id: 12,
+				id: 2,
 				name: 'Change Password',
 				icon: 'la-lock',
 				routePath: '/dashboard/admin/change-password',
@@ -32,10 +32,26 @@ module.exports = [
 	},
 
 	{
-		id: 11,
+		id: 3,
 		name: 'Packages',
 		icon: 'la-box',
-		routePath: '/dashboard/talent/packages',
+
 		active: '',
+		Children: [
+			{
+				id: 1,
+				name: 'Package List',
+				icon: 'la-list-alt',
+				routePath: '/dashboard/admin/my-profile',
+				active: '',
+			},
+			{
+				id: 2,
+				name: 'Add Package',
+				icon: 'la-plus-circle',
+				routePath: '/dashboard/admin/change-password',
+				active: '',
+			},
+		],
 	},
 ];

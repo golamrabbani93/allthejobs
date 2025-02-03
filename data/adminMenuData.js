@@ -38,11 +38,4 @@ module.exports = [
 		routePath: '/dashboard/talent/packages',
 		active: '',
 	},
-	{
-		id: 12,
-		name: 'Feedback & Reviews',
-		icon: 'la-bell',
-		routePath: '/dashboard/talent/feedback',
-		active: '',
-	},
 ];

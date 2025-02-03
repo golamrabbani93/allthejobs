@@ -1,17 +1,16 @@
 'use client';
 import MobileMenu from '../../../header/MobileMenu';
 import LoginPopup from '../../../common/form/login/LoginPopup';
-import DashboardCandidatesSidebar from '../../../header/DashboardCandidatesSidebar';
 import BreadCrumb from '../../BreadCrumb';
 import TopCardBlock from './components/TopCardBlock';
 import ProfileChart from './components/ProfileChart';
 import Notification from './components/Notification';
 import CopyrightFooter from '../../CopyrightFooter';
 import JobApplied from './components/JobApplied';
-import DashboardCandidatesHeader from '../../../header/DashboardCandidatesHeader';
 import MenuToggler from '../../MenuToggler';
 import {useSelector} from 'react-redux';
 import DashboardAdminHeader from '@/components/header/DashboardAdminHeader';
+import DashboardAdminSidebar from '@/components/header/DashboardAdminSidebar';
 
 const Index = () => {
 	const user = useSelector((state) => state.user);
@@ -29,7 +28,7 @@ const Index = () => {
 			<MobileMenu />
 			{/* End MobileMenu */}
 
-			<DashboardCandidatesSidebar />
+			<DashboardAdminSidebar />
 			{/* <!-- End Candidates Sidebar Menu --> */}
 
 			{/* <!-- Dashboard --> */}

@@ -49,7 +49,7 @@ module.exports = [
 				id: 2,
 				name: 'Add Package',
 				icon: 'la-plus-circle',
-				routePath: '/dashboard/admin/change-password',
+				routePath: '/dashboard/admin/add-package',
 				active: '',
 			},
 		],

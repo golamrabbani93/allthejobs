@@ -6,7 +6,7 @@ const nextConfig = {
 			'lh3.googleusercontent.com',
 			'cdn-icons-png.flaticon.com',
 			'allthejobsca.pythonanywhere.com',
-			'via.placeholder.com',
+			'randomuser.me',
 		],
 		remotePatterns: [
 			{

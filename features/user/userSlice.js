@@ -23,7 +23,7 @@ const userSlice = createSlice({
 			state.user_id = '';
 			state.name = '';
 			state.email = '';
-			state.image = 'https://via.placeholder.com/150';
+			state.image = 'https://randomuser.me/api/portraits/men/1.jpg';
 			state.role = undefined;
 		},
 	},

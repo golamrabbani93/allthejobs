@@ -32,7 +32,7 @@ const AddPackageForm = () => {
 		},
 	});
 
-	const {control, handleSubmit, setValue, watch} = methods;
+	const {control, handleSubmit, setValue, watch, reset} = methods;
 	const {fields, append, remove} = useFieldArray({
 		control,
 		name: 'features',
@@ -54,7 +54,19 @@ const AddPackageForm = () => {
 
 	// Submit form
 	const onSubmit = (data) => {
-		console.log('Form submitted:', data);
+		const payload = {
+			name: data.name.value,
+			description: 'description',
+			duration_days: '1 Month',
+			price: Number(data.price),
+			previousPrice: Number(data.previousPrice),
+			target_role: data.targetRole.value,
+			features: data.features.map((feature) => ({
+				name: feature.value,
+				isEnabled: feature.isEnabled,
+			})),
+		};
+		reset();
 	};
 
 	return (
@@ -153,9 +165,9 @@ const AddPackageForm = () => {
 									<button
 										type="button"
 										onClick={() => remove(index)}
-										className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-200"
+										className="px-2 btn btn-outline-danger  rounded-md  transition duration-200"
 									>
-										Remove
+										<i className="la la-trash-alt text-3xl"></i>
 									</button>
 								</div>
 							))}
@@ -172,27 +184,21 @@ const AddPackageForm = () => {
 										<i className="la la-plus ml-1"></i>
 									</button>
 								) : (
-									<>
+									<div className="flex ">
 										<label className="text-red-500">
 											NOTE: Please select a target role to add package features.
 										</label>
-										<button
-											type="button"
-											disabled={true}
-											className="px-4 py-2 bg-gray-500 text-white rounded-md cursor-not-allowed"
-										>
-											Add Feature
-										</button>
-									</>
+									</div>
 								)}
 							</div>
 
 							<div className="space-x-4 mt-6 mb-2">
 								<button
 									type="submit"
-									className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-200 "
+									className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200 flex items-center space-x-2"
 								>
-									Submit
+									Save Package
+									<i className="la la-save ml-1 text-2xl"></i>
 								</button>
 							</div>
 						</div>

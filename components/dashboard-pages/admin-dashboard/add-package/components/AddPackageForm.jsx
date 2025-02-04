@@ -1,6 +1,7 @@
 'use client';
 import ATJInput from '@/components/form/ATJInput';
 import ATJMultiSelect from '@/components/form/ATJMultiSelect';
+import Spinner from '@/components/Sppiner/Spinner';
 import {
 	consultantFeaturesOptions,
 	employerFeaturesOptions,
@@ -8,13 +9,17 @@ import {
 	packageTargetRoleOptions,
 	talentFeaturesOptions,
 } from '@/data/packageSelectData';
+import {usePostPackageMutation} from '@/features/packages/packages.management.api';
 import {useEffect, useState} from 'react';
 import {useForm, Controller, FormProvider, useFieldArray} from 'react-hook-form';
+import {toast} from 'react-toastify';
 
 const AddPackageForm = () => {
 	const [targetRole, setTargetRole] = useState('');
 	const [initialOptions, setInitialOptions] = useState([]);
 
+	//save package
+	const [savePackage, {data, isLoading}] = usePostPackageMutation();
 	useEffect(() => {
 		const newOptions =
 			targetRole === 'Talent'
@@ -54,21 +59,35 @@ const AddPackageForm = () => {
 
 	// Submit form
 	const onSubmit = (data) => {
+		if (
+			data.name === undefined ||
+			data.price.length === 0 ||
+			data.previousPrice.length === 0 ||
+			data.targetRole === undefined
+		) {
+			toast.error('Please fill all the fields');
+			return;
+		}
+
 		const payload = {
 			name: data.name.value,
 			description: 'description',
 			duration_days: '1 Month',
 			price: Number(data.price),
 			previousPrice: Number(data.previousPrice),
-			target_role: data.targetRole.value,
+			target_role: data.targetRole.value.toLowerCase(),
 			features: data.features.map((feature) => ({
 				name: feature.value,
 				isEnabled: feature.isEnabled,
 			})),
 		};
-		reset();
+		savePackage(payload);
 	};
-
+	useEffect(() => {
+		if (data?.package_id) {
+			reset();
+		}
+	}, [data]);
 	return (
 		<div className="widget-content">
 			<FormProvider {...methods}>
@@ -193,13 +212,23 @@ const AddPackageForm = () => {
 							</div>
 
 							<div className="space-x-4 mt-6 mb-2">
-								<button
-									type="submit"
-									className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200 flex items-center space-x-2"
-								>
-									Save Package
-									<i className="la la-save ml-1 text-2xl"></i>
-								</button>
+								{isLoading ? (
+									<button
+										disabled={isLoading}
+										type="submit"
+										className="px-4 py-2 cursor-not-allowed  bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200 flex items-center space-x-2"
+									>
+										<Spinner size="sm" color="white" />
+									</button>
+								) : (
+									<button
+										type="submit"
+										className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200 flex items-center space-x-2"
+									>
+										Save Package
+										<i className="la la-save ml-1 text-2xl"></i>
+									</button>
+								)}
 							</div>
 						</div>
 					</div>

@@ -13,6 +13,7 @@ const dataSlice = createSlice({
 		userRoleBasedData: {},
 		talentPackages: [],
 		loading: false,
+		packages: [],
 	},
 	reducers: {
 		setTalentsData: (state, action) => {
@@ -33,6 +34,9 @@ const dataSlice = createSlice({
 		setTalentPackages: (state, action) => {
 			state.talentPackages = action.payload;
 		},
+		setPackages: (state, action) => {
+			state.packages = action.payload;
+		},
 		setGlobalDataLoading: (state, action) => {
 			state.loading = action.payload;
 		},
@@ -45,6 +49,7 @@ export const {
 	setConsultantsData,
 	setGlobalDataLoading,
 	setUserData,
+	setPackages,
 	setUserRoleBasedData,
 	setTalentPackages,
 } = dataSlice.actions;

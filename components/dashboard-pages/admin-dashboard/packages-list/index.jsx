@@ -5,7 +5,7 @@ import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
 import DashboardAdminHeader from '@/components/header/DashboardAdminHeader';
 import DashboardAdminSidebar from '@/components/header/DashboardAdminSidebar';
-import AddPackageForm from './components/AddPackageForm';
+import PackageListTable from './components/PackageListTable';
 
 const index = () => {
 	return (
@@ -38,7 +38,7 @@ const index = () => {
 						<div className="col-lg-12">
 							{/* <!-- Ls widget --> */}
 							<div className="ls-widget">
-								<AddPackageForm />
+								<PackageListTable />
 							</div>
 						</div>
 					</div>

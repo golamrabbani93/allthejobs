@@ -1,3 +1,4 @@
+import DeleteModal from '@/components/modal/packages-modal/delete-modal/DeleteModal';
 import ViewPackages from '@/components/modal/packages-modal/ViewPackages';
 
 const SinglePackageList = ({pkg}) => {
@@ -20,9 +21,10 @@ const SinglePackageList = ({pkg}) => {
 							<ViewPackages pkg={pkg} />
 						</li>
 						<li>
-							<button data-text="Delete Package">
+							<DeleteModal pkg={pkg} />
+							{/* <button data-text="Delete Package">
 								<span className="la la-trash"></span>
-							</button>
+							</button> */}
 						</li>
 					</ul>
 				</div>

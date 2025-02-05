@@ -42,7 +42,7 @@ const DeleteModal = ({pkg}) => {
 							<label onClick={handleDelete} className="btn btn-danger">
 								Yes, Delete
 							</label>
-							<label className="btn btn-secondary" data-bs-dismiss="modal">
+							<label className="btn btn-primary" data-bs-dismiss="modal">
 								Cancel
 							</label>
 						</div>

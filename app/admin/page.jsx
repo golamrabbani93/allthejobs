@@ -54,7 +54,12 @@ export default function AdminPanel() {
     return users.filter(
       (item) =>
         (roleFilter === "all" || item.role === roleFilter) &&
-        Object.values(item).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
+      // search by any property, commented it because some of the properties are null which creates problem when comparing 
+        // Object.values(item).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
+        // search by first name,email items
+        Object.values(item).slice(1,3).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
+        // only search by email 
+        // Object.values(item)[1].toString().toLowerCase().includes(searchTerm.toLowerCase()),
     )
   }, [searchTerm, roleFilter])
 

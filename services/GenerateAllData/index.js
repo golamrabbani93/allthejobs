@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {GetToken} from '../GenerateToken';
+import { getToken } from 'next-auth/jwt';
 
 // fetch jobs,talent,consultants data
 export const fetchData = async () => {
@@ -179,22 +180,6 @@ export const updateAvailableSlots = async (consultant_id,formattedDate,selectedD
 	}
 };
 
-// fetch all users
-export const fetchAllUsers = async () => {
-	const {token} = await GetToken();
-	try {
-		const availableSlots = await axios.get(`https://allthejobsca.pythonanywhere.com/users`, {
-			headers: {
-				Authorization: `Token ${token}`,
-			},
-		});
-		return availableSlots.data;
-	} catch (error) {
-		console.error('Error fetching User:', error);
-		throw error;
-	}
-};
-
 export	const talentCVDownloaderByUserId = async (userId) => {
 		const {token} = await GetToken();
 		try {
@@ -217,3 +202,22 @@ export	const talentCVDownloaderByUserId = async (userId) => {
 			return { success: false, message: 'Download failed', error };
 		}
 	};
+
+
+// admin panel 
+// fetch all users: todo paginated request
+
+export const fetchAllUsers = async () => {
+	const {token} = await GetToken();
+	try {
+		const users = await axios.get(`https://allthejobsca.pythonanywhere.com/users`, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
+		});
+		return users.data;
+	} catch (error) {
+		console.error('Error fetching User:', error);
+		throw error;
+	}
+};

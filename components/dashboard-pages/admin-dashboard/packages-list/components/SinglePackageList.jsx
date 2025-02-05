@@ -17,9 +17,7 @@ const SinglePackageList = ({pkg}) => {
 				<div className="option-box">
 					<ul className="option-list">
 						<li>
-							<button onClick={handleShowModal} data-text="View Package">
-								<span className="la la-eye"></span>
-							</button>
+							<ViewPackages pkg={pkg} />
 						</li>
 						<li>
 							<button data-text="Delete Package">
@@ -29,7 +27,6 @@ const SinglePackageList = ({pkg}) => {
 					</ul>
 				</div>
 			</td>
-			<ViewPackages pkg={pkg} />
 		</tr>
 	);
 };

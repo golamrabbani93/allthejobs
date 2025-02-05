@@ -2,24 +2,28 @@ const ViewPackages = ({pkg}) => {
 	return (
 		<>
 			<button
-				className="theme-btn btn-style-one d-none"
+				data-text="View Package"
 				data-bs-toggle="modal"
-				data-bs-target="#viewPackagesModal"
+				data-bs-target={`#viewPackagesModal${pkg.package_id}`}
 				id="viewPackagesModalButton"
 			>
-				open
+				<span className="la la-eye"></span>
 			</button>
-			<div className="modal fade" id="viewPackagesModal" style={{display: 'none'}}>
+			<div
+				className="modal fade"
+				id={`viewPackagesModal${pkg.package_id}`}
+				style={{display: 'none'}}
+			>
 				<div className="modal-dialog modal-dialog-centered ">
 					<div className="apply-modal-content modal-content">
 						<div className="text-center">
-							<button
+							<label
 								type="button"
 								className="closed-modal"
 								id="resumeInstructionModalCloseBtn"
 								data-bs-dismiss="modal"
 								aria-label="Close"
-							></button>
+							></label>
 						</div>
 						{/* End modal-header */}
 						<h2 className="mb-3">{pkg.name} Packages Feature</h2>

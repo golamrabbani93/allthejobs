@@ -17,8 +17,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
-export function EditingModal({isOpen,onClose,editingUser,setEditingUser}) {
+import { updateUserByEmail } from "@/services/GenerateAllData"
+import { useState } from "react"
+export function EditingModal({isOpen,onClose,editingUser,setEditingUser,setIsEditing,setUsers}) {
+  const [isUpdating,setIsUpdating]=useState(false)
 
   const handleInputChange=(e,type="input")=>{
     if(type==="input"){
@@ -37,6 +39,26 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser}) {
     }
 
 
+  }
+  const handleUpdate=async()=>{
+    setIsUpdating(true)
+    const { name, email, phone, role, account_status } = editingUser;
+    const updateUserResponse=await updateUserByEmail(email,{ name, email, phone, role, account_status})
+    if(updateUserResponse?.status=="200"){
+      // updateLocally
+      setUsers(prevUsers=>
+        prevUsers.map(user=>
+          user.user_id===editingUser.user_id?{...user,name,email,phone,role,account_status}:user
+        )
+
+      )
+      setIsUpdating(false)
+      setIsEditing(false)
+      // show a toast
+      
+    }
+    console.log(updateUserResponse);
+    
   }
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -102,7 +124,7 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser}) {
 
         </div>
         <DialogFooter>
-          <Button type="submit">Save changes</Button>
+          <Button disabled={isUpdating} className={`${isUpdating?"cursor-not-allowed bg-gray-500":""}`} type="submit" onClick={handleUpdate}>{isUpdating?"Updating...":"Update"}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

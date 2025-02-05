@@ -221,3 +221,19 @@ export const fetchAllUsers = async () => {
 		throw error;
 	}
 };
+
+// update user
+export const updateUserByEmail=async(email,updatedUserInfo)=>{
+	const {token} = await GetToken();
+	try {
+		const updateUserResponse = await axios.patch(`https://allthejobsca.pythonanywhere.com/users/${email}/update/`,updatedUserInfo, {
+			headers: {
+				Authorization: `Token ${token}`,
+			},
+		});
+		return updateUserResponse;
+	} catch (error) {
+		console.error('Error Updating Available Slots:', error);
+		throw error;
+	}
+}

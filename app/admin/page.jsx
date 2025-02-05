@@ -50,7 +50,7 @@ export default function AdminPanel() {
         // only search by email 
         // Object.values(item)[1].toString().toLowerCase().includes(searchTerm.toLowerCase()),
     )
-  }, [searchTerm, roleFilter])
+  }, [searchTerm, roleFilter,users])
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE)
 
@@ -75,10 +75,9 @@ export default function AdminPanel() {
   }
 
   const handleEdit = (id,data) => {
-    // Implement edit functionality here
     setEditingUser(data)
     setIsEditing(true)
-    console.log(`Editing item with id: ${id}`)
+
   }
 
   const handleDelete = (id) => {
@@ -102,7 +101,7 @@ export default function AdminPanel() {
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </div>
       }
-      <EditingModal isOpen={isEditing} onClose={()=>setIsEditing(false)} editingUser={editingUser} setEditingUser={setEditingUser}></EditingModal>
+      <EditingModal isOpen={isEditing} onClose={()=>setIsEditing(false)} setIsEditing={setIsEditing} editingUser={editingUser} setEditingUser={setEditingUser} setUsers={setUsers}></EditingModal>
     </div>
   )
 }

@@ -65,7 +65,7 @@ const index = ({id}) => {
 								</div>
 
 								<div className="btn-box">
-									<button>
+									<button >
 										<ScheduleMeeting consultant_id={consultant?.user_id}
 										consultant_name={consultant?.user.name} consultant_real_id={consultant.consultant_id}></ScheduleMeeting>
 									</button>

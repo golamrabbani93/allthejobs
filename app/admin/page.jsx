@@ -7,22 +7,9 @@ import RoleFilter from "./Components/RoleFilter"
 import Pagination from "./Components/Pagination"
 import { fetchAllUsers } from "@/services/GenerateAllData"
 import Spinner from "@/components/Sppiner/Spinner"
+import { EditingModal } from "./Components/EditingModal"
 
 // Mock data (expanded for pagination example)
-const initialData = [
-  { id: 1, name: "John Doe", email: "john@example.com", role: "Admin" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", role: "Editor" },
-  { id: 3, name: "Bob Johnson", email: "bob@example.com", role: "Viewer" },
-  { id: 4, name: "Alice Brown", email: "alice@example.com", role: "Editor" },
-  { id: 5, name: "Charlie Davis", email: "charlie@example.com", role: "Viewer" },
-  { id: 6, name: "Eva Wilson", email: "eva@example.com", role: "Admin" },
-  { id: 7, name: "Frank Miller", email: "frank@example.com", role: "Editor" },
-  { id: 8, name: "Grace Lee", email: "grace@example.com", role: "Viewer" },
-  { id: 9, name: "Henry Taylor", email: "henry@example.com", role: "Editor" },
-  { id: 10, name: "Ivy Chen", email: "ivy@example.com", role: "Viewer" },
-  { id: 11, name: "Jack Brown", email: "jack@example.com", role: "Admin" },
-  { id: 12, name: "Kelly White", email: "kelly@example.com", role: "Editor" },
-]
 
 const ITEMS_PER_PAGE = 10
 
@@ -32,6 +19,8 @@ export default function AdminPanel() {
   const [currentPage, setCurrentPage] = useState(1)
   const [users,setUsers]=useState([])
   const [loadingUsers,setLoadingUser]=useState(false)
+  const [isEditing,setIsEditing]=useState(false)
+  const [editingUser,setEditingUser]=useState(null)
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -48,7 +37,7 @@ export default function AdminPanel() {
     };
     fetchData()
   },[])
-  console.log(users);
+  console.log(editingUser);
 
   const filteredData = useMemo(() => {
     return users.filter(
@@ -71,10 +60,6 @@ export default function AdminPanel() {
   }, [filteredData, currentPage])
 
 
-
-
-
-
   const handleSearch = (term) => {
     setSearchTerm(term)
     setCurrentPage(1)
@@ -89,8 +74,10 @@ export default function AdminPanel() {
     setCurrentPage(page)
   }
 
-  const handleEdit = (id) => {
+  const handleEdit = (id,data) => {
     // Implement edit functionality here
+    setEditingUser(data)
+    setIsEditing(true)
     console.log(`Editing item with id: ${id}`)
   }
 
@@ -115,6 +102,7 @@ export default function AdminPanel() {
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </div>
       }
+      <EditingModal isOpen={isEditing} onClose={()=>setIsEditing(false)} editingUser={editingUser} setEditingUser={setEditingUser}></EditingModal>
     </div>
   )
 }

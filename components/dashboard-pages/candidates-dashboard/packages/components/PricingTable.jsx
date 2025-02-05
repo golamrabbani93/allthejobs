@@ -1,87 +1,58 @@
+'use client';
+
 import {CheckCircle, XCircle} from 'lucide-react';
 import Link from 'next/link';
+import {useSelector} from 'react-redux';
 
 const PricingTable = () => {
-	const pricingPlans = [
-		{
-			name: 'Basic',
-			previousPrice: '$25',
-			price: '$0',
-			package_id: 1,
-			features: {
-				registration: true,
-				profileUpdate: true,
-				jobSearchApply: true,
-				jobMatchSuggestion: false,
-				idVerification: false,
-				profileReview: false,
-				resumeCoverLetter: false,
-				jobApplyAutopilot: false,
-				featuredProfile: false,
-				askAI: false,
-				earlyAccessJobListings: false,
-				interviewPreparation: false,
-				skillImprovementResources: false,
-				careerWebinars: false,
-			},
-		},
-		{
-			name: 'Standard',
-			previousPrice: '$70',
-			price: '$55',
-			package_id: 2,
-			features: {
-				registration: true,
-				profileUpdate: true,
-				jobSearchApply: true,
-				jobMatchSuggestion: true,
-				idVerification: true,
-				profileReview: true,
-				resumeCoverLetter: 'AI-assisted',
-				jobApplyAutopilot: 'Up to 100/Month',
-				featuredProfile: '2 Weeks',
-				askAI: 'Limited',
-				earlyAccessJobListings: false,
-				interviewPreparation: false,
-				skillImprovementResources: true,
-				careerWebinars: true,
-			},
-		},
-		{
-			name: 'Premium',
-			previousPrice: '$100',
-			price: '$85',
-			package_id: 3,
-			features: {
-				registration: true,
-				profileUpdate: true,
-				jobSearchApply: true,
-				jobMatchSuggestion: true,
-				idVerification: true,
-				profileReview: true,
-				resumeCoverLetter: 'AI-assisted',
-				jobApplyAutopilot: 'Up to 250/Month',
-				featuredProfile: '1 Month',
-				askAI: 'Full',
-				earlyAccessJobListings: true,
-				interviewPreparation: true,
-				skillImprovementResources: true,
-				careerWebinars: true,
-			},
-		},
-	];
+	const {talentPackages, loading} = useSelector((state) => state.data);
+	//make talentPackages to pricePlans
+	const newPricePlans = talentPackages.map((item) => {
+		return {
+			name: item.name,
+			previousPrice: item.previous_price,
+			price: item.price,
+			package_id: item.package_id,
+			//features array to object
+			features: item.features.reduce((acc, curr) => {
+				if (curr?.name && curr?.isEnabled !== undefined) {
+					let modifiedIsEnabled = curr.isEnabled;
 
-	const handleBuyNow = (planName) => {
-		alert(`Buying ${planName} plan...`);
-	};
+					if (curr.name.trim() === 'askAI' && item.name === 'Standard') {
+						modifiedIsEnabled = 'Limited';
+					} else if (curr.name.trim() === 'resumeCoverLetter' && item.name === 'Standard') {
+						modifiedIsEnabled = 'AI-assisted';
+					} else if (curr.name.trim() === 'jobApplyAutopilot' && item.name === 'Standard') {
+						modifiedIsEnabled = 'Up to 100/Month';
+					} else if (curr.name.trim() === 'featuredProfile' && item.name === 'Standard') {
+						modifiedIsEnabled = '2 Weeks';
+					}
 
+					if (curr.name.trim() === 'askAI' && item.name === 'Premium') {
+						modifiedIsEnabled = 'Full';
+					} else if (curr.name.trim() === 'resumeCoverLetter' && item.name === 'Premium') {
+						modifiedIsEnabled = 'AI-assisted';
+					} else if (curr.name.trim() === 'jobApplyAutopilot' && item.name === 'Premium') {
+						modifiedIsEnabled = 'Up to 250/Month';
+					} else if (curr.name.trim() === 'featuredProfile' && item.name === 'Premium') {
+						modifiedIsEnabled = '1 Month';
+					}
+
+					acc[curr.name] = modifiedIsEnabled;
+				}
+				return acc;
+			}, {}),
+		};
+	});
+
+	if (loading && talentPackages.length === 0) return <div>Loading...</div>;
 	return (
 		<div className="overflow-x-auto p-6">
 			<table className="min-w-full border border-blue-600 text-center bg-white rounded-lg shadow-md">
 				<thead className="bg-blue-600 text-white">
 					<tr>
 						<th className="px-4 py-3 border text-left">Features</th>
-						{pricingPlans.map((plan, index) => (
+						{newPricePlans.map((plan, index) => (
 							<th key={index} className="px-6 py-3 border text-lg font-semibold">
 								{plan.name} <br />
 								<span className="text-white ">
@@ -93,13 +64,13 @@ const PricingTable = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{Object.keys(pricingPlans[0].features).map((feature, index) => (
+					{Object?.keys(newPricePlans[0]?.features).map((feature, index) => (
 						<tr key={index} className="border">
 							<td className="px-2 py-2 font-medium text-left bg-blue-100 text-blue-900 w-[250px]">
 								{feature.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
 							</td>
-							{pricingPlans.map((plan, idx) => (
-								<td key={idx} className="px-6 py-2">
+							{newPricePlans.map((plan, idx) => (
+								<td key={idx} className="px-6 py-2 border w-[300px]">
 									{typeof plan.features[feature] === 'boolean' ? (
 										plan.features[feature] ? (
 											<CheckCircle className="text-blue-500 mx-auto" size={20} />
@@ -118,7 +89,7 @@ const PricingTable = () => {
 						<td className="px-4 py-3 font-medium text-left">
 							<span className="hidden">h</span>
 						</td>
-						{pricingPlans.map((plan, index) => (
+						{newPricePlans.map((plan, index) => (
 							<td key={index} className="px-6 py-3">
 								{plan.name !== 'Free' ? (
 									<Link

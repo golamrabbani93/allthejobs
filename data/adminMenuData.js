@@ -42,7 +42,7 @@ module.exports = [
 				id: 1,
 				name: 'Package List',
 				icon: 'la-list-alt',
-				routePath: '/dashboard/admin/my-profile',
+				routePath: '/dashboard/admin/packages-list',
 				active: '',
 			},
 			{

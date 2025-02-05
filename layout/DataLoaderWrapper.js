@@ -3,6 +3,7 @@ import {
 	setConsultantsData,
 	setGlobalDataLoading,
 	setJobsData,
+	setPackages,
 	setTalentPackages,
 	setTalentsData,
 	setUserData,
@@ -41,6 +42,7 @@ const DataLoaderWrapper = ({children}) => {
 				dispatch(setUserRoleBasedData(employerData));
 			}
 			if (packages?.length > 0) {
+				dispatch(setPackages(packages));
 				const talentPackages = packages?.filter((item) => item.target_role === 'talent');
 				dispatch(setTalentPackages(talentPackages));
 			}

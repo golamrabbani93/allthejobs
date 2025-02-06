@@ -1,10 +1,7 @@
 'use client';
 
 import Link from 'next/link.js';
-
 import Image from 'next/image.js';
-import {useGetAllApplicationsQuery} from '@/features/application/application.management.api.js';
-import {useSelector} from 'react-redux';
 import {useEffect, useState} from 'react';
 import Spinner from '@/components/Sppiner/Spinner.jsx';
 import {format} from 'date-fns';
@@ -12,6 +9,7 @@ import {useGetJobsQuery} from '@/features/job/job.management.api';
 import {useRouter} from 'next/navigation';
 
 const JobListingsTable = () => {
+	const [allJobs, setAllJobs] = useState([]);
 	const {data: appliedJobs, isFetching} = useGetJobsQuery();
 	const router = useRouter();
 
@@ -25,6 +23,14 @@ const JobListingsTable = () => {
 			setSuffix(inputText.slice(prefix.length));
 		}
 	};
+	useEffect(() => {
+		if (suffix) {
+			const filteredJobs = appliedJobs.filter((job) => job.job_id === Number(suffix));
+			setAllJobs(filteredJobs);
+		} else {
+			setAllJobs(appliedJobs);
+		}
+	}, [suffix, appliedJobs]);
 	if (isFetching)
 		return (
 			<div className="flex justify-center items-center h-96">
@@ -52,7 +58,7 @@ const JobListingsTable = () => {
 
 			{/* Start table widget content */}
 			<div className="widget-content">
-				{appliedJobs?.length > 0 ? (
+				{allJobs?.length > 0 ? (
 					<div className="table-outer">
 						<div className="table-outer">
 							<table className="default-table manage-job-table">
@@ -62,12 +68,12 @@ const JobListingsTable = () => {
 										<th>Posted Date</th>
 										<th>Application Deadline</th>
 										<th>Job Status</th>
-										<th>Action</th>
+										<th>Salary Range</th>
 									</tr>
 								</thead>
 
 								<tbody>
-									{appliedJobs?.map((item) => {
+									{allJobs?.map((item) => {
 										const posted_date = format(new Date(item.created_at), 'dd MMMM yyyy');
 										return (
 											<tr key={item.job_id}>
@@ -119,8 +125,9 @@ const JobListingsTable = () => {
 														? 'Inactive'
 														: item.status}
 												</td>
-
-												<td>
+												<td>${item.salary_range}</td>
+												{/* Action Buttons */}
+												{/* <td>
 													<div className="option-box">
 														<ul className="option-list">
 															<li>
@@ -159,7 +166,7 @@ const JobListingsTable = () => {
 															</li>
 														</ul>
 													</div>
-												</td>
+												</td> */}
 											</tr>
 										);
 									})}

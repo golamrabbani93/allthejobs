@@ -38,9 +38,9 @@ export default function DataTable({ data, onEdit, onDelete }) {
                 <Button variant="outline" size="icon" onClick={() => onEdit(item.user_id,item)}>
                   <Pencil className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" onClick={() => onDelete(item.user_id)}>
+                {/* <Button variant="outline" size="icon" onClick={() => onDelete(item.user_id)}>
                   <Trash2 className="h-4 w-4 " />
-                </Button>
+                </Button> */}
               </div>
             </TableCell>
           </TableRow>

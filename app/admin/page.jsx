@@ -8,10 +8,11 @@ import Pagination from "./Components/Pagination"
 import { fetchAllUsers } from "@/services/GenerateAllData"
 import Spinner from "@/components/Sppiner/Spinner"
 import { EditingModal } from "./Components/EditingModal"
+import ItemPerPage from "./Components/ItemPerPage"
 
 // Mock data (expanded for pagination example)
 
-const ITEMS_PER_PAGE = 10
+
 
 export default function AdminPanel() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -21,6 +22,8 @@ export default function AdminPanel() {
   const [loadingUsers,setLoadingUser]=useState(false)
   const [isEditing,setIsEditing]=useState(false)
   const [editingUser,setEditingUser]=useState(null)
+  const [ITEMS_PER_PAGE,setITEMS_PER_PAGE]=useState(15)
+  
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -50,7 +53,7 @@ export default function AdminPanel() {
         // only search by email 
         // Object.values(item)[1].toString().toLowerCase().includes(searchTerm.toLowerCase()),
     )
-  }, [searchTerm, roleFilter,users])
+  }, [searchTerm, roleFilter,users,ITEMS_PER_PAGE])
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE)
 
@@ -73,7 +76,11 @@ export default function AdminPanel() {
   const handlePageChange = (page) => {
     setCurrentPage(page)
   }
-
+  const handleItemPerPageChange=(count)=>{
+    console.log(typeof count);
+    console.log(count);
+    setITEMS_PER_PAGE(parseInt(count, 10))
+  }
   const handleEdit = (id,data) => {
     setEditingUser(data)
     setIsEditing(true)
@@ -95,7 +102,10 @@ export default function AdminPanel() {
       <div className="space-y-4">
         <div className="flex justify-between items-center">
           <SearchBar onSearch={handleSearch} />
-          <RoleFilter onFilterChange={handleRoleFilter} />
+          <div className="mx-2 flex gap-2">
+            <ItemPerPage onFilterChange={handleItemPerPageChange}></ItemPerPage>
+            <RoleFilter onFilterChange={handleRoleFilter} />
+          </div>
         </div>
         <DataTable data={paginatedData} onEdit={handleEdit} onDelete={handleDelete} />
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />

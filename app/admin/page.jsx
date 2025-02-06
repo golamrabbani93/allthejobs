@@ -10,6 +10,9 @@ import Spinner from "@/components/Sppiner/Spinner"
 import { EditingModal } from "./Components/EditingModal"
 import ItemPerPage from "./Components/ItemPerPage"
 import StatusFilter from "./Components/StatusFilter"
+import AddUser from "./Components/AddUser"
+import { Button } from "@/components/ui/button"
+
 
 // Mock data (expanded for pagination example)
 
@@ -25,7 +28,7 @@ export default function AdminPanel() {
   const [editingUser,setEditingUser]=useState(null)
   const [ITEMS_PER_PAGE,setITEMS_PER_PAGE]=useState(15)
   const [statusFilter,setStatusFilter]=useState("all")
-  
+  const [creatingUser,setCreatingUser]=useState(false)
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -98,6 +101,7 @@ export default function AdminPanel() {
     // Update users here (in a real app, you'd update the database)
     console.log(`Deleted item with id: ${id}`)
   }
+  console.log(creatingUser);
 
 
   return (
@@ -106,7 +110,10 @@ export default function AdminPanel() {
       {loadingUsers?<Spinner></Spinner>:
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <SearchBar onSearch={handleSearch} />
+          <div className="flex gap-2">
+            <SearchBar onSearch={handleSearch} />
+            <Button className="bg-green-500 hover:bg-green-600" size="sm" onClick={()=>setCreatingUser(true)}>Add User</Button>
+          </div>
           <div className="mx-2 flex gap-2">
             <ItemPerPage onFilterChange={handleItemPerPageChange}></ItemPerPage>
             <RoleFilter onFilterChange={handleRoleFilter} />
@@ -118,6 +125,7 @@ export default function AdminPanel() {
       </div>
       }
       <EditingModal isOpen={isEditing} onClose={()=>setIsEditing(false)} setIsEditing={setIsEditing} editingUser={editingUser} setEditingUser={setEditingUser} setUsers={setUsers}></EditingModal>
+      {creatingUser&&<AddUser setCreatingUser={setCreatingUser}></AddUser>}
     </div>
   )
 }

@@ -32,26 +32,34 @@ module.exports = [
 	},
 
 	{
-		id: 3,
-		name: 'Packages',
-		icon: 'la-box',
-
-		active: '',
-		Children: [
-			{
-				id: 1,
-				name: 'Package List',
-				icon: 'la-list-alt',
-				routePath: '/dashboard/admin/packages-list',
-				active: '',
-			},
-			{
-				id: 2,
-				name: 'Add Package',
-				icon: 'la-plus-circle',
-				routePath: '/dashboard/admin/add-package',
-				active: '',
-			},
-		],
+		id: 1,
+		name: 'All Jobs',
+		icon: 'la-briefcase',
+		routePath: '/dashboard/admin/all-jobs',
+		active: 'active',
 	},
+
+	// {
+	// 	id: 3,
+	// 	name: 'Packages',
+	// 	icon: 'la-box',
+
+	// 	active: '',
+	// 	Children: [
+	// 		{
+	// 			id: 1,
+	// 			name: 'Package List',
+	// 			icon: 'la-list-alt',
+	// 			routePath: '/dashboard/admin/packages-list',
+	// 			active: '',
+	// 		},
+	// 		{
+	// 			id: 2,
+	// 			name: 'Add Package',
+	// 			icon: 'la-plus-circle',
+	// 			routePath: '/dashboard/admin/add-package',
+	// 			active: '',
+	// 		},
+	// 	],
+	// },
 ];

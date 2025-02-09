@@ -6,7 +6,7 @@ import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {setUser} from '@/features/user/userSlice';
 import {useDispatch} from 'react-redux';
 import {useUserLoginMutation} from '@/features/auth/auth.management.api';
@@ -25,6 +25,8 @@ export const closeModalRegister = () => {
 };
 
 const FormContent2 = ({modal = false, userType}) => {
+	// show password
+	const [showPassword, setShowPassword] = useState(false);
 	const [makeLogin, {data: userResponseData, isLoading}] = useUserLoginMutation();
 	const dispatch = useDispatch();
 	const router = useRouter();
@@ -68,7 +70,20 @@ const FormContent2 = ({modal = false, userType}) => {
 				{/* Password */}
 				<div className="form-group">
 					<label>Password :</label>
-					<ATJInput label="Password" name="password" type="password" />
+					<div className="relative">
+						<ATJInput label="Password" name="password" type={showPassword ? 'text' : 'password'} />
+						{showPassword ? (
+							<i
+								onClick={() => setShowPassword(!showPassword)}
+								className="la la-eye-slash absolute top-[25px] right-[25px] cursor-pointer"
+							></i>
+						) : (
+							<i
+								onClick={() => setShowPassword(!showPassword)}
+								className="la la-eye absolute top-[25px] right-[25px] cursor-pointer"
+							></i>
+						)}
+					</div>
 				</div>
 				<div className="form-group">
 					<div className="field-outer">

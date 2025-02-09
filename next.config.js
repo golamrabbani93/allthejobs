@@ -7,8 +7,13 @@ const nextConfig = {
 			'cdn-icons-png.flaticon.com',
 			'allthejobsca.pythonanywhere.com',
 			'randomuser.me',
+			'https://res.cloudinary.com',
 		],
 		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'res.cloudinary.com',
+			},
 			{
 				protocol: 'https',
 				hostname: 'lh3.googleusercontent.com',
@@ -24,6 +29,10 @@ const nextConfig = {
 			{
 				protocol: 'https',
 				hostname: 'via.placeholder.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'randomuser.me',
 			},
 		],
 	},

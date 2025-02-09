@@ -161,7 +161,7 @@ const RejectedTalents = ({candidate, applicants, selectJob}) => {
 										<div className="flex -space-x-2">
 											<img
 												className="w-8 h-8 rounded-full border border-[#1e1e1e]"
-												src="https://randomuser.me/api/portraits/men/1.jpg"
+												src="https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png"
 												alt="User 1"
 											/>
 											<img

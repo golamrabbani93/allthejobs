@@ -26,9 +26,13 @@ const JobListingsTable = () => {
 	useEffect(() => {
 		if (suffix) {
 			const filteredJobs = appliedJobs.filter((job) => job.job_id === Number(suffix));
-			setAllJobs(filteredJobs);
+			const jobs = filteredJobs ? [...filteredJobs].reverse() : [];
+
+			setAllJobs(jobs);
 		} else {
-			setAllJobs(appliedJobs);
+			// Reverse the order of the jobs
+			const jobs = appliedJobs ? [...appliedJobs].reverse() : [];
+			setAllJobs(jobs);
 		}
 	}, [suffix, appliedJobs]);
 	if (isFetching)
@@ -69,6 +73,7 @@ const JobListingsTable = () => {
 										<th>Application Deadline</th>
 										<th>Job Status</th>
 										<th>Salary Range</th>
+										<th>View job</th>
 									</tr>
 								</thead>
 
@@ -127,7 +132,7 @@ const JobListingsTable = () => {
 												</td>
 												<td>${item.salary_range}</td>
 												{/* Action Buttons */}
-												{/* <td>
+												<td>
 													<div className="option-box">
 														<ul className="option-list">
 															<li>
@@ -139,7 +144,7 @@ const JobListingsTable = () => {
 																</button>
 															</li>
 
-															{item.status === 'Published' ? (
+															{/* {item.status === 'Published' ? (
 																<li>
 																	<button data-text="Inactive Job">
 																		<span className="la la-times"></span>
@@ -163,10 +168,10 @@ const JobListingsTable = () => {
 																<button data-text="Delete Job">
 																	<span className="la la-trash"></span>
 																</button>
-															</li>
+															</li> */}
 														</ul>
 													</div>
-												</td> */}
+												</td>
 											</tr>
 										);
 									})}

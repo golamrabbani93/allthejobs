@@ -23,7 +23,8 @@ const userSlice = createSlice({
 			state.user_id = '';
 			state.name = '';
 			state.email = '';
-			state.image = 'https://randomuser.me/api/portraits/men/1.jpg';
+			state.image =
+				'https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png';
 			state.role = undefined;
 		},
 	},

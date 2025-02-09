@@ -8,10 +8,15 @@ import Pagination from "./Components/Pagination"
 import { fetchAllUsers } from "@/services/GenerateAllData"
 import Spinner from "@/components/Sppiner/Spinner"
 import { EditingModal } from "./Components/EditingModal"
+import ItemPerPage from "./Components/ItemPerPage"
+import StatusFilter from "./Components/StatusFilter"
+import AddUser from "./Components/AddUser"
+import { Button } from "@/components/ui/button"
+
 
 // Mock data (expanded for pagination example)
 
-const ITEMS_PER_PAGE = 10
+
 
 export default function AdminPanel() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -21,6 +26,9 @@ export default function AdminPanel() {
   const [loadingUsers,setLoadingUser]=useState(false)
   const [isEditing,setIsEditing]=useState(false)
   const [editingUser,setEditingUser]=useState(null)
+  const [ITEMS_PER_PAGE,setITEMS_PER_PAGE]=useState(15)
+  const [statusFilter,setStatusFilter]=useState("all")
+  const [creatingUser,setCreatingUser]=useState(false)
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -42,7 +50,7 @@ export default function AdminPanel() {
   const filteredData = useMemo(() => {
     return users.filter(
       (item) =>
-        (roleFilter === "all" || item.role === roleFilter) &&
+        (roleFilter === "all" || item.role === roleFilter) && (statusFilter === "all" || item.account_status === statusFilter) &&
       // search by any property, commented it because some of the properties are null which creates problem when comparing 
         // Object.values(item).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
         // search by first name,email items
@@ -50,7 +58,7 @@ export default function AdminPanel() {
         // only search by email 
         // Object.values(item)[1].toString().toLowerCase().includes(searchTerm.toLowerCase()),
     )
-  }, [searchTerm, roleFilter,users])
+  }, [searchTerm, roleFilter,users,ITEMS_PER_PAGE,statusFilter])
 
   const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE)
 
@@ -70,10 +78,17 @@ export default function AdminPanel() {
     setCurrentPage(1)
   }
 
+
   const handlePageChange = (page) => {
     setCurrentPage(page)
   }
+  const handleItemPerPageChange=(count)=>{
+    setITEMS_PER_PAGE(parseInt(count, 10))
+  }
 
+  const handleStatusFilter=(status)=>{
+    setStatusFilter(status)
+  }
   const handleEdit = (id,data) => {
     setEditingUser(data)
     setIsEditing(true)
@@ -86,6 +101,7 @@ export default function AdminPanel() {
     // Update users here (in a real app, you'd update the database)
     console.log(`Deleted item with id: ${id}`)
   }
+  console.log(creatingUser);
 
 
   return (
@@ -94,14 +110,22 @@ export default function AdminPanel() {
       {loadingUsers?<Spinner></Spinner>:
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <SearchBar onSearch={handleSearch} />
-          <RoleFilter onFilterChange={handleRoleFilter} />
+          <div className="flex gap-2">
+            <SearchBar onSearch={handleSearch} />
+            <Button className="bg-green-500 hover:bg-green-600" size="sm" onClick={()=>setCreatingUser(true)}>Add User</Button>
+          </div>
+          <div className="mx-2 flex gap-2">
+            <ItemPerPage onFilterChange={handleItemPerPageChange}></ItemPerPage>
+            <RoleFilter onFilterChange={handleRoleFilter} />
+            <StatusFilter onFilterChange={handleStatusFilter}></StatusFilter>
+          </div>
         </div>
         <DataTable data={paginatedData} onEdit={handleEdit} onDelete={handleDelete} />
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </div>
       }
       <EditingModal isOpen={isEditing} onClose={()=>setIsEditing(false)} setIsEditing={setIsEditing} editingUser={editingUser} setEditingUser={setEditingUser} setUsers={setUsers}></EditingModal>
+      {creatingUser&&<AddUser setCreatingUser={setCreatingUser}></AddUser>}
     </div>
   )
 }

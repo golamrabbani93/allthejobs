@@ -3,7 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 export default function RoleFilter({ onFilterChange }) {
   return (
     <Select onValueChange={onFilterChange}>
-      <SelectTrigger className="w-[180px]">
+      <SelectTrigger className="w-[130px]">
         <SelectValue placeholder="Filter by role" />
       </SelectTrigger>
       <SelectContent>

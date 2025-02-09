@@ -10,7 +10,7 @@ import {registerUserSchema} from '@/schemas/register/register.schema';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {useEffect, useState} from 'react';
 
-const FormContent = ({userType}) => {
+const FormContent = ({userType,submitButtonText="Register",setCreatingUser=null}) => {
 	// show password
 	const [showPassword, setShowPassword] = useState(false);
 	// create user
@@ -37,7 +37,10 @@ const FormContent = ({userType}) => {
 	//after registration create role based profile
 	useEffect(() => {
 		//if user is talent then create talent profile
-		if (newUserData !== undefined) {
+		if(newUserData !== undefined && submitButtonText==="Add New User"&&setCreatingUser){
+			setCreatingUser(false)
+		}
+		if (newUserData !== undefined && submitButtonText!=="Add New User") {
 			//open login popup after registration
 			const modalTrigger = document.getElementById('loginPopupButton');
 			if (modalTrigger) {
@@ -67,6 +70,7 @@ const FormContent = ({userType}) => {
 			}
 		}
 	}, [newUserData]);
+
 	return (
 		<ATJForm
 			// defaultValues={loginData}
@@ -132,7 +136,7 @@ const FormContent = ({userType}) => {
 
 			<div className="form-group">
 				<button className="theme-btn btn-style-one" type="submit">
-					{isLoading ? <Spinner color="white" /> : 'Register'}
+					{isLoading ? <Spinner color="white" /> : submitButtonText}
 				</button>
 			</div>
 		</ATJForm>

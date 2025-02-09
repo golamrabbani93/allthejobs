@@ -42,7 +42,9 @@ const FormContent2 = ({modal = false, userType}) => {
 				user_id: userResponseData.user_id,
 				name: userResponseData.name,
 				email: userResponseData.email,
-				image: userResponseData.photo || 'https://randomuser.me/api/portraits/men/1.jpg',
+				image:
+					userResponseData.photo ||
+					'https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png',
 				role: userResponseData.role,
 			};
 			dispatch(setUser(userData));

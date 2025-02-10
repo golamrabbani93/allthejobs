@@ -58,7 +58,7 @@ module.exports = [
 	{
 		id: 9,
 		name: 'Feedback & Reviews',
-		icon: 'la-bell',
+		icon: 'la-star',
 		routePath: '/dashboard/employer/feedback',
 		active: '',
 	},

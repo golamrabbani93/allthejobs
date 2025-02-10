@@ -127,7 +127,7 @@ module.exports = [
 	{
 		id: 12,
 		name: 'Feedback & Reviews',
-		icon: 'la-bell',
+		icon: 'la-star',
 		routePath: '/dashboard/talent/feedback',
 		active: '',
 	},

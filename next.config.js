@@ -1,14 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: [
-			'mamtaz.com',
-			'lh3.googleusercontent.com',
-			'cdn-icons-png.flaticon.com',
-			'allthejobsca.pythonanywhere.com',
-			'randomuser.me',
-			'https://res.cloudinary.com',
-		],
 		remotePatterns: [
 			{
 				protocol: 'https',

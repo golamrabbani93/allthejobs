@@ -1,16 +1,25 @@
+'use client';
+
 import MobileMenu from '../../../header/MobileMenu';
+import LoginPopup from '../../../common/form/login/LoginPopup';
 import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
-import MyProfile from './components/my-profile/MyProfile';
-import DashboardAdminHeader from '@/components/header/DashboardAdminHeader';
+import {useSelector} from 'react-redux';
 import DashboardAdminSidebar from '@/components/header/DashboardAdminSidebar';
+import DashboardAdminHeader from '@/components/header/DashboardAdminHeader';
+import Feedback from './components/Feedback';
 
-const index = () => {
+const Index = () => {
+	const {chatSidebar} = useSelector((state) => state.toggle);
+
 	return (
 		<div className="page-wrapper dashboard">
 			<span className="header-span"></span>
 			{/* <!-- Header Span for hight --> */}
+
+			<LoginPopup />
+			{/* End Login Popup Modal */}
 
 			<DashboardAdminHeader />
 			{/* End Header */}
@@ -24,27 +33,23 @@ const index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="My Profile!" />
+					<BreadCrumb title="All Feedbacks!" />
 					{/* breadCrumb */}
 
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
 					<div className="row">
-						<div className="col-lg-12">
-							<div className="ls-widget">
-								<div className="tabs-box">
-									<div className="widget-title">
-										<h4>My Profile</h4>
-									</div>
-									<MyProfile />
+						<div className={`col-lg-12 ${chatSidebar ? 'active-chat-contacts' : ''}`}>
+							<div className="chat-widget">
+								<div className="widget-content">
+									<Feedback />
 								</div>
 							</div>
-
-							{/* <!-- Ls widget --> */}
+							{/* <!-- Chat Widget --> */}
 						</div>
 					</div>
-					{/* End .row */}
+					{/* End row */}
 				</div>
 				{/* End dashboard-outer */}
 			</section>
@@ -57,4 +62,4 @@ const index = () => {
 	);
 };
 
-export default index;
+export default Index;

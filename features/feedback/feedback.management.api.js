@@ -4,7 +4,7 @@ import {toast} from 'react-toastify';
 
 const feedbackManagementApi = baseApi.injectEndpoints({
 	endpoints: (builder) => ({
-		//create Packages
+		//create Feedbacks
 		postFeedback: builder.mutation({
 			query: (data) => {
 				return {
@@ -21,7 +21,21 @@ const feedbackManagementApi = baseApi.injectEndpoints({
 				}
 			},
 		}),
+
+		//get Feedbacks
+		getFeedbacks: builder.query({
+			query: () => {
+				return {
+					url: `feedbacks/`,
+					method: 'GET',
+				};
+			},
+			providesTags: ['feedback'],
+			transformResponse: (response) => {
+				return response;
+			},
+		}),
 	}),
 });
 
-export const {usePostFeedbackMutation} = feedbackManagementApi;
+export const {usePostFeedbackMutation, useGetFeedbacksQuery} = feedbackManagementApi;

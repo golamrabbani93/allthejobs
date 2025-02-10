@@ -29,6 +29,12 @@ module.exports = [
 		routePath: '/dashboard/admin/change-password',
 		active: '',
 	},
+	{
+		id: 5,
+		name: 'Feedback & Reviews',
+		icon: 'la-star',
+		routePath: '/dashboard/admin/feedback',
+	},
 
 	// {
 	// 	id: 3,

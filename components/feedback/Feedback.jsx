@@ -7,7 +7,7 @@ import {
 } from '@/features/feedback/feedback.management.api';
 import {useSelector} from 'react-redux';
 import Spinner from '../Sppiner/Spinner';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
 
 const Feedback = () => {
@@ -34,6 +34,12 @@ const Feedback = () => {
 		const payload = {...data, user_id: user.user_id};
 		postFeedback(payload);
 	};
+
+	useEffect(() => {
+		if (data?.id) {
+			setShowFeedback(false);
+		}
+	}, [data]);
 	if (isFetching) {
 		return (
 			<div className="widget-content h-96 flex justify-center items-center">

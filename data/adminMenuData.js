@@ -1,9 +1,16 @@
 module.exports = [
 	{
 		id: 1,
-		name: 'Dashboard',
+		name: 'Admin Panel',
 		icon: 'la-home',
 		routePath: '/dashboard/admin',
+		active: 'active',
+	},
+	{
+		id: 2,
+		name: 'Meeting Management',
+		icon: 'la-home',
+		routePath: '/dashboard/admin/meeting-management',
 		active: 'active',
 	},
 

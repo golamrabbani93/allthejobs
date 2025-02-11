@@ -5,7 +5,7 @@ import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
 import DashboardAdminHeader from '@/components/header/DashboardAdminHeader';
 import DashboardAdminSidebar from '@/components/header/DashboardAdminSidebar';
-import PackageListTable from './components/PackageListTable';
+import MeetingManagement from './Components/MeetingManagement';
 
 const index = () => {
 	return (
@@ -28,20 +28,13 @@ const index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="Packages List!" />
+
 					{/* breadCrumb */}
 
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
-					<div className="row">
-						<div className="col-lg-12">
-							{/* <!-- Ls widget --> */}
-							<div className="ls-widget">
-								<PackageListTable />
-							</div>
-						</div>
-					</div>
+					<MeetingManagement></MeetingManagement>
 					{/* End .row */}
 				</div>
 				{/* End dashboard-outer */}

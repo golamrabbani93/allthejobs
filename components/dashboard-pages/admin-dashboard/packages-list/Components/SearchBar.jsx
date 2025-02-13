@@ -13,10 +13,10 @@ export default function SearchBar({ onSearch }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={handleSubmit} className="flex gap-2 items-center">
       <Input
         type="text"
-        placeholder="Search by Name or Email"
+        placeholder="Search by Name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className="w-[200px]"

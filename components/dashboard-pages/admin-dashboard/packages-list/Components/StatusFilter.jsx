@@ -7,10 +7,8 @@ export default function StatusFilter({ onFilterChange }) {
         <SelectValue placeholder="Filter by status" />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value="all">All</SelectItem>
-        <SelectItem value="verified">Verified</SelectItem>
-        <SelectItem value="unverified">Unverified</SelectItem>
-        <SelectItem value="blocked">Blocked</SelectItem>
+        <SelectItem value="previous">Previous</SelectItem>
+        <SelectItem value="upcoming">Upcoming</SelectItem>
       </SelectContent>
     </Select>
   )

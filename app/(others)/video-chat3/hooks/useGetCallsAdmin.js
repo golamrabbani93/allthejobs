@@ -2,7 +2,7 @@ import {Call, useStreamVideoClient} from '@stream-io/video-react-sdk';
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
-export const useGetCalls = () => {
+export const useGetCallsAdmin = () => {
 	const [calls, setCalls] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	const client = useStreamVideoClient();

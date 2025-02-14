@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux';
 import Loader from '../Loader/Loader';
 import ScheduleMeeting from '@/app/(others)/video-chat3/Components/ScheduleMeeting';
 import { useEffect, useState } from 'react';
+import { Button } from '@/data/ui/button';
 const ConsultantsList = () => {
 	const { consultants: data, loading } = useSelector((state) => state.data);
 		const user_redux = useSelector((state) => state.user);
@@ -106,10 +107,11 @@ const ConsultantsList = () => {
 													View Profile
 												</Link>
 												<div className="btn-box">
-									<button >{user?.user_id?
+													
+									<span >{user?.user_id?
 										<ScheduleMeeting consultant_id={consultant?.user_id} button_text="Book"
-										consultant_name={consultant?.user.name} consultant_real_id={consultant.consultant_id}></ScheduleMeeting>:<Link href="/login"><Button>Schedule Meeting</Button></Link>
-									}</button>
+										consultant_name={consultant?.user.name} consultant_real_id={consultant.consultant_id}></ScheduleMeeting>:<Link href="/login"><Button>Book</Button></Link>
+									}</span>
 									{/* <a className="theme-btn btn-style-one" href="/images/sample.pdf" download>
 										Get Consultant
 									</a> */}

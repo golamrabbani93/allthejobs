@@ -12,7 +12,7 @@ export default function DataTable({ data, meetingType }) {
     verified: "bg-green-500",
     blocked: "bg-red-500",
   };
-  console.log(data[0].state.custom);
+  console.log(typeof(data[0].state.startsAt.toLocaleString()));
   const router=useRouter()
 
   return (
@@ -43,7 +43,7 @@ export default function DataTable({ data, meetingType }) {
              </TableCell>
             <TableCell>{item.state.custom.talent_name}</TableCell>
             <TableCell>{item.state.custom.description}</TableCell>
-            <TableCell>{item.state.startsAt.toLocaleString()}</TableCell>
+            <TableCell>{item.state.startsAt.toLocaleString('en-US', { hour: 'numeric', hour12: true, year: 'numeric', month: 'numeric', day: 'numeric' })}</TableCell>
             {meetingType==="upcoming"&&
             
             <TableCell onClick={()=>router.push(`/video-chat3/meeting/${item.id}`)}><Button size="sm">Join</Button></TableCell>

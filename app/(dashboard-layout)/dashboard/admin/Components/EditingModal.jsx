@@ -42,13 +42,13 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser,setIsEdi
   }
   const handleUpdate=async()=>{
     setIsUpdating(true)
-    const { name, email, phone, account_status } = editingUser;
-    const updateUserResponse=await updateUserByEmail(email,{ name, email, phone, account_status})
+    const { name, email, phone, account_status,chat_status } = editingUser;
+    const updateUserResponse=await updateUserByEmail(email,{ name, email, phone, account_status,chat_status})
     if(updateUserResponse?.status=="200"){
       // updateLocally
       setUsers(prevUsers=>
         prevUsers.map(user=>
-          user.user_id===editingUser.user_id?{...user,name,email,phone,account_status}:user
+          user.user_id===editingUser.user_id?{...user,name,email,phone,account_status,chat_status}:user
         )
 
       )
@@ -92,7 +92,7 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser,setIsEdi
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="email" className="text-right">
-              Status
+              Account Status
             </Label>
             <Select onValueChange={(value)=>handleInputChange(value,"account_status")}>
             <SelectTrigger className="w-[180px]">
@@ -105,22 +105,20 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser,setIsEdi
             </SelectContent>
             </Select>
           </div>
-          {/* <div className="grid grid-cols-4 items-center gap-4">
+          <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="email" className="text-right">
-              Role
+              Chat <br /> Status
             </Label>
-            <Select onValueChange={(value)=>handleInputChange(value,"role")}>
+            <Select onValueChange={(value)=>handleInputChange(value,"chat_status")}>
             <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder={editingUser?.role} />
+            <SelectValue placeholder={editingUser?.chat_status} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="talent">Talent</SelectItem>
-              <SelectItem value="employer">Employer</SelectItem>
-              <SelectItem value="consultant">Consultant</SelectItem>
-              <SelectItem value="admin">Admin</SelectItem>
+              <SelectItem value="active">active</SelectItem>
+              <SelectItem value="inactive">inactive</SelectItem>
             </SelectContent>
             </Select>
-          </div> */}
+          </div>
 
         </div>
         <DialogFooter>

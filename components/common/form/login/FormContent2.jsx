@@ -10,6 +10,7 @@ import {useEffect, useState} from 'react';
 import {setUser} from '@/features/user/userSlice';
 import {useDispatch} from 'react-redux';
 import {useUserLoginMutation} from '@/features/auth/auth.management.api';
+import {setToken} from '@/services/AccessToken/AccessToken';
 
 export const closeModal = () => {
 	const modalTrigger = document.getElementById('modalClose');
@@ -37,19 +38,23 @@ const FormContent2 = ({modal = false, userType}) => {
 	};
 	//save userInfo in local Storage
 	useEffect(() => {
-		if (userResponseData?.user_id) {
-			const userData = {
-				user_id: userResponseData.user_id,
-				name: userResponseData.name,
-				email: userResponseData.email,
-				image:
-					userResponseData.photo ||
-					'https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png',
-				role: userResponseData.role,
-			};
-			dispatch(setUser(userData));
-			router.push(`dashboard/${userResponseData.role}`);
-		}
+		const saveUserData = async () => {
+			if (userResponseData?.user_id) {
+				const userData = {
+					user_id: userResponseData.user_id,
+					name: userResponseData.name,
+					email: userResponseData.email,
+					image:
+						userResponseData.photo ||
+						'https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png',
+					role: userResponseData.role,
+				};
+				await setToken(userResponseData);
+				dispatch(setUser(userData));
+				router.push(`dashboard/${userResponseData.role}`);
+			}
+		};
+		saveUserData();
 	}, [userResponseData, isLoading]);
 
 	if (status === 'loading') {

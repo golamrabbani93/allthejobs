@@ -11,6 +11,7 @@ import MenuToggler from '../../MenuToggler';
 import {useSelector} from 'react-redux';
 import DashboardAdminHeader from '@/components/header/DashboardAdminHeader';
 import DashboardAdminSidebar from '@/components/header/DashboardAdminSidebar';
+import AdminPanel from '@/app/(dashboard-layout)/dashboard/admin/Components/adminPanel';
 
 const Index = () => {
 	const user = useSelector((state) => state.user);
@@ -34,57 +35,18 @@ const Index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title={`Howdy, ${user.name}`} />
+					{/* <BreadCrumb title={`Howdy, ${user.name}`} /> */}
 					{/* breadCrumb */}
 
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
-					<div className="row">
+					{/* <div className="row">
 						<TopCardBlock />
-					</div>
+					</div> */}
 					{/* End .row top card block */}
-
-					<div className="row">
-						{/* <div className="col-xl-7 col-lg-12">
+						<AdminPanel></AdminPanel>
 						
-							<div className="graph-widget ls-widget">
-								<ProfileChart />
-							</div>
-						
-						</div>
-					
-
-						<div className="col-xl-5 col-lg-12">
-						
-							<div className="notification-widget ls-widget">
-								<div className="widget-title">
-									<h4>Notifications</h4>
-								</div>
-								<div className="widget-content">
-									<Notification />
-								</div>
-							</div>
-						</div>
-						End .col */}
-
-						<div className="col-lg-12">
-							{/* <!-- applicants Widget --> */}
-							<div className="applicants-widget ls-widget">
-								<div className="widget-title">
-									<h4>Jobs Applied Recently</h4>
-								</div>
-								<div className="widget-content">
-									<div className="row">
-										{/* <!-- Candidate block three --> */}
-
-										<JobApplied />
-									</div>
-								</div>
-							</div>
-						</div>
-						{/* End .col */}
-					</div>
 					{/* End .row profile and notificatins */}
 				</div>
 				{/* End dashboard-outer */}

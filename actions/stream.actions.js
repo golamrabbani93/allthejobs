@@ -20,6 +20,7 @@ export const tokenProvider = async (userObject) => {
   const client = new StreamClient(apiKey, apiSecret)
   await client.upsertUsers([userObject]);
   const validity = 60 * 60;
-  const token = client.generateUserToken({ user_id: userObject.id, validity_in_seconds: validity })
+  const iat = Math.floor(Date.now() / 1000) - 30; 
+  const token = client.generateUserToken({ user_id: userObject.id, validity_in_seconds: validity,iat })
   return token
 }

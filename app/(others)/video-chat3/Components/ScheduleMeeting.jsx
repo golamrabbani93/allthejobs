@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils";
 import Spinner from "@/components/Sppiner/Spinner";
-const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultant_real_id = 0 }) => {
+const ScheduleMeeting = ({button_text="Schedule Meeting", consultant_id, consultant_name = "default", consultant_real_id = 0 }) => {
   const [meetingState, setMeetingState] = useState();
   const user_redux = useSelector((state) => state.user);
   const [user, setUser] = useState(undefined)
@@ -131,13 +131,13 @@ const ScheduleMeeting = ({ consultant_id, consultant_name = "default", consultan
   }
   return (
     <section className=''>
-      <Button  onClick={() => setMeetingState("isScheduledMeeting")}>Schedule Meeting</Button>
+      <Button  onClick={() => setMeetingState("isScheduledMeeting")}>{button_text}</Button>
 
       {!callDetails ? (
         <MeetingModal
           isOpen={meetingState === "isScheduledMeeting"}
           onClose={() => setMeetingState(undefined)}
-          title='Create Meeting'
+          title={`Create Meeting with ${consultant_name}`}
           handleClick={createMeeting}
           selectedSlot={selectedSlot}
           scheduling={scheduling}

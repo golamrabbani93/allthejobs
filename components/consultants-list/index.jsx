@@ -7,13 +7,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 import candidates from '@/data/candidates';
 import Breadcrumb from '../common/Breadcrumb';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import Loader from '../Loader/Loader';
+import ScheduleMeeting from '@/app/(others)/video-chat3/Components/ScheduleMeeting';
+import { useEffect, useState } from 'react';
+import { Button } from '@/data/ui/button';
 const ConsultantsList = () => {
-	const {consultants: data, loading} = useSelector((state) => state.data);
-
+	const { consultants: data, loading } = useSelector((state) => state.data);
+		const user_redux = useSelector((state) => state.user);
+		const [user, setUser] = useState(undefined)
+		useEffect(() => {
+			setUser(user_redux)
+		}, [user_redux])
+		console.log(user);
 	//reverse the data to show the latest consultants first
 	const consultants = data.map((consultant) => consultant).reverse();
+	console.log(consultants[0]);
 	return (
 		<>
 			{/* <!-- Header Span --> */}
@@ -71,8 +80,8 @@ const ConsultantsList = () => {
 													{consultant.country === 'United States'
 														? 'USA'
 														: consultant.country === 'United Kingdom'
-														? 'UK'
-														: consultant.country}
+															? 'UK'
+															: consultant.country}
 												</li>
 												<li>
 													<span className="icon flaticon-money"></span> ${consultant.hourly_rate} /
@@ -90,12 +99,24 @@ const ConsultantsList = () => {
 											</ul> */}
 											{/* End tags */}
 
-											<Link
-												href={`/consultants/${consultant.consultant_id}`}
-												className="theme-btn btn-style-three"
-											>
-												View Profile
-											</Link>
+											<div className='flex items-center gap-2'>
+												<Link
+													href={`/consultants/${consultant.consultant_id}`}
+													className="theme-btn btn-style-three"
+												>
+													View Profile
+												</Link>
+												<div className="btn-box">
+													
+									<span >{user?.user_id?
+										<ScheduleMeeting consultant_id={consultant?.user_id} button_text="Book"
+										consultant_name={consultant?.user.name} consultant_real_id={consultant.consultant_id}></ScheduleMeeting>:<Link href="/login"><Button>Book</Button></Link>
+									}</span>
+									{/* <a className="theme-btn btn-style-one" href="/images/sample.pdf" download>
+										Get Consultant
+									</a> */}
+								</div>
+											</div>
 										</div>
 									</div>
 								))}

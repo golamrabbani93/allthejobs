@@ -1,7 +1,7 @@
 module.exports = [
 	{
 		id: 1,
-		name: 'Admin Panel',
+		name: 'Dashboard',
 		icon: 'la-home',
 		routePath: '/dashboard/admin',
 		active: 'active',
@@ -9,7 +9,7 @@ module.exports = [
 	{
 		id: 2,
 		name: 'Meeting Management',
-		icon: 'la-home',
+		icon: 'la-video-camera',
 		routePath: '/dashboard/admin/meeting-management',
 		active: 'active',
 	},
@@ -28,6 +28,13 @@ module.exports = [
 		icon: 'la-briefcase',
 		routePath: '/dashboard/admin/all-jobs',
 		active: 'active',
+	},
+	{
+		id: 33,
+		name: 'All Users',
+		icon: 'la-user',
+		routePath: '/dashboard/admin/all-users',
+		active: '',
 	},
 	{
 		id: 4,

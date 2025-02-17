@@ -45,7 +45,13 @@ const PricingTable = () => {
 			}, {}),
 		};
 	});
-
+	// re map data first basic standard premium
+	const talentPackagesData = newPricePlans.sort((a, b) => {
+		if (a.name === 'Basic') return -1;
+		if (a.name === 'Standard' && b.name === 'Premium') return -1;
+		if (a.name === 'Standard' && b.name === 'Basic') return 1;
+		if (a.name === 'Premium') return 1;
+	});
 	if (loading && talentPackages.length === 0)
 		return (
 			<div className="flex justify-center items-center h-96">
@@ -58,7 +64,7 @@ const PricingTable = () => {
 				<thead className="bg-blue-600 text-white">
 					<tr>
 						<th className="px-4 py-3 border text-center text-3xl">Features</th>
-						{newPricePlans.map((plan, index) => (
+						{talentPackagesData.map((plan, index) => (
 							<th key={index} className="px-6 py-3 border text-lg font-semibold">
 								{plan.name} <br />
 								<span className="text-white ">
@@ -72,12 +78,12 @@ const PricingTable = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{Object?.keys(newPricePlans[0]?.features).map((feature, index) => (
+					{Object?.keys(talentPackagesData[0]?.features).map((feature, index) => (
 						<tr key={index} className="border">
 							<td className="px-2 py-2 font-medium text-left bg-blue-100 text-blue-900 w-[300px]">
 								{feature.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
 							</td>
-							{newPricePlans.map((plan, idx) => (
+							{talentPackagesData.map((plan, idx) => (
 								<td key={idx} className="px-6 py-2 border w-[300px]">
 									{typeof plan.features[feature] === 'boolean' ? (
 										plan.features[feature] ? (
@@ -97,7 +103,7 @@ const PricingTable = () => {
 						<td className="px-4 py-3 font-medium text-left">
 							<span className="hidden">h</span>
 						</td>
-						{newPricePlans.map((plan, index) => (
+						{talentPackagesData.map((plan, index) => (
 							<td key={index} className="px-6 py-3">
 								{plan.name !== 'Free' ? (
 									<Link

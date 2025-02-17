@@ -1,9 +1,9 @@
 // Desc: Wrapper component to load all data from the server
 import {
 	setConsultantsData,
+	setEmployerPackages,
 	setGlobalDataLoading,
 	setJobsData,
-	setPackages,
 	setTalentPackages,
 	setTalentsData,
 	setUserData,
@@ -42,9 +42,10 @@ const DataLoaderWrapper = ({children}) => {
 				dispatch(setUserRoleBasedData(employerData));
 			}
 			if (packages?.length > 0) {
-				dispatch(setPackages(packages));
 				const talentPackages = packages?.filter((item) => item.target_role === 'talent');
 				dispatch(setTalentPackages(talentPackages));
+				const employerPackages = packages?.filter((item) => item.target_role === 'employer');
+				dispatch(setEmployerPackages(employerPackages));
 			}
 			if (userData?.user_id === user?.user_id) {
 				dispatch(setUserData(userData));

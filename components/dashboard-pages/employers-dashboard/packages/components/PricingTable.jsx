@@ -6,9 +6,9 @@ import Link from 'next/link';
 import {useSelector} from 'react-redux';
 
 const PricingTable = () => {
-	const {talentPackages, loading} = useSelector((state) => state.data);
-	//make talentPackages to pricePlans
-	const newPricePlans = talentPackages.map((item) => {
+	const {employerPackages, loading} = useSelector((state) => state.data);
+	//make employer to pricePlans
+	const newPricePlans = employerPackages.map((item) => {
 		return {
 			name: item.name,
 			previousPrice: item.previous_price,
@@ -52,7 +52,7 @@ const PricingTable = () => {
 		if (a.name === 'Standard' && b.name === 'Basic') return 1;
 		if (a.name === 'Premium') return 1;
 	});
-	if (loading && talentPackages.length === 0)
+	if (loading && employerPackages.length === 0)
 		return (
 			<div className="flex justify-center items-center h-96">
 				<Spinner />

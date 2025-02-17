@@ -14,7 +14,13 @@ export const setToken = (userData) => {
 	const options = {expiresIn: '30d'};
 	const token = jwt.sign(payload, secretKey, options);
 	if (token) {
-		cookies().set('accessToken', token);
+		cookies().set('accessToken', token, {
+			httpOnly: true, // Prevents JavaScript access
+			secure: process.env.NODE_ENV === 'production',
+			path: '/',
+			sameSite: 'strict',
+			maxAge: 60 * 60 * 24 * 30, //30 days
+		});
 	}
 };
 

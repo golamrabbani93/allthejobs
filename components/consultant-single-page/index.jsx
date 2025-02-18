@@ -9,19 +9,19 @@ import JobSkills from './shared-components/JobSkills';
 import Contact from './shared-components/Contact';
 import FooterDefault from '@/components/footer/common-footer';
 import ScheduleMeeting from '@/app/(others)/video-chat3/Components/ScheduleMeeting';
-import { useEffect, useState } from 'react';
-import { Button } from '../ui/button';
+import {useEffect, useState} from 'react';
+import {Button} from '../ui/button';
 import Link from 'next/link';
 
 const index = ({id}) => {
 	const {consultants, loading} = useSelector((state) => state.data);
 	const consultant = consultants.find((item) => item.consultant_id == id) || consultants[0];
 	const user_redux = useSelector((state) => state.user);
-	const [user, setUser] = useState(undefined)
+	const [user, setUser] = useState(undefined);
 	useEffect(() => {
-		setUser(user_redux)
-	}, [user_redux])
-	console.log(user);
+		setUser(user_redux);
+	}, [user_redux]);
+
 	if (loading) return <h1>Loading...</h1>;
 	return (
 		<>
@@ -74,10 +74,19 @@ const index = ({id}) => {
 								</div>
 
 								<div className="btn-box">
-									<button >{user?.user_id?
-										<ScheduleMeeting consultant_id={consultant?.user_id}
-										consultant_name={consultant?.user.name} consultant_real_id={consultant.consultant_id}></ScheduleMeeting>:<Link href="/login"><Button>Schedule Meeting</Button></Link>
-									}</button>
+									<button>
+										{user?.user_id ? (
+											<ScheduleMeeting
+												consultant_id={consultant?.user_id}
+												consultant_name={consultant?.user.name}
+												consultant_real_id={consultant.consultant_id}
+											></ScheduleMeeting>
+										) : (
+											<Link href="/login">
+												<Button>Schedule Meeting</Button>
+											</Link>
+										)}
+									</button>
 									{/* <a className="theme-btn btn-style-one" href="/images/sample.pdf" download>
 										Get Consultant
 									</a> */}
@@ -95,7 +104,7 @@ const index = ({id}) => {
 							<div className="content-column col-lg-8 col-md-12 col-sm-12">
 								<div className="job-detail">
 									<div className="video-outer">
-										<h4>Candidates About</h4>
+										<h4>Consultant About</h4>
 									</div>
 									{/* <!-- About Video Box --> */}
 									<p>{consultant?.about}</p>

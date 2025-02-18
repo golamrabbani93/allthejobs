@@ -6,9 +6,9 @@ import Link from 'next/link';
 import {useSelector} from 'react-redux';
 
 const PricingTable = () => {
-	const {talentPackages, loading} = useSelector((state) => state.data);
-	//make talentPackages to pricePlans
-	const newPricePlans = talentPackages.map((item) => {
+	const {employerPackages, loading} = useSelector((state) => state.data);
+	//make employer to pricePlans
+	const newPricePlans = employerPackages.map((item) => {
 		return {
 			name: item.name,
 			previousPrice: item.previous_price,
@@ -19,24 +19,38 @@ const PricingTable = () => {
 				if (curr?.name && curr?.isEnabled !== undefined) {
 					let modifiedIsEnabled = curr.isEnabled;
 
-					if (curr.name.trim() === 'askAI' && item.name === 'Standard') {
-						modifiedIsEnabled = 'Limited';
-					} else if (curr.name.trim() === 'resumeCoverLetter' && item.name === 'Standard') {
-						modifiedIsEnabled = 'AI-assisted';
-					} else if (curr.name.trim() === 'jobApplyAutopilot' && item.name === 'Standard') {
-						modifiedIsEnabled = 'Up to 100/Month';
-					} else if (curr.name.trim() === 'featuredProfile' && item.name === 'Standard') {
-						modifiedIsEnabled = '2 Weeks';
-					}
-
-					if (curr.name.trim() === 'askAI' && item.name === 'Premium') {
-						modifiedIsEnabled = 'Full';
-					} else if (curr.name.trim() === 'resumeCoverLetter' && item.name === 'Premium') {
-						modifiedIsEnabled = 'AI-assisted';
-					} else if (curr.name.trim() === 'jobApplyAutopilot' && item.name === 'Premium') {
-						modifiedIsEnabled = 'Up to 250/Month';
-					} else if (curr.name.trim() === 'featuredProfile' && item.name === 'Premium') {
-						modifiedIsEnabled = '1 Month';
+					if (curr.name.trim() === 'jobPosts' && item.name === 'Basic') {
+						modifiedIsEnabled = '5 Job Postings';
+					} else if (curr.name.trim() === 'jobPosts' && item.name === 'Standard') {
+						modifiedIsEnabled = '120 job Postings';
+					} else if (curr.name.trim() === 'jobPosts' && item.name === 'Premium') {
+						modifiedIsEnabled = 'Unlimited job Postings';
+					} else if (curr.name.trim() === 'featuredListing' && item.name === 'Standard') {
+						modifiedIsEnabled = 'Featured for 7 days';
+					} else if (curr.name.trim() === 'featuredListing' && item.name === 'Premium') {
+						modifiedIsEnabled = 'Featured for 30 days';
+					} else if (curr.name.trim() === 'resumeAccess' && item.name === 'Basic') {
+						modifiedIsEnabled = '10 profiles';
+					} else if (curr.name.trim() === 'resumeAccess' && item.name === 'Standard') {
+						modifiedIsEnabled = '50 profiles';
+					} else if (curr.name.trim() === 'resumeAccess' && item.name === 'Premium') {
+						modifiedIsEnabled = 'Unlimited profiles';
+					} else if (curr.name.trim() === 'applicantTracking' && item.name === 'Basic') {
+						modifiedIsEnabled = 'Basic tools';
+					} else if (curr.name.trim() === 'applicantTracking' && item.name === 'Standard') {
+						modifiedIsEnabled = 'Advanced tools';
+					} else if (curr.name.trim() === 'applicantTracking' && item.name === 'Premium') {
+						modifiedIsEnabled = 'AI-powered screening tools';
+					} else if (curr.name.trim() === 'jobPromotion' && item.name === 'Standard') {
+						modifiedIsEnabled = 'Social media boost';
+					} else if (curr.name.trim() === 'jobPromotion' && item.name === 'Premium') {
+						modifiedIsEnabled = 'Social media + email boost';
+					} else if (curr.name.trim() === 'consultantSupport' && item.name === 'Premium') {
+						modifiedIsEnabled = 'Email support';
+					} else if (curr.name.trim() === 'talentMatch' && item.name === 'Standard') {
+						modifiedIsEnabled = 'AI-powered recommendations';
+					} else if (curr.name.trim() === 'talentMatch' && item.name === 'Premium') {
+						modifiedIsEnabled = 'Pre-screened candidate lists';
 					}
 
 					acc[curr.name] = modifiedIsEnabled;
@@ -46,13 +60,14 @@ const PricingTable = () => {
 		};
 	});
 	// re map data first basic standard premium
-	const talentPackagesData = newPricePlans.sort((a, b) => {
-		if (a.name === 'Basic') return -1;
-		if (a.name === 'Standard' && b.name === 'Premium') return -1;
-		if (a.name === 'Standard' && b.name === 'Basic') return 1;
-		if (a.name === 'Premium') return 1;
-	});
-	if (loading && talentPackages.length === 0)
+	const talentPackagesData =
+		newPricePlans.sort((a, b) => {
+			if (a.name === 'Basic') return -1;
+			if (a.name === 'Standard' && b.name === 'Premium') return -1;
+			if (a.name === 'Standard' && b.name === 'Basic') return 1;
+			if (a.name === 'Premium') return 1;
+		}) || {};
+	if (loading && employerPackages.length === 0)
 		return (
 			<div className="flex justify-center items-center h-96">
 				<Spinner />
@@ -69,9 +84,9 @@ const PricingTable = () => {
 								{plan.name} <br />
 								<span className="text-white ">
 									<span className="text-lg line-through mr-1 text-gray-300">
-										{plan.name === 'Basic' ? '$25' : plan.name === 'Standard' ? '$75' : '$100'}
+										{plan.name === 'Basic' ? '$199' : plan.name === 'Standard' ? '$399' : '$999'}
 									</span>
-									<span className="text-3xl">${plan.price}</span>
+									<span className="text-3xl">${plan.price}</span>/Mo
 								</span>
 							</th>
 						))}
@@ -80,7 +95,7 @@ const PricingTable = () => {
 				<tbody>
 					{Object?.keys(talentPackagesData[0]?.features).map((feature, index) => (
 						<tr key={index} className="border">
-							<td className="px-2 py-2 font-medium text-left bg-blue-100 text-blue-900 w-[300px]">
+							<td className="px-2 py-2 font-medium text-left bg-blue-100 text-blue-900 w-[280px]">
 								{feature.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
 							</td>
 							{talentPackagesData.map((plan, idx) => (

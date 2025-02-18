@@ -1,12 +1,11 @@
 import MobileMenu from '../../../header/MobileMenu';
-import DashboardHeader from '../../../header/DashboardHeader';
 import LoginPopup from '../../../common/form/login/LoginPopup';
-import DashboardEmployerSidebar from '../../../header/DashboardEmployerSidebar';
 import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
-import PackageDataTable from './components/PackageDataTable';
 import MenuToggler from '../../MenuToggler';
+import PricingTable from './components/PricingTable';
 import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
+import DashboardEmployerSidebar from '@/components/header/DashboardEmployerSidebar';
 
 const index = () => {
 	return (
@@ -24,7 +23,7 @@ const index = () => {
 			{/* End MobileMenu */}
 
 			<DashboardEmployerSidebar />
-			{/* <!-- End User Sidebar Menu --> */}
+			{/* <!-- End Candidates Sidebar Menu --> */}
 
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
@@ -39,14 +38,11 @@ const index = () => {
 						<div className="col-lg-12">
 							<div className="ls-widget">
 								<div className="tabs-box">
-									<div className="widget-title">
-										<h4>My Packages</h4>
-									</div>
 									{/* End widget-title */}
 
 									<div className="widget-content">
 										<div className="table-outer">
-											<PackageDataTable />
+											<PricingTable />
 										</div>
 									</div>
 									{/* End widget-content */}

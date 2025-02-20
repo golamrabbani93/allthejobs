@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button"
+import toast, { Toaster } from 'react-hot-toast';
 import {
   Dialog,
   DialogContent,
@@ -42,18 +43,19 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser,setIsEdi
   }
   const handleUpdate=async()=>{
     setIsUpdating(true)
-    const { name, email, phone, account_status,chat_status } = editingUser;
-    const updateUserResponse=await updateUserByEmail(email,{ name, email, phone, account_status,chat_status})
+    const { name, email, phone, account_status,chat_status,skill_status } = editingUser;
+    const updateUserResponse=await updateUserByEmail(email,{ name, email, phone, account_status,chat_status,skill_status})
     if(updateUserResponse?.status=="200"){
       // updateLocally
       setUsers(prevUsers=>
         prevUsers.map(user=>
-          user.user_id===editingUser.user_id?{...user,name,email,phone,account_status,chat_status}:user
+          user.user_id===editingUser.user_id?{...user,name,email,phone,account_status,chat_status,skill_status}:user
         )
-
       )
       setIsUpdating(false)
       setIsEditing(false)
+      toast.success("User Profile Updated Successfully!")
+
       // show a toast
       
     }
@@ -61,7 +63,7 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser,setIsEdi
     
   }
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose} >
       <DialogTrigger asChild>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -119,6 +121,21 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser,setIsEdi
             </SelectContent>
             </Select>
           </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="email" className="text-right">
+              Skill <br /> Status
+            </Label>
+            <Select onValueChange={(value)=>handleInputChange(value,"skill_status")}>
+            <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder={editingUser?.skill_status} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="unskilled">Unskilled</SelectItem>
+              <SelectItem value="skilled">Skilled</SelectItem>
+              <SelectItem value="professional">Professional</SelectItem>
+            </SelectContent>
+            </Select>
+          </div>
 
         </div>
         <DialogFooter>
@@ -126,5 +143,6 @@ export function EditingModal({isOpen,onClose,editingUser,setEditingUser,setIsEdi
         </DialogFooter>
       </DialogContent>
     </Dialog>
+
   )
 }

@@ -12,7 +12,7 @@ import ItemPerPage from "./ItemPerPage"
 import StatusFilter from "./StatusFilter"
 import AddUser from "./AddUser"
 import { Button } from "@/components/ui/button"
-
+import toast, { Toaster } from 'react-hot-toast';
 
 // Mock data (expanded for pagination example)
 
@@ -126,6 +126,7 @@ export default function AdminPanel() {
       }
       <EditingModal isOpen={isEditing} onClose={()=>setIsEditing(false)} setIsEditing={setIsEditing} editingUser={editingUser} setEditingUser={setEditingUser} setUsers={setUsers}></EditingModal>
       {creatingUser&&<AddUser setCreatingUser={setCreatingUser}></AddUser>}
+      <Toaster />
     </div>
   )
 }

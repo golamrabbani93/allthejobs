@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useMemo, useEffect } from "react"
@@ -14,11 +15,11 @@ import AddUser from "./AddUser"
 import { Button } from "@/components/ui/button"
 import toast, { Toaster } from 'react-hot-toast';
 
+
 // Mock data (expanded for pagination example)
 
-
-
 export default function AdminPanel() {
+
   const [searchTerm, setSearchTerm] = useState("")
   const [roleFilter, setRoleFilter] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
@@ -129,5 +130,5 @@ export default function AdminPanel() {
       <Toaster />
     </div>
   )
-}
 
+}

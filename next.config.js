@@ -1,14 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
-		domains: [
-			'mamtaz.com',
-			'lh3.googleusercontent.com',
-			'cdn-icons-png.flaticon.com',
-			'allthejobsca.pythonanywhere.com',
-			'randomuser.me',
-		],
 		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'res.cloudinary.com',
+			},
 			{
 				protocol: 'https',
 				hostname: 'lh3.googleusercontent.com',
@@ -24,6 +21,10 @@ const nextConfig = {
 			{
 				protocol: 'https',
 				hostname: 'via.placeholder.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'randomuser.me',
 			},
 		],
 	},

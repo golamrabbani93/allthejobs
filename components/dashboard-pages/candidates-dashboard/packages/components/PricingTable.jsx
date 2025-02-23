@@ -1,5 +1,6 @@
 'use client';
 
+import Spinner from '@/components/Sppiner/Spinner';
 import {CheckCircle, XCircle} from 'lucide-react';
 import Link from 'next/link';
 import {useSelector} from 'react-redux';
@@ -44,32 +45,45 @@ const PricingTable = () => {
 			}, {}),
 		};
 	});
-
-	if (loading && talentPackages.length === 0) return <div>Loading...</div>;
+	// re map data first basic standard premium
+	const talentPackagesData = newPricePlans.sort((a, b) => {
+		if (a.name === 'Basic') return -1;
+		if (a.name === 'Standard' && b.name === 'Premium') return -1;
+		if (a.name === 'Standard' && b.name === 'Basic') return 1;
+		if (a.name === 'Premium') return 1;
+	});
+	if (loading && talentPackages.length === 0)
+		return (
+			<div className="flex justify-center items-center h-96">
+				<Spinner />
+			</div>
+		);
 	return (
 		<div className="overflow-x-auto p-6">
 			<table className="min-w-full border border-blue-600 text-center bg-white rounded-lg shadow-md">
 				<thead className="bg-blue-600 text-white">
 					<tr>
-						<th className="px-4 py-3 border text-left">Features</th>
-						{newPricePlans.map((plan, index) => (
+						<th className="px-4 py-3 border text-center text-3xl">Features</th>
+						{talentPackagesData.map((plan, index) => (
 							<th key={index} className="px-6 py-3 border text-lg font-semibold">
 								{plan.name} <br />
 								<span className="text-white ">
-									<span className="text-lg line-through mr-1">{plan.previousPrice}</span>
-									<span className="text-3xl">{plan.price}</span>
+									<span className="text-lg line-through mr-1 text-gray-300">
+										{plan.name === 'Basic' ? '$25' : plan.name === 'Standard' ? '$75' : '$100'}
+									</span>
+									<span className="text-3xl">${plan.price}</span>
 								</span>
 							</th>
 						))}
 					</tr>
 				</thead>
 				<tbody>
-					{Object?.keys(newPricePlans[0]?.features).map((feature, index) => (
+					{Object?.keys(talentPackagesData[0]?.features).map((feature, index) => (
 						<tr key={index} className="border">
-							<td className="px-2 py-2 font-medium text-left bg-blue-100 text-blue-900 w-[250px]">
+							<td className="px-2 py-2 font-medium text-left bg-blue-100 text-blue-900 w-[300px]">
 								{feature.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
 							</td>
-							{newPricePlans.map((plan, idx) => (
+							{talentPackagesData.map((plan, idx) => (
 								<td key={idx} className="px-6 py-2 border w-[300px]">
 									{typeof plan.features[feature] === 'boolean' ? (
 										plan.features[feature] ? (
@@ -89,7 +103,7 @@ const PricingTable = () => {
 						<td className="px-4 py-3 font-medium text-left">
 							<span className="hidden">h</span>
 						</td>
-						{newPricePlans.map((plan, index) => (
+						{talentPackagesData.map((plan, index) => (
 							<td key={index} className="px-6 py-3">
 								{plan.name !== 'Free' ? (
 									<Link

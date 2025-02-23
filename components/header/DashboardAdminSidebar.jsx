@@ -61,7 +61,7 @@ const DashboardAdminSidebar = () => {
 								>
 									<button
 										onClick={() => handleSubMenuToggle(item.name)}
-										className=" mb-1 transition-all duration-500 w-full"
+										className=" mb-1 transition-all duration-500 w-full "
 									>
 										<i className={`la ${item.icon}`}></i>
 										{item.name}
@@ -95,7 +95,7 @@ const DashboardAdminSidebar = () => {
 									</ul>
 								</div>
 							) : (
-								<Link href={item.routePath}>
+								<Link href={item.routePath} className="">
 									<i className={`la ${item.icon}`}></i> {item.name}
 								</Link>
 							)}

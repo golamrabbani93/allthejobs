@@ -4,6 +4,7 @@ import {useCreateTalentMutation} from '@/features/candidate/talent.management.ap
 import {useGetMyProfileQuery} from '@/features/user/user.management';
 import {setUser} from '@/features/user/userSlice';
 import hashPassword from '@/hooks/hashPassword/hashPassword.hook';
+import {setToken} from '@/services/AccessToken/AccessToken';
 import {signIn, useSession} from 'next-auth/react';
 import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
@@ -22,6 +23,7 @@ const LoginWithSocial = () => {
 					...session.user,
 					role: 'talent',
 				};
+				await setToken(userData); // Set the token in the cookies
 				dispatch(setUser(userData)); // Dispatch the user data to Redux
 
 				// Check if myProfile is undefined and avoid fetching when already in progress

@@ -6,10 +6,11 @@ import ATJInput from '@/components/form/ATJInput';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useRouter} from 'next/navigation';
 import {useSession} from 'next-auth/react';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {setUser} from '@/features/user/userSlice';
 import {useDispatch} from 'react-redux';
 import {useUserLoginMutation} from '@/features/auth/auth.management.api';
+import {setToken} from '@/services/AccessToken/AccessToken';
 
 export const closeModal = () => {
 	const modalTrigger = document.getElementById('modalClose');
@@ -25,6 +26,8 @@ export const closeModalRegister = () => {
 };
 
 const FormContent2 = ({modal = false, userType}) => {
+	// show password
+	const [showPassword, setShowPassword] = useState(false);
 	const [makeLogin, {data: userResponseData, isLoading}] = useUserLoginMutation();
 	const dispatch = useDispatch();
 	const router = useRouter();
@@ -35,17 +38,23 @@ const FormContent2 = ({modal = false, userType}) => {
 	};
 	//save userInfo in local Storage
 	useEffect(() => {
-		if (userResponseData?.user_id) {
-			const userData = {
-				user_id: userResponseData.user_id,
-				name: userResponseData.name,
-				email: userResponseData.email,
-				image: userResponseData.photo || 'https://randomuser.me/api/portraits/men/1.jpg',
-				role: userResponseData.role,
-			};
-			dispatch(setUser(userData));
-			router.push(`dashboard/${userResponseData.role}`);
-		}
+		const saveUserData = async () => {
+			if (userResponseData?.user_id) {
+				const userData = {
+					user_id: userResponseData.user_id,
+					name: userResponseData.name,
+					email: userResponseData.email,
+					image:
+						userResponseData.photo ||
+						'https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png',
+					role: userResponseData.role,
+				};
+				await setToken(userResponseData);
+				dispatch(setUser(userData));
+				router.push(`dashboard/${userResponseData.role}`);
+			}
+		};
+		saveUserData();
 	}, [userResponseData, isLoading]);
 
 	if (status === 'loading') {
@@ -68,7 +77,20 @@ const FormContent2 = ({modal = false, userType}) => {
 				{/* Password */}
 				<div className="form-group">
 					<label>Password :</label>
-					<ATJInput label="Password" name="password" type="password" />
+					<div className="relative">
+						<ATJInput label="Password" name="password" type={showPassword ? 'text' : 'password'} />
+						{showPassword ? (
+							<i
+								onClick={() => setShowPassword(!showPassword)}
+								className="la la-eye-slash absolute top-[25px] right-[25px] cursor-pointer"
+							></i>
+						) : (
+							<i
+								onClick={() => setShowPassword(!showPassword)}
+								className="la la-eye absolute top-[25px] right-[25px] cursor-pointer"
+							></i>
+						)}
+					</div>
 				</div>
 				<div className="form-group">
 					<div className="field-outer">

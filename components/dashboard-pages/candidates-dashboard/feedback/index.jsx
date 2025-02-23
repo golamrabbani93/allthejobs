@@ -42,10 +42,6 @@ const Index = () => {
 							{/* <!-- Ls widget --> */}
 							<div className="ls-widget">
 								<div className="tabs-box">
-									<div className="widget-title">
-										<h4>Write A feedback</h4>
-									</div>
-
 									<div className="widget-content">
 										<Feedback />
 										{/* End post box form */}

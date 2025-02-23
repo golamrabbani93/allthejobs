@@ -3,6 +3,7 @@ import {clearUser} from '@/features/user/userSlice';
 import {useRouter} from 'next/navigation';
 import {useDispatch} from 'react-redux';
 import {setUserData, setUserRoleBasedData} from '@/features/data/dataSlice';
+import {removeToken} from '@/services/AccessToken/AccessToken';
 
 const LogOutButton = () => {
 	const dispatch = useDispatch();
@@ -14,6 +15,7 @@ const LogOutButton = () => {
 		dispatch(clearUser());
 		dispatch(setUserData({}));
 		dispatch(setUserRoleBasedData({}));
+		await removeToken();
 	};
 
 	return (

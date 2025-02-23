@@ -45,7 +45,7 @@ module.exports = [
 		id: 7,
 		name: 'Packages',
 		icon: 'la-box',
-		routePath: '/dashboard/employer/#',
+		routePath: '/dashboard/employer/packages',
 		active: '',
 	},
 	// {
@@ -58,7 +58,7 @@ module.exports = [
 	{
 		id: 9,
 		name: 'Feedback & Reviews',
-		icon: 'la-bell',
+		icon: 'la-star',
 		routePath: '/dashboard/employer/feedback',
 		active: '',
 	},

@@ -38,7 +38,7 @@ module.exports = [
 		id: 6,
 		name: 'Previous Meetings',
 		icon: 'la-file-invoice',
-		routePath: '/dashboard/consultant/previous-meeting',
+		routePath: '/ ng',
 		active: '',
 	},
 	// {
@@ -48,6 +48,13 @@ module.exports = [
 	// 	routePath: '/dashboard/consultant/meeting-recording',
 	// 	active: '',
 	// },
+	{
+		id: 7,
+		name: 'Earnings',
+		icon: 'la-money-bill',
+		routePath: '/dashboard/consultant/earnings',
+		active: '',
+	},
 	{
 		id: 8,
 		name: 'Packages',

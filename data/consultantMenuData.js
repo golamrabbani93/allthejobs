@@ -57,9 +57,9 @@ module.exports = [
 	},
 	{
 		id: 8,
-		name: 'Packages',
-		icon: 'la-box',
-		routePath: '/dashboard/consultant/#',
+		name: 'Share Commission',
+		icon: 'la-percent',
+		routePath: '/dashboard/consultant/packages',
 		active: '',
 	},
 	{

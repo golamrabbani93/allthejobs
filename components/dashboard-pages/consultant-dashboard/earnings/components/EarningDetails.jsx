@@ -2,11 +2,12 @@ import {useGetCalls} from '@/app/(others)/video-chat3/hooks/useGetCalls';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useSelector} from 'react-redux';
 import MeetingTable from './MeetingTable';
+import {useEffect, useState} from 'react';
 
 const EarningDetails = () => {
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
+	const [totalPrice, setTotalPrice] = useState(0);
 	const {upcomingCalls, previousCalls, recordings, isLoading, meetingRequest, role} = useGetCalls();
-	console.log('🚀🚀 ~ EarningDetails ~ previousCalls:', previousCalls);
 	const data = previousCalls?.map((item) => item.state.custom);
 
 	// make new array of data from previousCalls
@@ -17,13 +18,30 @@ const EarningDetails = () => {
 			startsAt: item.state.startsAt,
 		};
 	});
-	console.log('🚀🚀 ~ fullCallListData ~ fullCallListData:', fullCallListData);
+
+	useEffect(() => {
+		setTotalPrice(data?.length * userRoleBasedData?.hourly_rate);
+	}, [data, userRoleBasedData]);
+	// Calculate Consultant's Share and Platform's Commission using ternary operator
+	const consultantShare =
+		totalPrice <= 50
+			? 0.7
+			: totalPrice <= 100
+			? 0.75
+			: totalPrice <= 200
+			? 0.8
+			: totalPrice <= 300
+			? 0.85
+			: 0.9;
+
+	const consultantAmount = data?.length * userRoleBasedData?.hourly_rate * consultantShare || 0;
+	// const platformCommission = totalPrice - consultantAmount;
 	const cardContent = [
 		{
 			id: 0,
 			metaName: 'Total Earnings',
 			icon: 'la-money',
-			countNumber: `$${data?.length * userRoleBasedData?.hourly_rate || 0}`,
+			countNumber: `$${consultantAmount || 0}`,
 			uiClass: 'ui-purple',
 		},
 		{
@@ -36,7 +54,8 @@ const EarningDetails = () => {
 		{
 			id: 2,
 			icon: 'la-file-invoice',
-			countNumber: data?.length * 60 || 0,
+			//get hourly rate from userRoleBasedData and cut percent by $0 - $50, $51 - $100, $101 - $200, $201 - $300, Above $300
+			countNumber: data?.length * 60,
 			metaName: 'Total video Minutes',
 			uiClass: 'ui-red',
 		},

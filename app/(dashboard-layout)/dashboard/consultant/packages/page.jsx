@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
-import Packages from '@/components/dashboard-pages/employers-dashboard/packages';
+import Packages from '@/components/dashboard-pages/consultant-dashboard/packages';
 
 export const metadata = {
-	title: 'Packages || AllTheJobs',
+	title: 'Commission || AllTheJobs',
 	description: 'AllTheJobs',
 };
 

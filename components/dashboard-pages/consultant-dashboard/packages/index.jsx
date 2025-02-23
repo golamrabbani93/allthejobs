@@ -1,12 +1,11 @@
 import MobileMenu from '../../../header/MobileMenu';
-import DashboardHeader from '../../../header/DashboardHeader';
 import LoginPopup from '../../../common/form/login/LoginPopup';
-import DashboardEmployerSidebar from '../../../header/DashboardEmployerSidebar';
 import BreadCrumb from '../../BreadCrumb';
 import CopyrightFooter from '../../CopyrightFooter';
 import PackageDataTable from './components/PackageDataTable';
 import MenuToggler from '../../MenuToggler';
-import DashboardEmployersHeader from '@/components/header/DashboardEmployersHeader';
+import DashboardConsultantHeader from '@/components/header/DashboardConsultantHeader';
+import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
 
 const index = () => {
 	return (
@@ -17,19 +16,19 @@ const index = () => {
 			<LoginPopup />
 			{/* End Login Popup Modal */}
 
-			<DashboardEmployersHeader />
+			<DashboardConsultantHeader />
 			{/* End Header */}
 
 			<MobileMenu />
 			{/* End MobileMenu */}
 
-			<DashboardEmployerSidebar />
+			<DashboardConsultantSidebar />
 			{/* <!-- End User Sidebar Menu --> */}
 
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="Packages!" />
+					<BreadCrumb title="Consultant Commission!" />
 					{/* breadCrumb */}
 
 					<MenuToggler />
@@ -40,7 +39,7 @@ const index = () => {
 							<div className="ls-widget">
 								<div className="tabs-box">
 									<div className="widget-title">
-										<h4>My Packages</h4>
+										<h4>Consultant Earnings Share</h4>
 									</div>
 									{/* End widget-title */}
 

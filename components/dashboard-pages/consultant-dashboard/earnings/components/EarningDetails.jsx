@@ -1,12 +1,23 @@
 import {useGetCalls} from '@/app/(others)/video-chat3/hooks/useGetCalls';
 import Spinner from '@/components/Sppiner/Spinner';
 import {useSelector} from 'react-redux';
+import MeetingTable from './MeetingTable';
 
 const EarningDetails = () => {
 	const {userRoleBasedData, loading} = useSelector((state) => state.data);
 	const {upcomingCalls, previousCalls, recordings, isLoading, meetingRequest, role} = useGetCalls();
+	console.log('🚀🚀 ~ EarningDetails ~ previousCalls:', previousCalls);
 	const data = previousCalls?.map((item) => item.state.custom);
-	console.log('🚀🚀 ~ EarningDetails ~ data:', data);
+
+	// make new array of data from previousCalls
+	const fullCallListData = previousCalls.map((item) => {
+		return {
+			id: item.id,
+			custom: item.state.custom,
+			startsAt: item.state.startsAt,
+		};
+	});
+	console.log('🚀🚀 ~ fullCallListData ~ fullCallListData:', fullCallListData);
 	const cardContent = [
 		{
 			id: 0,
@@ -69,7 +80,7 @@ const EarningDetails = () => {
 							<div className="widget-content">
 								{/* <Feedback /> */}
 								{/* End post box form */}
-								<h2>List Table</h2>
+								<MeetingTable fullCallListData={fullCallListData} />
 							</div>
 						</div>
 					</div>

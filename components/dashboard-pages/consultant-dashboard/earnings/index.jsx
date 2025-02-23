@@ -1,13 +1,17 @@
+'use client';
 import MobileMenu from '../../../header/MobileMenu';
 import LoginPopup from '../../../common/form/login/LoginPopup';
 import BreadCrumb from '../../BreadCrumb';
-import CopyrightFooter from '../../CopyrightFooter';
-import PackageDataTable from './components/PackageDataTable';
-import MenuToggler from '../../MenuToggler';
-import DashboardConsultantHeader from '@/components/header/DashboardConsultantHeader';
-import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
 
-const index = () => {
+import CopyrightFooter from '../../CopyrightFooter';
+import MenuToggler from '../../MenuToggler';
+import {useSelector} from 'react-redux';
+import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
+import DashboardConsultantHeader from '@/components/header/DashboardConsultantHeader';
+import EarningDetails from './components/EarningDetails';
+
+const Index = () => {
+	const user = useSelector((state) => state.user);
 	return (
 		<div className="page-wrapper dashboard">
 			<span className="header-span"></span>
@@ -28,33 +32,18 @@ const index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title="Consultant Commission!" />
+					<BreadCrumb title={`My Earnings Details`} />
 					{/* breadCrumb */}
 
 					<MenuToggler />
 					{/* Collapsible sidebar button */}
 
-					<div className="row">
-						<div className="col-lg-12">
-							<div className="ls-widget">
-								<div className="tabs-box">
-									<div className="widget-title">
-										<h4>Consultant Earnings Share</h4>
-									</div>
-									{/* End widget-title */}
-
-									<div className="widget-content">
-										<div className="table-outer">
-											<PackageDataTable />
-										</div>
-									</div>
-									{/* End widget-content */}
-								</div>
-							</div>
-							{/* <!-- Ls widget --> */}
+					<div className="h-screen">
+						<div className="row">
+							<EarningDetails />
 						</div>
 					</div>
-					{/* End .row */}
+					{/* End .row top card block */}
 				</div>
 				{/* End dashboard-outer */}
 			</section>
@@ -67,4 +56,4 @@ const index = () => {
 	);
 };
 
-export default index;
+export default Index;

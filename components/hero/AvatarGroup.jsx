@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const AvatarGroup = () => {
@@ -10,7 +11,10 @@ const AvatarGroup = () => {
 	];
 
 	return (
-		<div className="relative flex items-center justify-center">
+		<Link
+			href="/consultants"
+			className="relative flex items-center justify-center hover:cursor-pointer"
+		>
 			{avatars.map((avatar, index) => (
 				<div
 					key={avatar.id}
@@ -33,7 +37,7 @@ const AvatarGroup = () => {
 			>
 				+
 			</div>
-		</div>
+		</Link>
 	);
 };
 

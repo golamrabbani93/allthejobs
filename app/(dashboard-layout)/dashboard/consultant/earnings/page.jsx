@@ -1,15 +1,15 @@
 import dynamic from 'next/dynamic';
-import Packages from '@/components/dashboard-pages/consultant-dashboard/packages';
+import Earnings from '@/components/dashboard-pages/consultant-dashboard/earnings';
 
 export const metadata = {
-	title: 'Commission || AllTheJobs',
+	title: 'My Earnings || AllTheJobs',
 	description: 'AllTheJobs',
 };
 
 const index = () => {
 	return (
 		<>
-			<Packages />
+			<Earnings />
 		</>
 	);
 };

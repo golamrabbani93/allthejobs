@@ -2,12 +2,13 @@
 import MobileMenu from '../../../header/MobileMenu';
 import LoginPopup from '../../../common/form/login/LoginPopup';
 import BreadCrumb from '../../BreadCrumb';
-import TopCardBlock from './components/TopCardBlock';
+
 import CopyrightFooter from '../../CopyrightFooter';
 import MenuToggler from '../../MenuToggler';
 import {useSelector} from 'react-redux';
 import DashboardConsultantSidebar from '@/components/header/DashboardConsultantSidebar';
 import DashboardConsultantHeader from '@/components/header/DashboardConsultantHeader';
+import EarningDetails from './components/EarningDetails';
 
 const Index = () => {
 	const user = useSelector((state) => state.user);
@@ -31,7 +32,7 @@ const Index = () => {
 			{/* <!-- Dashboard --> */}
 			<section className="user-dashboard">
 				<div className="dashboard-outer">
-					<BreadCrumb title={`Welcome ${user?.name}`} />
+					<BreadCrumb title={`My Earnings Details`} />
 					{/* breadCrumb */}
 
 					<MenuToggler />
@@ -39,7 +40,7 @@ const Index = () => {
 
 					<div className="h-screen">
 						<div className="row">
-							<TopCardBlock />
+							<EarningDetails />
 						</div>
 					</div>
 					{/* End .row top card block */}

@@ -49,7 +49,7 @@ const MeetingModal = ({
 
             {scheduling?<span>
               Scheduling...
-            </span>:selectedSlot?"Schedule Meeting":"No Slot Selected"}
+            </span>:selectedSlot?"Schedule Meeting":title=="Meeting Created"?"Meeting Created":"No slot selected"}
           </Button>
         </div>
       </DialogContent>

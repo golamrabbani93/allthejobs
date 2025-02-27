@@ -3,6 +3,9 @@ import axios from "axios";
 
 // this doesn't consider timezone and returns the date in YYYY-MM-DD format
 export const getRawDate=(dateObj)=>{
+  if(!dateObj){
+    return
+  }
   const year = dateObj.getFullYear();
   const month = String(dateObj.getMonth() + 1).padStart(2, '0'); 
   const day = String(dateObj.getDate()).padStart(2, '0');

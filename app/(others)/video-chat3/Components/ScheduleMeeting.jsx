@@ -15,11 +15,13 @@ import {Button} from '@/components/ui/button';
 import {Calendar} from '@/components/ui/calendar';
 import {cn} from '@/lib/utils';
 import Spinner from '@/components/Sppiner/Spinner';
+import { sendEmail } from '@/lib/resend';
 const ScheduleMeeting = ({
 	button_text = 'Schedule Meeting',
 	consultant_id,
 	consultant_name = 'default',
 	consultant_real_id = 0,
+	consultant_email
 }) => {
 	const [meetingState, setMeetingState] = useState();
 	const user_redux = useSelector((state) => state.user);
@@ -27,6 +29,7 @@ const ScheduleMeeting = ({
 	const [selectedSlot, setSelectedSlot] = useState(null);
 	const [slotLoading, setSlotLoading] = useState(false);
 	const [scheduling, setScheduling] = useState(false);
+	console.log(user);
 	useEffect(() => {
 		setUser(user_redux);
 	}, [user_redux]);
@@ -74,21 +77,21 @@ const ScheduleMeeting = ({
 					},
 				},
 			});
-
 			if (!call.id) {
 				throw new Error('Failed to create meeting ID');
 			}
+			await sendEmail(user?.email,user?.name,consultant_email,consultant_name,startsAt,description)
+			setCallDetails(call);
+			setScheduling(false);
+			toast({
+				title: 'Meeting Created',
+			});
 			await updateAvailableSlots(
 				values.consultant_id,
 				getRawDate(values.datetime),
 				values.datetime,
 				'requested',
 			);
-			setCallDetails(call);
-			setScheduling(false);
-			toast({
-				title: 'Meeting Created',
-			});
 		} catch (error) {
 			console.log(error);
 			toast({
@@ -117,10 +120,14 @@ const ScheduleMeeting = ({
 			setSelectedSlot(null);
 			const formattedDate = getRawDate(values.datetime);
 			const slots = await fetchAvailableSlots(consultant_id, formattedDate, 'available');
+			console.log(slots);
 			setSlotLoading(false);
 			setTimeSlots(slots);
 		};
-		fetchTimeSlots();
+		if(values.datetime){
+			console.log(values.datetime);
+			fetchTimeSlots();
+		}
 	}, [values.datetime]);
 
 	const meetingLink = `${process.env.NEXT_PUBLIC_BASE_URL}/video-chat3/meeting/${callDetails?.id}`;
@@ -129,7 +136,9 @@ const ScheduleMeeting = ({
 	}
 
 	const handleSlotSelection = (slot) => {
+		console.log(slot);
 		setSelectedSlot(slot);
+		console.log(selectedSlot);
 		const {hours, minutes} = convertToTime(slot.split('-')[0]);
 		const date = values.datetime;
 		date.setHours(hours);
@@ -145,7 +154,7 @@ const ScheduleMeeting = ({
 				<MeetingModal
 					isOpen={meetingState === 'isScheduledMeeting'}
 					onClose={() => setMeetingState(undefined)}
-					title={`Get Consultant Form ${consultant_name}`}
+					title={`Get Consultation Form ${consultant_name}`}
 					handleClick={createMeeting}
 					selectedSlot={selectedSlot}
 					scheduling={scheduling}

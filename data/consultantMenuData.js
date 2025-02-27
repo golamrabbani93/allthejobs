@@ -38,7 +38,7 @@ module.exports = [
 		id: 6,
 		name: 'Previous Meetings',
 		icon: 'la-file-invoice',
-		routePath: '/ ng',
+		routePath: '/dashboard/consultant/previous-meeting',
 		active: '',
 	},
 	// {

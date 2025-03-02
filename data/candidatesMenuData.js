@@ -50,6 +50,13 @@ module.exports = [
 		active: '',
 		Children: [
 			{
+				id: 3,
+				name: 'Book A Meeting',
+				icon: 'la-calendar-plus',
+				routePath: '/consultants',
+				active: '',
+			},
+			{
 				id: 4,
 				name: 'Booked Meetings',
 				icon: 'la-business-time',

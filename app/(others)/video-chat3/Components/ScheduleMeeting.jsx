@@ -15,13 +15,13 @@ import {Button} from '@/components/ui/button';
 import {Calendar} from '@/components/ui/calendar';
 import {cn} from '@/lib/utils';
 import Spinner from '@/components/Sppiner/Spinner';
-import { sendEmail } from '@/lib/resend';
+import {sendEmail} from '@/lib/resend';
 const ScheduleMeeting = ({
 	button_text = 'Schedule Meeting',
 	consultant_id,
 	consultant_name = 'default',
 	consultant_real_id = 0,
-	consultant_email
+	consultant_email,
 }) => {
 	const [meetingState, setMeetingState] = useState();
 	const user_redux = useSelector((state) => state.user);
@@ -80,7 +80,14 @@ const ScheduleMeeting = ({
 			if (!call.id) {
 				throw new Error('Failed to create meeting ID');
 			}
-			await sendEmail(user?.email,user?.name,consultant_email,consultant_name,startsAt,description)
+			await sendEmail(
+				user?.email,
+				user?.name,
+				consultant_email,
+				consultant_name,
+				startsAt,
+				description,
+			);
 			setCallDetails(call);
 			setScheduling(false);
 			toast({
@@ -124,7 +131,7 @@ const ScheduleMeeting = ({
 			setSlotLoading(false);
 			setTimeSlots(slots);
 		};
-		if(values.datetime){
+		if (values.datetime) {
 			console.log(values.datetime);
 			fetchTimeSlots();
 		}
@@ -154,7 +161,7 @@ const ScheduleMeeting = ({
 				<MeetingModal
 					isOpen={meetingState === 'isScheduledMeeting'}
 					onClose={() => setMeetingState(undefined)}
-					title={`Get Consultation Form ${consultant_name}`}
+					title={`Available Slots For ${consultant_name}`}
 					handleClick={createMeeting}
 					selectedSlot={selectedSlot}
 					scheduling={scheduling}

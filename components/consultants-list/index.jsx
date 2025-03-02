@@ -114,6 +114,7 @@ const ConsultantsList = () => {
 																button_text="Book Meeting"
 																consultant_name={consultant?.user.name}
 																consultant_real_id={consultant.consultant_id}
+																consultant_email={consultant.user.email}
 															></ScheduleMeeting>
 														) : (
 															<Link href="/login">

@@ -39,8 +39,9 @@ const index = () => {
 							{/* <!-- Ls widget --> */}
 							<div className="ls-widget">
 								<div className="tabs-box">
-									<div className="widget-title">
+									<div className="widget-title d-block">
 										<h4>Post Job</h4>
+										<h6 className="text-blue-700">All Fields are Required</h6>
 									</div>
 
 									<div className="widget-content">

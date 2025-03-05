@@ -31,7 +31,11 @@ export async function OpenAIStream(payload:OpenAIStreamPayload){
     method: "POST",
     body: JSON.stringify(payload),
   });
-  // console.log(res);
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error('Error from OpenAI API:', res.status, errorText);
+    throw new Error(`OpenAI API error: ${res.status} ${errorText}`);
+  }
 
 
   const stream=new ReadableStream({

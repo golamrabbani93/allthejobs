@@ -12,7 +12,6 @@ export default function DataTable({ data, meetingType }) {
     verified: "bg-green-500",
     blocked: "bg-red-500",
   };
-  console.log(typeof(data[0].state.startsAt.toLocaleString()));
   const router=useRouter()
 
   return (

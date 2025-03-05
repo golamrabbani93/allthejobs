@@ -38,14 +38,18 @@ const FilterTopBox = () => {
 	} = useSelector((state) => state.candidateFilter) || {};
 
 	const dispatch = useDispatch();
-
+	const {talents, loading} = useSelector((state) => state.data);
+	console.log('🚀🚀 ~ }=useSelector ~ talents:', talents);
+	if (loading) return <p>Loading...</p>;
 	// keyword filter
 	const keywordFilter = (item) =>
-		keyword !== '' ? item?.name?.toLowerCase().includes(keyword?.toLowerCase()) && item : item;
+		keyword !== ''
+			? item?.user?.name?.toLowerCase().includes(keyword?.toLowerCase()) && item
+			: item;
 
 	// location filter
 	const locationFilter = (item) =>
-		location !== '' ? item?.location?.toLowerCase().includes(location?.toLowerCase()) : item;
+		location !== '' ? item?.country?.toLowerCase().includes(location?.toLowerCase()) : item;
 
 	// destination filter
 	const destinationFilter = (item) =>
@@ -82,41 +86,49 @@ const FilterTopBox = () => {
 	// sort filter
 	const sortFilter = (a, b) => (sort === 'des' ? a.id > b.id && -1 : a.id < b.id && -1);
 
-	let content = candidatesData
+	let content = talents
 		?.slice(perPage.start, perPage.end === 0 ? 10 : perPage.end)
 		?.filter(keywordFilter)
 		?.filter(locationFilter)
-		?.filter(destinationFilter)
-		?.filter(categoryFilter)
-		?.filter(genderFilter)
-		?.filter(datePostedFilter)
-		?.filter(experienceFilter)
-		?.filter(qualificationFilter)
-		?.sort(sortFilter)
+		// ?.filter(destinationFilter)
+		// ?.filter(categoryFilter)
+		// ?.filter(genderFilter)
+		// ?.filter(datePostedFilter)
+		// ?.filter(experienceFilter)
+		// ?.filter(qualificationFilter)
+		// ?.sort(sortFilter)
 		?.map((candidate) => (
-			<div className="candidate-block-three" key={candidate.id}>
+			<div className="candidate-block-three" key={candidate?.talent_id}>
 				<div className="inner-box">
 					<div className="content">
 						<figure className="image">
-							<Image width={90} height={90} src={candidate.avatar} alt="candidates" />
+							<Image
+								width={90}
+								height={90}
+								src={
+									candidate?.user?.photo ||
+									'https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png'
+								}
+								alt="candidates"
+							/>
 						</figure>
 						<h4 className="name">
-							<Link href={`/talents/${candidate.id}`}>{candidate.name}</Link>
+							<Link href={`/talents/${candidate?.talent_id}`}>{candidate?.user?.name}</Link>
 						</h4>
 
 						<ul className="candidate-info">
-							<li className="designation">{candidate.designation}</li>
+							<li className="designation">{candidate?.headline}</li>
 							<li>
-								<span className="icon flaticon-map-locator"></span> {candidate.location}
+								<span className="icon flaticon-map-locator"></span> {candidate?.country}
 							</li>
 							<li>
-								<span className="icon flaticon-money"></span> ${candidate.hourlyRate} / hour
+								<span className="icon flaticon-target"></span>${candidate.experience}
 							</li>
 						</ul>
 						{/* End candidate-info */}
 
 						<ul className="post-tags">
-							{candidate.tags.map((val, i) => (
+							{candidate?.tags?.map((val, i) => (
 								<li key={i}>
 									<a href="#">{val}</a>
 								</li>
@@ -131,7 +143,7 @@ const FilterTopBox = () => {
 						</button>
 						{/* End bookmark-btn */}
 
-						<Link href={`/talents/${candidate.id}`} className="theme-btn btn-style-three">
+						<Link href={`/talents/${candidate?.talent_id}`} className="theme-btn btn-style-three">
 							<span className="btn-title">View Profile</span>
 						</Link>
 					</div>

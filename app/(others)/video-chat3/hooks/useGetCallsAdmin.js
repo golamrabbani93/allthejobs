@@ -37,9 +37,11 @@ export const useGetCallsAdmin = () => {
 	const previousCalls = calls.filter(({state: {startsAt, endedAt}}) => {
 		return (startsAt && new Date(startsAt).getTime() + 60 * 60 * 1000  < now) || !!endedAt;
 	});
-	const upcomingCalls = calls.filter(({state: {startsAt, custom}}) => {
-		return startsAt && new Date(startsAt).getTime() + 60 * 60 * 1000 > now && custom?.isAccepted === true;
-	});
+	const upcomingCalls = calls
+  .filter(({state: {startsAt, custom}}) => {
+    return startsAt && new Date(startsAt).getTime() + 60 * 60 * 1000 > now && custom?.isAccepted === true;
+  })
+  .sort((a, b) => new Date(a.state.startsAt) - new Date(b.state.startsAt));
 
 	const meetingRequest = calls.filter(({state: {startsAt, custom}}) => {
 		return startsAt && new Date(startsAt) > now && custom?.isAccepted === false;

@@ -1,4 +1,5 @@
 'use client';
+import toast, { Toaster } from 'react-hot-toast';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, {useEffect, useState} from 'react';
 import DatePicker from 'react-datepicker';
@@ -105,17 +106,26 @@ export default function SlotManagement() {
 			selectedDateCopy.setHours(hour_minute[0]);
 			selectedDateCopy.setMinutes(hour_minute[1]);
 			selectedDateCopy.setSeconds(0);
+			if(selectedDateCopy<new Date()){
+				continue
+			}
 			slotsData.push({
 				consultant,
 				start_time: selectedDateCopy,
 				status: 'available',
 			});
 		}
-
+		if(!slotsData.length){
+			console.log('hello from slots data');
+			toast.error("You can only set upcoming slot as your availability")
+			setIsSubmitting(false);
+			return
+		}
 		try {
 			const response = await createAvailableSlots(slotsData);
 			setSelectedSlots([]);
-			handleRetrieveSlots();
+			await handleRetrieveSlots();
+			toast.success("Slot(s) added successfully")
 		} catch (error) {
 			console.error(error);
 		}
@@ -134,6 +144,8 @@ export default function SlotManagement() {
 
 	return (
 		<div className="container mx-auto p-4">
+			<div><Toaster   position="top-right"
+  reverseOrder={false}/></div>
 			<div className="flex">
 				<DatePicker
 					selected={selectedDate}

@@ -4,20 +4,25 @@ import Image from 'next/image';
 import DefaulHeader2 from '@/components/header/DefaulHeader2';
 import {useSelector} from 'react-redux';
 import MobileMenu from '../header/MobileMenu';
-import AboutVideo from './shared-components/AboutVideo';
-import GalleryBox from './shared-components/GalleryBox';
+
 import Social from './social/Social';
 import JobSkills from './shared-components/JobSkills';
 import Contact from './shared-components/Contact';
 import FooterDefault from '@/components/footer/common-footer';
+import Loader from '../Loader/Loader';
 
 const index = ({id}) => {
-	const {consultants, loading} = useSelector((state) => state.data);
-	// console.log('🚀🚀 ~ index ~ consultants:', consultants);
-	const consultant = consultants.find((item) => item.consultant_id == id) || consultants[0];
-	console.log('🚀🚀 ~ index ~ consultant:', consultant);
+	const {talents, loading} = useSelector((state) => state.data);
+	const talent = talents?.find((item) => item.talent_id == id) || talents[0];
+	console.log('🚀🚀 ~ index ~ talent:', talent);
 
-	if (loading) return <h1>Loading...</h1>;
+	if (loading || !talent) {
+		return (
+			<div className="justify-center items-center flex h-screen">
+				<Loader />
+			</div>
+		);
+	}
 	return (
 		<>
 			{/* <!-- Header Span --> */}
@@ -42,40 +47,43 @@ const index = ({id}) => {
 										<Image
 											width={100}
 											height={100}
-											src={consultant?.user?.photo || ''}
+											src={talent?.user?.photo || '/images/resource/company-logo/1-1.png'}
 											alt="avatar"
 										/>
 									</figure>
-									<h4 className="name">{consultant?.user?.name}</h4>
+									<h4 className="name">{talent?.user?.name}</h4>
 
 									<ul className="candidate-info">
-										<li className="designation">{consultant?.designation}</li>
+										<li className="designation">{talent?.headline}</li>
 										<li>
 											<span className="icon flaticon-map-locator"></span>
-											{consultant?.location}
+											{talent?.province},
+											{talent?.country === 'United States'
+												? 'USA'
+												: talent?.country
+												? talent?.country === 'United Kingdom'
+													? 'UK'
+													: talent?.country
+												: ''}
 										</li>
 										<li>
-											<span className="icon flaticon-money"></span> ${consultant?.hourlyRate} / hour
+											<span className="icon flaticon-money"></span> ${talent?.current_salary}/
+											Current Salary
 										</li>
-										<li>
-											<span className="icon flaticon-clock"></span> Member Since,Aug 19, 2020
-										</li>
-									</ul>
-
-									<ul className="post-tags">
-										{consultant?.tags?.map((val, i) => (
-											<li key={i}>{val}</li>
-										))}
 									</ul>
 								</div>
 
 								<div className="btn-box">
-									<a className="theme-btn btn-style-one" href="/images/sample.pdf" download>
-										Download CV
-									</a>
-									<button className="bookmark-btn">
-										<i className="flaticon-bookmark"></i>
-									</button>
+									{talent?.resume && (
+										<a
+											className="theme-btn btn-style-one"
+											target="_blank"
+											href={talent?.resume}
+											download
+										>
+											Download CV
+										</a>
+									)}
 								</div>
 							</div>
 						</div>
@@ -90,62 +98,86 @@ const index = ({id}) => {
 							<div className="content-column col-lg-8 col-md-12 col-sm-12">
 								<div className="job-detail">
 									<div className="video-outer">
-										<h4>Candidates About</h4>
-										<AboutVideo />
+										<h4>Talent About</h4>
 									</div>
 									{/* <!-- About Video Box --> */}
-									<p>
-										Hello my name is Nicole Wells and web developer from Portland. In pharetra orci
-										dignissim, blandit mi semper, ultricies diam. Suspendisse malesuada suscipit
-										nunc non volutpat. Sed porta nulla id orci laoreet tempor non consequat enim.
-										Sed vitae aliquam velit. Aliquam ante erat, blandit at pretium et, accumsan ac
-										est. Integer vehicula rhoncus molestie. Morbi ornare ipsum sed sem condimentum,
-										et pulvinar tortor luctus. Suspendisse condimentum lorem ut elementum aliquam.
-									</p>
-									<p>
-										Mauris nec erat ut libero vulputate pulvinar. Aliquam ante erat, blandit at
-										pretium et, accumsan ac est. Integer vehicula rhoncus molestie. Morbi ornare
-										ipsum sed sem condimentum, et pulvinar tortor luctus. Suspendisse condimentum
-										lorem ut elementum aliquam. Mauris nec erat ut libero vulputate pulvinar.
-									</p>
+									<p>{talent?.about}</p>
 
-									{/* <!-- Portfolio --> */}
-									<div className="portfolio-outer">
-										<div className="row">
-											<GalleryBox />
+									<div className={`resume-outer theme-blue`}>
+										<div className="upper-title">
+											<h4>Experience</h4>
 										</div>
+										{/* <!-- Start Experience BLock --> */}
+										{talent?.experience_details?.map((item, i) => (
+											<div className="resume-block" key={i}>
+												<div className="inner">
+													<span className="name">{item.companyName.slice(0, 1)}</span>
+													<div className="title-box">
+														<div className="info-box">
+															<h3>{item.role}</h3>
+															<span>{item.companyName}</span>
+														</div>
+														<div className="edit-box">
+															<span className="year">{item.duration}</span>
+														</div>
+													</div>
+													<div className="text">{item.description}</div>
+												</div>
+											</div>
+										))}
+
+										{/* <!-- End Experience BLock --> */}
 									</div>
 
-									{/* <!-- Candidate Resume Start --> */}
-									{/* {candidateResume.map((resume) => (
-										<div className={`resume-outer ${resume.themeColor}`} key={resume.id}>
-											<div className="upper-title">
-												<h4>{resume?.title}</h4>
-											</div> */}
-
-									{/* <!-- Start Resume BLock --> */}
-									{/* {resume?.blockList?.map((item) => (
-												<div className="resume-block" key={item.id}>
-													<div className="inner">
-														<span className="name">{item.meta}</span>
-														<div className="title-box">
-															<div className="info-box">
-																<h3>{item.name}</h3>
-																<span>{item.industry}</span>
-															</div>
-															<div className="edit-box">
-																<span className="year">{item.year}</span>
-															</div>
+									{/* <!-- Start Education BLock --> */}
+									<div className={`resume-outer`}>
+										<div className="upper-title">
+											<h4>Education</h4>
+										</div>
+										{talent?.education_details?.map((item, i) => (
+											<div className="resume-block" key={i}>
+												<div className="inner">
+													<span className="name">{item.institutionName.slice(0, 1)}</span>
+													<div className="title-box">
+														<div className="info-box">
+															<h3>{item.degreeName}</h3>
+															<span>{item.institutionName}</span>
 														</div>
-														<div className="text">{item.text}</div>
+														<div className="edit-box">
+															<span className="year">{item.duration}</span>
+														</div>
 													</div>
+													<div className="text">{item.description}</div>
 												</div>
-											))} */}
+											</div>
+										))}
+									</div>
+									{/* <!-- End Education BLock --> */}
 
-									{/* <!-- End Resume BLock --> */}
-									{/* </div>
-									))} */}
-									{/* <!-- Candidate Resume End --> */}
+									<div className={`resume-outer theme-yellow`}>
+										<div className="upper-title">
+											<h4>Awards</h4>
+										</div>
+										{/* <!-- Start Awards BLock --> */}
+										{talent?.awards?.map((item, i) => (
+											<div className="resume-block" key={i}>
+												<div className="inner">
+													<span className="name">{item.category.slice(0, 1)}</span>
+													<div className="title-box">
+														<div className="info-box">
+															<h3>{item.title}</h3>
+															<span>{item.category}</span>
+														</div>
+														<div className="edit-box">
+															<span className="year">{item.duration}</span>
+														</div>
+													</div>
+													<div className="text">{item.description}</div>
+												</div>
+											</div>
+										))}
+									</div>
+									{/* <!-- End Awards BLock --> */}
 								</div>
 							</div>
 							{/* End .content-column */}
@@ -153,48 +185,60 @@ const index = ({id}) => {
 							<div className="sidebar-column col-lg-4 col-md-12 col-sm-12">
 								<aside className="sidebar">
 									<div className="sidebar-widget">
+										<h4 className="widget-title">Professional Skills</h4>
+										<div className="widget-content">
+											<ul className="job-skills">
+												<JobSkills skills={talent?.skills} />
+											</ul>
+										</div>
+									</div>
+									<div className="sidebar-widget">
 										<div className="widget-content">
 											<ul className="job-overview">
 												<li>
 													<i className="icon icon-calendar"></i>
 													<h5>Experience:</h5>
-													<span>0-2 Years</span>
+													<span>{talent?.experience}</span>
 												</li>
 
 												<li>
 													<i className="icon icon-expiry"></i>
 													<h5>Age:</h5>
-													<span>28-33 Years</span>
+													<span>{talent?.age}</span>
 												</li>
 
 												<li>
 													<i className="icon icon-rate"></i>
 													<h5>Current Salary:</h5>
-													<span>11K - 15K</span>
+													<span>${talent?.current_salary}</span>
 												</li>
-
 												<li>
-													<i className="icon icon-salary"></i>
+													<i className="icon icon-rate"></i>
 													<h5>Expected Salary:</h5>
-													<span>26K - 30K</span>
+													<span>${talent?.expected_salary}</span>
 												</li>
 
 												<li>
 													<i className="icon icon-user-2"></i>
 													<h5>Gender:</h5>
-													<span>Female</span>
+													<span>{talent?.gender}</span>
 												</li>
 
 												<li>
 													<i className="icon icon-language"></i>
 													<h5>Language:</h5>
-													<span>English, German, Spanish</span>
+													{talent?.language?.map((lang, i) => (
+														<span key={i}>
+															{lang}
+															{i === talent?.language.length - 1 ? '' : ','}
+														</span>
+													))}
 												</li>
 
 												<li>
 													<i className="icon icon-degree"></i>
 													<h5>Education Level:</h5>
-													<span>Master Degree</span>
+													<span>{talent?.education_level}</span>
 												</li>
 											</ul>
 										</div>
@@ -211,14 +255,6 @@ const index = ({id}) => {
 									</div>
 									{/* End .sidebar-widget social-media-widget */}
 
-									<div className="sidebar-widget">
-										<h4 className="widget-title">Professional Skills</h4>
-										<div className="widget-content">
-											<ul className="job-skills">
-												<JobSkills />
-											</ul>
-										</div>
-									</div>
 									{/* End .sidebar-widget skill widget */}
 
 									<div className="sidebar-widget contact-widget">

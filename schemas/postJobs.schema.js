@@ -92,7 +92,8 @@ export const postJobsSchema = z.object({
 		.optional()
 		.refine((val) => val !== undefined, {
 			message: 'Please select a featured Option',
-		}),
+		})
+		.optional(),
 	ap_deadline: z.date({
 		message: 'Date is required',
 	}),

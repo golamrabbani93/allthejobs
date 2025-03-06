@@ -1,8 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import ListingShowing from '../components/ListingShowing';
-import candidatesData from '../../../data/candidates';
 import {useDispatch, useSelector} from 'react-redux';
 import {
 	addCandidateGender,
@@ -22,6 +20,9 @@ import {
 	clearQualification,
 } from '../../../features/candidate/candidateSlice';
 import Image from 'next/image';
+import Pagination from '../components/Pagination';
+import {useState} from 'react';
+import Loader from '@/components/Loader/Loader';
 
 const FilterTopBox = () => {
 	const {
@@ -36,11 +37,12 @@ const FilterTopBox = () => {
 		sort,
 		perPage,
 	} = useSelector((state) => state.candidateFilter) || {};
-
 	const dispatch = useDispatch();
+	const [currentPage, setCurrentPage] = useState(1);
 	const {talents, loading} = useSelector((state) => state.data);
-	console.log('🚀🚀 ~ }=useSelector ~ talents:', talents);
-	if (loading) return <p>Loading...</p>;
+
+	if (loading || talents?.length == 0) return <Loader />;
+
 	// keyword filter
 	const keywordFilter = (item) =>
 		keyword !== ''
@@ -51,18 +53,10 @@ const FilterTopBox = () => {
 	const locationFilter = (item) =>
 		location !== '' ? item?.country?.toLowerCase().includes(location?.toLowerCase()) : item;
 
-	// destination filter
-	const destinationFilter = (item) =>
-		item?.destination?.min >= destination?.min && item?.destination?.max <= destination?.max;
-
-	// category filter
-	const categoryFilter = (item) =>
-		category !== '' ? item?.category?.toLocaleLowerCase() === category?.toLocaleLowerCase() : item;
-
 	// gender filter
 	const genderFilter = (item) =>
 		candidateGender !== ''
-			? item?.gender.toLocaleLowerCase() === candidateGender.toLocaleLowerCase() && item
+			? item?.gender?.toLocaleLowerCase() === candidateGender?.toLocaleLowerCase() && item
 			: item;
 
 	// date-posted filter
@@ -74,29 +68,48 @@ const FilterTopBox = () => {
 	// experience filter
 	const experienceFilter = (item) =>
 		experiences?.length !== 0
-			? experiences?.includes(item?.experience?.split(' ').join('-').toLocaleLowerCase())
+			? experiences[0]?.toLocaleLowerCase() === item.experience?.toLocaleLowerCase()
 			: item;
 
 	// qualification filter
 	const qualificationFilter = (item) =>
 		qualifications?.length !== 0
-			? qualifications?.includes(item?.qualification?.split(' ').join('-').toLocaleLowerCase())
+			? qualifications[0]?.toLocaleLowerCase() === item.education_level?.toLocaleLowerCase()
 			: item;
 
 	// sort filter
 	const sortFilter = (a, b) => (sort === 'des' ? a.id > b.id && -1 : a.id < b.id && -1);
 
+	// Pagination logic
+	const itemsPerPage = perPage.end === 0 ? 10 : perPage.end; // Items to display per page
+	const totalPages = Math.ceil(
+		// Total number of pages
+		talents
+			?.filter(keywordFilter)
+			?.filter(locationFilter)
+			?.filter(genderFilter)
+			?.filter(experienceFilter)
+			?.filter(qualificationFilter)
+			?.sort(sortFilter)?.length / itemsPerPage,
+	);
+
+	const handlePageChange = (page) => {
+		setCurrentPage(page);
+	};
+
+	// Calculate the start and end index for the current page
+	const startIndex = (currentPage - 1) * itemsPerPage;
+	const endIndex = startIndex + itemsPerPage;
+
+	// Filter and slice the data for the current page
 	let content = talents
-		?.slice(perPage.start, perPage.end === 0 ? 10 : perPage.end)
 		?.filter(keywordFilter)
 		?.filter(locationFilter)
-		// ?.filter(destinationFilter)
-		// ?.filter(categoryFilter)
-		// ?.filter(genderFilter)
-		// ?.filter(datePostedFilter)
-		// ?.filter(experienceFilter)
-		// ?.filter(qualificationFilter)
-		// ?.sort(sortFilter)
+		?.filter(genderFilter)
+		?.filter(experienceFilter)
+		?.filter(qualificationFilter)
+		?.sort(sortFilter)
+		?.slice(startIndex, endIndex)
 		?.map((candidate) => (
 			<div className="candidate-block-three" key={candidate?.talent_id}>
 				<div className="inner-box">
@@ -138,11 +151,6 @@ const FilterTopBox = () => {
 					{/* End content */}
 
 					<div className="btn-box">
-						<button className="bookmark-btn me-2">
-							<span className="flaticon-bookmark"></span>
-						</button>
-						{/* End bookmark-btn */}
-
 						<Link href={`/talents/${candidate?.talent_id}`} className="theme-btn btn-style-three">
 							<span className="btn-title">View Profile</span>
 						</Link>
@@ -197,7 +205,7 @@ const FilterTopBox = () => {
 					{/* Collapsible sidebar button */}
 
 					<div className="text">
-						<strong>{content?.length}</strong> jobs
+						Total: <strong>{content?.length} Talents</strong>
 					</div>
 				</div>
 				{/* End showing-result */}
@@ -224,11 +232,11 @@ const FilterTopBox = () => {
 						</button>
 					) : undefined}
 
-					<select onChange={sortHandler} className="chosen-single form-select" value={sort}>
+					{/* <select onChange={sortHandler} className="chosen-single form-select" value={sort}>
 						<option value="">Sort by (default)</option>
 						<option value="asc">Newest</option>
 						<option value="des">Oldest</option>
-					</select>
+					</select> */}
 					{/* End select */}
 
 					<select
@@ -276,7 +284,12 @@ const FilterTopBox = () => {
 
 			{content}
 
-			<ListingShowing />
+			<Pagination
+				totalPages={totalPages}
+				handlePageChange={handlePageChange}
+				currentPage={currentPage}
+				content={content}
+			/>
 			{/* <!-- Listing Show More --> */}
 		</>
 	);

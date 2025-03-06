@@ -35,12 +35,12 @@ const FilterSidebar = () => {
 				</div>
 				{/* <!-- Filter Block --> */}
 
-				<div className="filter-block">
+				{/* <div className="filter-block">
 					<h4>Category</h4>
 					<div className="form-group">
 						<Categories />
 					</div>
-				</div>
+				</div> */}
 				{/* <!-- Filter Block --> */}
 
 				<div className="filter-block">
@@ -51,10 +51,10 @@ const FilterSidebar = () => {
 				</div>
 				{/* <!-- Filter Block --> */}
 
-				<div className="checkbox-outer">
+				{/* <div className="checkbox-outer">
 					<h4>Date Posted</h4>
 					<DatePosted />
-				</div>
+				</div> */}
 				{/* <!-- Filter Block --> */}
 
 				<div className="checkbox-outer">

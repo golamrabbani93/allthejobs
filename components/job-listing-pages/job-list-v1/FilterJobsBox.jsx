@@ -21,26 +21,24 @@ import {
 	clearJobTypeToggle,
 } from '../../../features/job/jobSlice';
 import Image from 'next/image';
-import ListingShowing from '../components/ListingShowing';
 import Pagination from '../components/Pagination';
 import {
 	addJobToWishlist,
 	removeJobFromWishlist,
 } from '@/features/wishlistJobsSlice/wishlistJobsSlice';
-import {useGetJobsQuery} from '@/features/job/job.management.api';
 import Loader from '@/components/Loader/Loader';
 import {timeCategory} from '@/utils/timeCategory';
+import {useState} from 'react';
 
 const FilterJobsBox = () => {
 	//get jobs data in redux
 	const {jobs, loading} = useSelector((state) => state.data);
 
-	//get experience levelbut dont copy the same value
-	const experiencesa = jobs?.map((item) => item.experience);
-
 	const {jobList, jobSort} = useSelector((state) => state.filter);
+	const [currentPage, setCurrentPage] = useState(1);
 	const {keyword, location, destination, category, jobType, datePosted, experience, salary, tag} =
 		jobList || {};
+	console.log('🚀🚀 ~ FilterJobsBox ~ location:', location);
 
 	const {sort, perPage} = jobSort;
 
@@ -55,7 +53,7 @@ const FilterJobsBox = () => {
 	// location filter
 	const locationFilter = (item) =>
 		location !== ''
-			? item?.country?.toLocaleLowerCase().includes(location?.toLocaleLowerCase())
+			? item?.employer?.country?.toLowerCase().includes(location?.toLowerCase())
 			: item;
 
 	// location filter
@@ -103,19 +101,36 @@ const FilterJobsBox = () => {
 
 	// sort filter
 	const sortFilter = (a, b) => (sort === 'des' ? a.id > b.id && -1 : a.id < b.id && -1);
+
+	// Pagination logic
+	const itemsPerPage = perPage.end === 0 ? 10 : perPage.end; // Items to display per page
+	const totalPages = Math.ceil(
+		// Total number of pages
+		jobs
+			?.filter(keywordFilter)
+			?.filter(locationFilter)
+			?.filter(jobTypeFilter)
+			?.filter(datePostedFilter)
+			?.filter(experienceFilter)
+			?.filter(salaryFilter)?.length / itemsPerPage,
+	);
+
+	const handlePageChange = (page) => {
+		setCurrentPage(page);
+	};
+
+	// Calculate the start and end index for the current page
+	const startIndex = (currentPage - 1) * itemsPerPage;
+	const endIndex = startIndex + itemsPerPage;
 	if (loading) return <Loader />;
 	let content = jobs
 		?.filter(keywordFilter)
 		?.filter(locationFilter)
-		// ?.filter(destinationFilter)
-		// ?.filter(categoryFilter)
 		?.filter(jobTypeFilter)
 		?.filter(datePostedFilter)
 		?.filter(experienceFilter)
 		?.filter(salaryFilter)
-		// ?.filter(tagFilter)
-		// ?.sort(sortFilter)
-		// .slice(perPage.start, perPage.end !== 0 ? perPage.end : 10)
+		?.slice(startIndex, endIndex)
 		?.map((item) => {
 			// check wish list item
 			const isWishListJob = wishListJobs.find((wishItem) => wishItem.job_id === item.job_id);
@@ -276,11 +291,6 @@ const FilterJobsBox = () => {
 						</button>
 					) : undefined}
 
-					<select value={sort} className="chosen-single form-select" onChange={sortHandler}>
-						<option value="">Sort by (default)</option>
-						<option value="asc">Newest</option>
-						<option value="des">Oldest</option>
-					</select>
 					{/* End select */}
 
 					<select
@@ -328,7 +338,12 @@ const FilterJobsBox = () => {
 			{content}
 			{/* <!-- List Show More --> */}
 
-			{/* <Pagination /> */}
+			<Pagination
+				totalPages={totalPages}
+				handlePageChange={handlePageChange}
+				currentPage={currentPage}
+				content={content}
+			/>
 		</>
 	);
 };

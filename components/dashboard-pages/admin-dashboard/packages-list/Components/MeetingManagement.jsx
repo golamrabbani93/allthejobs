@@ -14,37 +14,20 @@ export default function MeetingManagement() {
 	const [searchTerm, setSearchTerm] = useState('');
 	const [currentPage, setCurrentPage] = useState(1);
 	const [ITEMS_PER_PAGE, setITEMS_PER_PAGE] = useState(15);
-	const [meetingType, setMeetingType] = useState('previous');
+	const [meetingType, setMeetingType] = useState('upcoming');
 	const {upcomingCalls, previousCalls, recordings, isLoading, meetingRequest, role} =
 		useGetCallsAdmin();
-	console.log(previousCalls);
-
 	const filteredData = useMemo(() => {
 		if (meetingType === 'upcoming') {
-			// Object.values(item).slice(1,3).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
 			return upcomingCalls;
 		} else if (meetingType === 'previous') {
-			// Object.values(item).slice(1,3).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
-			// return previousCalls;
-			if (previousCalls.length) {
-				console.log('this is real deal', Object.values(previousCalls[0].state.custom).splice(1, 3));
-			}
 			return previousCalls.filter((item) =>
 				Object.values(item.state.custom).some((value) =>
 					value.toString().toLowerCase().includes(searchTerm.toLowerCase()),
 				),
 			);
 		}
-		// return users.filter(
-		//   (item) =>
-		//     (roleFilter === "all" || item.role === roleFilter) && (statusFilter === "all" || item.account_status === statusFilter) &&
-		//   // search by any property, commented it because some of the properties are null which creates problem when comparing
-		//     // Object.values(item).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
-		//     // search by first name,email items
-		//     // Object.values(item).slice(1,3).some((value) => value.toString().toLowerCase().includes(searchTerm.toLowerCase())),
-		//     // only search by email
-		//     // Object.values(item)[1].toString().toLowerCase().includes(searchTerm.toLowerCase()),
-		// )
+
 	}, [searchTerm, previousCalls, upcomingCalls, ITEMS_PER_PAGE]);
 
 	const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
@@ -69,22 +52,13 @@ export default function MeetingManagement() {
 	const handleStatusFilter = (status) => {
 		setMeetingType(status);
 	};
-	const handleEdit = (id, data) => {
-		setEditingUser(data);
-		setIsEditing(true);
-	};
 
-	const handleDelete = (id) => {
-		// Implement delete functionality here
-		const newData = users.filter((item) => item.id !== id);
-		// Update users here (in a real app, you'd update the database)
-		console.log(`Deleted item with id: ${id}`);
-	};
+
 
 	return (
 		<div className="container mx-auto p-4">
 			<h1 className="text-2xl font-bold mb-4">Meeting Management</h1>
-			{!filteredData.length ? (
+			{isLoading ? (
 				<div className="widget-content h-96 flex justify-center items-center">
 					<Spinner size="sm" />
 				</div>

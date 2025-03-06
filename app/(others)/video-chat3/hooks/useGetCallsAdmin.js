@@ -21,7 +21,7 @@ export const useGetCallsAdmin = () => {
 					sort: [{field: 'starts_at', direction: -1}],
 					filter_conditions: {
 						// starts_at:{$exists:true},
-						$or: [{created_by_user_id: userObject.id}, {members: {$in: [userObject.id]}}],
+						// $or: [{created_by_user_id: userObject.id}, {members: {$in: [userObject.id]}}],
 					},
 				});
 				setCalls(calls);
@@ -35,15 +35,13 @@ export const useGetCallsAdmin = () => {
 	}, [client, user?.user_id]);
 	const now = new Date();
 	const previousCalls = calls.filter(({state: {startsAt, endedAt}}) => {
-		return (startsAt && new Date(startsAt) < now) || !!endedAt;
+		return (startsAt && new Date(startsAt).getTime() + 60 * 60 * 1000  < now) || !!endedAt;
 	});
-
-	// const upcomingCalls=calls.filter(({state:{startsAt}})=>{
-	//   return (startsAt&& new Date(startsAt)>now)
-	// })
-	const upcomingCalls = calls.filter(({state: {startsAt, custom}}) => {
-		return startsAt && new Date(startsAt) > now && custom?.isAccepted === true;
-	});
+	const upcomingCalls = calls
+  .filter(({state: {startsAt, custom}}) => {
+    return startsAt && new Date(startsAt).getTime() + 60 * 60 * 1000 > now && custom?.isAccepted === true;
+  })
+  .sort((a, b) => new Date(a.state.startsAt) - new Date(b.state.startsAt));
 
 	const meetingRequest = calls.filter(({state: {startsAt, custom}}) => {
 		return startsAt && new Date(startsAt) > now && custom?.isAccepted === false;

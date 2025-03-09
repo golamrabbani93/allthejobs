@@ -21,6 +21,8 @@ import {
 } from '@/features/wishlistJobsSlice/wishlistJobsSlice';
 import {useGetAllApplicationsQuery} from '@/features/application/application.management.api';
 import Spinner from '../Sppiner/Spinner';
+import Loader from '../Loader/Loader';
+import Link from 'next/link';
 
 export const metadata = {
 	title: 'Job Detail || AllTheJobs',
@@ -30,6 +32,7 @@ export const metadata = {
 const index = ({id}) => {
 	//get all jobs from store and find the job by id
 	const {jobs: allJobs, userRoleBasedData, loading} = useSelector((state) => state.data);
+	const user = useSelector((state) => state.user);
 	const job = allJobs.find((job) => job.job_id === Number(id));
 	const time = timeAgoFromPosting(job?.created_at);
 	const wishListJobs = useSelector((state) => state.wishlistJobs.wishlist);
@@ -42,7 +45,13 @@ const index = ({id}) => {
 		(application) =>
 			application.job_id === job?.job_id && application.talent_id === userRoleBasedData?.talent_id,
 	);
-	if (loading) return <div>Loading...</div>;
+
+	if (loading)
+		return (
+			<div>
+				<Loader />
+			</div>
+		);
 	return (
 		<>
 			{/* <!-- Header Span --> */}
@@ -111,20 +120,27 @@ const index = ({id}) => {
 								{/* End .content */}
 
 								<div className="btn-box">
-									<button
-										className="theme-btn btn-style-one"
-										data-bs-toggle="modal"
-										data-bs-target="#applyJobModal"
-										disabled={isLoading || appliedJob}
-									>
-										{isLoading ? (
-											<Spinner size={'sm'} color="white" />
-										) : appliedJob ? (
-											'Applied'
-										) : (
-											'Apply Now'
-										)}
-									</button>
+									{!user?.user_id ? (
+										<Link href={'/login'} className="theme-btn btn-style-one">
+											Apply Now
+										</Link>
+									) : (
+										<button
+											className="theme-btn btn-style-one"
+											data-bs-toggle="modal"
+											data-bs-target="#applyJobModal"
+											disabled={isLoading || appliedJob}
+										>
+											{isLoading ? (
+												<Spinner size={'sm'} color="white" />
+											) : appliedJob ? (
+												'Applied'
+											) : (
+												'Apply Now'
+											)}
+										</button>
+									)}
+
 									{isWishListJob ? (
 										<button
 											onClick={() => dispatch(removeJobFromWishlist(job))}

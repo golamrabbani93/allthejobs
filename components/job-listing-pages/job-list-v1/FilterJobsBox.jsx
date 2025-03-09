@@ -38,7 +38,6 @@ const FilterJobsBox = () => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const {keyword, location, destination, category, jobType, datePosted, experience, salary, tag} =
 		jobList || {};
-	console.log('🚀🚀 ~ FilterJobsBox ~ location:', location);
 
 	const {sort, perPage} = jobSort;
 

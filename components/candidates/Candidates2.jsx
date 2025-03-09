@@ -33,12 +33,9 @@ const Candidates2 = () => {
 							</div>
 						</div>
 						{/* End .content-box */}
-						<button
-							href={`/candidates-single-v1/${talent.talent_id}`}
-							className="theme-btn btn-style-one"
-						>
+						<Link href={`/talents/${talent.talent_id}`} className="theme-btn btn-style-one">
 							<span className="btn-title">View Profile</span>
-						</button>
+						</Link>
 					</div>
 				</div>
 			))}

@@ -15,9 +15,9 @@ const CallToAction2 = () => {
 				</div>
 
 				<div className="btn-box">
-					<button href="/register" className="theme-btn btn-style-two">
+					<Link href="/jobs" className="theme-btn btn-style-two">
 						Apply Job Now
-					</button>
+					</Link>
 				</div>
 			</div>
 		</section>

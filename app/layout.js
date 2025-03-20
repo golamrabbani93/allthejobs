@@ -56,9 +56,9 @@ export default function RootLayout({children}) {
 				<SessionProvider>
 					<QueryClientProvider client={queryClient}>
 						<Provider store={store}>
-							<AIChatContextProvider>
-								<StreamVideoProvider>
-									<DataLoaderWrapper>
+							<DataLoaderWrapper>
+								<AIChatContextProvider>
+									<StreamVideoProvider>
 										<div className="page-wrapper">
 											<PopUpModal />
 											{!pathname.includes('video-chat3') && <Chat />}
@@ -79,9 +79,9 @@ export default function RootLayout({children}) {
 											{/* <!-- Scroll To Top --> */}
 											<ScrollToTop />
 										</div>
-									</DataLoaderWrapper>
-								</StreamVideoProvider>
-							</AIChatContextProvider>
+									</StreamVideoProvider>
+								</AIChatContextProvider>
+							</DataLoaderWrapper>
 						</Provider>
 					</QueryClientProvider>
 				</SessionProvider>

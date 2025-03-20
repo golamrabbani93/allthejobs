@@ -199,7 +199,7 @@ export default function SlotManagement() {
 							key={index}
 							className={`cursor-pointer border border-gray-200 rounded-lg p-3 shadow-sm hover:shadow-md transition-shadow duration-200  ${
 								requestedSlots.includes(slot)
-									? 'disabled:bg-gray-400 disabled:cursor-not-allowed'
+									? 'disabled:bg-red-400 disabled:cursor-not-allowed text-white'
 									: selectedSlots.includes(slot)
 									? 'bg-blue-400'
 									: 'bg-white'

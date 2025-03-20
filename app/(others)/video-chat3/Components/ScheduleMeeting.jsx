@@ -29,7 +29,7 @@ const ScheduleMeeting = ({
 	const [selectedSlot, setSelectedSlot] = useState(null);
 	const [slotLoading, setSlotLoading] = useState(false);
 	const [scheduling, setScheduling] = useState(false);
-	console.log(user);
+	const router = useRouter();
 	useEffect(() => {
 		setUser(user_redux);
 	}, [user_redux]);
@@ -175,7 +175,7 @@ const ScheduleMeeting = ({
 								mode="single"
 								selected={values.datetime}
 								onSelect={(date) => setValues({...values, datetime: date})}
-								className="rounded-md border w-full"
+								className="rounded-md border w-full md:p-3 p-1"
 								disabled={{before: today}}
 							/>
 						</div>
@@ -220,7 +220,10 @@ const ScheduleMeeting = ({
 			) : (
 				<MeetingModal
 					isOpen={meetingState === 'isScheduledMeeting'}
-					onClose={() => setMeetingState(undefined)}
+					onClose={() => {
+						setMeetingState(undefined);
+						router.push('dashboard/talent/booked-meeting');
+					}}
 					title="Meeting Created"
 					className="text-center"
 					handleClick={() => {

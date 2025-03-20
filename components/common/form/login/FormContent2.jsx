@@ -38,7 +38,7 @@ const FormContent2 = ({modal = false, userType}) => {
 	};
 	//save userInfo in local Storage
 	useEffect(() => {
-		const saveUserData = async () => {
+		const saveUserData = () => {
 			if (userResponseData?.user_id) {
 				const userData = {
 					user_id: userResponseData.user_id,
@@ -49,13 +49,13 @@ const FormContent2 = ({modal = false, userType}) => {
 						'https://res.cloudinary.com/dolttvkme/image/upload/v1739084572/custom-avatar_llfgxl.png',
 					role: userResponseData.role,
 				};
-				await setToken(userResponseData);
-				dispatch(setUser(userData));
 				router.push(`dashboard/${userResponseData.role}`);
+				setToken(userResponseData);
+				dispatch(setUser(userData));
 			}
 		};
 		saveUserData();
-	}, [userResponseData, isLoading]);
+	}, [userResponseData?.user_id, isLoading]);
 
 	if (status === 'loading') {
 		//just keeping like this for the time being

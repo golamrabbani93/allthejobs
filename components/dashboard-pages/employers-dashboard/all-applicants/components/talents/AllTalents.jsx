@@ -5,11 +5,10 @@ import Link from 'next/link';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
 
-const AllTalents = ({candidate, applicants, selectJob}) => {
+const AllTalents = ({candidate, applicants, selectJob, credits}) => {
 	const [loadingStatus, setLoadingStatus] = useState('');
 	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
-	const credits = 0;
 	//update applicant status
 	const [updateApplicantStatus, {data, isLoading: updateAppLoading}] =
 		useUpdateApplicationStatusMutation();

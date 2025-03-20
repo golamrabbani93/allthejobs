@@ -14,6 +14,8 @@ import {useSelector} from 'react-redux';
 
 const WidgetContentBox = ({selectJob}) => {
 	const {jobs, userRoleBasedData, loading} = useSelector((state) => state.data);
+
+	const credits = Number(userRoleBasedData?.credits);
 	//get all talents
 	const {data: talents, isLoading: talentsLoading} = useGetAllTalentsQuery();
 	//get all applicants
@@ -109,6 +111,7 @@ const WidgetContentBox = ({selectJob}) => {
 											candidate={candidate}
 											applicants={applicants}
 											selectJob={selectJob}
+											credits={credits}
 										/>
 									))
 								) : allAppliedTalents?.length > 0 ? (
@@ -118,6 +121,7 @@ const WidgetContentBox = ({selectJob}) => {
 											candidate={candidate}
 											applicants={applicants}
 											selectJob={selectJob}
+											credits={credits}
 										/>
 									))
 								) : (
@@ -139,6 +143,7 @@ const WidgetContentBox = ({selectJob}) => {
 													candidate={candidate}
 													applicants={applicants}
 													selectJob={selectJob}
+													credits={credits}
 												/>
 											))
 										) : (
@@ -196,6 +201,7 @@ const WidgetContentBox = ({selectJob}) => {
 													candidate={candidate}
 													applicants={applicants}
 													selectJob={selectJob}
+													credits={credits}
 												/>
 											))
 										) : (

@@ -11,11 +11,11 @@ const LogOutButton = () => {
 
 	const userLogOut = async () => {
 		router.push('/');
-		await signOut({redirect: false});
 		dispatch(clearUser());
 		dispatch(setUserData({}));
 		dispatch(setUserRoleBasedData({}));
-		await removeToken();
+		removeToken();
+		await signOut({redirect: false});
 	};
 
 	return (

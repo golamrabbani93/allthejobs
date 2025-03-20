@@ -61,7 +61,8 @@ export default function RootLayout({children}) {
 									<StreamVideoProvider>
 										<div className="page-wrapper">
 											<PopUpModal />
-											{!pathname.includes('video-chat3') && <Chat />}
+											{(pathname.includes('dashboard/consultant') ||
+												pathname.includes('dashboard/talent')) && <Chat />}
 											{children}
 											{/* Toastify */}
 											<ToastContainer

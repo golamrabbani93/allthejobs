@@ -1,11 +1,11 @@
 <div align="center">
 
   <div>
-    <img src="https://img.shields.io/badge/-Typescript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
+    <img src="https://img.shields.io/badge/-JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=white" alt="JavaScript" />
     <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
     <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
-    <img src="https://img.shields.io/badge/-Node_JS-black?style=for-the-badge&logoColor=white&logo=nodedotjs&color=339933" alt="nodejs" />
-    <img src="https://img.shields.io/badge/-MongoDB-black?style=for-the-badge&logoColor=white&logo=mongodb&color=47A248" alt="mongodb" />
+    <img src="https://img.shields.io/badge/-Redux-764ABC?style=for-the-badge&logo=redux&logoColor=white" alt="Redux"/>
+    
   </div>
 
 <h3 align="center">AllTheJobs – Full-Stack Job Board Platform</h3>
@@ -40,11 +40,8 @@ A Next.js and Node.js powered platform where:
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
-- React (Next.js)
-- TypeScript
-- Node.js
-- Express.js
-- MongoDB (Mongoose)
+- Next.js
+- Javascript
 - JWT Authentication
 - Redux
 - Tailwind CSS
@@ -76,6 +73,6 @@ Follow these steps to set up the project locally.
 **Cloning the Repository**
 
 ```bash
-git clone https://github.com/yourusername/allthejobs.git
+git clone https://github.com/golamrabbani93/allthejobs.git
 cd allthejobs
 ```

@@ -1,22 +1,18 @@
 <div align="center">
-  <!-- <br /> -->
-    <!-- <a href="https://aayushbharti.vercel.app" target="_blank">
-      <img src="https://github.com/user-attachments/assets/471e2baa-8781-43b8-aaed-62e313d03e99" alt="Project Banner">
-    </a> -->
-  <!-- <br /> -->
 
   <div>
-    <img src="https://img.shields.io/badge/-Typescript-black?style=for-the-badge&logoColor=white&logo=react&color=3178C6" alt="typescript" />
+    <img src="https://img.shields.io/badge/-Typescript-black?style=for-the-badge&logoColor=white&logo=typescript&color=3178C6" alt="typescript" />
     <img src="https://img.shields.io/badge/-Next_JS-black?style=for-the-badge&logoColor=white&logo=nextdotjs&color=000000" alt="nextdotjs" />
     <img src="https://img.shields.io/badge/-Tailwind_CSS-black?style=for-the-badge&logoColor=white&logo=tailwindcss&color=06B6D4" alt="tailwindcss" />
-    <img src="https://img.shields.io/badge/-Sanity-black?style=for-the-badge&logoColor=white&logo=sanity&color=F03E2F" alt="sanity" />
+    <img src="https://img.shields.io/badge/-Node_JS-black?style=for-the-badge&logoColor=white&logo=nodedotjs&color=339933" alt="nodejs" />
+    <img src="https://img.shields.io/badge/-MongoDB-black?style=for-the-badge&logoColor=white&logo=mongodb&color=47A248" alt="mongodb" />
   </div>
 
-<h3 align="center">Next ventures - Startup Directory Platform</h3>
+<h3 align="center">AllTheJobs – Full-Stack Job Board Platform</h3>
 
-   <div align="center">
-     A platform where entrepreneurs can submit their startup ideas for virtual pitch competitions, browse other pitches, and gain exposure through a clean minimalistic design for a smooth user experience.
-    </div>
+  <div align="center">
+    A smart, connected job platform that links Talents, Employers, and Consultants. Explore jobs, post listings, get career advice, and manage everything through a powerful admin dashboard – all in one modern, scalable solution.
+  </div>
 </div>
 
 ## 📋 <a name="table">Table of Contents</a>
@@ -25,115 +21,61 @@
 2. ⚙️ [Tech Stack](#tech-stack)
 3. 🔋 [Features](#features)
 4. 🤸 [Quick Start](#quick-start)
-<!-- 5. 🚀 [More](#more) -->
 
 ## 🚨 About
 
-This project showcases the latest features of Next.js 15, including Next.js Form for seamless
-client-side form submissions, Unstable After for background tasks, Server Component HMR Cache for
-faster development, and Partial Prerendering for performance optimization.
+AllTheJobs is a next-generation job marketplace designed to modernize hiring workflows. It provides
+a seamless way for job seekers to find opportunities, employers to manage job postings and
+applications, and consultants to provide personalized career support — all within a unified
+platform.
 
 ## <a name="introduction">🤖 Introduction</a>
 
-A Next.js 15 platform where entrepreneurs can submit their startup ideas for virtual pitch
-competitions, browse other pitches, and gain exposure through a clean minimalistic design for a
-smooth user experience.
+A Next.js and Node.js powered platform where:
+
+- **Talents** can browse, filter, and apply for jobs.
+- **Employers** can post and manage job listings, track candidates, and streamline hiring.
+- **Consultants** can offer career guidance, interview preparation, and live video consultations.
+- **Admins** can oversee the entire platform through an analytics-driven dashboard.
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 
-- React 19
-- Next.js 15
+- React (Next.js)
 - TypeScript
-- Sanity
-- Next-Auth
-- TailwindCSS
-- ShadCN
-- Groq
-- Sentry
-- Markdown
+- Node.js
+- Express.js
+- MongoDB (Mongoose)
+- JWT Authentication
+- Redux
+- Tailwind CSS
+- Zod (Validation)
+- Payment Gateway (future integration ready)
 
 ## <a name="features">🔋 Features</a>
 
-👉 **Live Content API**: Displays the latest startup ideas dynamically on the homepage using
-Sanity's Content API.
-
-👉 **GitHub Authentication**: Allows users to log in easily using their GitHub account.
-
-👉 **Pitch Submission**: Users can submit startup ideas, including title, description, category, and
-multimedia links ( image or video).
-
-👉 **View Pitches**: Browse through submitted ideas with filtering options by category.
-
-👉 **Pitch Details Page**: Click on any pitch to view its details, with multimedia and description
-displayed.
-
-👉 **Profile Page**: Users can view the list of pitches they've submitted.
-
-👉 **Editor Picks**: Admins can highlight top startup ideas using the "Editor Picks" feature managed
-via Sanity Studio.
-
-👉 **Views Counter**: Tracks the number of views for each pitch instead of an upvote system.
-
-👉 **Search**: Search functionality to load and view pitches efficiently.
-
-👉 **Minimalistic Design**: Fresh and simple UI with only the essential pages for ease of use and a
-clean aesthetic.
-
-and many more, including the latest **React 19**, **Next.js 15** and **Sanity** features alongside
-code architecture and reusability
+👉 **Talent Portal** – Job search, application tracking, profile management.  
+👉 **Employer Dashboard** – Post/manage jobs, review candidates, track hiring progress.  
+👉 **Consultant Services** – Offer career advice and schedule live video sessions.  
+👉 **Admin Panel** – Manage users, monitor platform activities, oversee job postings.  
+👉 **Secure Authentication** – JWT-based login and role-based access control.  
+👉 **Scalable Architecture** – Built with reusable components and efficient state management.  
+👉 **Responsive Design** – Optimized for mobile and desktop experiences.  
+👉 **Performance Optimized** – Reduced API overhead and faster page loads with lazy loading and
+caching.
 
 ## <a name="quick-start">🤸 Quick Start</a>
 
-Follow these steps to set up the project locally on your machine.
+Follow these steps to set up the project locally.
 
 **Prerequisites**
 
-Make sure you have the following installed on your machine:
-
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/en)
-- [npm](https://www.npmjs.com/) (Node Package Manager)
+- [npm](https://www.npmjs.com/)
 
 **Cloning the Repository**
 
 ```bash
-git clone https://github.com/AayushBharti/Next-ventures.git
-cd pitchify
+git clone https://github.com/yourusername/allthejobs.git
+cd allthejobs
 ```
-
-<!-- **Installation**
-
-Install the project dependencies using npm:
-
-```bash
-npm install
-```
-
-**Set Up Environment Variables**
-
-Create a new file named `.env.local` in the root of your project and add the
-following content:
-
-```env
-NEXT_PUBLIC_SANITY_PROJECT_ID=
-NEXT_PUBLIC_SANITY_DATASET=
-NEXT_PUBLIC_SANITY_API_VERSION='vX'
-SANITY_TOKEN=
-
-AUTH_SECRET=
-AUTH_GITHUB_ID=
-AUTH_GITHUB_SECRET=
-``` -->
-
-<!-- Replace the placeholder values with your actual Sanity credentials. You can
-obtain these credentials by signing up & creating a new project on the
-[Sanity website](https://www.sanity.io/).
-
-**Running the Project**
-
-```bash
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser to view the
-project. -->
